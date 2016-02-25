@@ -96,10 +96,6 @@
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/support_simple_spinner_dropdown_item.xml"
     },
     {
-        "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/build/intermediates/res/merged/debug/layout/content_main.xml",
-        "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/src/main/res/layout/content_main.xml"
-    },
-    {
         "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/build/intermediates/res/merged/debug/layout/notification_template_part_time.xml",
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/notification_template_part_time.xml"
     },
@@ -198,5 +194,9 @@
     {
         "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/build/intermediates/res/merged/debug/layout/abc_alert_dialog_button_bar_material.xml",
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_alert_dialog_button_bar_material.xml"
+    },
+    {
+        "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/build/intermediates/res/merged/debug/layout/activity_login.xml",
+        "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/src/main/res/layout/activity_login.xml"
     }
 ]
