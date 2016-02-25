@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView mImageView;
     Button mCameraButton, mUploadButton;
     EditText mEditText;
+    TextView mDebugText;
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         mCameraButton = (Button) findViewById(R.id.capture_image_button);
         mUploadButton = (Button) findViewById(R.id.upload_data_button);
         mEditText = (EditText) findViewById(R.id.description_edit_text);
+        mDebugText = (TextView) findViewById(R.id.debug_text_display);
 
         // Create button event listeners
         mCameraButton.setOnClickListener(new View.OnClickListener() {
@@ -80,8 +83,7 @@ public class MainActivity extends AppCompatActivity {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -121,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             mImageView.setImageBitmap(imageBitmap);
+
+            mDebugText.setText("Captured and saved image as '" + mCurrentPhotoPath + "'");
         }
     }
 
@@ -129,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
     {
         packageDataToJSON();
         // TODO
+        mDebugText.append("\nPackaging up data in JSON and uploading to server.");
     }
 
     // Packages up all data into JSON object

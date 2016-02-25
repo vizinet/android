@@ -13,29 +13,40 @@ tools:context="lar.wsu.edu.airpact_fire.MainActivity"
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="370dp"
+        android:layout_height="320dp"
         android:id="@+id/captured_image_thumbnail"
         android:layout_gravity="center_horizontal"
         android:padding="0dp"
-        android:background="#731e20"
+        android:background="#866465"
         android:adjustViewBounds="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/debug_text_display"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:textSize="15dp" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/description_edit_text"
         android:layout_marginTop="58dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:hint="Enter visual range" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp">
 
         <Button
             android:layout_width="wrap_content"
