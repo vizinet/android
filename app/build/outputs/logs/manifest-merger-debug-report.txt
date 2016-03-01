@@ -81,7 +81,7 @@ ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/src/main/
 	android:label
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/src/main/AndroidManifest.xml:30:13-45
 	android:theme
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/src/main/AndroidManifest.xml:31:13-56
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/src/main/AndroidManifest.xml:31:13-44
 	android:name
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/src/main/AndroidManifest.xml:29:13-41
 uses-sdk

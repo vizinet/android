@@ -13,7 +13,7 @@ tools:context="lar.wsu.edu.airpact_fire.MainActivity"
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="300dp"
         android:id="@+id/captured_image_thumbnail"
         android:layout_gravity="center_horizontal"
         android:padding="0dp"
@@ -27,7 +27,7 @@ tools:context="lar.wsu.edu.airpact_fire.MainActivity"
         android:id="@+id/debug_text_display"
         android:layout_gravity="center_horizontal"
         android:padding="10dp"
-        android:textSize="15dp" />
+        android:textSize="10dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -35,7 +35,7 @@ tools:context="lar.wsu.edu.airpact_fire.MainActivity"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/description_edit_text"
-        android:layout_marginTop="58dp"
+        android:layout_marginTop="20dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:hint="Enter visual range" />

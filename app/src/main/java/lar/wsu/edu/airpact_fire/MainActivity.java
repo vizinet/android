@@ -2,53 +2,83 @@ package lar.wsu.edu.airpact_fire;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /* @Todo ---------------------------------------
- *      - Setup local server
- *      - Connect server with dummy credentials
- *      - Send text to server
- *      - Server stores text
- *      - Send image data as bytes
+ *      - Save data as JSON (let web team know structure)
+ *      - Send data to server (web team )
   ---------------------------------------------*/
 
 // Acting as the ImageCaptureActivity
 public class MainActivity extends AppCompatActivity {
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_TAKE_PHOTO = 1;
     ImageView mImageView;
     Button mCameraButton, mUploadButton;
     EditText mEditText;
     TextView mDebugText;
-
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int REQUEST_TAKE_PHOTO = 1;
-
     String mCurrentPhotoPath;
+    // [Not real server URL]
+    String mServerURL = "192.168.1.1:8000";
+
+    // Temp method for sending http post request to server
+    public void sendPOSTRequest() throws IOException, JSONException {
+        URL url;
+        URLConnection urlConn;
+        DataOutputStream printout;
+        DataInputStream input;
+
+        url = new URL (mServerURL);
+        urlConn = url.openConnection();
+        urlConn.setDoInput (true);
+        urlConn.setDoOutput (true);
+        urlConn.setUseCaches (false);
+        urlConn.setRequestProperty("Content-Type","application/json");
+        urlConn.setRequestProperty("Host", "android.schoolportal.gr");
+        urlConn.connect();
+        //Create JSONObject here
+        JSONObject jsonParam = new JSONObject();
+        jsonParam.put("ID", "25");
+        jsonParam.put("description", "Real");
+        jsonParam.put("enable", "true");
+        // Send POST output
+        printout = new DataOutputStream(urlConn.getOutputStream());
+        printout.write(Integer.parseInt(URLEncoder.encode(jsonParam.toString(), "UTF-8")));
+        printout.flush();
+        printout.close();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set action bar stuff
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.drawable.logo);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         // Attach views to variables
         mImageView = (ImageView) findViewById(R.id.captured_image_thumbnail);
@@ -133,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
     {
         packageDataToJSON();
         // TODO
-        mDebugText.append("\nPackaging up data in JSON and uploading to server.");
+        mDebugText.setText("\nPackaging up data in JSON and uploading to server.");
     }
 
     // Packages up all data into JSON object
