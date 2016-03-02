@@ -2,6 +2,7 @@ package lar.wsu.edu.airpact_fire;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -15,11 +16,16 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -35,6 +41,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
+
     ImageView mImageView;
     Button mCameraButton, mUploadButton;
     EditText mEditText;
@@ -42,32 +49,43 @@ public class MainActivity extends AppCompatActivity {
     String mCurrentPhotoPath;
     // [Not real server URL]
     String mServerURL = "192.168.1.1:8000";
+    String mUser = "root";
 
     // Temp method for sending http post request to server
     public void sendPOSTRequest() throws IOException, JSONException {
         URL url;
-        URLConnection urlConn;
-        DataOutputStream printout;
-        DataInputStream input;
+        String description;
+        String response;
+        Bitmap image;
+        JSONObject jsonSend;
+        JSONObject jsonRecieve;
 
         url = new URL (mServerURL);
-        urlConn = url.openConnection();
-        urlConn.setDoInput (true);
-        urlConn.setDoOutput (true);
-        urlConn.setUseCaches (false);
-        urlConn.setRequestProperty("Content-Type","application/json");
-        urlConn.setRequestProperty("Host", "android.schoolportal.gr");
-        urlConn.connect();
-        //Create JSONObject here
-        JSONObject jsonParam = new JSONObject();
-        jsonParam.put("ID", "25");
-        jsonParam.put("description", "Real");
-        jsonParam.put("enable", "true");
-        // Send POST output
-        printout = new DataOutputStream(urlConn.getOutputStream());
-        printout.write(Integer.parseInt(URLEncoder.encode(jsonParam.toString(), "UTF-8")));
-        printout.flush();
-        printout.close();
+        image = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        description = mEditText.getText().toString();
+
+        // Create JSONObject here
+        jsonSend = new JSONObject();
+        jsonSend.put("user", mUser);
+        jsonSend.put("description", description);
+        jsonSend.put("image", image);
+
+        // Establish connection and read/write from/to server
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        try {
+            urlConnection.setDoOutput(true);
+            urlConnection.setChunkedStreamingMode(0);
+
+            OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
+            // Write json to url as byte[]
+            out.write(jsonSend.toString().getBytes());
+
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            // TODO See if the below in.toString() is valid to do
+            jsonRecieve = new JSONObject(in.toString());
+        } finally {
+            urlConnection.disconnect();
+        }
     }
 
     @Override

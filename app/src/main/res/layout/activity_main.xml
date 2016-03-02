@@ -38,7 +38,7 @@ tools:context="lar.wsu.edu.airpact_fire.MainActivity"
         android:layout_marginTop="20dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:hint="Enter visual range" />
+        android:hint="Enter description" />
 
     <LinearLayout
         android:orientation="horizontal"
