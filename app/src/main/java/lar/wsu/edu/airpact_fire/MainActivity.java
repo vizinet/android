@@ -3,10 +3,13 @@ package lar.wsu.edu.airpact_fire;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -48,45 +52,10 @@ public class MainActivity extends AppCompatActivity {
     TextView mDebugText;
     String mCurrentPhotoPath;
     // [Not real server URL]
-    String mServerURL = "192.168.1.1:8000";
+    String mServerURL = "http://76.178.152.115:8000/file_upload/upload";
     String mUser = "root";
 
     // Temp method for sending http post request to server
-    public void sendPOSTRequest() throws IOException, JSONException {
-        URL url;
-        String description;
-        String response;
-        Bitmap image;
-        JSONObject jsonSend;
-        JSONObject jsonRecieve;
-
-        url = new URL (mServerURL);
-        image = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
-        description = mEditText.getText().toString();
-
-        // Create JSONObject here
-        jsonSend = new JSONObject();
-        jsonSend.put("user", mUser);
-        jsonSend.put("description", description);
-        jsonSend.put("image", image);
-
-        // Establish connection and read/write from/to server
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-        try {
-            urlConnection.setDoOutput(true);
-            urlConnection.setChunkedStreamingMode(0);
-
-            OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
-            // Write json to url as byte[]
-            out.write(jsonSend.toString().getBytes());
-
-            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-            // TODO See if the below in.toString() is valid to do
-            jsonRecieve = new JSONObject(in.toString());
-        } finally {
-            urlConnection.disconnect();
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,16 +81,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mUploadButton.setOnClickListener(new View.OnClickListener() {
-           public void onClick(View v) {
+            public void onClick(View v) {
                 uploadData();
-           }
+            }
         });
     }
 
     // Converts image to byte array
     public byte[] getBytesFromBitmap(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 
         return stream.toByteArray();
     }
@@ -179,14 +148,74 @@ public class MainActivity extends AppCompatActivity {
     // Upload JSON data to server
     private void uploadData()
     {
-        packageDataToJSON();
-        // TODO
-        mDebugText.setText("\nPackaging up data in JSON and uploading to server.");
+        //lets get our picture again because that's fun
+        Bitmap bitmap;
+        if(mImageView.getDrawable() instanceof BitmapDrawable)
+        {
+            bitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        }
+        else
+        {
+            Drawable d = mImageView.getDrawable();
+            bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(),d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        // now convert the bitmap into a string
+        String i = "";
+        if(bitmap != null) {
+            i = Base64.encodeToString(getBytesFromBitmap(bitmap), Base64.DEFAULT);
+        }
+
+        // creates our async network manager and sends the data off to be packaged
+        NetworkManager nwork = new NetworkManager();
+        nwork.execute(mServerURL, mUser,mEditText.getText().toString(), i);
+
     }
 
-    // Packages up all data into JSON object
-    private void packageDataToJSON()
+    class NetworkManager extends AsyncTask <String,Void,Void>
     {
-        // TODO
+        @Override
+        protected Void doInBackground(String... args )
+        {
+            try {
+                //constants
+                URL url = new URL(args[0]);
+                JSONObject J = new JSONObject();
+                J.put("user", args[1]);
+                J.put("description", args[2]);
+                J.put("image", args[3]);
+                String message = J.toString();
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(10000 /*milliseconds*/);
+                conn.setConnectTimeout(15000 /* milliseconds */);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setFixedLengthStreamingMode(message.getBytes().length);
+
+                //make some HTTP headers
+                conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+                conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+
+                //open
+                conn.connect();
+
+                //setup send
+                OutputStream os = new BufferedOutputStream(conn.getOutputStream());
+                os.write(message.getBytes());
+                //clean up
+                os.flush();
+
+                // if server needs to talk back...put it here as an input stream from the conn
+
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
     }
 }

@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/build/intermediates/res/merged/debug/values-v18/values-v18.xml",
+        "outputFile": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\values-v18\\values-v18.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,31 @@
                     "endOffset": 99
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v18/values-v18.xml",
+                    "file": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-v18\\values-v18.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 229,
+                        "endColumn": 48,
+                        "endOffset": 273
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "C:\\home\\luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\app\\build\\intermediates\\res\\merged\\debug\\values-v18\\values-v18.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 48,
+                    "endOffset": 99
+                },
+                "from": {
+                    "file": "C:\\home\\luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\values-v18\\values-v18.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
