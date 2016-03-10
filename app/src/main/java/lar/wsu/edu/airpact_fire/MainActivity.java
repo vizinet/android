@@ -9,11 +9,15 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ContentFrameLayout;
 import android.util.Base64;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -46,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
 
-    ImageView mImageView;
+    ImageView mImageView, mBlackDotView, mWhiteDotView;
     Button mCameraButton, mUploadButton;
     EditText mEditText;
     TextView mDebugText;
@@ -69,6 +73,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Attach views to variables
         mImageView = (ImageView) findViewById(R.id.captured_image_thumbnail);
+
+        mBlackDotView = new ImageView(this);//(ImageView) findViewById(R.id.black_dot_view);
+        mBlackDotView.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
+        // Setting image resource
+        mBlackDotView.setImageResource(R.drawable.black_dot);
+        // Width and height
+        mBlackDotView.getLayoutParams().width = 50;
+        mBlackDotView.getLayoutParams().height = 50;
+        // Set ID
+        mBlackDotView.generateViewId();
+        mBlackDotView.setId(R.id.black_dot_view);
+
+        //mWhiteDotView = (ImageView) findViewById(R.id.white_dot_view);
         mCameraButton = (Button) findViewById(R.id.capture_image_button);
         mUploadButton = (Button) findViewById(R.id.upload_data_button);
         mEditText = (EditText) findViewById(R.id.description_edit_text);
@@ -85,6 +104,35 @@ public class MainActivity extends AppCompatActivity {
                 uploadData();
             }
         });
+        // We can know when user touches image view
+        mImageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mDebugText.setText("Touch coordinates : " +
+                        String.valueOf(event.getX()) + "x" + String.valueOf(event.getY()));
+
+                // Add black dot to screen, if it's not already there
+                if (findViewById(mBlackDotView.getId()) == null) {
+                        ContentFrameLayout parent = (ContentFrameLayout) findViewById(android.R.id.content);
+                        parent.addView(mBlackDotView);
+                }
+
+                // Setting image position
+                mBlackDotView.setX(event.getX());
+                mBlackDotView.setY(event.getY());
+
+                return true;
+            }
+        });
+    }
+
+    // Gets pixel color inside mImageView given x and y coordinates
+    // TODO Might not be so easy as these simple x's and y's -- absolute or relative?
+    public int getPixelAtPos(int x, int y) {
+        Bitmap bitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+        int pixel = bitmap.getPixel(x, y);
+
+        return pixel;
     }
 
     // Converts image to byte array

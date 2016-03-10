@@ -28,17 +28,19 @@
             android:name="lar.wsu.edu.airpact_fire.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
+
+            <!-- Move intent-filter back here when not developing -->
+        </activity>
+        <activity
+            android:name="lar.wsu.edu.airpact_fire.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="lar.wsu.edu.airpact_fire.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme" >
         </activity>
     </application>
 
