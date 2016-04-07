@@ -1,48 +1,51 @@
 package lar.wsu.edu.airpact_fire;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ContentFrameLayout;
 import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
+import java.net.InetAddress;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -51,33 +54,31 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
 
+    // Stores the information about the current post
+    private static Post mCurrentPost;
+
     // false = black, true = white
     boolean colorMode;
 
     ImageView mImageView, mBlackDotView, mWhiteDotView, mHighColorPatchView, mLowColorPatchView;
     ImageButton mDotModeImageButton;
     Button mCameraButton, mUploadButton;
-    EditText mEditText, mUserEditText;
+    EditText mEditText;
     TextView mDebugText;
-    String mCurrentPhotoPath;
-    // [Not real server URL]
-    String mServerURL = "http://76.178.152.115:8000/file_upload/upload";
-    String mUser = "root";
+    TextView mWelcomeText;
 
-    // Temp method for sending http post request to server
+    File mPhotoFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set action bar stuff
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-//        getSupportActionBar().setLogo(R.drawable.logo);
-//        getSupportActionBar().setDisplayUseLogoEnabled(true);
-
         // Set color select mode
         colorMode = false;
+
+        // Create new post
+        mCurrentPost = new Post();
 
         // Attach views to variables
         mImageView = (ImageView) findViewById(R.id.captured_image_thumbnail);
@@ -87,8 +88,14 @@ public class MainActivity extends AppCompatActivity {
         mCameraButton = (Button) findViewById(R.id.capture_image_button);
         mUploadButton = (Button) findViewById(R.id.upload_data_button);
         mEditText = (EditText) findViewById(R.id.description_edit_text);
-        mUserEditText = (EditText) findViewById(R.id.user_edit_text);
         mDebugText = (TextView) findViewById(R.id.debug_text_display);
+        mWelcomeText = (TextView) findViewById(R.id.welcome_text);
+
+        // Add welcome text for user
+        mWelcomeText.setText("Hey, " + User.username);
+
+        // Show toast
+        Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show();
 
         // Dynamic black dot stuff
         mBlackDotView = new ImageView(this);
@@ -101,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         mBlackDotView.getLayoutParams().width = 50;
         mBlackDotView.getLayoutParams().height = 50;
         // Set ID, so we can refer to it later
-        mBlackDotView.generateViewId();
+        View.generateViewId();
         mBlackDotView.setId(R.id.black_dot_view);
 
         // Same white dot stuff
@@ -112,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
         mWhiteDotView.setImageResource(R.drawable.white_dot);
         mWhiteDotView.getLayoutParams().width = 50;
         mWhiteDotView.getLayoutParams().height = 50;
-        mWhiteDotView.generateViewId();
+        View.generateViewId();
         mWhiteDotView.setId(R.id.white_dot_view);
 
         // Disable button at start
@@ -149,7 +156,6 @@ public class MainActivity extends AppCompatActivity {
         mImageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // TODO: Don't let screen rotate
                 // TODO: Better thumbnail view
                 // TODO: Don't let dots outside of Bitmap area
                 // TODO: Fix black dot placement
@@ -159,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                 // width of the encapsulated BitMap object.
 
                 // Don't go any further, unless we've taken a picture
-                if (mCurrentPhotoPath == null) { return true; }
+                if (mCurrentPost.ImageLocation == null) { return true; }
 
                 // Debug display
                 mDebugText.setText("Touch coordinates : " +
@@ -232,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         parent.addView(circle);
     }
 
-    // Let us know if we are within a view
+    // Let us know if (x, y) point is within a view
     public boolean isInView(View view, int x, int y) {
         return (x > view.getX())
                 && (x <  (view.getX() + view.getWidth()))
@@ -241,7 +247,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Gets pixel color inside mImageView given x and y coordinates
-    // TODO Might not be so easy as these simple x's and y's -- absolute or relative?
+
+    // TODO Get analysis of circular area around x and y point
     public int getPixelAtPos(int x, int y) {
         Bitmap bitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
         int pixel = bitmap.getPixel(x, y);
@@ -257,16 +264,29 @@ public class MainActivity extends AppCompatActivity {
         return stream.toByteArray();
     }
 
+    public boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
     // Create an image file with collision resistant title to public directory
     private File createImageFile() throws IOException {
+        // Create our directory
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/AIRPACT-Fire");
+        myDir.mkdirs();
+
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
-        File image = new File(storageDir, imageFileName + ".jpg");
+        mPhotoFile = new File(storageDir, imageFileName + ".jpg");
 
-        /*
+        /* FORMERLY
         File image = File.createTempFile(
                 imageFileName,  // prefix
                 ".jpg",         // suffix
@@ -275,8 +295,9 @@ public class MainActivity extends AppCompatActivity {
         */
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();//"file:" + image.getAbsolutePath();
-        return image;
+        mCurrentPost.ImageLocation = mPhotoFile.getAbsolutePath();//"file:" + image.getAbsolutePath();
+
+        return mPhotoFile;
     }
 
     // Takes picture
@@ -293,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
             }
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                // TODO For some reason, the below line was causing "data" to be null in our onActivityResult method
+                // TODO: For some reason, the below line was causing "data" to be null in our onActivityResult method
                 //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
@@ -327,11 +348,40 @@ public class MainActivity extends AppCompatActivity {
 
             // Scale up the image size
             int scaleUp = 4;
-            Bitmap resizedImageBitmap = getResizedBitmap(imageBitmap, imageBitmap.getWidth() * scaleUp, imageBitmap.getHeight() * scaleUp);
+            Bitmap resizedImageBitmap = getResizedBitmap(imageBitmap, imageBitmap.getWidth() * scaleUp,
+                    imageBitmap.getHeight() * scaleUp);
 
+            // Set thumbnail
             mImageView.setImageBitmap(resizedImageBitmap);
 
-            mDebugText.setText("Captured and saved image as '" + mCurrentPhotoPath + "'");
+            // Write stuff to memory
+            try {
+                FileOutputStream out = new FileOutputStream(mPhotoFile);
+                resizedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+                out.flush();
+                out.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Debug text
+            mDebugText.setText("Captured and saved image as '" +  mCurrentPost.ImageLocation + "'");
+        }
+    }
+
+    // Get latitude and longitude from our image file,
+    // store in post
+    private void getLatitudeLongitude()
+    {
+        if (mCurrentPost.ImageLocation == null) return;
+
+        try {
+            ExifInterface exifInterface = new ExifInterface(mCurrentPost.ImageLocation);
+            exifInterface.getLatLong(mCurrentPost.LatitudeLongitude);
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -352,12 +402,13 @@ public class MainActivity extends AppCompatActivity {
         }
         */
 
+        // TODO Get real file of JPEG
         Bitmap bitmap = null;
         String i = "";
-        if (mCurrentPhotoPath != null)
+        if (mCurrentPost.ImageLocation != null)
         {
             // Convert full image to Bitmap to String
-            File f = new File(mCurrentPhotoPath);
+            File f = new File(mCurrentPost.ImageLocation);
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
             try {
@@ -366,7 +417,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if(bitmap != null) {
+            if (bitmap != null) {
                 i = Base64.encodeToString(getBytesFromBitmap(bitmap), Base64.DEFAULT);
             }
         }
@@ -374,55 +425,243 @@ public class MainActivity extends AppCompatActivity {
         // creates our async network manager and sends the data off to be packaged
         NetworkManager nwork = new NetworkManager();
         // TODO: Update below line to make better
-        String user = mUserEditText.getText().toString();
-        nwork.execute(mServerURL, user, mEditText.getText().toString(), i);
-
+        nwork.execute(Constants.SERVER_UPLOAD_URL, User.username, mEditText.getText().toString(), i, User.postKeys.remove());
     }
 
-    class NetworkManager extends AsyncTask <String,Void,Void>
-    {
+    class NetworkManager extends AsyncTask <String,Void,Void> {
+        // TODO: Do network handshake to get key and see if user is validated
+        private void doHandshake() {
+            // 1. Send {username : "...", password : "..."} to .../user/appauth
+            // 2. Receive {isUser : "true/false", key : "..."}
+            //      a. If isUser, send key in JSON when posting image
+            //      b. Else, there is no key. User is not authenticated. Break.
+            // 3. Send stuff to server with key to .../file_upload/upload
+            //      a. All keys valid for one picture upload
+        }
+
         @Override
-        protected Void doInBackground(String... args )
-        {
+        protected Void doInBackground(String... args) {
             try {
-                //constants
-                URL url = new URL(args[0]);
+                // Attempt authentication
+                // Create upload URL
+                URL url = new URL(Constants.SERVER_AUTH_URL);
+
+                // Create JSON send package
+                org.json.simple.JSONObject sendJSON = new org.json.simple.JSONObject();
+                sendJSON.put("username", User.username);
+                sendJSON.put("password", User.password);
+                String
+                        sendMessage = sendJSON.toString(),
+                        serverResponse,
+                        userKey;
+                Boolean isUser;
+
+                // Create JSON receive package
+                org.json.simple.JSONObject receiveJSON;
+                byte[] receiveMessage = new byte[] {};
+
+                // Establish HTTP connection
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                // Set connection properties
+                conn.setReadTimeout(10000); // ms
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setFixedLengthStreamingMode(sendMessage.getBytes().length);
+                // Make HTTP headers
+                conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+                conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+
+                // Connect to server
+                conn.connect();
+
+                // Send JSON package over connection
+                OutputStream os = new BufferedOutputStream(conn.getOutputStream());
+                os.write(sendMessage.getBytes());
+
+                // Get server reply
+                InputStream in = null;
+                try {
+                    in = conn.getInputStream();
+                    int ch;
+                    StringBuffer sb = new StringBuffer();
+                    while ((ch = in.read()) != -1) {
+                        sb.append((char) ch);
+                    }
+
+                    serverResponse = sb.toString();
+                } catch (IOException e) {
+                    throw e;
+                }
+                if (in != null) {
+                    in.close();
+                }
+
+                // Parse JSON
+                receiveJSON = (org.json.simple.JSONObject) new JSONParser().parse(serverResponse);
+
+                // Get fields and see if server authenticated us
+                isUser = Boolean.parseBoolean((String) receiveJSON.get("isUser"));
+                if (isUser) {
+                    userKey = receiveJSON.get("secretKey").toString();
+                    User.postKeys.add(userKey);
+                } else { // Exit if not a user
+                    return null;
+                }
+
+                // Now post to server
+                // Constants
                 JSONObject J = new JSONObject();
                 J.put("user", args[1]);
                 J.put("description", args[2]);
                 J.put("image", args[3]);
+                J.put("secretKey", args[4]);
                 String message = J.toString();
 
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000 /*milliseconds*/);
-                conn.setConnectTimeout(15000 /* milliseconds */);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.setFixedLengthStreamingMode(message.getBytes().length);
-
-                //make some HTTP headers
-                conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
-                conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//                conn.setReadTimeout(10000 /*milliseconds*/);
+//                conn.setConnectTimeout(15000 /* milliseconds */);
+//                conn.setRequestMethod("POST");
+//                conn.setDoInput(true);
+//                conn.setDoOutput(true);
+//                conn.setFixedLengthStreamingMode(message.getBytes().length);
+//
+//                //make some HTTP headers
+//                conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+//                conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
 
                 //open
-                conn.connect();
+                //conn.connect();
 
                 //setup send
-                OutputStream os = new BufferedOutputStream(conn.getOutputStream());
+                //OutputStream os = new BufferedOutputStream(conn.getOutputStream());
                 os.write(message.getBytes());
                 //clean up
                 os.flush();
+                os.close();
 
-                // if server needs to talk back...put it here as an input stream from the conn
-
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             return null;
         }
     }
+
+
+
+
+
+
+
+
+
+
+    // SQL stuff
+
+
+
+
+
+
+
+
+    // TODO: Check if internet available after post. If not, store post in local SQL database
+
+    // Instantiate SQLLiteOpenHelper
+    QueuedPostDbHelper mDbHelper = new QueuedPostDbHelper(this);
+
+    // TODO: Replace params with legit shit
+    private long storePost(int image, int distance, int description, int time) {
+        // Gets the data repository in write mode
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        // Create a new map of values, where column names are the keys
+        ContentValues values = new ContentValues();
+        values.put(QueuedPostContract.PostEntry.COLUMN_NAME_IMAGE, -1);
+        values.put(QueuedPostContract.PostEntry.COLUMN_NAME_DISTANCE, -1);
+        values.put(QueuedPostContract.PostEntry.COLUMN_NAME_DESCRIPTION, -1);
+        values.put(QueuedPostContract.PostEntry.COLUMN_NAME_TIME, -1);
+
+        // Insert the new row, returning the primary key value of the new row
+        long newRowId = db.insert(
+                QueuedPostContract.PostEntry.TABLE_NAME,
+                null,
+                values);
+
+        return newRowId;
+    }
+
+    // TODO: Check if it works
+    private long readPost(int image, int distance, int description, int time) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                QueuedPostContract.PostEntry._ID,
+                QueuedPostContract.PostEntry.COLUMN_NAME_IMAGE,
+                QueuedPostContract.PostEntry.COLUMN_NAME_DESCRIPTION,
+                QueuedPostContract.PostEntry.COLUMN_NAME_DISTANCE,
+                QueuedPostContract.PostEntry.COLUMN_NAME_TIME
+        };
+
+        // How you want the results sorted in the resulting Cursor
+        // By time
+        String sortOrder =
+                QueuedPostContract.PostEntry.COLUMN_NAME_TIME + " DESC";
+
+        String selection = "",
+                selectionArgs[] = {""};
+
+        Cursor c = db.query(
+                QueuedPostContract.PostEntry.TABLE_NAME,  // The table to query
+                projection,                               // The columns to return
+                selection,                                     // The columns for the WHERE clause
+                selectionArgs,                                     // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+
+        // Start reading the rows
+        c.moveToFirst();
+        long itemId = c.getLong(
+                c.getColumnIndexOrThrow(QueuedPostContract.PostEntry._ID)
+        );
+
+        return itemId;
+    }
+
+    // TODO
+    private void deletePost(int image, int distance, int description) {
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        // TODO
+        int rowId = 0;
+
+        // Define 'where' part of query.
+        String selection = QueuedPostContract.PostEntry.COLUMN_NAME_DISTANCE + " LIKE ?";
+        // Specify arguments in placeholder order.
+        String[] selectionArgs = {String.valueOf(rowId)};
+        // Issue SQL statement.
+        db.delete( QueuedPostContract.PostEntry.TABLE_NAME, selection, selectionArgs);
+    }
+
+    // Check if internet is available
+    public boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            if (ipAddr.equals("")) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }

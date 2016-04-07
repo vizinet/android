@@ -8,6 +8,8 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="23" />
 
+    <!-- NOTE: Beware android:screenOrientation="portrait" -->
+
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -28,21 +30,27 @@
         <activity
             android:name="lar.wsu.edu.airpact_fire.LoginActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
-
-            <!-- Move intent-filter back here when not developing -->
-        </activity>
-        <activity
-            android:name="lar.wsu.edu.airpact_fire.MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- TODO: Move intent-filter back here when not developing -->
         </activity>
+        <activity
+            android:name="lar.wsu.edu.airpact_fire.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name="lar.wsu.edu.airpact_fire.QueuedPostsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="lar.wsu.edu.airpact_fire.HomeActivity" />
+        <activity android:name="lar.wsu.edu.airpact_fire.SelectContrastActivity" />
+        <activity android:name="lar.wsu.edu.airpact_fire.AddPictureDetailsActivity" />
     </application>
 
 </manifest>

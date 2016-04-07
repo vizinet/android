@@ -11,6 +11,18 @@ android:paddingTop="@dimen/activity_vertical_margin"
 tools:context="lar.wsu.edu.airpact_fire.MainActivity"
     android:weightSum="1">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="welcome_text"
+        android:id="@+id/welcome_text"
+        android:layout_gravity="left"
+        android:typeface="sans"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        android:textSize="30dp" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -20,17 +32,6 @@ tools:context="lar.wsu.edu.airpact_fire.MainActivity"
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:hint="User"
-                android:id="@+id/user_edit_text"
-                android:layout_gravity="left"
-                android:inputType="textPersonName" />
 
             <EditText
                 android:layout_width="match_parent"

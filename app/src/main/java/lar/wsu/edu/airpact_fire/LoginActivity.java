@@ -30,8 +30,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -46,13 +57,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
@@ -62,17 +66,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Button mEmailSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Set up the login form.
+        // Attach objects to UI
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mPasswordView = (EditText) findViewById(R.id.password);
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
+        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+
+        // Set up the login form
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.password);
+        // Password event listener
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -84,16 +95,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        // Email touch listener
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
     }
 
     private void populateAutoComplete() {
@@ -126,9 +134,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return false;
     }
 
-    /**
-     * Callback received when a permissions request has been completed.
-     */
+    // Callback received when a permissions request has been completed.
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -138,7 +144,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }
     }
-
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -150,7 +155,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             return;
         }
 
-        // Reset errors.
+        // Reset errors
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
@@ -192,14 +197,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
+    // Valid email and password formats
+    // TODO: uncomment the below
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+        return true;
+        // todo return email.contains("@");
     }
-
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return true;
+        // todo return password.length() > 4;
     }
 
     /**
@@ -300,33 +306,90 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         private final String mEmail;
         private final String mPassword;
+        private Boolean mIsUser;
+        private String mUserKey;
+        private String mServerResponse;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
         }
 
+        // Attempt authentication
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
+                // Create upload URL
+                URL url = new URL(Constants.SERVER_AUTH_URL);
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                // Create JSON send package
+                JSONObject sendJSON = new JSONObject();
+                sendJSON.put("username", mEmail);
+                sendJSON.put("password", mPassword);
+                String sendMessage = sendJSON.toString();
+
+                // Create JSON receive package
+                JSONObject receiveJSON;
+                byte[] receiveMessage = new byte[] {};
+
+                // Establish HTTP connection
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                conn.setReadTimeout(10000); // ms
+                conn.setConnectTimeout(15000);
+                conn.setRequestMethod("POST");
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                conn.setFixedLengthStreamingMode(sendMessage.getBytes().length);
+
+                // Make HTTP headers
+                conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+                conn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+
+                // Connect to server
+                conn.connect();
+
+                // Send JSON package over connection
+                OutputStream os = new BufferedOutputStream(conn.getOutputStream());
+                os.write(sendMessage.getBytes());
+                os.flush();
+                os.close();
+
+                // Get server reply
+                InputStream in = null;
+                try {
+                    in = conn.getInputStream();
+                    int ch;
+                    StringBuffer sb = new StringBuffer();
+                    while ((ch = in.read()) != -1) {
+                        sb.append((char) ch);
+                    }
+
+                    mServerResponse = sb.toString();
+                } catch (IOException e) {
+                    throw e;
                 }
+                if (in != null) {
+                    in.close();
+                }
+
+                // Parse JSON
+                receiveJSON = (JSONObject) new JSONParser().parse(mServerResponse);
+
+                // Get fields and see if server authenticated us
+                mIsUser = Boolean.parseBoolean((String) receiveJSON.get("isUser"));
+                if (mIsUser) {
+                    mUserKey = receiveJSON.get("secretKey").toString();
+                    return true;
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
 
-            // TODO: register the new account here.
-            return true;
+            return false;
         }
 
         @Override
@@ -335,7 +398,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
+                // Initialize user with persistent data
+                User.username = mEmail;
+                User.password = mPassword;
+                User.postKeys.add(mUserKey);
+                User.loginTime = new Date();
+
+                // Open up home screen
                 openHomeScreen();
+
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
@@ -351,7 +422,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     // Start camera-taking page
     void openHomeScreen() {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 }
