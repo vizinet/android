@@ -1,7 +1,79 @@
 package lar.wsu.edu.airpact_fire;
 
-/**
- * Created by Luke on 3/30/2016.
- */
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Environment;
+import android.support.v7.widget.ContentFrameLayout;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+// Class for basic utilities used throughout app
 public class Util {
+    // TODO posting to server
+    // TODO authenticate user with server
+    // TODO store post in SQL
+    // TODO read post from SQL
+
+    // Check if internet is available
+    public static boolean isInternetAvailable() {
+        try {
+            InetAddress ipAddr = InetAddress.getByName("google.com");
+            if (ipAddr.equals("")) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Check if (x, y) point is within view
+    public static boolean isPointInView(View view, int x, int y) {
+        return (x > view.getX())
+                && (x <  (view.getX() + view.getWidth()))
+                && (y > view.getY())
+                && (y < (view.getY() + view.getHeight()));
+    }
+
+    // TODO Get analysis of circular area around x and y point
+    public static int getPixelAtPos(ImageView imageView, int x, int y) {
+        Bitmap bitmap = ((BitmapDrawable) imageView.getBackground()).getBitmap();
+        int pixel = bitmap.getPixel(x, y);
+
+        return pixel;
+    }
+
+    // Create an image file with collision resistant title to public directory
+    public static File createImageFile() throws IOException {
+        // Create an image file name -- timestamped
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+        // Create image file
+        File image = new File(storageDir, imageFileName + ".jpg");
+
+        // Get image location
+        Post.ImageLocation = image.getAbsolutePath();
+
+        return image;
+    }
+
+    // Converts image to byte array
+    public static byte[] getBytesFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+        return stream.toByteArray();
+    }
 }

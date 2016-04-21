@@ -1,0 +1,8 @@
+1. Store past indicator points 
+2. Store default past entered tags (for user) -- but rename 
+3*. Make app self-explanitory (Park rangers)
+	- Keep data persistent (having static class errors atm)
+4*. Get correct pixel (position and color) from Bitmap, not image view
+5. Working clean version by the end of the semester
+6. Possibly work as intern over the summer for the app?
+7. Add tutorial (directed screenshot flow) to overflow -- has to be accessible to high school degree students

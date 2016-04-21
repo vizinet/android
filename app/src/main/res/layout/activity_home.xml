@@ -9,58 +9,104 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="lar.wsu.edu.airpact_fire.HomeActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="welcome_text"
-        android:id="@+id/welcome_text"
-        android:layout_gravity="left"
-        android:typeface="sans"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"
-        android:textSize="30dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="login_time_text"
-        android:id="@+id/login_time_text"
-        android:layout_below="@+id/welcome_text"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="welcome_text"
+            android:id="@+id/welcome_text"
+            android:layout_gravity="left"
+            android:typeface="sans"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:textSize="30dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="post_key_text"
-        android:id="@+id/post_key_text"
-        android:layout_below="@+id/login_time_text"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <ImageButton
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:id="@+id/take_picture_button"
-        android:src="@drawable/image_capture"
-        android:scaleType="fitXY"
-        android:background="@null"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="login_time_text"
+                android:id="@+id/login_time_text"
+                android:layout_below="@+id/welcome_text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View queued Posts"
-        android:id="@+id/view_queued_posts_button"
-        android:layout_below="@+id/take_picture_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:drawableLeft="@android:drawable/ic_menu_gallery"
-        android:drawablePadding="5dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="post_key_text"
+                android:id="@+id/info_text"
+                android:layout_below="@+id/login_time_text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Make a Post"
+                android:id="@+id/take_picture_button"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:drawableLeft="@android:drawable/ic_menu_camera"
+                android:drawablePadding="5dp"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View queued Posts"
+                android:id="@+id/view_queued_posts_button"
+                android:layout_below="@+id/take_picture_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@android:drawable/ic_menu_gallery"
+                android:drawablePadding="5dp"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="view app tutorial"
+                android:id="@+id/open_tutorial_button"
+                android:layout_below="@+id/take_picture_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@android:drawable/ic_menu_help"
+                android:drawablePadding="5dp"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="view user xml"
+                android:id="@+id/view_user_xml_button"
+                android:layout_below="@+id/take_picture_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@android:drawable/ic_dialog_info"
+                android:drawablePadding="5dp"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

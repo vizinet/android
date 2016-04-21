@@ -1,11 +1,9 @@
 package lar.wsu.edu.airpact_fire;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -15,7 +13,6 @@ import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ContentFrameLayout;
@@ -28,11 +25,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -93,9 +88,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Add welcome text for user
         mWelcomeText.setText("Hey, " + User.username);
-
-        // Show toast
-        Toast.makeText(this, "Welcome back!", Toast.LENGTH_SHORT).show();
 
         // Dynamic black dot stuff
         mBlackDotView = new ImageView(this);
@@ -189,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Display mBlackDotView if within ImageView bounds
-                if (isInView(mImageView, (int) event.getX(), (int) event.getY())) {
+                if (Util.isPointInView(mImageView, (int) event.getX(), (int) event.getY())) {
 
                     // Set color patch color, so we can see which color we've touched on ImageView
                     int selectedPixel = getPixelAtPos((int) event.getX(), (int) event.getY());
@@ -236,14 +228,6 @@ public class MainActivity extends AppCompatActivity {
 
         ContentFrameLayout parent = (ContentFrameLayout) findViewById(android.R.id.content);
         parent.addView(circle);
-    }
-
-    // Let us know if (x, y) point is within a view
-    public boolean isInView(View view, int x, int y) {
-        return (x > view.getX())
-                && (x <  (view.getX() + view.getWidth()))
-                && (y > view.getY())
-                && (y < (view.getY() + view.getHeight()));
     }
 
     // Gets pixel color inside mImageView given x and y coordinates
@@ -425,7 +409,7 @@ public class MainActivity extends AppCompatActivity {
         // creates our async network manager and sends the data off to be packaged
         NetworkManager nwork = new NetworkManager();
         // TODO: Update below line to make better
-        nwork.execute(Constants.SERVER_UPLOAD_URL, User.username, mEditText.getText().toString(), i, User.postKeys.remove());
+        nwork.execute(Post.SERVER_UPLOAD_URL, User.username, mEditText.getText().toString(), i);
     }
 
     class NetworkManager extends AsyncTask <String,Void,Void> {
@@ -444,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 // Attempt authentication
                 // Create upload URL
-                URL url = new URL(Constants.SERVER_AUTH_URL);
+                URL url = new URL(Post.SERVER_AUTH_URL);
 
                 // Create JSON send package
                 org.json.simple.JSONObject sendJSON = new org.json.simple.JSONObject();
@@ -512,12 +496,16 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Now post to server
-                // Constants
                 JSONObject J = new JSONObject();
-                J.put("user", args[1]);
-                J.put("description", args[2]);
-                J.put("image", args[3]);
-                J.put("secretKey", args[4]);
+                for (int i = 0; i < args.length; i++) {
+                    J.put(Post.POST_FIELDS[i], args[i + 1]);
+                }
+                // TODO
+                J.put("secretKey", User.postKeys.remove());
+
+//                J.put("description", args[2]);
+//                J.put("image", args[3]);
+//                J.put("secretKey", args[4]);
                 String message = J.toString();
 
 //                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -538,7 +526,7 @@ public class MainActivity extends AppCompatActivity {
                 //setup send
                 //OutputStream os = new BufferedOutputStream(conn.getOutputStream());
                 os.write(message.getBytes());
-                //clean up
+                // Clean up
                 os.flush();
                 os.close();
 
@@ -650,18 +638,6 @@ public class MainActivity extends AppCompatActivity {
         db.delete( QueuedPostContract.PostEntry.TABLE_NAME, selection, selectionArgs);
     }
 
-    // Check if internet is available
-    public boolean isInternetAvailable() {
-        try {
-            InetAddress ipAddr = InetAddress.getByName("google.com");
-            if (ipAddr.equals("")) {
-                return false;
-            } else {
-                return true;
-            }
-        } catch (Exception e) {
-            return false;
-        }
-    }
+
 
 }

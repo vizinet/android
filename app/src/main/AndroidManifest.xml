@@ -21,8 +21,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- Startup activity -->
         <activity
-            android:name=".LoginActivity"
+            android:name=".SignInActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -32,19 +34,35 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!-- TODO: Move intent-filter back here when not developing -->
         </activity>
+        <activity
+            android:name=".QueuedPostsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SelectContrastActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddPictureDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ViewImageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PostReviewActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- Phased out -->
+        <activity android:name=".LoginActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".QueuedPostsActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".SelectContrastActivity" />
-        <activity android:name=".AddPictureDetailsActivity"></activity>
+        <activity android:name=".ViewUserXMLActivity"></activity>
     </application>
 
 </manifest>

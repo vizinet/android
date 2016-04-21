@@ -1,0 +1,9 @@
+TODO before demo
+* Placing indicators
+* Get (x, y) coordinates from indicators
+* Store/recall file locally
+	- Posting full file to server
+- SQL storing and reading
+- Let Justin know about updated JSON send data
+- Make it look pretty
+- Store user credentials on login screen, but allow user to use app regardless (for offline use)
