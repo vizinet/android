@@ -298,6 +298,15 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="AppTheme.ActionBarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!--<item name="android:background">@drawable/actionbar_background</item>-->
+        <!--<item name="android:titleTextStyle">@style/AppTheme.ActionBar.TitleTextStyle</item>-->
+        <item name="android:textColor">#fff</item>
+        <!--<itme name="android:back"-->
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:icon">@drawable/logo</item>
+        <!--<item name="android:indeterminateProgressStyle">@style/IndeterminateProgress</item>-->
+    </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

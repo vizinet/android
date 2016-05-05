@@ -19,7 +19,7 @@ public class ViewUserXMLActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        XMLTextView.setText(UserDataManager.getXML());
+        XMLTextView.setText(Post.toJSON().toJSONString());
 
         super.onResume();
     }

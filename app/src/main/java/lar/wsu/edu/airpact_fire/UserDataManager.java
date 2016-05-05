@@ -52,24 +52,31 @@ import javax.xml.transform.stream.StreamResult;
 //      ...
 //  </app>
 public class UserDataManager {
-    public static final String FILENAME = "sample_data_29.xml";//"user_data.xml";
+    public static final String FILENAME = "sample_data_42.xml";//"user_data.xml";
     public static final String[] APP_ELEMENTS = {
             "lastUser",
             "user*"
     };
+    // NOTE: This list is an extension of Post.USER_FIELDS
     public static final String[] USER_ELEMENTS = {
+            "isAuth",
             "password",
-            "imageName",
+            "secretKey",
+            "image",
             "loginTime",
             "tags",
             "description",
-            "estimatedVR",
-            "highIndicatorX",
-            "highIndicatorY",
-            "lowIndicatorX",
-            "lowIndicatorY"
+            "visualRange",
+            "highX",
+            "highY",
+            "lowX",
+            "lowY",
+            "highColor",
+            "lowColor",
+            "geoX",
+            "geoY"
     };
-    public static final String[] TEST_USER_CRED = {"testUser", "testPassword"};
+    public static final String[] TEST_USER_CRED = {"test2", "1234567890"};
 
     private static Context mContext;
     private static String mLastUser;
@@ -83,7 +90,7 @@ public class UserDataManager {
 
             // Get data from disk
             FileInputStream fis = mContext.getApplicationContext().openFileInput(FILENAME);
-            Toast.makeText(mContext, "Data file '" + FILENAME + "' already exists.", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Data file '" + FILENAME + "' exists.", Toast.LENGTH_LONG).show();
             fis.close();
 
         } catch (FileNotFoundException e) {
@@ -94,11 +101,6 @@ public class UserDataManager {
             try {
                 FileOutputStream fos = mContext.getApplicationContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
 
-                // Truncate file to prepare for updated XML
-                fos.getChannel().truncate(0);
-                fos.getChannel().force(true);
-                fos.getChannel().lock();
-
                 DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
@@ -108,7 +110,7 @@ public class UserDataManager {
                 doc.appendChild(root);
 
                 // NOTE: We will have issue if a user is named "lastUser"
-                // NOTE: Creating test user Luke, Luke
+                /* CREATING TEST USER */
 
                 // Last user elements starting with a testUser
                 Element lastUser = doc.createElement("lastUser");
@@ -153,8 +155,6 @@ public class UserDataManager {
                 Element testHighIndicatorY = doc.createElement("highIndicatorY");
                 testHighIndicatorY.appendChild(doc.createTextNode("100.0"));
                 testUser.appendChild(testHighIndicatorY);
-
-                // TODO: The Rest?
 
                 root.appendChild(testUser);
 
@@ -267,6 +267,13 @@ public class UserDataManager {
 
             mLastUser = user;
 
+            // Write changes back
+            FileOutputStream fos = mContext.getApplicationContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            fos.getChannel().truncate(0);
+            fos.write(domToString(doc).getBytes());
+            fos.flush();
+            fos.close();
+
             return;
 
         } catch (FileNotFoundException e) {
@@ -306,12 +313,12 @@ public class UserDataManager {
 
                 FileOutputStream fos = mContext.getApplicationContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
 
-                // Truncate file to prepare for updated XML
-                fos.getChannel().truncate(0);
-                fos.getChannel().force(true);
-                fos.getChannel().lock();
+//                // Truncate file to prepare for updated XML
+//                fos.getChannel().truncate(0);
+//                fos.getChannel().force(true);
+//                fos.getChannel().lock();
 
-                Toast.makeText(mContext, "Creating new user '" + user + "'...", Toast.LENGTH_LONG).show();
+                //Toast.makeText(mContext, "Creating new user '" + user + "'...", Toast.LENGTH_LONG).show();
 
                 // 2. b.
                 Element newUser = doc.createElement(user);
@@ -323,12 +330,12 @@ public class UserDataManager {
                 fos.write(domToString(doc).getBytes());
 
                 //Toast.makeText(mContext, "Created user: " + domToString(doc), Toast.LENGTH_LONG).show();
-
+                fos.flush();
                 fos.close();
                 return true;
             }
 
-            Toast.makeText(mContext, "User '" + user + "' already exists", Toast.LENGTH_LONG).show();
+            //Toast.makeText(mContext, "User '" + user + "' exists locally. Welcome back!", Toast.LENGTH_LONG).show();
 
             return false;
 
@@ -342,19 +349,15 @@ public class UserDataManager {
             e.printStackTrace();
         }
 
-        Toast.makeText(mContext, "createUser(...) threw an exception", Toast.LENGTH_LONG).show();
+       // Toast.makeText(mContext, "createUser(...) threw an exception", Toast.LENGTH_LONG).show();
 
         return false;
     }
 
-    // TODO: Check if element is inside USER_ELEMENTS
-
-    // TODO: Fix problem with setting user data
-
     public static boolean setUserData(String user, String element, String content) {
         // Add content into right element of user element
         if (mContext == null) return false;
-        if (mLastUser != null) return false;
+        //if (mLastUser != null) return false;
 
         // Create user if nonexistent
         boolean didUserExist = !createUser(user);
@@ -376,12 +379,20 @@ public class UserDataManager {
             Element currentUserSubElement = (Element) currentUser.getElementsByTagName(element).item(0);
 
             // Add content to element
-            currentUserSubElement.appendChild(doc.createTextNode(content));
+            currentUserSubElement.setTextContent(content);
 
-            Toast.makeText(mContext, "setUserData(user = " + user + ", element = " + element + ", content = " + content
-                    + ")", Toast.LENGTH_LONG).show();
+            // Write back changes
+            FileOutputStream fos = mContext.getApplicationContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            fos.getChannel().truncate(0);
+            fos.write(domToString(doc).getBytes());
+            fos.flush();
+            fos.close();
 
-            Toast.makeText(mContext, "setUserData: " + domToString(doc), Toast.LENGTH_LONG).show();
+            //Toast.makeText(mContext, currentUserSubElement.getTagName() + " <= " + currentUserSubElement.getTextContent(), Toast.LENGTH_LONG).show();
+
+//            Toast.makeText(mContext, "setUserData(user = " + user + ", element = " + element + ", content = " + content
+//                    + ")", Toast.LENGTH_LONG).show();
+            //Toast.makeText(mContext, "setUserData: " + domToString(doc), Toast.LENGTH_LONG).show();
 
             return didUserExist;
 
@@ -395,15 +406,14 @@ public class UserDataManager {
             e.printStackTrace();
         }
 
-        Toast.makeText(mContext, "setUserData(...) threw an exception", Toast.LENGTH_LONG).show();
+        //Toast.makeText(mContext, "setUserData(...) threw an exception", Toast.LENGTH_LONG).show();
 
         return didUserExist;
     }
 
     // Get particular data field from user
-    public static Object getUserData(String user, String element) {
+    public static String getUserData(String user, String element) {
         if (mContext == null) return null;
-        if (mLastUser != null) return mLastUser;
 
         try {
             // Convert xml file from disk into string
@@ -415,25 +425,25 @@ public class UserDataManager {
             }
             fis.close();
 
-            //Toast.makeText(mContext, builder.toString(), Toast.LENGTH_LONG).show();
-
             // NOTE: Node ==> Element, AttributeNode, TextNode, etc.
 
             // Build XML from said string and get last user element
             Document doc = stringToDom(builder.toString());
             Element root = doc.getDocumentElement();
             Element currentUser = (Element) root.getElementsByTagName(user).item(0);
-            NodeList currentUserSubElementChildren = currentUser.getElementsByTagName(element).item(0).getChildNodes();
+            Element userDataElement = (Element) currentUser.getElementsByTagName(element).item(0);
 
-            //if (currentUserSubElementChildren.getLength() == 0) return null;
+           // Toast.makeText(mContext, userDataElement.getTagName() + " => " + userDataElement.getTextContent(), Toast.LENGTH_LONG).show();
 
-            Object currentUserData = currentUser.getElementsByTagName(element).item(0).getTextContent();
+            if (!userDataElement.hasChildNodes()) return null;
 
-            Log.i("UserDataManager", "getUserData(user = " + user + ", element = " + element
-                    + ") => " + currentUserData);
+//            Object currentUserData = currentUser.getElementsByTagName(element).item(0).getTextContent();
+
+//            Toast.makeText(mContext, "getUserData(user = " + user + ", element = " + element
+//                    + ") => " + currentUserData.toString(), Toast.LENGTH_LONG).show();
 
             // Return user
-            return currentUserData;
+            return userDataElement.getTextContent();
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -445,8 +455,15 @@ public class UserDataManager {
             e.printStackTrace();
         }
 
+        //Toast.makeText(mContext, "getUserData(...) threw an exception", Toast.LENGTH_LONG).show();
+
         return null;
     }
+
+
+    // TODO: Fix getUserData reading issue (exception)
+    // TODO: Fix not creating new user when two new users entered back-to-back (probably something with action event being cached/remembered)
+    //      - Will have to force an update?
 
     public static String getXML() {
         // Convert xml file from disk into string

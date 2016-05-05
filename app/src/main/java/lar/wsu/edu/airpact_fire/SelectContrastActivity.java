@@ -6,17 +6,24 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ContentFrameLayout;
+import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -28,9 +35,12 @@ public class SelectContrastActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
 
+    public static Uri imageUri;
+
     // UI elements
     private ImageView mImageView, mBlackCircleColorView, mWhiteCircleColorView;
     private ImageButton mDoneButton, mRetakeButton, mBlackIndicatorButton, mWhiteIndicatorButton;
+    private TextView mLowText, mHighText;
 
     ImageView mWhiteCircle, mBlackCircle, mCurrentCircle;
 
@@ -41,27 +51,28 @@ public class SelectContrastActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_contrast);
         setTitle("Contrast Points");
 
+        // Pulse animation
+        Animation pulse = AnimationUtils.loadAnimation(this, R.anim.pulse);
+
         // Create UI elements
-        mWhiteCircle = addNewCircle(R.drawable.abc_switch_thumb_material);
-        mBlackCircle = addNewCircle(R.drawable.abc_scrubber_control_to_pressed_mtrl_005);
+        mWhiteCircle = addNewCircle(R.drawable.white_dot);
+        mBlackCircle = addNewCircle(R.drawable.black_dot);
         mCurrentCircle = mWhiteCircle;
+        //mCurrentCircle.startAnimation(pulse);
 
         // Set past indicator points, if any
-        if (UserDataManager.getUserData(UserDataManager.getLastUser(), "lowIndicatorX") != null) {
-            Toast.makeText(getApplicationContext(), "Indicator points remembered and placed.", Toast.LENGTH_SHORT).show();
+        if (UserDataManager.getUserData(UserDataManager.getLastUser(), "lowX") != null) {
+            //Toast.makeText(getApplicationContext(), "Indicator points remembered and placed", Toast.LENGTH_SHORT).show();
 
-            float lowIndicatorX = Float.parseFloat((String) UserDataManager.getUserData(UserDataManager.getLastUser(), "lowIndicatorX"));
-            float lowIndicatorY = Float.parseFloat((String) UserDataManager.getUserData(UserDataManager.getLastUser(), "lowIndicatorY"));
-            float highIndicatorX = Float.parseFloat((String) UserDataManager.getUserData(UserDataManager.getLastUser(), "highIndicatorX"));
-            float highIndicatorY = Float.parseFloat((String) UserDataManager.getUserData(UserDataManager.getLastUser(), "highIndicatorY"));
+            float lowIndicatorX = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getLastUser(), "lowX"));
+            float lowIndicatorY = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getLastUser(), "lowY"));
+            float highIndicatorX = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getLastUser(), "highX"));
+            float highIndicatorY = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getLastUser(), "highY"));
             mWhiteCircle.setX(highIndicatorX);
             mWhiteCircle.setY(highIndicatorY);
             mBlackCircle.setX(lowIndicatorX);
             mBlackCircle.setY(lowIndicatorY);
         }
-        // Set post time
-        Post.Time = new Date();
-
 
         // Grab UI elements
         mImageView = (ImageView) findViewById(R.id.image_view);
@@ -73,10 +84,15 @@ public class SelectContrastActivity extends AppCompatActivity {
         mDoneButton = (ImageButton) findViewById(R.id.done_button);
         mRetakeButton = (ImageButton) findViewById(R.id.retake_button);
 
+        mLowText = (TextView) findViewById(R.id.low_text);
+        mHighText = (TextView) findViewById(R.id.high_text);
+
+        // Let user know which indicator is selected
+        mLowText.setTextColor(Color.GRAY);
+        mHighText.setTextColor(Color.RED);
+
         // Start off with taking picture
         takePicture();
-//        Drawable ob = getResources().getDrawable(R.drawable.abc_list_longpressed_holo, getApplicationContext().getTheme());
-//        mImageView.setBackground(ob);
 
         // Button click listeners
         mDoneButton.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +115,8 @@ public class SelectContrastActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                mCurrentIndicator = mBlackIndicator
                 mCurrentCircle = mBlackCircle;
+                mLowText.setTextColor(Color.RED);
+                mHighText.setTextColor(Color.GRAY);
             }
         });
         mWhiteIndicatorButton.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +124,8 @@ public class SelectContrastActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                mCurrentIndicator = mWhiteIndicator;
                 mCurrentCircle = mWhiteCircle;
+                mLowText.setTextColor(Color.GRAY);
+                mHighText.setTextColor(Color.RED);
             }
         });
 
@@ -115,27 +135,12 @@ public class SelectContrastActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 // If point is within image
                 if (Util.isPointInView(mImageView, (int) event.getX(), (int) event.getY())) {
-
-                    // TODO Remove
-//                    putPermCircle((int) mImageView.getX(), (int) mImageView.getY());
-//                    putPermCircle((int) mImageView.getX() + mImageView.getWidth()
-//                            , (int) mImageView.getY() + mImageView.getHeight());
-
                     // Get pixel we've touched
-                    int selectedPixel = 220;//Util.getPixelAtPos(mImageView, (int) event.getX(), (int) event.getY());
+                    int selectedPixel = 230; //Util.getPixelAtPos(mImageView, (int) event.getX(), (int) event.getY());
 
-                    //Bitmap bitmap = ((BitmapDrawable) mImageView.getDrawable()).getBitmap();
+                    // TODO: Problem seems to be not with invalid x and y coordinates, but for bitmap itself? Can't call .getWidth and stuff...
 
-                    //Toast.makeText(getApplicationContext(), "" + bitmap.getWidth(), Toast.LENGTH_SHORT).show();
-
-                    //if (mCurrentIndicator == null) return false;
-
-                    // Show current indicator
-                    //mCurrentIndicator.setVisibility(View.VISIBLE);
-
-                    // Update position
-//                    mCurrentIndicator.setX(event.getX());
-//                    mCurrentIndicator.setY(event.getY());
+                   // Toast.makeText(getApplicationContext(), ((BitmapDrawable) mImageView.getDrawable()).getBitmap().getPixel(10, 10), Toast.LENGTH_LONG).show();
 
                     mCurrentCircle.setVisibility(View.VISIBLE);
 
@@ -144,40 +149,18 @@ public class SelectContrastActivity extends AppCompatActivity {
 
                     if (mCurrentCircle == mBlackCircle) {
 
-                        Post.LowXY = new float[] {event.getX(), event.getY()};
-                        Post.LowColor = selectedPixel;
-
                         // Update visual patch
                         mBlackCircleColorView.setBackgroundColor(Color.rgb(Color.red(selectedPixel), Color.green(selectedPixel), Color.blue(selectedPixel)));
                     }
                     else {
 
-                        Post.HighXY = new float[] {event.getX(), event.getY()};
-                        Post.HighColor = selectedPixel;
-
                         mWhiteCircleColorView.setBackgroundColor(Color.rgb(Color.red(selectedPixel), Color.green(selectedPixel), Color.blue(selectedPixel)));
                     }
 
-                    // TODO remove
-                    //putPermCircle((int) event.getX(), (int) event.getY());
-
-                    // Set post (x, y) for proper indicator
-//                    if (mCurrentIndicator == mBlackIndicator) {
-//                        Post.LowXY = new float[] {event.getX(), event.getY()};
-//                        Post.LowColor = selectedPixel;
-//                    }
-//                    else {
-//                        Post.HighXY = new float[] {event.getX(), event.getY()};
-//                        Post.HighColor = selectedPixel;
-//                    }
-
                     // Set indicator color to pixel color
-
                     mCurrentCircle.setColorFilter(Color.rgb(Color.red(selectedPixel), Color.green(selectedPixel), Color.blue(selectedPixel)));
 
                 } else { // Hide indicators outside of bounds
-//                    mCurrentIndicator.setVisibility(View.INVISIBLE);
-
                     mCurrentCircle.setVisibility(View.VISIBLE);
                 }
                 return true;
@@ -188,16 +171,18 @@ public class SelectContrastActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         // Update data of last indicator points for user
+        UserDataManager.setUserData(UserDataManager.getLastUser(), "lowX", (Float.toString(mBlackCircle.getX())));
+        UserDataManager.setUserData(UserDataManager.getLastUser(), "lowY", (Float.toString(mBlackCircle.getY())));
+        UserDataManager.setUserData(UserDataManager.getLastUser(), "highX", (Float.toString(mWhiteCircle.getX())));
+        UserDataManager.setUserData(UserDataManager.getLastUser(), "highY", (Float.toString(mWhiteCircle.getY())));
 
-        // TODO: For some reason, indicators not being placed
+        // Get color
+        UserDataManager.setUserData(UserDataManager.getLastUser(), "highColor",
+                Integer.toString(((ColorDrawable) mWhiteCircleColorView.getBackground()).getColor()));
+        UserDataManager.setUserData(UserDataManager.getLastUser(), "lowColor",
+                Integer.toString(((ColorDrawable) mBlackCircleColorView.getBackground()).getColor()));
 
-        UserDataManager.setUserData(UserDataManager.getLastUser(), "lowIndicatorX", (Float.toString(mBlackCircle.getX())));
-        UserDataManager.setUserData(UserDataManager.getLastUser(), "lowIndicatorY", (Float.toString(mBlackCircle.getY())));
-
-        UserDataManager.setUserData(UserDataManager.getLastUser(), "highIndicatorX", (Float.toString(mWhiteCircle.getX())));
-        UserDataManager.setUserData(UserDataManager.getLastUser(), "highIndicatorY", (Float.toString(mWhiteCircle.getY())));
-
-        Toast.makeText(getApplicationContext(), "Indicator points saved.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Indicator points and colors saved", Toast.LENGTH_SHORT).show();
 
         super.onPause();
     }
@@ -215,8 +200,8 @@ public class SelectContrastActivity extends AppCompatActivity {
         circle.setImageResource(id);
 
         // Width and height
-        circle.getLayoutParams().width = 25;
-        circle.getLayoutParams().height = 25;
+        circle.getLayoutParams().width = 50;
+        circle.getLayoutParams().height = 50;
 
         // Position
         circle.setX(0);
@@ -277,12 +262,16 @@ public class SelectContrastActivity extends AppCompatActivity {
             try {
                 photoFile = Util.createImageFile();
             } catch (IOException ex) {
-//                mEditText.setText("Error occurred while creating the file.");
+                return;
             }
+
+            imageUri = Uri.fromFile(photoFile);
+
+            //Toast.makeText(this, "Saved at " + imageLocation, Toast.LENGTH_LONG).show();
+
             // Continue only if the File was successfully created
             if (photoFile != null) {
-                // TODO: For some reason, the below line was causing "data" to be null in our onActivityResult method
-                //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
@@ -292,25 +281,46 @@ public class SelectContrastActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Call garbage collection
+        Runtime.getRuntime().gc();
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-            // Add Bitmap to post
-            Post.Image = imageBitmap;
+            // Scale it downnn
+            bitmap = Bitmap.createScaledBitmap(bitmap, 175, 200, true);
 
-            // Scale up the image size
-            //int scaleUp = 1;
-            //Bitmap resizedImageBitmap = getResizedBitmap(imageBitmap, imageBitmap.getWidth() * scaleUp, imageBitmap.getHeight() * scaleUp);
+            // Add Bitmap to post in XML
+            String imageString = Base64.encodeToString(Util.getBytesFromBitmap(bitmap), Base64.DEFAULT);
+            UserDataManager.setUserData(UserDataManager.getLastUser(), "image", imageString);
 
-            // Turn Bitmap into Drawable, and set as ImageView background
-            //Drawable ob = new BitmapDrawable(getResources(), imageBitmap);
-            //mImageView.setBackground(ob);
+            // Add geolocation
+            UserDataManager.setUserData(UserDataManager.getLastUser(), "geoX", "0");
+            UserDataManager.setUserData(UserDataManager.getLastUser(), "geoY", "0");
+            try {
+                ExifInterface exifInterface = new ExifInterface(imageUri.toString());
+                if (exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE) != null) {
+                    UserDataManager.setUserData(UserDataManager.getLastUser(), "geoX",
+                            exifInterface.getAttribute(ExifInterface.TAG_GPS_LONGITUDE));
+                    UserDataManager.setUserData(UserDataManager.getLastUser(), "geoY",
+                            exifInterface.getAttribute(ExifInterface.TAG_GPS_LATITUDE));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             // Tell user to select contrast points afterwards
-            Toast.makeText(this, "Select contrast points on image", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Select high and low contrast points", Toast.LENGTH_LONG).show();
 
-            mImageView.setImageBitmap(imageBitmap);
+            // Set image view
+            mImageView.setImageBitmap(bitmap);
         }
     }
 

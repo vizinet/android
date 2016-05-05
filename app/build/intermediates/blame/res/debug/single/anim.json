@@ -1,5 +1,9 @@
 [
     {
+        "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\anim\\pulse.xml",
+        "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\src\\main\\res\\anim\\pulse.xml"
+    },
+    {
         "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
         "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
     },

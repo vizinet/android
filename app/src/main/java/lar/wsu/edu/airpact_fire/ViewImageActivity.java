@@ -1,6 +1,7 @@
 package lar.wsu.edu.airpact_fire;
 
 import android.annotation.TargetApi;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
@@ -21,7 +22,8 @@ public class ViewImageActivity extends AppCompatActivity {
 
         mImageView = (ImageView) findViewById(R.id.image_view);
 
-        Drawable ob = new BitmapDrawable(getResources(), Post.Image);
+        Bitmap bitmap = Util.stringToBitMap(UserDataManager.getUserData(UserDataManager.getLastUser(), "image"));
+        Drawable ob = new BitmapDrawable(getResources(), bitmap);
         mImageView.setBackground(ob);
     }
 }

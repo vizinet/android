@@ -1,14 +1,18 @@
 package lar.wsu.edu.airpact_fire;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.widget.Toast;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.w3c.dom.Element;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -30,16 +34,7 @@ public class Post {
             , "highY", "lowColor", "lowX", "lowY", "visualRange", "geoX", "geoY", "tags"};
     public static final String SERVER_UPLOAD_URL = "http://76.178.152.115:8000/file_upload/upload";
     public static final String SERVER_AUTH_URL = "http://76.178.152.115:8000/user/appauth";
-
-    // Instance vars
-    public static String ImageLocation, Description;
-    public static String Tags = "Mount Baker,Cloudy,Funky smell,Hey a squirrel!"; // CSV
-    public static float VisualRange;
-    public static float[] LatitudeLongitude = {0, 0};
-    public static Bitmap Image;
-    public static Date Time;
-    public static int HighColor, LowColor;
-    public static float LowXY[], HighXY[];
+    public static final String SERVER_REGISTER_URL = "http://76.178.152.115:8000/user/register";
 
     public static boolean DidFail = true;
     public static Context Context;
@@ -49,7 +44,7 @@ public class Post {
     public static String debugOut;
     public static JSONObject debugJSON;
 
-    // Create JSON object to send to server
+    // Create JSON object from XML
     public static JSONObject toJSON() {
         // TODO Get real file of JPEG
         // Bitmap to string
@@ -72,42 +67,59 @@ public class Post {
 //            }
 //        }
         // TODO Replace with actual file
-        imageString = Base64.encodeToString(Util.getBytesFromBitmap(Post.Image), Base64.DEFAULT);
+        //imageString = Base64.encodeToString(Util.getBytesFromBitmap(Post.Image), Base64.DEFAULT);
 
         // Root
         JSONObject root = new JSONObject();
 
-        // Fields
-        root.put("user", User.username);
-        root.put("description", Post.Description);
-        root.put("image", imageString);
-        // Note: secretKey is added through NetworkManager (after authentication)
-        root.put("highColor", Post.HighColor);
-        root.put("highX", Post.HighXY[0]);
-        root.put("highY", Post.HighXY[1]);
-        root.put("lowColor", Post.LowColor);
-        root.put("lowX", Post.LowXY[0]);
-        root.put("lowY", Post.LowXY[1]);
-        root.put("visualRange", Post.VisualRange);
-        root.put("geoX", Post.LatitudeLongitude[0]);
-        root.put("geoY", Post.LatitudeLongitude[1]);
-        root.put("tags", Post.Tags);
+        // TODO: Let Justin know the updated JSON spec
+
+        // User XML => Post JSON
+        String lastUser = UserDataManager.getLastUser();
+        for (int i = 0; i < Post.POST_FIELDS.length; i++) {
+            root.put(Post.POST_FIELDS[i],
+                    UserDataManager.getUserData(lastUser, Post.POST_FIELDS[i]));
+        }
+        root.put("user", lastUser);
+
+
+//        root.put("description", UserDataManager.getUserData(lastUser, "description"));
+//        root.put("image", lastUser);
+//        // Note: secretKey is added through NetworkManager (after authentication)
+//        root.put("highColor", Post.HighColor);
+//        root.put("highX", Post.HighXY[0]);
+//        root.put("highY", Post.HighXY[1]);
+//        root.put("lowColor", Post.LowColor);
+//        root.put("lowX", Post.LowXY[0]);
+//        root.put("lowY", Post.LowXY[1]);
+//        root.put("visualRange", Post.VisualRange);
+//        root.put("geoX", Post.LatitudeLongitude[0]);
+//        root.put("geoY", Post.LatitudeLongitude[1]);
+//        root.put("tags", Post.Tags);
 
         return root;
     }
 
     // Post data to server
     public static void submit(Context context) {
-        Post.debugOut += "ImageLocation: " + Post.ImageLocation + "\n";
-        Post.debugOut += "Image byte count: " + Post.Image.getByteCount() + "\n\n";
+//        Post.debugOut += "ImageLocation: " + Post.ImageLocation + "\n";
+//        Post.debugOut += "Image byte count: " + Post.Image.getByteCount() + "\n\n";
 
-        if (!Util.isInternetAvailable()) {
-            Toast.makeText(context, "Internet is not available. Adding post to queue with id = " + 0 + " .", Toast.LENGTH_LONG).show();
+//        if (!Util.isInternetAvailable()) {
+//            Toast.makeText(context, "Internet is not available. Adding post to queue with id = " + 0 + " .", Toast.LENGTH_LONG).show();
+//
+//            // TODO: Queue the post
+//            Intent intent = new Intent(Post.Context, HomeActivity.class);
+//            Post.Context.startActivity(intent);
+//
+//            return;
+//        }'
 
-            // TODO: Queue the post
+        Toast.makeText(Post.Context, "Attempting post...", Toast.LENGTH_LONG).show();
 
-            return;
-        }
+        //Toast.makeText(Post.Context, Post.toJSON().toJSONString(), Toast.LENGTH_LONG).show();
+
+       // if (true) return;
 
         // Creates our async network manager and sends the data off to be packaged
         NetworkManager networkManager = new NetworkManager();
@@ -133,6 +145,11 @@ class NetworkManager extends AsyncTask<JSONObject, Void, Void> {
     }
 
     @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
     protected Void doInBackground(JSONObject... args) {
         try {
             JSONObject postJSON = args[0];
@@ -142,8 +159,8 @@ class NetworkManager extends AsyncTask<JSONObject, Void, Void> {
 
             // JSON authentication (send) package
             JSONObject authSendJSON = new JSONObject();
-            authSendJSON.put("username", User.username);
-            authSendJSON.put("password", User.password);
+            authSendJSON.put("username", UserDataManager.getLastUser());
+            authSendJSON.put("password", UserDataManager.getUserData(UserDataManager.getLastUser(), "password"));
             String sendMessage = authSendJSON.toJSONString(),
                     serverResponse,
                     userKey;
@@ -174,7 +191,7 @@ class NetworkManager extends AsyncTask<JSONObject, Void, Void> {
             // NOTE: Had an error here before because I didn't flush
             authOutputStream.flush();
 
-            Post.debugOut += "AUTHENTICATION JSON: \n" + sendMessage;
+            Post.debugOut += "AUTHENTICATION JSON: " + sendMessage + "\n";
 
             // Server reply
             InputStream in = null; // TODO Error here
@@ -197,6 +214,8 @@ class NetworkManager extends AsyncTask<JSONObject, Void, Void> {
             // Parse JSON
             authReceiveJSON = (JSONObject) new JSONParser().parse(serverResponse);
 
+            Post.debugOut += "RESPONSE JSON: " + authReceiveJSON.toJSONString() + "\n";
+
             // Get fields and see if server authenticated us
             isUser = Boolean.parseBoolean((String) authReceiveJSON.get("isUser"));
             if (isUser) {
@@ -204,6 +223,7 @@ class NetworkManager extends AsyncTask<JSONObject, Void, Void> {
                 User.postKeys.add(userKey);
                 Post.isUser = true;
             } else { // Exit if not a user
+
                 Post.isUser = false;
                 return null;
             }
@@ -221,11 +241,14 @@ class NetworkManager extends AsyncTask<JSONObject, Void, Void> {
             // Upload server
             HttpURLConnection postConn = (HttpURLConnection) postUrl.openConnection();
 
-            Post.debugOut += "\nsecretKey: " + User.postKeys.peek() + "\n";
+            // Add secret key and convert to JSON
+            UserDataManager.setUserData(UserDataManager.getLastUser(), "secretKey", userKey);
+            postJSON = Post.toJSON();
 
             // Add post key and make JSON string
-            postJSON.put("secretKey", User.postKeys.remove());
             String postMessage = postJSON.toString();
+
+            //Toast.makeText(Post.Context, "postMessage = " + postMessage, Toast.LENGTH_LONG).show();
 
             // Connection properties
             postConn.setReadTimeout(10000);
@@ -246,8 +269,8 @@ class NetworkManager extends AsyncTask<JSONObject, Void, Void> {
             postOutputStream.flush();
 
             // TODO Remove
-            Post.debugJSON = postJSON;
-            Post.debugOut += "POST MESSAGE: \n" + postJSON.toJSONString();
+            //Post.debugJSON = postJSON;
+            //Post.debugOut += "POST MESSAGE: \n" + postJSON.toJSONString();
 
             // Read if post succeeded or failed
             InputStream postStatusInputStream;
@@ -298,5 +321,10 @@ class NetworkManager extends AsyncTask<JSONObject, Void, Void> {
         } else {
             Toast.makeText(Post.Context, "Post was successful :)", Toast.LENGTH_SHORT).show();
         }
+
+        //UserDataManager.setUserData(UserDataManager.getLastUser(), "secretKey", null);
+
+        //Toast.makeText(Post.Context, Post.debugOut, Toast.LENGTH_LONG).show();
+        Post.debugOut = null;
     }
 }

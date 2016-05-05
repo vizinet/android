@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 // width of the encapsulated BitMap object.
 
                 // Don't go any further, unless we've taken a picture
-                if (mCurrentPost.ImageLocation == null) { return true; }
+                //if (mCurrentPost.ImageLocation == null) { return true; }
 
                 // Debug display
                 mDebugText.setText("Touch coordinates : " +
@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
         */
 
         // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPost.ImageLocation = mPhotoFile.getAbsolutePath();//"file:" + image.getAbsolutePath();
+//        mCurrentPost.ImageLocation = mPhotoFile.getAbsolutePath();//"file:" + image.getAbsolutePath();
 
         return mPhotoFile;
     }
@@ -350,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Debug text
-            mDebugText.setText("Captured and saved image as '" +  mCurrentPost.ImageLocation + "'");
+//            mDebugText.setText("Captured and saved image as '" +  mCurrentPost.ImageLocation + "'");
         }
     }
 
@@ -358,15 +358,15 @@ public class MainActivity extends AppCompatActivity {
     // store in post
     private void getLatitudeLongitude()
     {
-        if (mCurrentPost.ImageLocation == null) return;
+//        if (mCurrentPost.ImageLocation == null) return;
 
-        try {
-            ExifInterface exifInterface = new ExifInterface(mCurrentPost.ImageLocation);
-            exifInterface.getLatLong(mCurrentPost.LatitudeLongitude);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+////            ExifInterface exifInterface = new ExifInterface(mCurrentPost.ImageLocation);
+////            exifInterface.getLatLong(mCurrentPost.LatitudeLongitude);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     // Upload JSON data to server
@@ -389,22 +389,22 @@ public class MainActivity extends AppCompatActivity {
         // TODO Get real file of JPEG
         Bitmap bitmap = null;
         String i = "";
-        if (mCurrentPost.ImageLocation != null)
-        {
-            // Convert full image to Bitmap to String
-            File f = new File(mCurrentPost.ImageLocation);
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            try {
-                bitmap = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            if (bitmap != null) {
-                i = Base64.encodeToString(getBytesFromBitmap(bitmap), Base64.DEFAULT);
-            }
-        }
+//        if (mCurrentPost.ImageLocation != null)
+//        {
+//            // Convert full image to Bitmap to String
+//            File f = new File(mCurrentPost.ImageLocation);
+//            BitmapFactory.Options options = new BitmapFactory.Options();
+//            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+//            try {
+//                bitmap = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//
+//            if (bitmap != null) {
+//                i = Base64.encodeToString(getBytesFromBitmap(bitmap), Base64.DEFAULT);
+//            }
+//        }
 
         // creates our async network manager and sends the data off to be packaged
         NetworkManager nwork = new NetworkManager();

@@ -26,14 +26,13 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
 
         <!-- Startup activity -->
         <activity
             android:name="lar.wsu.edu.airpact_fire.SignInActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -69,6 +68,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity android:name="lar.wsu.edu.airpact_fire.ViewUserXMLActivity" />
+        <activity android:name="lar.wsu.edu.airpact_fire.TutorialActivity" />
+        <activity android:name="lar.wsu.edu.airpact_fire.SettingsActivity" />
     </application>
 
 </manifest>

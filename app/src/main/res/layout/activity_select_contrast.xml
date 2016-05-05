@@ -29,65 +29,130 @@
                 android:layout_alignParentStart="true"
                 android:layout_weight="1"
                 android:padding="1dp" />
+
         </RelativeLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:background="@color/colorPrimary">
+            android:padding="20dp">
 
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/retake_button"
-                android:src="@drawable/redo_arrow"
-                android:scaleType="fitXY"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
 
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/done_button"
-                android:scaleType="fitXY"
-                android:src="@drawable/done_circle"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/retake_button"
+                    android:src="@drawable/redo_arrow"
+                    android:scaleType="fitXY"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
 
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/black_indicator_button"
-                android:src="@drawable/abc_scrubber_control_to_pressed_mtrl_005"
-                android:scaleType="fitXY"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="RETAKE"
+                    android:id="@+id/textView18"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
 
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/white_indicator_button"
-                android:src="@drawable/design_fab_background"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:cropToPadding="false"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/done_button"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/done_circle"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="DONE"
+                    android:id="@+id/textView17"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/black_indicator_button"
+                    android:src="@drawable/black_dot"
+                    android:scaleType="fitXY"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="LOW"
+                    android:id="@+id/low_text"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:id="@+id/white_indicator_button"
+                    android:layout_gravity="center"
+                    android:cropToPadding="false"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:scaleType="fitXY"
+                    android:background="@drawable/white_dot" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="HIGH"
+                    android:id="@+id/high_text"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp">
+                android:layout_marginRight="5dp"
+                android:gravity="center_vertical">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -95,7 +160,7 @@
                     android:id="@+id/black_circle_color"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="5dp"
-                    android:background="#000" />
+                    android:background="#4285F4" />
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -103,7 +168,7 @@
                     android:id="@+id/white_circle_color"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="5dp"
-                    android:background="#fff" />
+                    android:background="#FFE478" />
             </LinearLayout>
 
         </LinearLayout>

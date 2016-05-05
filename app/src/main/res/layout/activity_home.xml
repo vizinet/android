@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/app_bar" />
+
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -14,43 +22,144 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <Space
+            android:layout_width="fill_parent"
+            android:layout_height="55dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="welcome_text"
-            android:id="@+id/welcome_text"
-            android:layout_gravity="left"
-            android:typeface="sans"
-            android:textStyle="bold"
-            android:layout_marginBottom="10dp"
-            android:textSize="30dp" />
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="HEY, "
+                android:id="@+id/textView13"
+                android:layout_gravity="left"
+                android:typeface="sans"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
+                android:textSize="30dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="welcome_text"
+                android:id="@+id/welcome_text"
+                android:layout_gravity="left"
+                android:typeface="sans"
+                android:textStyle="bold|italic"
+                android:layout_marginBottom="10dp"
+                android:textSize="30dp" />
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="login_time_text"
-                android:id="@+id/login_time_text"
-                android:layout_below="@+id/welcome_text"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_gravity="center_horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="LOGIN TIME"
+                    android:id="@+id/textView11"
+                    android:layout_below="@+id/welcome_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="login_time_text"
+                    android:id="@+id/login_time_text"
+                    android:layout_below="@+id/welcome_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="post_key_text"
-                android:id="@+id/info_text"
-                android:layout_below="@+id/login_time_text"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="5dp" />
+                android:layout_gravity="center_horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="POST KEY"
+                    android:id="@+id/textView14"
+                    android:layout_below="@+id/welcome_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="post_key_text"
+                    android:id="@+id/post_key_text"
+                    android:layout_below="@+id/login_time_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="INFO"
+                    android:id="@+id/textView12"
+                    android:layout_below="@+id/welcome_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="post_key_text"
+                    android:id="@+id/info_text"
+                    android:layout_below="@+id/login_time_text"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -60,53 +169,50 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp">
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Make a Post"
-                android:id="@+id/take_picture_button"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
-                android:drawableLeft="@android:drawable/ic_menu_camera"
-                android:drawablePadding="5dp"/>
-
-            <Button
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="View queued Posts"
-                android:id="@+id/view_queued_posts_button"
-                android:layout_below="@+id/take_picture_button"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:drawableLeft="@android:drawable/ic_menu_gallery"
-                android:drawablePadding="5dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal">
 
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="view app tutorial"
-                android:id="@+id/open_tutorial_button"
-                android:layout_below="@+id/take_picture_button"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:drawableLeft="@android:drawable/ic_menu_help"
-                android:drawablePadding="5dp"
-                android:layout_gravity="center_horizontal" />
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Make Post"
+                    android:id="@+id/take_picture_button"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableLeft="@drawable/capture"
+                    android:drawablePadding="10dp"
+                    android:textSize="20dp"
+                    android:padding="20dp" />
 
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="view user xml"
-                android:id="@+id/view_user_xml_button"
-                android:layout_below="@+id/take_picture_button"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:drawableLeft="@android:drawable/ic_dialog_info"
-                android:drawablePadding="5dp"
-                android:layout_gravity="center_horizontal" />
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="View Posts"
+                    android:id="@+id/view_queued_posts_button"
+                    android:layout_below="@+id/take_picture_button"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/queue"
+                    android:drawablePadding="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textSize="20dp"
+                    android:padding="20dp"
+                    android:enabled="false" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/imageView3"
+                android:src="@drawable/mountains"
+                android:tint="#c8c8c8"
+                android:layout_weight="1" />
+
         </LinearLayout>
 
     </LinearLayout>
 
+</RelativeLayout>
 </RelativeLayout>

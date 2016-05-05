@@ -48,6 +48,10 @@
         "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_expanded_menu_layout.xml"
     },
     {
+        "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\app_bar.xml",
+        "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\src\\main\\res\\layout\\app_bar.xml"
+    },
+    {
         "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_select_dialog_material.xml",
         "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_select_dialog_material.xml"
     },
@@ -60,16 +64,12 @@
         "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\notification_template_big_media.xml"
     },
     {
-        "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_content_include.xml",
-        "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_screen_content_include.xml"
-    },
-    {
         "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_view_image.xml",
         "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\src\\main\\res\\layout\\activity_view_image.xml"
     },
     {
-        "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_search_dropdown_item_icons_2line.xml",
-        "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_search_dropdown_item_icons_2line.xml"
+        "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_settings.xml",
+        "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\src\\main\\res\\layout\\activity_settings.xml"
     },
     {
         "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_snackbar_include.xml",
@@ -78,6 +78,14 @@
     {
         "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_add_picture_details.xml",
         "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\src\\main\\res\\layout\\activity_add_picture_details.xml"
+    },
+    {
+        "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_content_include.xml",
+        "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_screen_content_include.xml"
+    },
+    {
+        "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_search_dropdown_item_icons_2line.xml",
+        "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_search_dropdown_item_icons_2line.xml"
     },
     {
         "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_tab_icon.xml",
@@ -166,6 +174,10 @@
     {
         "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_lines.xml",
         "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\notification_template_lines.xml"
+    },
+    {
+        "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_tutorial.xml",
+        "source": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\src\\main\\res\\layout\\activity_tutorial.xml"
     },
     {
         "merged": "C:\\Users\\Luke\\Documents\\AndroidStudioProjects\\AIRPACT-Fire\\App\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_bar_up_container.xml",

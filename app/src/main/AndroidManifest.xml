@@ -20,14 +20,13 @@
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
         <!-- Startup activity -->
         <activity
             android:name=".SignInActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -62,7 +61,9 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ViewUserXMLActivity"></activity>
+        <activity android:name=".ViewUserXMLActivity" />
+        <activity android:name=".TutorialActivity" />
+        <activity android:name=".SettingsActivity"></activity>
     </application>
 
 </manifest>
