@@ -178,7 +178,7 @@
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="Make Post"
+                    android:text="take picture"
                     android:id="@+id/take_picture_button"
                     android:layout_gravity="center_horizontal"
                     android:drawableLeft="@drawable/capture"
@@ -189,7 +189,7 @@
                 <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:text="View Posts"
+                    android:text="View pictures"
                     android:id="@+id/view_queued_posts_button"
                     android:layout_below="@+id/take_picture_button"
                     android:layout_centerHorizontal="true"

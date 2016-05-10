@@ -1,17 +1,25 @@
 package lar.wsu.edu.airpact_fire;
 
+import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ContentFrameLayout;
@@ -140,7 +148,7 @@ public class SelectContrastActivity extends AppCompatActivity {
 
                     // TODO: Problem seems to be not with invalid x and y coordinates, but for bitmap itself? Can't call .getWidth and stuff...
 
-                   // Toast.makeText(getApplicationContext(), ((BitmapDrawable) mImageView.getDrawable()).getBitmap().getPixel(10, 10), Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getApplicationContext(), ((BitmapDrawable) mImageView.getDrawable()).getBitmap().getPixel(10, 10), Toast.LENGTH_LONG).show();
 
                     mCurrentCircle.setVisibility(View.VISIBLE);
 
@@ -151,8 +159,7 @@ public class SelectContrastActivity extends AppCompatActivity {
 
                         // Update visual patch
                         mBlackCircleColorView.setBackgroundColor(Color.rgb(Color.red(selectedPixel), Color.green(selectedPixel), Color.blue(selectedPixel)));
-                    }
-                    else {
+                    } else {
 
                         mWhiteCircleColorView.setBackgroundColor(Color.rgb(Color.red(selectedPixel), Color.green(selectedPixel), Color.blue(selectedPixel)));
                     }
@@ -182,7 +189,7 @@ public class SelectContrastActivity extends AppCompatActivity {
         UserDataManager.setUserData(UserDataManager.getLastUser(), "lowColor",
                 Integer.toString(((ColorDrawable) mBlackCircleColorView.getBackground()).getColor()));
 
-        Toast.makeText(getApplicationContext(), "Indicator points and colors saved", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), "Indicator points and colors saved", Toast.LENGTH_SHORT).show();
 
         super.onPause();
     }
@@ -301,7 +308,21 @@ public class SelectContrastActivity extends AppCompatActivity {
             String imageString = Base64.encodeToString(Util.getBytesFromBitmap(bitmap), Base64.DEFAULT);
             UserDataManager.setUserData(UserDataManager.getLastUser(), "image", imageString);
 
-            // Add geolocation
+            // Add placeholder geolocation
+            UserDataManager.setUserData(UserDataManager.getLastUser(), "geoX", "-1");
+            UserDataManager.setUserData(UserDataManager.getLastUser(), "geoY", "-1");
+            // Check for real deal
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                // Get last location
+                Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                // Set lat and long
+                UserDataManager.setUserData(UserDataManager.getLastUser(), "geoX", String.valueOf(loc.getLatitude()));
+                UserDataManager.setUserData(UserDataManager.getLastUser(), "geoY", String.valueOf(loc.getLongitude()));
+            }
+
+            /*
             UserDataManager.setUserData(UserDataManager.getLastUser(), "geoX", "0");
             UserDataManager.setUserData(UserDataManager.getLastUser(), "geoY", "0");
             try {
@@ -315,6 +336,7 @@ public class SelectContrastActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            */
 
             // Tell user to select contrast points afterwards
             Toast.makeText(this, "Select high and low contrast points", Toast.LENGTH_LONG).show();

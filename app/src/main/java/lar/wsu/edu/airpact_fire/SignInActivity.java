@@ -1,5 +1,6 @@
 package lar.wsu.edu.airpact_fire;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,14 +28,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
-/**
- * A login screen that offers login via email/password.
- */
+/* LOGIN SCREEN */
+// NOTE: Problem is with retrieving <isAuth /> field in *XML*, not the network auth. I'm pretty sure
+// it has to do with the image. This happened after I took a picture for that user and then logged out.
+// TODO: Address above NOTE
+// TODO: Internet status (color-coded) on home, view gallery option (web browser), as well as last login time and other stats
+// TODO: Custom Toast display, to make it more obvious to user
+// TODO: More responsive buttons
+// TODO: Figure out why picture details activity doesn't repopulate estimated visual range and description.
+// TODO: Problem when I changed UserDataManager get(/set)LocalXML
+// TODO: Maybe make another separate file for the image, linked to by the <image /> tag by the user (e.g. "test_image.jpg")
+//  This way we'll only deal with the image when we take a new one, view it, or post it.
 public class SignInActivity extends AppCompatActivity {
 
     // UI references
     private EditText mPasswordView, mUsernameView;
     private Button mEmailSignInButton, mRegisterButton;
+    private RelativeLayout mLoadingPanel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +56,10 @@ public class SignInActivity extends AppCompatActivity {
         mPasswordView = (EditText) findViewById(R.id.password);
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mRegisterButton = (Button) findViewById(R.id.register_button);
+        mLoadingPanel = (RelativeLayout) findViewById(R.id.loadingPanel);
+
+        // Hide loading
+        mLoadingPanel.setVisibility(View.GONE);
 
         // XML Stuff -- create XML if necessary, start with
         UserDataManager.init(getApplicationContext());
@@ -66,10 +82,7 @@ public class SignInActivity extends AppCompatActivity {
                 // User is now last user we've seen
                 UserDataManager.setLastUser(username);
 
-//                Toast.makeText(SignInActivity.this, UserDataManager.getUserData(UserDataManager.getLastUser(), "isAuth"),
-//                        Toast.LENGTH_LONG).show();
-
-                // If we know this user is authenticated, move on
+                // For previously authenticated users
                 if (Boolean.parseBoolean(UserDataManager.getUserData(UserDataManager.getLastUser(), "isAuth")))
                 {
                     Toast.makeText(SignInActivity.this, "Welcome back!", Toast.LENGTH_LONG).show();
@@ -77,7 +90,10 @@ public class SignInActivity extends AppCompatActivity {
                     return;
                 }
 
-                Toast.makeText(SignInActivity.this, "User is new. Authenticating...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignInActivity.this,
+                        "lastUser: " + UserDataManager.getLastUser()
+                        + "\nlastPassword: " + UserDataManager.getUserData(UserDataManager.getLastUser(), "password"),
+                        Toast.LENGTH_LONG).show();
 
                 // Attempt first-time authentication
                 AuthenticateManager authenticateManager = new AuthenticateManager();
@@ -99,13 +115,13 @@ public class SignInActivity extends AppCompatActivity {
     // Set credentials of last user
     private void populateLoginFields() {
         String lastUser = UserDataManager.getLastUser();
-        String lastPassword = (String) UserDataManager.getUserData(lastUser, "password");
+        String lastPassword = UserDataManager.getUserData(lastUser, "password");
 
         mUsernameView.setText(lastUser);
         mPasswordView.setText(lastPassword);
     }
 
-    // Start camera-taking page
+    // Open main page
     private void openHomeScreen() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
@@ -113,6 +129,26 @@ public class SignInActivity extends AppCompatActivity {
 
     // Deals with server
     class AuthenticateManager extends AsyncTask<Void, Void, Void> {
+
+        private ProgressDialog progress = new ProgressDialog(SignInActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // Show loader
+            progress.setTitle("Logging In");
+            progress.setMessage("Please wait while we attempt authentication...");
+            progress.show();
+
+            // Make sure it displays before doing work
+            while (!progress.isShowing()) try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         @Override
         protected Void doInBackground(Void... params) {
             try {
@@ -154,7 +190,7 @@ public class SignInActivity extends AppCompatActivity {
                 authOutputStream.flush();
 
                 // Server reply
-                InputStream in = null; // TODO Error here
+                InputStream in = null;
                 try {
                     in = authConn.getInputStream();
                     int ch;
@@ -197,11 +233,11 @@ public class SignInActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void context) {
-//        if (Post.DidFail) {
-//            Toast.makeText(Post.Context, "Failed to post :(", Toast.LENGTH_SHORT).show();
-//        } else {
-//            Toast.makeText(Post.Context, "Post was successful :)", Toast.LENGTH_SHORT).show();
-//        }
+
+            //mLoadingPanel.setVisibility(View.GONE);
+
+            // To dismiss the dialog
+            progress.dismiss();
 
             // Open up home screen
             if (Boolean.parseBoolean(UserDataManager.getUserData(UserDataManager.getLastUser(),

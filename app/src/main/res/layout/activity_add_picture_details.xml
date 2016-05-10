@@ -62,7 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Location"
+                android:text="GPS"
                 android:id="@+id/textView5"
                 android:layout_weight="0.25"
                 android:textStyle="bold"
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Tags"
+                android:text="Location"
                 android:id="@+id/textView2"
                 android:textStyle="bold"
                 android:textSize="20dp" />
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/add_tag_input"
-                android:hint="Tags seperated by commas"
+                android:hint="Short phrase about your whereabout"
                 android:layout_weight="0"
                 android:text="Mount Rainier, Mist, Low Visibility" />
         </LinearLayout>
@@ -126,7 +126,7 @@
                 android:id="@+id/visual_range_input"
                 android:layout_gravity="right"
                 android:text="5043"
-                android:hint="Your distance from black indicator" />
+                android:hint="Your distance from dark indicator" />
         </LinearLayout>
 
         <LinearLayout
@@ -225,4 +225,22 @@
         android:layout_marginStart="495dp"></LinearLayout>
 
 </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/loadingPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@drawable/circle"
+        android:gravity="center"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentBottom="false"
+        android:layout_centerInParent="true">
+        <ProgressBar
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:indeterminate="true"
+            android:layout_alignParentEnd="false" />
+    </RelativeLayout>
     </RelativeLayout>

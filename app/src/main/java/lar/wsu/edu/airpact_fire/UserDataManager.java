@@ -1,14 +1,11 @@
 package lar.wsu.edu.airpact_fire;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import java.io.FileInputStream;
@@ -42,17 +39,18 @@ import javax.xml.transform.stream.StreamResult;
 //  - ViewImageActivity ()
 //  - AddPictureDetailsActivity ()
 //
-// Stores like this;
+// Stores like this:
 //  <app>
 //      <mLastUser>[username]</mLastUser>
 //      <[username]>
-//           <imageName>[image name]</imageName>
+//           <image>[image contents]</image>
 //          ...
 //      </[username]>
 //      ...
 //  </app>
+
 public class UserDataManager {
-    public static final String FILENAME = "sample_data_42.xml";//"user_data.xml";
+    public static final String FILENAME = "user_data_4.xml";
     public static final String[] APP_ELEMENTS = {
             "lastUser",
             "user*"
@@ -81,6 +79,65 @@ public class UserDataManager {
     private static Context mContext;
     private static String mLastUser;
 
+    // Snapshot of XML data, so we don't have to keep reading it from disk;
+    // We need to keep this copy fresh and write back changes immediately after
+    private static Document mLocalXML;
+
+    // Returns local XML and repopulates local copy as needed
+    private static Document getLocalXML() {
+
+        Document doc = null;
+
+        try {
+            // Repopulate XML doc
+            if (mLocalXML == null) {
+                // Convert xml file from disk into string
+                FileInputStream fis = mContext.getApplicationContext().openFileInput(FILENAME);
+                StringBuilder builder = new StringBuilder();
+                int ch;
+                while ((ch = fis.read()) != -1) {
+                    builder.append((char) ch);
+                }
+                fis.close();
+
+                // Convert string into XML
+                doc = stringToDom(builder.toString());
+
+                // Set global
+                mLocalXML = doc;
+            } else {
+                // User fresh, local copy
+                doc = mLocalXML;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return doc;
+    }
+    // Uses local XML copy and writes those changes back to disk
+    private static void writeLocalXML() {
+        Document doc = mLocalXML;
+        FileOutputStream fos = null;
+        try {
+            fos = mContext.getApplicationContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            fos.getChannel().truncate(0);
+            fos.write(domToString(doc).getBytes());
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // 1. Set context
     // 2. Create skeleton XML data file if needed (with test user)
     public static void init(Context context) {
@@ -90,13 +147,13 @@ public class UserDataManager {
 
             // Get data from disk
             FileInputStream fis = mContext.getApplicationContext().openFileInput(FILENAME);
-            Toast.makeText(mContext, "Data file '" + FILENAME + "' exists.", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Local user data file exists.", Toast.LENGTH_LONG).show();
             fis.close();
 
         } catch (FileNotFoundException e) {
             // Data file doesn't exist. So, create skeleton file.
             e.printStackTrace();
-            Toast.makeText(mContext, "Data file '" + FILENAME + "' does not exist. Creating now...", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Creating new local user data file...", Toast.LENGTH_LONG).show();
 
             try {
                 FileOutputStream fos = mContext.getApplicationContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
@@ -176,7 +233,7 @@ public class UserDataManager {
         }
     }
 
-    // Source: http://stackoverflow.com/questions/5456680/xml-document-to-string
+    // SOURCE: http://stackoverflow.com/questions/5456680/xml-document-to-string
     private static String domToString(Node doc) {
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = null;
@@ -196,97 +253,42 @@ public class UserDataManager {
 
         return null;
     }
-
-    // Source: http://stackoverflow.com/questions/562160/in-java-how-do-i-parse-xml-as-a-string-instead-of-a-file
-    private static Document stringToDom(String xml) throws Exception
-    {
+    // SOURCE: http://stackoverflow.com/questions/562160/in-java-how-do-i-parse-xml-as-a-string-instead-of-a-file
+    private static Document stringToDom(String xml) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         InputSource is = new InputSource(new StringReader(xml));
         return builder.parse(is);
     }
 
-    // Returns last user logged in
+    // Returns last user logged
     public static String getLastUser() {
         if (mContext == null) return null;
-        if (mLastUser != null) return mLastUser;
+        if (mLastUser != null) return mLastUser; // Return cached info
 
-        try {
-            // Convert xml file from disk into string
-            FileInputStream fis = mContext.getApplicationContext().openFileInput(FILENAME);
-            StringBuilder builder = new StringBuilder();
-            int ch;
-            while((ch = fis.read()) != -1){
-                builder.append((char)ch);
-            }
+        // XML data
+        Document doc = getLocalXML();
 
-            // Close after we get content
-            fis.close();
+        // Get last user
+        Node lastUser = doc.getElementsByTagName("lastUser").item(0);
 
-            //Toast.makeText(mContext, builder.toString(), Toast.LENGTH_LONG).show();
-
-            // Build XML from said string and get last user element
-            Document doc = stringToDom(builder.toString());
-            Node lastUser = doc.getElementsByTagName("lastUser").item(0);
-
-            // Return user
-            return lastUser.getTextContent();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        // Return user
+        return lastUser.getTextContent();
     }
-
     // Set last user for future reference
     public static void setLastUser(String user) {
         if (mContext == null) return;
-        //if (mLastUser != null) return;
 
-        try {
-            // Convert xml file from disk into string
-            FileInputStream fis = mContext.getApplicationContext().openFileInput(FILENAME);
-            StringBuilder builder = new StringBuilder();
-            int ch;
-            while((ch = fis.read()) != -1){
-                builder.append((char)ch);
-            }
-            fis.close();
+        // Get XML data
+        Document doc = getLocalXML();
 
-            // Build XML from said string and get last user element
-            Document doc = stringToDom(builder.toString());
-            Node lastUser = doc.getElementsByTagName("lastUser").item(0);
-            lastUser.setTextContent(user);
+        // Set last user in XML and local var
+        Node lastUser = doc.getElementsByTagName("lastUser").item(0);
+        lastUser.setTextContent(user);
+        mLastUser = user;
 
-            mLastUser = user;
-
-            // Write changes back
-            FileOutputStream fos = mContext.getApplicationContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
-            fos.getChannel().truncate(0);
-            fos.write(domToString(doc).getBytes());
-            fos.flush();
-            fos.close();
-
-            return;
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return;
+        // Write changes back
+        writeLocalXML();
 
     }
 
@@ -410,7 +412,6 @@ public class UserDataManager {
 
         return didUserExist;
     }
-
     // Get particular data field from user
     public static String getUserData(String user, String element) {
         if (mContext == null) return null;

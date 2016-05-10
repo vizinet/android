@@ -1,9 +1,12 @@
-TODO before demo
-* Placing indicators
-* Get (x, y) coordinates from indicators
-* Store/recall file locally
-	- Posting full file to server
-- SQL storing and reading
-- Let Justin know about updated JSON send data
-- Make it look pretty
-- Store user credentials on login screen, but allow user to use app regardless (for offline use)
+- Storing and posting images much faster
+    + Dealing with local data more efficiently
+        = Do we have to keep translating the XML every time we need to access it?
+            * No, we could store a local copy, which gets written to disk when it's changed and reset when it's flushed (= null)
+- Getting accurate image pixels and coordinates
+- Image queueing and posting 
+    + After we do local data stuff better
+    + Need to detect internet connection
+- View gallery on phone
+- Custom notification popup (loading, results, notices)
+- Better conceptual model and design
+

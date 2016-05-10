@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -61,12 +62,6 @@
             android:screenOrientation="portrait" />
 
         <!-- Phased out -->
-        <activity android:name="lar.wsu.edu.airpact_fire.LoginActivity" />
-        <activity
-            android:name="lar.wsu.edu.airpact_fire.MainActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
         <activity android:name="lar.wsu.edu.airpact_fire.ViewUserXMLActivity" />
         <activity android:name="lar.wsu.edu.airpact_fire.TutorialActivity" />
         <activity android:name="lar.wsu.edu.airpact_fire.SettingsActivity" />

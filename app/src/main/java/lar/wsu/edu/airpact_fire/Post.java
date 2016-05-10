@@ -1,5 +1,6 @@
 package lar.wsu.edu.airpact_fire;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,7 +8,11 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.json.simple.JSONObject;
@@ -29,15 +34,17 @@ import java.util.Date;
 
 // Object for handling our picture post for current user, along with all the metadata
 public class Post {
-    // Universal vars
+    // Universal server vars
     public static final String[] POST_FIELDS = {"user", "description", "image", "secretKey", "highColor", "highX"
             , "highY", "lowColor", "lowX", "lowY", "visualRange", "geoX", "geoY", "tags"};
-    public static final String SERVER_UPLOAD_URL = "http://76.178.152.115:8000/file_upload/upload";
-    public static final String SERVER_AUTH_URL = "http://76.178.152.115:8000/user/appauth";
-    public static final String SERVER_REGISTER_URL = "http://76.178.152.115:8000/user/register";
+    public static final String SERVER_BASE_URL = "https://dry-harbor-33710.herokuapp.com";
+    public static final String SERVER_UPLOAD_URL = SERVER_BASE_URL + "/file_upload/upload";
+    public static final String SERVER_AUTH_URL = SERVER_BASE_URL + "/user/appauth";
+    public static final String SERVER_REGISTER_URL = SERVER_BASE_URL + "/user/register";
 
     public static boolean DidFail = true;
     public static Context Context;
+    public static AppCompatActivity Activity;
 
     // Debug
     public static boolean isUser;
@@ -115,7 +122,7 @@ public class Post {
 //            return;
 //        }'
 
-        Toast.makeText(Post.Context, "Attempting post...", Toast.LENGTH_LONG).show();
+        //Toast.makeText(Post.Context, "Attempting post...", Toast.LENGTH_LONG).show();
 
         //Toast.makeText(Post.Context, Post.toJSON().toJSONString(), Toast.LENGTH_LONG).show();
 
@@ -132,20 +139,33 @@ public class Post {
 // Deals with server
 class NetworkManager extends AsyncTask<JSONObject, Void, Void> {
 
+    // NOTE: Trusting that this activity is non-null
+    private ProgressDialog progress = new ProgressDialog(Post.Activity);
+
     protected Void doHandshake(JSONObject postJSON) {
         // TODO
-
         return null;
     }
 
     protected Void doPost() {
         // TODO
-
         return null;
     }
 
     @Override
     protected void onPreExecute() {
+        // Show loader
+        progress.setTitle("Posting Image");
+        progress.setMessage("Please wait while your image is being posted to server...");
+        progress.show();
+
+        // Make sure it displays before doing work
+        while (!progress.isShowing()) try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         super.onPreExecute();
     }
 
@@ -316,13 +336,20 @@ class NetworkManager extends AsyncTask<JSONObject, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
+
+        // Dismiss dialog
+        progress.dismiss();
+
+        // See how post did
         if (Post.DidFail) {
             Toast.makeText(Post.Context, "Failed to post :(", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(Post.Context, "Post was successful :)", Toast.LENGTH_SHORT).show();
         }
 
-        //UserDataManager.setUserData(UserDataManager.getLastUser(), "secretKey", null);
+        // Return home once done
+        Intent intent = new Intent(Post.Context, HomeActivity.class);
+        Post.Activity.startActivity(intent);
 
         //Toast.makeText(Post.Context, Post.debugOut, Toast.LENGTH_LONG).show();
         Post.debugOut = null;

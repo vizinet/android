@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,9 +28,11 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        // Set post context
+        // Set post context and activity
         Post.Context = getApplicationContext();
+        Post.Activity = this;
 
+        // Get UI elements
         mRetakeButton = (Button) findViewById(R.id.retake_button);
         mViewImageButton = (Button) findViewById(R.id.view_image_button);
         mAddToQueueButton = (Button) findViewById(R.id.add_to_queue_button);
@@ -80,14 +83,8 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
                 UserDataManager.setUserData(lastUser, "visualRange", mVisualRangeInput.getText().toString());
                 UserDataManager.setUserData(lastUser, "tags", mAddTagInput.getText().toString());
 
-                Toast.makeText(getApplicationContext(), "Submitting post...", Toast.LENGTH_LONG).show();
-
                 // Submit post
                 Post.submit(getApplicationContext());
-
-                // Review what was just posted
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
             }
         });
     }
