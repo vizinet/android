@@ -1,4 +1,10 @@
 <resources>
+    <dimen name="logo_width">100dp</dimen>
+    <dimen name="home_pane_icon_width">150dp</dimen>
+    <dimen name="home_pane_inner_icon_width">0dp</dimen>
+    <dimen name="home_pane_inner_icon_margin">80dp</dimen>
+    <dimen name="home_icon_inner_icon_margin">35dp</dimen>
+
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

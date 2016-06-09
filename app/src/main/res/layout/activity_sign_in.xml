@@ -18,17 +18,16 @@
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.58"
-            android:src="@drawable/logo" />
+            android:src="@drawable/logo_simple" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -51,7 +50,7 @@
                 android:layout_weight="0.5"
                 android:text="Fire"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/schemeRed"
                 android:textSize="40dp" />
         </LinearLayout>
 
@@ -77,6 +76,8 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:textSize="25dp"
+                    android:textStyle="normal"
                     android:typeface="sans" />
 
                 <EditText
@@ -90,33 +91,23 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:textSize="25dp"
+                    android:textStyle="normal"
                     android:typeface="sans" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/email_sign_in_button"
-                        style="?android:textAppearanceSmall"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_weight="0.5"
-                        android:backgroundTint="#c6c6c6"
-                        android:drawableLeft="@drawable/login"
-                        android:drawableTint="#757575"
-                        android:gravity="center|center_vertical"
-                        android:text="LOGIN"
-                        android:textStyle="bold"
-                        android:typeface="sans" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/register_button"
                         style="?android:textAppearanceSmall"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
                         android:layout_weight="0.5"
                         android:clickable="false"
                         android:contextClickable="false"
@@ -127,38 +118,25 @@
                         android:text="REGISTER"
                         android:textStyle="bold"
                         android:typeface="sans" />
+
+                    <Button
+                        android:id="@+id/email_sign_in_button"
+                        style="?android:textAppearanceSmall"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="0.5"
+                        android:drawableLeft="@drawable/login"
+                        android:drawableTint="#757575"
+                        android:gravity="center|center_vertical"
+                        android:text="LOGIN"
+                        android:textStyle="bold"
+                        android:typeface="sans" />
                 </LinearLayout>
 
             </LinearLayout>
         </ScrollView>
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="(Internet connection required for first login)"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textStyle="italic" />
-
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/loadingPanel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="@drawable/circle"
-        android:gravity="center"
-        android:layout_alignParentEnd="false"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentBottom="false"
-        android:layout_centerInParent="true">
-        <ProgressBar
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:indeterminate="true"
-            android:layout_alignParentEnd="false" />
-    </RelativeLayout>
 
 </RelativeLayout>

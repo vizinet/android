@@ -1,20 +1,15 @@
 package lar.wsu.edu.airpact_fire;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
-
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.simple.JSONObject;
@@ -29,40 +24,78 @@ import java.net.URL;
 import java.util.Date;
 
 /* LOGIN SCREEN */
+/*
+ * [INSERT DESCRIPTION]
+ *
+ */
+
 // NOTE: Problem is with retrieving <isAuth /> field in *XML*, not the network auth. I'm pretty sure
 // it has to do with the image. This happened after I took a picture for that user and then logged out.
 // TODO: Address above NOTE
 // TODO: Internet status (color-coded) on home, view gallery option (web browser), as well as last login time and other stats
 // TODO: Custom Toast display, to make it more obvious to user
 // TODO: More responsive buttons
+// TODO: "Last logged in X days ago" on home screen
 // TODO: Figure out why picture details activity doesn't repopulate estimated visual range and description.
-// TODO: Problem when I changed UserDataManager get(/set)LocalXML
-// TODO: Maybe make another separate file for the image, linked to by the <image /> tag by the user (e.g. "test_image.jpg")
 //  This way we'll only deal with the image when we take a new one, view it, or post it.
+// TODO: Check for pre-existing user. If user doesn't exist, app must authenticate with server to continue and
+//  be added to the local user database. This eliminates the need for an <isAuth /> field and decreases the space
+//  consumed by the local user XML file.
+// TODO: Make code more modular and expandable
+// TODO: Make separate files for the image, linked to by the <image /> tag by the user (e.g. "test_image.jpg")
+// TODO: Add "Created by Luke Weber" signature to all files
+// TODO: Add notification when we have connection to server, and not just internet access. Although,
+//  we still want to know about internet access so we can know when to queue posts? We could just check
+//  to see if
+// TODO: Add notifications for when server comes up. Have a batch of checks and actions done by the app occasionally,
+//  say, every 3 hours, like posting for backlogged posts. Also have frequent checks while app is running
+//  that give toast/notifications when server is up. Maybe do something with notifications as well.
+// TODO: Add home button to each page
+// TODO: Find better way to do data management (i.e. better data structures and algorithms)
+// TODO: Make it so we don't have to do GetUserData(USER, element), because we will always use lastUser
+// TODO: Show post trends (location, time, etc.)
+// TODO: Have auto-fill for login page and post page
+// TODO: Allow user to view post coordinates in Google Maps
+// TODO: When queued post is submitted, don't create a new post entirely for SQL database. Rather, just change the original.
+// TODO: Have loading icon for SignInActivity on first-time install (because it takes a little while).
+// TODO: Be able to handle null inputs on PictureDetailsActivity
+// TODO: Be able to check for valid inputs on same activity.
+
 public class SignInActivity extends AppCompatActivity {
 
     // UI references
     private EditText mPasswordView, mUsernameView;
     private Button mEmailSignInButton, mRegisterButton;
-    private RelativeLayout mLoadingPanel;
+
+    // Startup progress
+    private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        // TODO: Remove
+        testProceed();
+
         // Attach objects to UI
         mUsernameView = (EditText) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mRegisterButton = (Button) findViewById(R.id.register_button);
-        mLoadingPanel = (RelativeLayout) findViewById(R.id.loadingPanel);
 
-        // Hide loading
-        mLoadingPanel.setVisibility(View.GONE);
+        progress = new ProgressDialog(SignInActivity.this);
 
-        // XML Stuff -- create XML if necessary, start with
+        // Show loader
+//        progress.setTitle("Starting up");
+//        progress.setMessage("Give us a minute to set things up...");
+//        progress.show();
+
+        // XML Stuff -- create XML if necessary
         UserDataManager.init(getApplicationContext());
+
+        // Hide
+        //progress.hide();
 
         // Set up the login form
         populateLoginFields();
@@ -75,25 +108,19 @@ public class SignInActivity extends AppCompatActivity {
                 String username = mUsernameView.getText().toString();
                 String password = mPasswordView.getText().toString();
 
-                // Update user's password and login time.
-                // Create on if we need to.
+                // Update user's password and login time (and create one if we need to)
                 UserDataManager.setUserData(username, "password", password);
                 UserDataManager.setUserData(username, "loginTime", (new Date()).toString());
-                // User is now last user we've seen
-                UserDataManager.setLastUser(username);
+                // Set as last user
+                UserDataManager.setRecentUser(username);
 
-                // For previously authenticated users
-                if (Boolean.parseBoolean(UserDataManager.getUserData(UserDataManager.getLastUser(), "isAuth")))
+                // For regulars; no network auth. required
+                if (Boolean.parseBoolean(UserDataManager.getUserData(UserDataManager.getRecentUser(), "isAuth")))
                 {
                     Toast.makeText(SignInActivity.this, "Welcome back!", Toast.LENGTH_LONG).show();
                     openHomeScreen();
                     return;
                 }
-
-                Toast.makeText(SignInActivity.this,
-                        "lastUser: " + UserDataManager.getLastUser()
-                        + "\nlastPassword: " + UserDataManager.getUserData(UserDataManager.getLastUser(), "password"),
-                        Toast.LENGTH_LONG).show();
 
                 // Attempt first-time authentication
                 AuthenticateManager authenticateManager = new AuthenticateManager();
@@ -114,7 +141,7 @@ public class SignInActivity extends AppCompatActivity {
 
     // Set credentials of last user
     private void populateLoginFields() {
-        String lastUser = UserDataManager.getLastUser();
+        String lastUser = UserDataManager.getRecentUser();
         String lastPassword = UserDataManager.getUserData(lastUser, "password");
 
         mUsernameView.setText(lastUser);
@@ -125,6 +152,22 @@ public class SignInActivity extends AppCompatActivity {
     private void openHomeScreen() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    // Move on from home screen
+    private void testProceed() {
+        // Get input data
+        String username = "test";
+        String password = "1234567890";
+
+        // Create new authenticated user
+        UserDataManager.setRecentUser(username);
+        UserDataManager.setUserData(username, "isAuth", "true");
+        UserDataManager.setUserData(username, "password", password);
+        UserDataManager.setUserData(username, "loginTime", (new Date()).toString());
+
+        // Open home
+        openHomeScreen();
     }
 
     // Deals with server
@@ -157,8 +200,10 @@ public class SignInActivity extends AppCompatActivity {
 
                 // JSON authentication (send) package
                 JSONObject authSendJSON = new JSONObject();
-                authSendJSON.put("username", UserDataManager.getLastUser());
-                authSendJSON.put("password", UserDataManager.getUserData(UserDataManager.getLastUser(), "password"));
+                authSendJSON.put("username", UserDataManager.getRecentUser());
+                authSendJSON.put("password",
+                        UserDataManager.getUserData(UserDataManager.getRecentUser(), "password"));
+
                 String sendMessage = authSendJSON.toJSONString(),
                         serverResponse,
                         userKey;
@@ -198,7 +243,6 @@ public class SignInActivity extends AppCompatActivity {
                     while ((ch = in.read()) != -1) {
                         sb.append((char) ch);
                     }
-
                     serverResponse = sb.toString();
                 } catch (IOException e) {
                     throw e;
@@ -210,14 +254,14 @@ public class SignInActivity extends AppCompatActivity {
                 // Parse JSON
                 authReceiveJSON = (JSONObject) new JSONParser().parse(serverResponse);
 
-                // Get fields and see if server authenticated us
+                // Get SubmitFieldVars and see if server authenticated us
                 isUser = Boolean.parseBoolean((String) authReceiveJSON.get("isUser"));
                 if (isUser) {
-                    userKey = authReceiveJSON.get("secretKey").toString();
-                    //User.postKeys.add(userKey);
-                    UserDataManager.setUserData(UserDataManager.getLastUser(), "isAuth", "true");
+                    // Don't do anything with key for now
+                    //userKey = authReceiveJSON.get("secretKey").toString();
+                    UserDataManager.setUserData(UserDataManager.getRecentUser(), "isAuth", "true");
                 } else { // Exit if not a user
-                    UserDataManager.setUserData(UserDataManager.getLastUser(), "isAuth", "false");
+                    UserDataManager.setUserData(UserDataManager.getRecentUser(), "isAuth", "false");
                     return null;
                 }
 
@@ -234,19 +278,19 @@ public class SignInActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void context) {
 
-            //mLoadingPanel.setVisibility(View.GONE);
-
             // To dismiss the dialog
             progress.dismiss();
 
             // Open up home screen
-            if (Boolean.parseBoolean(UserDataManager.getUserData(UserDataManager.getLastUser(),
+            if (Boolean.parseBoolean(UserDataManager.getUserData(UserDataManager.getRecentUser(),
                     "isAuth"))) {
-                Toast.makeText(SignInActivity.this, "Authentication successful", Toast.LENGTH_LONG).show();
+                Toast.makeText(SignInActivity.this, "Authentication successful.\nWelcome!",
+                        Toast.LENGTH_LONG).show();
+
                 openHomeScreen();
-            }
-            else
-                Toast.makeText(SignInActivity.this, "Could not authenticate user", Toast.LENGTH_SHORT).show();
+            } else
+                Toast.makeText(SignInActivity.this, "Could not authenticate user.\nPlease try again.",
+                        Toast.LENGTH_SHORT).show();
         }
     }
 }

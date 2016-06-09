@@ -8,23 +8,21 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Luke on 3/23/2016.
  */
 public class QueuedPostDbHelper extends SQLiteOpenHelper {
-    /* SQL Contract Stuff */
+    // If you change the database schema, you must increment the database version.
+    public static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_NAME = "QueuedPost.db";
+    /* SQL PostContract Stuff */
     private static final String TEXT_TYPE = " TEXT";
     private static final String COMMA_SEP = ",";
+    /* /// */
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + QueuedPostContract.PostEntry.TABLE_NAME + " (" +
                     QueuedPostContract.PostEntry._ID + " INTEGER PRIMARY KEY," +
                     QueuedPostContract.PostEntry.COLUMN_NAME_IMAGE + TEXT_TYPE + COMMA_SEP +
                     QueuedPostContract.PostEntry.COLUMN_NAME_DISTANCE + TEXT_TYPE + COMMA_SEP +
                     QueuedPostContract.PostEntry.COLUMN_NAME_DESCRIPTION + TEXT_TYPE + " )";
-
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + QueuedPostContract.PostEntry.TABLE_NAME;
-    /* /// */
-
-    // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "QueuedPost.db";
 
     public QueuedPostDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -1,8 +1,8 @@
 package lar.wsu.edu.airpact_fire;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,10 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+// User provides picture details before posting/queueing
 public class AddPictureDetailsActivity extends AppCompatActivity {
 
     private Button mRetakeButton, mViewImageButton, mAddToQueueButton, mSubmitButton;
@@ -44,11 +43,7 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         mAddTagInput = (EditText) findViewById(R.id.add_tag_input);
 
         // Pre-loaded information
-        String lastUser = UserDataManager.getLastUser();
-        mImageDateTextView.setText(UserDataManager.getUserData(lastUser, "loginTime"));
-        mImageLocationTextView.setText("(" + UserDataManager.getUserData(lastUser, "geoX")
-                + ", " + UserDataManager.getUserData(lastUser, "geoY") + ")");
-        mAddTagInput.setText(UserDataManager.getUserData(lastUser, "tags"));
+        populateFormData();
 
         // Event listeners
         mRetakeButton.setOnClickListener(new View.OnClickListener() {
@@ -58,37 +53,42 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        // View image with new activity
         mViewImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Util.storeTransactionImage(getApplicationContext(),
+                        Util.stringToBitMap(
+                                String.valueOf(UserDataManager.getUserData(UserDataManager.getRecentUser(), "image")
+                                )));
                 Intent intent = new Intent(getApplicationContext(), ViewImageActivity.class);
+                // Pass in image to new activity
+                //intent.putExtra("IMAGE_STRING", String.valueOf(UserDataManager.getUserData(UserDataManager.getRecentUser(), "image")));
                 startActivity(intent);
             }
         });
         mAddToQueueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO
-                Toast.makeText(getApplicationContext(), "Post added to queue", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
+                collectFormData();
+
+                // Queue post
+                Post post = new Post();
+                post.queue(getApplicationContext());
             }
         });
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Collect user values for post
-                String lastUser = UserDataManager.getLastUser();
-                UserDataManager.setUserData(lastUser, "description", mDescriptionInput.getText().toString());
-                UserDataManager.setUserData(lastUser, "visualRange", mVisualRangeInput.getText().toString());
-                UserDataManager.setUserData(lastUser, "tags", mAddTagInput.getText().toString());
+                // Get data
+                collectFormData();
 
                 // Submit post
-                Post.submit(getApplicationContext());
+                Post post = new Post();
+                post.submit(getApplicationContext());
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,7 +96,6 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         inflater.inflate(R.menu.bar, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = null;
@@ -132,5 +131,24 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    // Collect user values for post
+    private void collectFormData() {
+        String lastUser = UserDataManager.getRecentUser();
+        UserDataManager.setUserData(lastUser, "description", mDescriptionInput.getText().toString());
+        UserDataManager.setUserData(lastUser, "visualRange", mVisualRangeInput.getText().toString());
+        UserDataManager.setUserData(lastUser, "tags", mAddTagInput.getText().toString());
+    }
+
+    // Add past user values to form
+    private void populateFormData() {
+        String lastUser = UserDataManager.getRecentUser();
+        mImageDateTextView.setText(UserDataManager.getUserData(lastUser, "loginTime"));
+        mImageLocationTextView.setText("(" + UserDataManager.getUserData(lastUser, "geoX")
+                + ", " + UserDataManager.getUserData(lastUser, "geoY") + ")");
+        mAddTagInput.setText(UserDataManager.getUserData(lastUser, "tags"));
+        mVisualRangeInput.setText(UserDataManager.getUserData(lastUser, "visualRange"));
+        mDescriptionInput.setText(UserDataManager.getUserData(lastUser, "description"));
     }
 }

@@ -8,8 +8,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="lar.wsu.edu.airpact_fire.LoginActivity"
-    android:weightSum="1">
+    android:weightSum="1"
+    tools:context="lar.wsu.edu.airpact_fire.LoginActivity">
 
     <!--&lt;!&ndash; Login progress &ndash;&gt;-->
     <!--<ProgressBar-->
@@ -21,57 +21,57 @@
         <!--android:visibility="gone" />-->
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
-        android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/logo"
-        android:layout_weight="0.58" />
+        android:layout_weight="0.58"
+        android:src="@drawable/logo" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp">
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="AIRPACT"
             android:id="@+id/textView"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.5"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:gravity="right" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Fire"
-            android:id="@+id/textView3"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.5"
+            android:gravity="right"
+            android:text="AIRPACT"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="30dp"
-            android:textColor="@color/colorPrimary" />
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.5"
+            android:text="Fire"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/schemeRed"
+            android:textSize="30dp" />
     </LinearLayout>
 
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="223dp"
-        android:fillViewport="false"
-        android:layout_gravity="center_vertical">
+        android:layout_gravity="center_vertical"
+        android:fillViewport="false">
 
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_vertical|center_horizontal|fill_vertical">
+            android:gravity="center_vertical|center_horizontal|fill_vertical"
+            android:orientation="vertical">
 
             <!--<android.support.design.widget.TextInputLayout-->
                 <!--android:layout_width="match_parent"-->
@@ -133,10 +133,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
                 android:gravity="center|center_vertical"
-                android:typeface="sans"
-                android:textStyle="bold" />
+                android:text="@string/action_sign_in"
+                android:textStyle="bold"
+                android:typeface="sans" />
 
         </LinearLayout>
     </ScrollView>

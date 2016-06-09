@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#660000</color>
-    <color name="colorPrimaryDark">#2c0000</color>
-    <color name="colorAccent">#000000</color>
+    <!--Reds-->
+    <color name="schemeRed">#981e32</color> <!-- previously #660000 -->
+    <color name="schemeRedHighlight">#c60c30</color>
+
+    <!--Greens-->
+    <color name="schemeGreen">#8f7e35</color>
+    <color name="schemeGreenHighlight">#ada400</color>
+
+    <!--Yellows-->
+    <color name="schemeYellow">#b67233</color>
+    <color name="schemeYellowHighlight">#f6861f</color>
+
+    <!--Blue-->
+    <color name="schemeBlue">#4f868e</color>
+    <color name="schemeBlueHighlight">#00a5bd</color>
+
+    <!--Oranges-->
+    <color name="schemeOrange">#c69214</color>
+    <color name="schemeOrangeHighlight">#ffb81c</color>
+
+    <!--Shades-->
+    <color name="schemeDark">#000</color>
+    <color name="schemeGray">#5e6a71</color>
+    <color name="schemeLightGray">#d7dadb</color>
+    <color name="schemeWhite">#fff</color>
+
+    <!--Object colors-->
+    <color name="logoColor">@color/schemeRed</color>
+    <color name="cameraIconColor">@color/schemeBlue</color>
+    <color name="galleryIconColor">@color/schemeOrange</color>
+    <color name="informationIconColor">@color/schemeGreen</color>
+    <color name="settingsIconColor">@color/schemeGray</color>
+    <color name="paneImageTint">@color/schemeLightGray</color>
+    <color name="paneBannerColor">@color/schemeLightGray</color>
+    <color name="homeIconColor">@color/schemeRed</color>
+    <color name="navbarBackground">@color/button_material_light</color>
 </resources>

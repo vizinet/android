@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -18,7 +19,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/logo_simple"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -35,10 +36,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".QueuedPostsActivity"
+            android:name=".HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".QueuedPostsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".SelectContrastActivity"
@@ -53,11 +54,19 @@
         <activity
             android:name=".PostReviewActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".PostDetailsActivity"
+            android:screenOrientation="portrait" />
 
         <!-- Phased out -->
         <activity android:name=".ViewUserXMLActivity" />
         <activity android:name=".TutorialActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".InformationActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

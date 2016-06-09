@@ -2,7 +2,7 @@ package lar.wsu.edu.airpact_fire;
 
 import android.provider.BaseColumns;
 
-/* SQL Database Contract
+/* SQL Database PostContract
  *  - Determines contents of database
  *  - Holds queued posts
  */

@@ -1,11 +1,10 @@
 package lar.wsu.edu.airpact_fire;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.simple.JSONObject;
 
@@ -24,7 +23,7 @@ public class PostReviewActivity extends AppCompatActivity {
         mRefreshButton = (Button) findViewById(R.id.refresh_button);
 
         if (Post.isUser) {
-            JSONObject postJSON = Post.debugJSON; //Post.toJSON();
+            JSONObject postJSON = Post.debugJSON; //Post.toSubmissionJSON();
             mTextView.append(postJSON.toJSONString());
         }
 

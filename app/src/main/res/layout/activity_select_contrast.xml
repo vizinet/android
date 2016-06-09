@@ -3,174 +3,154 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="lar.wsu.edu.airpact_fire.SelectContrastActivity">
 
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_centerVertical="true"
+        android:translationZ="20dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@color/bright_foreground_material_dark"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/black_indicator_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/abc_scrubber_control_to_pressed_mtrl_005" />
+
+            <ImageView
+                android:id="@+id/white_indicator_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/abc_scrubber_control_to_pressed_mtrl_005" />
+
+        </LinearLayout>
+
+    </FrameLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_weight="1"
-                android:padding="1dp" />
+                android:padding="0dp" />
 
         </RelativeLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp">
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:foregroundGravity="center_vertical|center_horizontal"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingRight="30dp">
 
                 <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
                     android:id="@+id/retake_button"
-                    android:src="@drawable/redo_arrow"
-                    android:scaleType="fitXY"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center"
-                    android:background="@null"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="RETAKE"
-                    android:id="@+id/textView18"
-                    android:textStyle="bold"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="2dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/done_button"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/done_circle"
-                    android:layout_gravity="center"
-                    android:background="@null"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="DONE"
-                    android:id="@+id/textView17"
-                    android:textStyle="bold"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="2dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/black_indicator_button"
-                    android:src="@drawable/black_dot"
-                    android:scaleType="fitXY"
-                    android:layout_gravity="center"
-                    android:background="@null"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="LOW"
-                    android:id="@+id/low_text"
-                    android:textStyle="bold"
-                    android:gravity="center_horizontal"
-                    android:layout_marginTop="2dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <ImageButton
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:id="@+id/white_indicator_button"
-                    android:layout_gravity="center"
-                    android:cropToPadding="false"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
+                    android:background="@null"
                     android:scaleType="fitXY"
-                    android:background="@drawable/white_dot" />
+                    android:src="@drawable/redo_arrow" />
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:id="@+id/textView18"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="HIGH"
-                    android:id="@+id/high_text"
-                    android:textStyle="bold"
+                    android:layout_marginTop="2dp"
                     android:gravity="center_horizontal"
-                    android:layout_marginTop="2dp" />
+                    android:text="RETAKE"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:foregroundGravity="center_vertical|center_horizontal"
+                android:gravity="center_vertical|center_horizontal"
                 android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:gravity="center_vertical">
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:id="@+id/black_circle_color"
-                    android:layout_gravity="center_horizontal"
+                <ImageButton
+                    android:id="@+id/done_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="5dp"
-                    android:background="#4285F4" />
+                    android:layout_marginRight="5dp"
+                    android:background="@null"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/done_circle" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:id="@+id/white_circle_color"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="5dp"
-                    android:background="#FFE478" />
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center_horizontal"
+                    android:text="DONE"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:foregroundGravity="center_vertical|center_horizontal"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp">
+
             </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
+
 </RelativeLayout>
