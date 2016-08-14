@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <!--<solid android:color="@color/homeIconColor" />-->
+            <corners android:radius="@dimen/home_pane_icon_width" />
+            <size
+                android:width="@dimen/home_pane_icon_width"
+                android:height="@dimen/home_pane_icon_width" />
+            <stroke
+                android:color="@color/schemeTransparentDark"
+                android:width="10dp"
+                android:dashGap="5dp" />
+        </shape>
+    </item>
+    <!--<item>-->
+    <!--<shape-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:shape="ring">-->
+    <!--<solid android:color="@color/schemeTransparentDark"/>-->
+    <!--<padding-->
+    <!--android:top="10dp"/>-->
+    <!--<size-->
+    <!--android:width="90dp"-->
+    <!--android:height="90dp" />-->
+
+    <!--</shape>-->
+    <!--</item>-->
+</layer-list>

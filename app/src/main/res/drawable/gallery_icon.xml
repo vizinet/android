@@ -4,7 +4,7 @@
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android">
             <solid android:color="@color/galleryIconColor" />
-            <corners android:radius="@dimen/home_pane_icon_width" />
+            <corners android:radius="@dimen/home_pane_icon_border_radius" />
             <size
                 android:width="@dimen/home_pane_icon_width"
                 android:height="@dimen/home_pane_icon_width" />

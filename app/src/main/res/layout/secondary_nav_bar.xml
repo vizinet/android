@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="false"
+    android:layout_centerHorizontal="true"
+    android:background="@color/schemeTransparentDark"
+    android:translationZ="10dp"
+    android:id="@+id/navbar"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="right"
+            android:src="@drawable/abc_ic_ab_back_mtrl_am_alpha"
+            android:tint="@color/schemeWhite" />
+
+        <TextView
+            android:id="@+id/navbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="&lt;TEMPLATE>"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
+            android:textColor="@color/schemeWhite"
+            android:textSize="15dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:id="@+id/icon_space">
+
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/information_button"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_vertical|right"
+                android:src="@drawable/information"
+                android:layout_marginRight="15dp"
+                android:tint="@color/schemeWhite" />
+
+            <ImageView
+                android:id="@+id/home_button"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/home"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="10dp"
+                android:tint="@color/schemeWhite" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

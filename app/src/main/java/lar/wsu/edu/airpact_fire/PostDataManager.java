@@ -131,6 +131,8 @@ public class PostDataManager {
         String selection = PostContract.PostEntry.COLUMN_NAME_USER + " LIKE ?";
         String[] selectionArgs = {user};
 
+        //Toast.makeText(context, "user in PDM is " + user, Toast.LENGTH_SHORT).show();
+
         // Get rows
         Cursor c = db.query(
                 PostContract.PostEntry.TABLE_NAME,  // The table to query

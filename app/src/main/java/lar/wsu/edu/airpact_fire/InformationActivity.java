@@ -1,48 +1,37 @@
 package lar.wsu.edu.airpact_fire;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
 
-public class InformationActivity extends AppCompatActivity {
+//import com.google.android.gms.maps.*;
+//import com.google.android.gms.maps.model.*;
+//import android.app.Activity;
+//import android.os.Bundle;
 
-    private TextView mLoginTimeText,
-            mInternetConnectionText, mPostTexts;
-    private String mUsername, mLoginTime;
+public class InformationActivity extends AppCompatActivity {//implements OnMapReadyCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
 
-        // Grab UI objects
-        mLoginTimeText = (TextView) findViewById(R.id.login_time_text);
-        mInternetConnectionText = (TextView) findViewById(R.id.server_status_text);
-        mPostTexts = (TextView) findViewById(R.id.posts_text);
-    }
-
-    private void updateInfo() {
-        // Welcome text
-        mUsername = UserDataManager.getRecentUser();
-
-        // Login
-        mLoginTime = UserDataManager.getUserData(mUsername, "loginTime");
-        mLoginTimeText.setText(mLoginTime);
-
-        // Posts info
-        int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), mUsername);
-        int numQueued = PostDataManager.getNumQueued(getApplicationContext(), mUsername);
-        mPostTexts.setText(numPosted + " posted, " + numQueued + " queued");
-        mPostTexts.setAllCaps(true);
-
-        // Internet connection display
-        mInternetConnectionText.setAllCaps(true);
-        //mInternetConnectionText.setTextColor(Color.parseColor("#cc0000"));
-        mInternetConnectionText.setText("Disconnected");
-        if (Util.isServerAvailable(InformationActivity.this)) {//if (Util.isNetworkAvailable(this)) {
-            mInternetConnectionText.setTextColor(Color.parseColor("#669900"));
-            mInternetConnectionText.setText("Connected");
+        Util.setupSecondaryNavBar(this, HomeActivity.class, "INFORMATION");
+//
+//            MapFragment mapFragment = (MapFragment) getFragmentManager()
+//                    .findFragmentById(R.id.map);
+//            mapFragment.getMapAsync(this);
         }
+//
+//        @Override
+//        public void onMapReady(GoogleMap map) {
+//            LatLng sydney = new LatLng(-33.867, 151.206);
+//
+//            map.setMyLocationEnabled(true);
+//            map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+//
+//            map.addMarker(new MarkerOptions()
+//                    .title("Sydney")
+//                    .snippet("The most populous city in Australia.")
+//                    .position(sydney));
+//        }
     }
-}

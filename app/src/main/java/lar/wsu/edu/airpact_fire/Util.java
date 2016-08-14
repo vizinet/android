@@ -1,22 +1,34 @@
 package lar.wsu.edu.airpact_fire;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Environment;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
+import android.support.v4.app.ActivityCompat;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
@@ -33,12 +45,18 @@ import java.util.Calendar;
 import java.util.Date;
 
 // Class for basic utilities used throughout app
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class Util {
-    // TODO posting to server
-    // TODO authenticate user with server
-    // TODO store post in SQL
-    // TODO read post from SQL
+    // TODO: create subclasses for each category of functions
 
+    // Storage permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+    // Image fields
     private static final String TRANSACTION_IMAGE_FILENAME = "transaction_image";
     private static final int IMAGE_COMPRESSION_QUALITY = 0; // 100;
 
@@ -193,6 +211,21 @@ public class Util {
         }
     }
 
+    // Screen dimenstions
+    public static int getScreenWidth(Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.x;
+    }
+
+    public static int getScreenHeight(Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.y;
+    }
+
     public static Bitmap getTransactionImage(Context context) {
         FileInputStream fis = null;
         try {
@@ -239,6 +272,14 @@ public class Util {
         return daysAgo;
     }
 
+    public static boolean doesContainText(TextView textView) {
+        return (
+                (textView != null) &&
+                        (textView.getText() != null) &&
+                        (textView.getText().length() > 0)
+        );
+    }
+
     public static String toDisplayDateTime(Calendar date) {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -258,5 +299,100 @@ public class Util {
     public static void goHome(Activity activity) {
         Intent intent = new Intent(activity.getApplicationContext(), HomeActivity.class);
         activity.startActivity(intent);
+    }
+
+    // Set margins of some view programmatically
+    public static void setMargins(View v, int l, int t, int r, int b) {
+        if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
+            p.setMargins(l, t, r, b);
+            v.requestLayout();
+        }
+    }
+
+    // Setup secondary nav-bar for current activity
+    // TODO: Add modular method for information dialog
+    public static void setupSecondaryNavBar(final Activity activity,
+                                            final Class pastActivity,
+                                            final String title) {
+        // Get nav-bar elements
+        ImageView backButton = (ImageView) activity.findViewById(R.id.back_button);
+        TextView titleText = (TextView) activity.findViewById(R.id.navbar_title);
+        ImageView informationButton = (ImageView) activity.findViewById(R.id.information_button);
+        ImageView homeButton = (ImageView) activity.findViewById(R.id.home_button);
+
+        // Set nav-bar title
+        titleText.setText(title);
+
+        // Button events
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity.getApplicationContext(), pastActivity);
+                activity.startActivity(intent);
+            }
+        });
+        informationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO
+            }
+        });
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Util.goHome(activity);
+            }
+        });
+    }
+
+    // Do blue on image
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public static Bitmap doBlur(Context context, Bitmap image) {
+        final float BITMAP_SCALE = 0.4f;
+        final float BLUR_RADIUS = 7.5f;
+
+        int width = Math.round(image.getWidth() * BITMAP_SCALE);
+        int height = Math.round(image.getHeight() * BITMAP_SCALE);
+
+        Bitmap inputBitmap = Bitmap.createScaledBitmap(image, width, height, false);
+        Bitmap outputBitmap = Bitmap.createBitmap(inputBitmap);
+
+        RenderScript rs = RenderScript.create(context);
+        ScriptIntrinsicBlur theIntrinsic = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        Allocation tmpIn = Allocation.createFromBitmap(rs, inputBitmap);
+        Allocation tmpOut = Allocation.createFromBitmap(rs, outputBitmap);
+        theIntrinsic.setRadius(BLUR_RADIUS);
+        theIntrinsic.setInput(tmpIn);
+        theIntrinsic.forEach(tmpOut);
+        tmpOut.copyTo(outputBitmap);
+
+        return outputBitmap;
+    }
+
+    /**
+     * Checks if the app has permission to write to device storage
+     * <p/>
+     * If the app does not has permission then the user will be prompted to grant permissions
+     *
+     * @param activity
+     */
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
+
+    // Make given color transparent to given degree
+    public static int turnColorTransparent(int color, float transparency) {
+        return Color.argb(Math.round(Color.alpha(color) * transparency), Color.red(color), Color.green(color), Color.blue(color));
     }
 }

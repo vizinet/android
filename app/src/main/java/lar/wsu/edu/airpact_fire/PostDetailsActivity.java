@@ -1,19 +1,20 @@
 package lar.wsu.edu.airpact_fire;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class PostDetailsActivity extends AppCompatActivity {
+
+    private RelativeLayout mPageLayout;
 
     private TextView mPostStatusText, mLocationText, mTimeText, mDescriptionText, mVisualRangeText, mGpsText;
     private Button mViewImageButton, mSubmitPostButton, mDeletePostButton;
@@ -26,9 +27,6 @@ public class PostDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-        setTitle("Post Details");
 
         // NOTE: Sending extra as string works, but not as int
         // Get post id passed from previous activity
@@ -44,7 +42,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         }
 
         // Set appbar title
-        setTitle("Post #" + mPostId);
+        Util.setupSecondaryNavBar(this, QueuedPostsActivity.class, "POST #" + mPostId);
 
         // Get post from post id
         mPost = PostDataManager.getPost(this, Long.parseLong(mPostId));
@@ -52,6 +50,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         Post.Context = getApplicationContext();
 
         // UI
+        mPageLayout = (RelativeLayout) findViewById(R.id.page);
         mPostStatusText = (TextView) findViewById(R.id.post_status_text);
         mDescriptionText = (TextView) findViewById(R.id.description_text);
         mLocationText = (TextView) findViewById(R.id.location_text);
@@ -64,7 +63,12 @@ public class PostDetailsActivity extends AppCompatActivity {
         mLowColorImage = (ImageView) findViewById(R.id.low_color_image);
         mHighColorImage = (ImageView) findViewById(R.id.high_color_image);
 
-        // Setup UI post fields
+        // Set background
+        Bitmap image = Util.stringToBitMap(mPost.Image);
+        BitmapDrawable background = new BitmapDrawable(image);
+        background.setAlpha(95);
+        mPageLayout.setBackgroundDrawable(background);
+        // UI post fields
         if (mPost.IsPosted.equals("true")) {
             mPostStatusText.setText("POSTED");
             mPostStatusText.setTextColor(Color.parseColor("#669900"));
@@ -121,49 +125,5 @@ public class PostDetailsActivity extends AppCompatActivity {
         // Get post again
         if (mPost == null) mPost = PostDataManager.getPost(this, Long.parseLong(mPostId));
         super.onResume();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.bar, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = null;
-
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.action_tutorial:
-                intent = new Intent(getApplicationContext(), TutorialActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.action_capture:
-                intent = new Intent(getApplicationContext(), SelectContrastActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.action_queue:
-                intent = new Intent(getApplicationContext(), QueuedPostsActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.action_debug:
-                intent = new Intent(getApplicationContext(), ViewUserXMLActivity.class);
-                startActivity(intent);
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

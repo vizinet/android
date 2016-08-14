@@ -6,14 +6,21 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -35,6 +42,8 @@ public class QueuedPostsActivity extends AppCompatActivity {
     // TODO: Find custom font(s) for whole app
 
     private List<Post> mPostList;
+
+    private LinearLayout mPage;
     private TableLayout mUserPostTable;
     private TableLayout mPostTable;
     private TextView mPostText;
@@ -50,20 +59,33 @@ public class QueuedPostsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_queued_posts);
+        Util.setupSecondaryNavBar(this, HomeActivity.class, "PICTURE GALLERY");
 
         // Get and populate post table
         mUserPostTable = (TableLayout) findViewById(R.id.user_post_table);
         mPostText = (TextView) findViewById(R.id.posts_text);
 
+        mPage = (LinearLayout) findViewById(R.id.page);
         mPostTable = (TableLayout) findViewById(R.id.post_table);
-        containerView = findViewById(R.id.view);
+        containerView = findViewById(R.id.post_table);//findViewById(R.id.view);
+
+        // Set background gradient
+        GradientDrawable gd = new GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                //new int[] {0xFF616261,0xFF131313});
+                new int[]{
+                        getResources().getColor(R.color.schemeTransparentLight),
+                        getResources().getColor(R.color.schemeTransparentDark)
+                });
+        gd.setCornerRadius(0f);
+        mPage.setBackgroundDrawable(gd);
 
         // Stats
         String username = UserDataManager.getRecentUser();
         int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), username);
         int numQueued = PostDataManager.getNumQueued(getApplicationContext(), username);
-        mPostText.setText(numPosted + " posted, " + numQueued + " queued");
-        mPostText.setAllCaps(true);
+        mPostText.setText(numPosted + " posted\n" + numQueued + " queued\n" + "0 drafted");
+        //mPostText.setAllCaps(true);
 
         // Get user's posts
         PostReadManager postReadManager = new PostReadManager();
@@ -84,20 +106,67 @@ public class QueuedPostsActivity extends AppCompatActivity {
 
         if (mPostList == null) return;
 
-//        Toast.makeText(QueuedPostsActivity.this, "generateTable() with mPostList.size() = "
-//                + mPostList.size(), Toast.LENGTH_SHORT).show();
-
         // No posts status
         if (mPostList.size() == 0) {
             mPostText.setText("No posts to display");
             mUserPostTable.removeAllViews();
         }
 
+        // Add background as last post image
+        Bitmap mBackgroundImageBitmap = Util.stringToBitMap(mPostList.get(mPostList.size() - 1).Image);
+        mBackgroundImageBitmap = Util.doBlur(getApplicationContext(), mBackgroundImageBitmap);
+        Drawable mBackgroundImage = new BitmapDrawable(getResources(), mBackgroundImageBitmap);
+        getWindow().setBackgroundDrawable(mBackgroundImage);
+
         // Image gallery
         // TODO: Image caching
         int numImagesPerRow = 3;
         int imageWidth = Math.round(containerView.getWidth() / (float) numImagesPerRow); // dp
 
+        // First week title
+        LinearLayout weekTitle = new LinearLayout(this);
+        LinearLayout.LayoutParams titleLayoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        //titleLayoutParams.gravity = Gravity.CENTER_VERTICAL;
+        weekTitle.setLayoutParams(titleLayoutParams);
+        weekTitle.setPadding(0, 40, 0, 20);
+        // " " Text
+        TextView weekTitleText = new TextView(this);
+        weekTitleText.setText("THIS WEEK");
+        weekTitleText.setPadding(0, 0, 20, 0);
+        weekTitleText.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+        weekTitleText.setTextSize(30);
+        weekTitleText.setTypeface(null, Typeface.BOLD);
+        weekTitle.addView(weekTitleText);
+        // " " horizontal line
+        FrameLayout lineWrapper = new FrameLayout(this);
+        FrameLayout.LayoutParams wrapperParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+        );
+        //wrapperParams.gravity = Gravity.CENTER_VERTICAL;
+        lineWrapper.setLayoutParams(wrapperParams);
+        LinearLayout horizontalLine = new LinearLayout(this);
+        //horizontalLine.setPadding(0, lineWrapper.getHeight() / 2, 0, 0);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+//        layoutParams.height = 2;
+        layoutParams.weight = 1.0f;
+        layoutParams.gravity = Gravity.BOTTOM;
+        horizontalLine.setLayoutParams(layoutParams);
+        horizontalLine.setBackgroundColor(getResources().getColor(R.color.schemeTransparentNothingLight));
+        lineWrapper.addView(horizontalLine);
+        //weekTitle.addView(lineWrapper);
+
+        mPostTable.addView(weekTitle);
+
+        // Beginning row
         TableRow tableRow = new TableRow(this);
         tableRow.setLayoutParams(
                 new TableRow.LayoutParams(
@@ -109,17 +178,52 @@ public class QueuedPostsActivity extends AppCompatActivity {
             // Get post
             final Post post = mPostList.get(i);
 
-            // Put image in row
+            // Make wrapper for image
+            LinearLayout imageWrapper = new LinearLayout(this);
+            imageWrapper.setLayoutParams(new TableRow.LayoutParams(
+                            //TableRow.LayoutParams.MATCH_PARENT,
+                            imageWidth,
+                            TableRow.LayoutParams.WRAP_CONTENT
+                    )
+            );
+            imageWrapper.setOrientation(LinearLayout.VERTICAL);
+
+            // Put post # at top
+            TextView postNumberText = new TextView(this);
+            postNumberText.setLayoutParams(new TableRow.LayoutParams(
+                    TableRow.LayoutParams.MATCH_PARENT,
+                    TableRow.LayoutParams.MATCH_PARENT
+            ));
+            postNumberText.setText("#" + post.PostNum + " - " + Util.toDisplayDateTime(post.Date));
+            postNumberText.setBackground(getDrawable(R.color.schemeTransparentDark));
+            postNumberText.setMaxWidth(imageWidth);
+            postNumberText.setMaxLines(1);
+            postNumberText.setTextColor(getResources().getColor(R.color.schemeWhite));
+            postNumberText.setPadding(10, 10, 10, 10);
+            imageWrapper.addView(postNumberText);
+
+            // Post status indicator
+            LinearLayout postStatus = new LinearLayout(this);
+            postStatus.setLayoutParams(new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    5
+            ));
+            if (post.IsPosted.equals("true"))
+                postStatus.setBackground(getDrawable(R.color.schemeSuccess));
+            else postStatus.setBackground(getDrawable(R.color.schemeQueued));
+            imageWrapper.addView(postStatus);
+
+            // Place image in wrapper
             ImageView postImageView = new ImageView(this);
             Bitmap postImageBitmap = Util.createScaledBitmap(Util.stringToBitMap(post.Image), imageWidth);
             postImageView.setImageBitmap(postImageBitmap);
-            postImageView.setBackground(getDrawable(R.drawable.border));
+            //postImageView.setBackground(getDrawable(R.drawable.border));
             postImageView.setLayoutParams(new TableRow.LayoutParams(
                             TableRow.LayoutParams.MATCH_PARENT,
                             TableRow.LayoutParams.WRAP_CONTENT
                     )
             );
-            // Gives more info on selected post. Also, allows us to post queued posts
+            // Add touch listener: gives more info on selected post. Also, allows us to post queued posts
             postImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -129,7 +233,9 @@ public class QueuedPostsActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            tableRow.addView(postImageView);
+            imageWrapper.addView(postImageView);
+
+            tableRow.addView(imageWrapper);
 
             // Add past one & create new row
             //  - When row is filled up, or

@@ -3,35 +3,39 @@ package lar.wsu.edu.airpact_fire;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // User provides picture details before posting/queueing
 public class AddPictureDetailsActivity extends AppCompatActivity {
 
     private Button mRetakeButton, mViewImageButton, mAddToQueueButton, mSubmitButton;
-    private TextView mImageDateTextView, mImageLocationTextView;
+    private TextView mImageDateTextView, mImageLocationTextView,
+            mLocationHeaderText, mVisualRangeHeaderText;
     private EditText mVisualRangeInput, mDescriptionInput, mAddTagInput;
+    private Spinner mMetricSelectSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_picture_details);
-        setTitle("Picture Details");
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        // TODO: Setup back button for this activity such that it goes back to selecting contrast points, not taking new picture!
+        Util.setupSecondaryNavBar(this, SelectContrastActivity.class, "ENTER PICTURE DETAILS");
 
         // Set post context and activity
         Post.Context = getApplicationContext();
         Post.Activity = this;
 
         // Get UI elements
+        mLocationHeaderText = (TextView) findViewById(R.id.location_header_text);
+        mVisualRangeHeaderText = (TextView) findViewById(R.id.visual_range_header_text);
         mRetakeButton = (Button) findViewById(R.id.retake_button);
         mViewImageButton = (Button) findViewById(R.id.view_image_button);
         mAddToQueueButton = (Button) findViewById(R.id.add_to_queue_button);
@@ -41,6 +45,7 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         mVisualRangeInput = (EditText) findViewById(R.id.visual_range_input);
         mDescriptionInput = (EditText) findViewById(R.id.description_input);
         mAddTagInput = (EditText) findViewById(R.id.add_tag_input);
+        mMetricSelectSpinner = (Spinner) findViewById(R.id.metric_select_spinner);
 
         // Pre-loaded information
         populateFormData();
@@ -70,6 +75,8 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         mAddToQueueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!isFormDataValid()) return;
+
                 collectFormData();
 
                 // Queue post
@@ -80,6 +87,8 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!isFormDataValid()) return;
+
                 // Get data
                 collectFormData();
 
@@ -90,54 +99,28 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.bar, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = null;
+    // Check if form data is valid
+    private boolean isFormDataValid() {
 
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
-                return true;
+        boolean isValid = true;
 
-            case R.id.action_tutorial:
-                intent = new Intent(getApplicationContext(), TutorialActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.action_capture:
-                intent = new Intent(getApplicationContext(), SelectContrastActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.action_queue:
-                intent = new Intent(getApplicationContext(), QueuedPostsActivity.class);
-                startActivity(intent);
-                return true;
-
-            case R.id.action_debug:
-                intent = new Intent(getApplicationContext(), ViewUserXMLActivity.class);
-                startActivity(intent);
-                return true;
-
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
+        if (!Util.doesContainText(mImageLocationTextView)) {
+            mLocationHeaderText.setTextColor(getResources().getColor(R.color.schemeRedHighlight));
+            isValid = false;
+        } else {
+            mLocationHeaderText.setTextColor(getResources().getColor(R.color.schemeDark));
         }
+
+        // TODO: The rest of the fields
+
+        return isValid;
     }
 
     // Collect user values for post
     private void collectFormData() {
         String lastUser = UserDataManager.getRecentUser();
         UserDataManager.setUserData(lastUser, "description", mDescriptionInput.getText().toString());
-        UserDataManager.setUserData(lastUser, "visualRange", mVisualRangeInput.getText().toString());
+//        UserDataManager.setUserData(lastUser, "visualRange", mVisualRangeInput.getText().toString());
         UserDataManager.setUserData(lastUser, "tags", mAddTagInput.getText().toString());
     }
 
@@ -150,5 +133,16 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         mAddTagInput.setText(UserDataManager.getUserData(lastUser, "tags"));
         mVisualRangeInput.setText(UserDataManager.getUserData(lastUser, "visualRange"));
         mDescriptionInput.setText(UserDataManager.getUserData(lastUser, "description"));
+        // Spinner stuff
+        List<String> metricOptions = new ArrayList<>();
+        metricOptions.add("Feet");
+        metricOptions.add("Meters");
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.spinner_item_text, metricOptions);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        mMetricSelectSpinner.setAdapter(adapter);
     }
 }

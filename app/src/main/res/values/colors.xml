@@ -25,6 +25,24 @@
     <color name="schemeGray">#5e6a71</color>
     <color name="schemeLightGray">#d7dadb</color>
     <color name="schemeWhite">#fff</color>
+    <color name="schemeTransparent">#00000000</color>
+    <color name="schemeTransparentNothingLight">#22ffffff</color>
+    <color name="schemeTransparentSuperLight">#aaffffff</color>
+    <color name="schemeTransparentLightish">#afffffff</color>
+    <color name="schemeTransparentLight">#a0ffffff</color>
+    <color name="schemeTransparentDark">#a0000000</color>
+    <color name="schemeTransparentLightDark">#22000000</color>
+    <color name="schemeTransparentLightDarker">#55000000</color>
+
+    <!-- Signifiers -->
+    <color name="schemeSuccess">@android:color/holo_green_dark</color>
+    <color name="schemeWarning">@android:color/holo_orange_dark</color>
+    <color name="schemeFailure">@android:color/holo_red_dark</color>
+
+    <!-- Posts -->
+    <color name="schemePosted">@color/schemeSuccess</color>
+    <color name="schemeQueued">@color/schemeWarning</color>
+    <color name="schemeDrafted">@color/schemeTransparentLight</color>
 
     <!--Object colors-->
     <color name="logoColor">@color/schemeRed</color>
@@ -32,8 +50,27 @@
     <color name="galleryIconColor">@color/schemeOrange</color>
     <color name="informationIconColor">@color/schemeGreen</color>
     <color name="settingsIconColor">@color/schemeGray</color>
+    <!--<color name="cameraIconColor">@color/schemeTransparentLight</color>-->
+    <!--<color name="galleryIconColor">@color/cameraIconColor</color>-->
+    <!--<color name="informationIconColor">@color/cameraIconColor</color>-->
+    <!--<color name="settingsIconColor">@color/cameraIconColor</color>-->
+    <!--<color name="paneImageTint">@color/schemeDark</color>-->
     <color name="paneImageTint">@color/schemeLightGray</color>
     <color name="paneBannerColor">@color/schemeLightGray</color>
     <color name="homeIconColor">@color/schemeRed</color>
-    <color name="navbarBackground">@color/button_material_light</color>
+    <!--<color name="navbarBackground">@color/button_material_light</color>-->
+    <color name="navbarBackground">@color/schemeTransparentLight</color>
+
+    <color name="buttonDrawableColor">#757575</color>
+
+    <!-- Sign in -->
+    <color name="signInIconImageTint">@color/schemeGray</color>
+
+    <!-- Select contrast -->
+    <color name="indicatorColor">@color/schemeDark</color>
+    <color name="indicatorInnerColor">@color/schemeWhite</color>
+    <color name="indicatorPanelBackground">@color/navbarBackground</color>
+    <color name="continueIconColor">@color/schemeGreen</color>
+    <color name="clearIconColor">@color/schemeRed</color>
+    <color name="retakeIconColor">@color/schemeYellow</color>
 </resources>

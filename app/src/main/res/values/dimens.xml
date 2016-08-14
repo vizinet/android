@@ -1,9 +1,20 @@
 <resources>
     <dimen name="logo_width">100dp</dimen>
-    <dimen name="home_pane_icon_width">150dp</dimen>
-    <dimen name="home_pane_inner_icon_width">0dp</dimen>
-    <dimen name="home_pane_inner_icon_margin">80dp</dimen>
+    <dimen name="logo_inner_width">50dp</dimen>
+
+    <!-- Home -->
+    <dimen name="home_pane_icon_border_radius">5dp</dimen>
+    <dimen name="home_pane_icon_inner_padding">35dp</dimen>
+    <dimen name="home_pane_icon_width">75dp</dimen>
+    <dimen name="home_pane_inner_icon_width">75dp</dimen>
+    <dimen name="home_pane_inner_icon_margin">0dp</dimen>
     <dimen name="home_icon_inner_icon_margin">35dp</dimen>
+
+    <dimen name="home_bubble_width">100dp</dimen>
+
+    <!-- Sign in -->
+    <dimen name="sign_in_button_width">50dp</dimen>
+    <dimen name="sign_in_button_padding">10dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

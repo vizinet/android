@@ -1,15 +1,24 @@
 package lar.wsu.edu.airpact_fire;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,6 +28,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private FrameLayout mNewPicturePane, mInformationPane, mPictureGalleryPane, mSettingsPane;
     private FrameLayout mServerStatusContainer;
+    private FrameLayout mBackButton;
+    private LinearLayout mButtonPage;
     private TextView mUsernameText, mNumberPostedText, mNumberQueuedText,
             mServerStatusText;
     private ImageView mNewPictureButton, mPictureGalleryButton, mInformationButton, mSettingsButton;
@@ -40,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
         mInformationPane = (FrameLayout) findViewById(R.id.information_pane);
         mPictureGalleryPane = (FrameLayout) findViewById(R.id.picture_gallery_pane);
         mSettingsPane = (FrameLayout) findViewById(R.id.settings_pane);
+        mButtonPage = (LinearLayout) findViewById(R.id.button_page);
         // Icons of panes
         mNewPictureButton = (ImageView) findViewById(R.id.new_picture_button);
         mInformationButton = (ImageView) findViewById(R.id.information_button);
@@ -47,6 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         mSettingsButton = (ImageView) findViewById(R.id.settings_button);
 
         // Nav-bar
+        mBackButton = (FrameLayout) findViewById(R.id.back_button);
         mUsernameText = (TextView) findViewById(R.id.username_text);
         mNumberPostedText = (TextView) findViewById(R.id.number_posted_text);
         mNumberQueuedText = (TextView) findViewById(R.id.number_queued_text);
@@ -57,70 +70,60 @@ public class HomeActivity extends AppCompatActivity {
         updateHome();
 
         // Give each pane an event listener; respond to user events
-        setupPaneEventListeners();
+        setupUIEventListeners();
+    }
 
-//        // New picture
-//        mNewPicturePane.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch(event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        //mNewPictureButton.setColorFilter(getResources().getColor(R.color.schemeBlueHighlight));
-//                        mNewPictureButton.setColorFilter(Color.argb(50, 0, 0, 0), PorterDuff.Mode.MULTIPLY);
-//                        return true;
-//                    case MotionEvent.ACTION_UP:
-//                        //mNewPictureButton.setColorFilter(getResources().getColor(R.color.schemeBlue));
-//                        mNewPictureButton.clearColorFilter();
-//                        return true;
-//                }
-//                return false;
-//            }
-//        });
-//        mNewPicturePane.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // User will now take picture and select contrast points
-//                Intent intent = new Intent(getApplicationContext(), SelectContrastActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        // Picture gallery
-//        mPictureGalleryPane.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // User can view their posts
-//                Intent intent = new Intent(getApplicationContext(), QueuedPostsActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//        // Settings
-//        mSettingsPane.setOnTouchListener(new View.OnTouchListener() {
-//            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                mSettingsPane.setForegroundTintMode(PorterDuff.Mode.DARKEN);
-//                // TODO: Darken whole pane
-//                //mSettingsPane.setTint
-//                //Toast.makeText(HomeActivity.this, "hover", Toast.LENGTH_SHORT).show();
-//                return false;
-//            }
-//        });
-//        mSettingsPane.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-//                Toast.makeText(HomeActivity.this, "Not yet implemented.", Toast.LENGTH_SHORT).show();
-//                //startActivity(intent);
-//            }
-//        });
-//        mInformationPane.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), InformationActivity.class);
-//                Toast.makeText(HomeActivity.this, "Not yet implemented.", Toast.LENGTH_SHORT).show();
-//                //startActivity(intent);
-//            }
-//        });
+    @TargetApi(Build.VERSION_CODES.M)
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        // TODO: Move
+
+        // Load background once page is in view
+        if (hasFocus) {
+            GradientDrawable gd = new GradientDrawable(
+                    GradientDrawable.Orientation.TOP_BOTTOM,
+                    //new int[] {0xFF616261,0xFF131313});
+                    new int[]{
+                            getResources().getColor(R.color.schemeTransparentLight),
+                            getResources().getColor(R.color.schemeTransparentDark)
+                    });
+            gd.setCornerRadius(0f);
+
+            mButtonPage.setBackgroundDrawable(gd);
+
+            // TODO: Remove below line
+            //if (true) return;
+            // Get background resource
+            // TODO: Check if not first time. If so, don't add landscape again
+            Bitmap landscape = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.washington_forest_cropped);
+            // Crop image
+            int landscapeWidth = landscape.getWidth();
+            int landscapeHeight = landscape.getHeight();
+            int screenWidth = Util.getScreenWidth(this);
+            int screenHeight = Util.getScreenHeight(this);
+            int cropWidth = (landscapeWidth < screenWidth) ? landscapeWidth : screenWidth;
+            int cropHeight = (landscapeHeight < screenHeight) ? landscapeHeight : screenHeight;
+            landscape = Bitmap.createBitmap(landscape, 0, 0, cropWidth, cropHeight);
+            // Apply blur
+            landscape = Util.doBlur(getApplicationContext(), landscape);
+            Drawable background = new BitmapDrawable(getResources(), landscape);
+            // Apply filter
+            //int filterColor = Color.parseColor("#a0" + "ffffff");
+            //mButtonPage.setBackgroundColor(filterColor);
+            // Set background (doesn't change with ScrollView)
+            getWindow().setBackgroundDrawable(background);
+
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        // Recycle bitmap
+        //landscape.recycle();
     }
 
     // NOTE: user may have changed!
@@ -131,31 +134,44 @@ public class HomeActivity extends AppCompatActivity {
         updateHome();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        // Go to sign in page
+        Intent intent = new Intent(this, SignInActivity.class);
+        startActivity(intent);
+    }
+
     private void updateHome() {
         // Username
+        String displayName;
+        int cutoffLength = 10;
         mUsername = UserDataManager.getRecentUser();
         mUsernameText.setAllCaps(true);
-        mUsernameText.setText(mUsername);
+        // Make sure name gets cutoff if exceeds max length
+        displayName = (mUsername.length() >= cutoffLength) ? (mUsername.substring(0, cutoffLength) + "...") : mUsername;
+        mUsernameText.setText(displayName);
 
         // Post numbers
         int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), mUsername);
         int numQueued = PostDataManager.getNumQueued(getApplicationContext(), mUsername);
         mNumberPostedText.setAllCaps(true);
-        mNumberPostedText.setText(numPosted + " posted");
+        mNumberPostedText.setText(numPosted + "");
         mNumberQueuedText.setAllCaps(true);
-        mNumberQueuedText.setText(numQueued + " queued");
+        mNumberQueuedText.setText(numQueued + "");
 
         // Internet connection
         //mServerStatusText.setAllCaps(true);
         mServerStatusContainer.setBackgroundColor(getResources().getColor(R.color.schemeRedHighlight));
-        mServerStatusText.setText("SERVER DISCONNECTED (last check 5 minutes ago)");
+        mServerStatusText.setText("SERVER DISCONNECTED (5 mins ago)");
         if (Util.isServerAvailable(HomeActivity.this)) {//if (Util.isNetworkAvailable(this)) {
             mServerStatusContainer.setBackgroundColor(getResources().getColor(R.color.schemeGreenHighlight));
-            mServerStatusText.setText("SERVER CONNECTED (last check 5 minutes ago)");
+            mServerStatusText.setText("SERVER CONNECTED (5 mins ago)");
         }
     }
 
-    private void setupPaneEventListeners() {
+    private void setupUIEventListeners() {
         // Draw maps
         frameToIconMap = new HashMap<>();
         frameToIconMap.put(mNewPicturePane, mNewPictureButton);
@@ -178,8 +194,17 @@ public class HomeActivity extends AppCompatActivity {
 
             it.remove(); // avoids a ConcurrentModificationException
         }
-    }
 
+        // More
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Go to sign-in page
+                Toast.makeText(getApplicationContext(), "Signed out.", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), SignInActivity.class));
+            }
+        });
+    }
     // Setup event listeners for give frame layout
     private void setupListeners(FrameLayout frameLayout) {
 

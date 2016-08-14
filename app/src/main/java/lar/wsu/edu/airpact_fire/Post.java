@@ -1,5 +1,8 @@
 package lar.wsu.edu.airpact_fire;
 
+import android.app.AlarmManager;
+import android.app.IntentService;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -320,10 +323,71 @@ public class Post {
         Intent intent = new Intent(context, QueuedPostsActivity.class);
         Post.Activity.startActivity(intent);
     }
+
+    // TODO Find better placement
+    // Where to kickoff posting? Make sure it only gets done once
+    public void kickoffBackgroundPosting(Context context) {
+        AlarmManager alarmMgr;
+        PendingIntent alarmIntent;
+
+        alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, BackgroundPostService.class);
+        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        // Set the alarm to start at 8:30 a.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis() + (1000 * 60 * 5)); // Start 5 mins after
+        // Note: hoping that by not setting the time and hour of day the alarm will start asap
+        //calendar.set(Calendar.HOUR_OF_DAY, 8);
+        //calendar.set(Calendar.MINUTE, 30);
+
+        // Set repeat interval for 1 hour
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 60 * 60, alarmIntent);
+    }
 }
 
 
 /* MANAGERS */
+
+// Does background posting
+// Note:
+//      - doInBackground(...) runs even if app is destroyed, but pre and post are on UI thread
+//      - Never wait around within a service, as it uses lots of system resources
+//      - Using AlarmManager to kickoff this class periodically
+class BackgroundPostService extends IntentService {
+
+    private boolean isBackgroundPostingEnabled;
+
+    private void checkIfBackgroundPostsEnabled() {
+        // TODO
+        isBackgroundPostingEnabled = true;
+    }
+
+    /**
+     * Creates an IntentService.  Invoked by your subclass's constructor.
+     *
+     * @param name Used to name the worker thread, important only for debugging.
+     */
+    public BackgroundPostService(String name) {
+        super(name)
+    }
+
+    // Where the work gets done
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        // Run check/posts every hour
+
+        // Check xml if user allows background posting
+        checkIfBackgroundPostsEnabled();
+
+        // Only continue if enabled
+        if (!isBackgroundPostingEnabled) return;
+
+        // TODO check un-posted posts and act on the that
+
+    }
+}
 
 // Deals with server
 class SubmissionManager extends AsyncTask<Post, Void, Void> {
@@ -485,7 +549,7 @@ class SubmissionManager extends AsyncTask<Post, Void, Void> {
             JSONObject postReceiveJSON = (JSONObject) new JSONParser().parse(serverPostResponse);
 
             // Did post succeed?
-            String postStatus =  postReceiveJSON.get("status").toString();
+            String postStatus = postReceiveJSON.get("status").toString();
             didPostFail = !postStatus.equals("success");
 
             // Clean up

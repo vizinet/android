@@ -153,13 +153,13 @@ public class UserDataManager {
 
             // Get data from disk
             FileInputStream fis = mContext.getApplicationContext().openFileInput(FILENAME);
-            Toast.makeText(mContext, "Local user data file exists.", Toast.LENGTH_LONG).show();
+            //Toast.makeText(mContext, "Local user data file exists.", Toast.LENGTH_LONG).show();
             fis.close();
 
         } catch (FileNotFoundException e) {
             // Data file doesn't exist. So, create skeleton file.
             e.printStackTrace();
-            Toast.makeText(mContext, "Creating new local user data file...", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Initializing local user database...", Toast.LENGTH_LONG).show();
 
             try {
                 FileOutputStream fos = mContext.getApplicationContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
@@ -325,6 +325,11 @@ public class UserDataManager {
 
         return false;
 
+    }
+
+    // Overload - skip unnecessary shit
+    public static boolean setUserData(String element, String content) {
+        return setUserData(getRecentUser(), element, content);
     }
 
     public static boolean setUserData(String user, String element, String content) {

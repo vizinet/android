@@ -28,9 +28,11 @@
     <color name="bright_foreground_inverse_material_light">@color/bright_foreground_material_dark</color>
     <color name="bright_foreground_material_dark">@android:color/white</color>
     <color name="bright_foreground_material_light">@android:color/black</color>
+    <color name="buttonDrawableColor">#757575</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
     <color name="cameraIconColor">@color/schemeBlue</color>
+    <color name="clearIconColor">@color/schemeRed</color>
     <color name="common_action_bar_splitter">#d2d2d2</color>
     <color name="common_signin_btn_dark_text_default">@android:color/white</color>
     <color name="common_signin_btn_dark_text_disabled">#FFAAAAAA</color>
@@ -41,6 +43,7 @@
     <color name="common_signin_btn_light_text_disabled">#FFAAAAAA</color>
     <color name="common_signin_btn_light_text_focused">#FF737373</color>
     <color name="common_signin_btn_light_text_pressed">@android:color/white</color>
+    <color name="continueIconColor">@color/schemeGreen</color>
     <color name="design_fab_shadow_end_color">@android:color/transparent</color>
     <color name="design_fab_shadow_mid_color">#14000000</color>
     <color name="design_fab_shadow_start_color">#44000000</color>
@@ -62,6 +65,9 @@
     <color name="hint_foreground_material_dark">@color/bright_foreground_disabled_material_dark</color>
     <color name="hint_foreground_material_light">@color/bright_foreground_disabled_material_light</color>
     <color name="homeIconColor">@color/schemeRed</color>
+    <color name="indicatorColor">@color/schemeDark</color>
+    <color name="indicatorInnerColor">@color/schemeWhite</color>
+    <color name="indicatorPanelBackground">@color/navbarBackground</color>
     <color name="informationIconColor">@color/schemeGreen</color>
     <color name="logoColor">@color/schemeRed</color>
     <color name="material_blue_grey_800">#ff37474f</color>
@@ -76,7 +82,7 @@
     <color name="material_grey_800">#ff424242</color>
     <color name="material_grey_850">#ff303030</color>
     <color name="material_grey_900">#ff212121</color>
-    <color name="navbarBackground">@color/button_material_light</color>
+    <color name="navbarBackground">@color/schemeTransparentLight</color>
     <color name="paneBannerColor">@color/schemeLightGray</color>
     <color name="paneImageTint">@color/schemeLightGray</color>
     <color name="primary_dark_material_dark">@android:color/black</color>
@@ -87,19 +93,34 @@
     <color name="primary_text_default_material_light">#de000000</color>
     <color name="primary_text_disabled_material_dark">#4Dffffff</color>
     <color name="primary_text_disabled_material_light">#39000000</color>
+    <color name="retakeIconColor">@color/schemeYellow</color>
     <color name="ripple_material_dark">#33ffffff</color>
     <color name="ripple_material_light">#1f000000</color>
     <color name="schemeBlue">#4f868e</color>
     <color name="schemeBlueHighlight">#00a5bd</color>
     <color name="schemeDark">#000</color>
+    <color name="schemeDrafted">@color/schemeTransparentLight</color>
+    <color name="schemeFailure">@android:color/holo_red_dark</color>
     <color name="schemeGray">#5e6a71</color>
     <color name="schemeGreen">#8f7e35</color>
     <color name="schemeGreenHighlight">#ada400</color>
     <color name="schemeLightGray">#d7dadb</color>
     <color name="schemeOrange">#c69214</color>
     <color name="schemeOrangeHighlight">#ffb81c</color>
+    <color name="schemePosted">@color/schemeSuccess</color>
+    <color name="schemeQueued">@color/schemeWarning</color>
     <color name="schemeRed">#981e32</color>
     <color name="schemeRedHighlight">#c60c30</color>
+    <color name="schemeSuccess">@android:color/holo_green_dark</color>
+    <color name="schemeTransparent">#00000000</color>
+    <color name="schemeTransparentDark">#a0000000</color>
+    <color name="schemeTransparentLight">#a0ffffff</color>
+    <color name="schemeTransparentLightDark">#22000000</color>
+    <color name="schemeTransparentLightDarker">#55000000</color>
+    <color name="schemeTransparentLightish">#afffffff</color>
+    <color name="schemeTransparentNothingLight">#22ffffff</color>
+    <color name="schemeTransparentSuperLight">#aaffffff</color>
+    <color name="schemeWarning">@android:color/holo_orange_dark</color>
     <color name="schemeWhite">#fff</color>
     <color name="schemeYellow">#b67233</color>
     <color name="schemeYellowHighlight">#f6861f</color>
@@ -108,6 +129,7 @@
     <color name="secondary_text_disabled_material_dark">#36ffffff</color>
     <color name="secondary_text_disabled_material_light">#24000000</color>
     <color name="settingsIconColor">@color/schemeGray</color>
+    <color name="signInIconImageTint">@color/schemeGray</color>
     <color name="switch_thumb_disabled_material_dark">#ff616161</color>
     <color name="switch_thumb_disabled_material_light">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
@@ -259,15 +281,21 @@
     <item format="float" name="highlight_alpha_material_colored" type="dimen">0.26</item>
     <item format="float" name="highlight_alpha_material_dark" type="dimen">0.20</item>
     <item format="float" name="highlight_alpha_material_light" type="dimen">0.12</item>
+    <dimen name="home_bubble_width">100dp</dimen>
     <dimen name="home_icon_inner_icon_margin">35dp</dimen>
-    <dimen name="home_pane_icon_width">150dp</dimen>
-    <dimen name="home_pane_inner_icon_margin">80dp</dimen>
-    <dimen name="home_pane_inner_icon_width">0dp</dimen>
+    <dimen name="home_pane_icon_border_radius">5dp</dimen>
+    <dimen name="home_pane_icon_inner_padding">35dp</dimen>
+    <dimen name="home_pane_icon_width">75dp</dimen>
+    <dimen name="home_pane_inner_icon_margin">0dp</dimen>
+    <dimen name="home_pane_inner_icon_width">75dp</dimen>
     <dimen name="item_touch_helper_max_drag_scroll_per_frame">20dp</dimen>
+    <dimen name="logo_inner_width">50dp</dimen>
     <dimen name="logo_width">100dp</dimen>
     <dimen name="notification_large_icon_height">64dp</dimen>
     <dimen name="notification_large_icon_width">64dp</dimen>
     <dimen name="notification_subtext_size">12dp</dimen>
+    <dimen name="sign_in_button_padding">10dp</dimen>
+    <dimen name="sign_in_button_width">50dp</dimen>
     <drawable name="notification_template_icon_bg">#3333B5E5</drawable>
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_bar_spinner" type="id"/>
@@ -346,10 +374,12 @@
     <string name="common_google_play_services_updating_text"><ns1:g id="app_name">%1$s</ns1:g> won\'t run without Google Play services, which are currently updating.</string>
     <string name="common_google_play_services_updating_title">Google Play services are updating</string>
     <string name="common_open_on_phone">Open on phone</string>
+    <string name="description_hint"><i>e.g. Morning fog seems to be coming through. Nothing out of the ordinary; same scene as yesterday, I think.</i></string>
     <string name="error_field_required">This field is required</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
+    <string name="location_hint"><i>e.g. Mount Baker, Yakima River, etc.</i></string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -357,6 +387,7 @@
     <string name="prompt_password">Password</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="visual_range_hint"><i>e.g. 3.1415926</i></string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>
@@ -1470,6 +1501,10 @@
     <style name="RtlUnderlay.Widget.AppCompat.ActionButton.Overflow" parent="Base.Widget.AppCompat.ActionButton">
         <item name="android:paddingLeft">@dimen/abc_action_bar_overflow_padding_start_material</item>
         <item name="android:paddingRight">@dimen/abc_action_bar_overflow_padding_end_material</item>
+    </style>
+    <style name="SpinnerTextViewItem" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">20dp</item>
+        <!--<item name="android:textStyle" >italic</item>-->
     </style>
     <style name="TextAppearance.AppCompat" parent="Base.TextAppearance.AppCompat"/>
     <style name="TextAppearance.AppCompat.Body1" parent="Base.TextAppearance.AppCompat.Body1"/>

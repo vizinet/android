@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid android:color="@color/indicatorColor" />
+            <corners android:radius="@dimen/logo_width" />
+            <size
+                android:width="@dimen/logo_width"
+                android:height="@dimen/logo_width" />
+            <padding
+                android:top="10dp"
+                android:bottom="10dp"
+                android:right="10dp"
+                android:left="10dp"></padding>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/indicatorInnerColor" />
+            <corners android:radius="@dimen/logo_inner_width" />
+            <size
+                android:width="@dimen/logo_inner_width"
+                android:height="@dimen/logo_inner_width" />
+            <!--<padding android:top="10dp" ></padding>-->
+        </shape>
+    </item>
+</layer-list>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/app_bar" />
+    <include layout="@layout/secondary_nav_bar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,7 +14,8 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="lar.wsu.edu.airpact_fire.PostDetailsActivity">
+        tools:context="lar.wsu.edu.airpact_fire.PostDetailsActivity"
+        android:id="@+id/page">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,8 +40,9 @@
                     android:layout_marginRight="10dp"
                     android:text="STATUS"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#000"
-                    android:textStyle="bold" />
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/post_status_text"
@@ -75,8 +77,9 @@
                     android:layout_marginRight="10dp"
                     android:text="LOCATION"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#000"
-                    android:textStyle="bold" />
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/location_text"
@@ -117,8 +120,9 @@
                         android:layout_marginRight="10dp"
                         android:text="VISUAL RANGE"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="#000"
-                        android:textStyle="bold" />
+                        android:textColor="#fff"
+                        android:textStyle="bold"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/visual_range_text"
@@ -153,8 +157,9 @@
                         android:layout_marginRight="10dp"
                         android:text="COLORS"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="#000"
-                        android:textStyle="bold" />
+                        android:textColor="#fff"
+                        android:textStyle="bold"
+                        android:textSize="15dp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -202,8 +207,9 @@
                         android:layout_marginRight="10dp"
                         android:text="TIME"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="#000"
-                        android:textStyle="bold" />
+                        android:textColor="#fff"
+                        android:textStyle="bold"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/date_time_text"
@@ -237,8 +243,9 @@
                         android:layout_marginRight="10dp"
                         android:text="GPS"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:textColor="#000"
-                        android:textStyle="bold" />
+                        android:textColor="#fff"
+                        android:textStyle="bold"
+                        android:textSize="15dp" />
 
                     <TextView
                         android:id="@+id/gps_text"
@@ -274,8 +281,9 @@
                     android:layout_marginRight="10dp"
                     android:text="DESCRIPTION"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#000"
-                    android:textStyle="bold" />
+                    android:textColor="#fff"
+                    android:textStyle="bold"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/description_text"
@@ -301,7 +309,8 @@
                     android:id="@+id/view_image_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="VIEW IMAGE" />
+                    android:text="VIEW IMAGE"
+                    android:enabled="false" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

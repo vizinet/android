@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <solid android:color="@color/continueIconColor" />
+            <corners android:radius="@dimen/home_pane_icon_width" />
+            <size
+                android:width="@dimen/home_pane_icon_width"
+                android:height="@dimen/home_pane_icon_width" />
+        </shape>
+    </item>
+    <item
+        android:width="@dimen/home_pane_inner_icon_width"
+        android:height="@dimen/home_pane_inner_icon_width"
+        android:bottom="@dimen/home_pane_inner_icon_margin"
+        android:left="@dimen/home_pane_inner_icon_margin"
+        android:right="@dimen/home_pane_inner_icon_margin"
+        android:top="@dimen/home_pane_inner_icon_margin">
+        <bitmap
+            android:src="@drawable/continue_image"
+            android:tint="@color/paneImageTint"></bitmap>
+    </item>
+</layer-list>

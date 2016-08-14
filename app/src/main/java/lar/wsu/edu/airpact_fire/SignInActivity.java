@@ -1,15 +1,22 @@
 package lar.wsu.edu.airpact_fire;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.json.simple.JSONObject;
@@ -61,11 +68,23 @@ import java.util.Date;
 // TODO: Be able to handle null inputs on PictureDetailsActivity
 // TODO: Be able to check for valid inputs on same activity.
 
+// TODO: If a post has been queued, allow users to edit a limited amount of fields, like description, VR, and location
+// TODO: Know if post is uncompleted -> notify user it has been drafted in toast and on home screen (this means we might
+//  want to use SQL for everything and populate each SQL post gradually. Also, it means we'll have the following identifiers
+//  for posts: submitted, queued, and drafted. This proposes a drastic design change.)
+
+// TODO: Organize resources and java files in directories
+// TODO: Rename things for efficiency
+
+
 public class SignInActivity extends AppCompatActivity {
 
+    private boolean hasLoadedBG = false;
+
     // UI references
+    private RelativeLayout mPageLayout;
     private EditText mPasswordView, mUsernameView;
-    private Button mEmailSignInButton, mRegisterButton;
+    private ImageButton mEmailSignInButton, mRegisterButton;
 
     // Startup progress
     private ProgressDialog progress;
@@ -76,26 +95,20 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         // TODO: Remove
-        testProceed();
+        // NOTE: Having trouble with image stuff when I do a test proceed?
+        //testProceed();
 
         // Attach objects to UI
+        mPageLayout = (RelativeLayout) findViewById(R.id.page);
         mUsernameView = (EditText) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mRegisterButton = (Button) findViewById(R.id.register_button);
+        mEmailSignInButton = (ImageButton) findViewById(R.id.email_sign_in_icon);
+        //mRegisterButton = (Button) findViewById(R.id.register_button);
 
         progress = new ProgressDialog(SignInActivity.this);
 
-        // Show loader
-//        progress.setTitle("Starting up");
-//        progress.setMessage("Give us a minute to set things up...");
-//        progress.show();
-
         // XML Stuff -- create XML if necessary
         UserDataManager.init(getApplicationContext());
-
-        // Hide
-        //progress.hide();
 
         // Set up the login form
         populateLoginFields();
@@ -129,14 +142,48 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         // Open web URL
-        mRegisterButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse(Post.SERVER_REGISTER_URL);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
-        });
+//        mRegisterButton.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Uri uri = Uri.parse(Post.SERVER_REGISTER_URL);
+//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(intent);
+//            }
+//        });
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        // Load background once page is in view
+        if (hasFocus) {
+
+            // Check if background already loaded
+            if (hasLoadedBG) return;
+            hasLoadedBG = true;
+
+            // Get background resource
+            Bitmap landscape = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.washington_forest);
+            // Crop image
+            int landscapeWidth = landscape.getWidth();
+            int landscapeHeight = landscape.getHeight();
+            int screenWidth = Util.getScreenWidth(this);
+            int screenHeight = Util.getScreenHeight(this);
+            int cropWidth = (landscapeWidth < screenWidth) ? landscapeWidth : screenWidth;
+            int cropHeight = (landscapeHeight < screenHeight) ? landscapeHeight : screenHeight;
+            landscape = Bitmap.createBitmap(landscape, 0, 0, cropWidth, cropHeight);
+            // Apply blur
+            landscape = Util.doBlur(getApplicationContext(), landscape);
+            Drawable background = new BitmapDrawable(getResources(), landscape);
+            // Apply filter
+            int filterColor = Color.parseColor("#a0" + "5C5C5C");
+            mPageLayout.setBackgroundColor(filterColor);
+            // Set background (doesn't change with ScrollView)
+            getWindow().setBackgroundDrawable(background);
+        }
+
     }
 
     // Set credentials of last user
@@ -159,6 +206,9 @@ public class SignInActivity extends AppCompatActivity {
         // Get input data
         String username = "test";
         String password = "1234567890";
+
+        // Begin XML if needed
+        UserDataManager.init(getApplicationContext());
 
         // Create new authenticated user
         UserDataManager.setRecentUser(username);

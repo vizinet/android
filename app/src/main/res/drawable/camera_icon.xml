@@ -4,7 +4,12 @@
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android">
             <solid android:color="@color/cameraIconColor" />
-            <corners android:radius="@dimen/home_pane_icon_width" />
+            <corners android:radius="@dimen/home_pane_icon_border_radius" />
+            <!--<padding-->
+            <!--android:top="@dimen/home_pane_icon_inner_padding"-->
+            <!--android:left="@dimen/home_pane_icon_inner_padding"-->
+            <!--android:right="@dimen/home_pane_icon_inner_padding"-->
+            <!--android:bottom="@dimen/home_pane_icon_inner_padding"/>-->
             <size
                 android:width="@dimen/home_pane_icon_width"
                 android:height="@dimen/home_pane_icon_width" />
@@ -14,10 +19,11 @@
     <item
         android:width="@dimen/home_pane_inner_icon_width"
         android:height="@dimen/home_pane_inner_icon_width"
-        android:bottom="@dimen/home_pane_inner_icon_margin"
-        android:left="@dimen/home_pane_inner_icon_margin"
-        android:right="@dimen/home_pane_inner_icon_margin"
-        android:top="@dimen/home_pane_inner_icon_margin">
+        android:gravity="center_horizontal|center_vertical">
+        <!--android:bottom="@dimen/home_pane_inner_icon_margin"-->
+        <!--android:left="@dimen/home_pane_inner_icon_margin"-->
+        <!--android:right="@dimen/home_pane_inner_icon_margin"-->
+        <!--android:top="@dimen/home_pane_inner_icon_margin">-->
         <bitmap
             android:src="@drawable/camera"
             android:tint="@color/paneImageTint"></bitmap>

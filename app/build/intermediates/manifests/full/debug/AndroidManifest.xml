@@ -64,14 +64,23 @@
         <activity
             android:name="lar.wsu.edu.airpact_fire.PostDetailsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="lar.wsu.edu.airpact_fire.InformationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="lar.wsu.edu.airpact_fire.SettingsActivity"
+            android:screenOrientation="portrait" />
 
         <!-- Phased out -->
-        <activity android:name="lar.wsu.edu.airpact_fire.ViewUserXMLActivity" />
-        <activity android:name="lar.wsu.edu.airpact_fire.TutorialActivity" />
-        <activity android:name="lar.wsu.edu.airpact_fire.SettingsActivity" />
-        <activity android:name="lar.wsu.edu.airpact_fire.InformationActivity" />
+        <activity
+            android:name="lar.wsu.edu.airpact_fire.ViewUserXMLActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="lar.wsu.edu.airpact_fire.TutorialActivity"
+            android:screenOrientation="portrait" />
+
         <!--
- ATTENTION: This was auto-generated to add Google Play services to your project for
+     ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
         <meta-data

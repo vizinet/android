@@ -1,14 +1,17 @@
 package lar.wsu.edu.airpact_fire;
 
 import android.Manifest;
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -16,21 +19,27 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ContentFrameLayout;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 // TODO: Find way to compress image and display in very short amount of time. We started having
 //  problems with XML reading/writing when we stored whole image.
@@ -41,66 +50,97 @@ public class SelectContrastActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
     public static Uri imageUri;
-    ImageView mWhiteCircle, mBlackCircle, mCurrentCircle;
-    private boolean isFirstRun = true;
+
+    private FrameLayout mNavBar;
+    private LinearLayout mButtonPanel;
+    private FrameLayout mIndicatorPanel;
+    private FrameLayout mRightButtonPanel;
+    private LinearLayout mSelectionPanel;
+
+    private TextView mVisualRangeInput;
+    private TextView mSelectionPanelText;
+    private ImageView mWhiteCircle, mBlackCircle, mCurrentCircle;
     // UI elements
     private ImageView mImageView; //, mBlackCircleColorView, mWhiteCircleColorView;
-    private ImageButton mDoneButton, mRetakeButton;
+    private Button mDoneButton, mRetakeButton;
     //private TextView mLowText, mHighText;
     private ImageView mBlackIndicatorButton, mWhiteIndicatorButton;
+    private Spinner mMetricSelectSpinner;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_contrast);
-        setTitle("Contrast Points");
-
-        // Pulse animation
-        Animation pulse = AnimationUtils.loadAnimation(this, R.anim.pulse);
+        Util.setupSecondaryNavBar(this, HomeActivity.class, "SELECT COLOR POINTS");
 
         // Create UI elements
-        mWhiteCircle = addNewCircle(R.drawable.white_dot);
-        mBlackCircle = addNewCircle(R.drawable.black_dot);
+        mWhiteCircle = addNewIndicator(R.color.schemeWhite);
+        mBlackCircle = addNewIndicator(R.color.schemeDark);
         mCurrentCircle = mWhiteCircle;
-        //mCurrentCircle.startAnimation(pulse);
-
-        // Set past indicator points, if any
-        if (UserDataManager.getUserData(UserDataManager.getRecentUser(), "lowX") != null) {
-            //Toast.makeText(getApplicationContext(), "Indicator points remembered and placed", Toast.LENGTH_SHORT).show();
-
-            float lowIndicatorX = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getRecentUser(), "lowX"));
-            float lowIndicatorY = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getRecentUser(), "lowY"));
-            float highIndicatorX = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getRecentUser(), "highX"));
-            float highIndicatorY = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getRecentUser(), "highY"));
-            mWhiteCircle.setX(highIndicatorX);
-            mWhiteCircle.setY(highIndicatorY);
-            mBlackCircle.setX(lowIndicatorX);
-            mBlackCircle.setY(lowIndicatorY);
-        }
 
         // Grab UI elements
+        mNavBar = (FrameLayout) findViewById(R.id.navbar);
+        mButtonPanel = (LinearLayout) findViewById(R.id.button_panel);
+        mIndicatorPanel = (FrameLayout) findViewById(R.id.indicator_panel);
+        mRightButtonPanel = (FrameLayout) findViewById(R.id.right_button_panel);
+        mSelectionPanel = (LinearLayout) findViewById(R.id.selection_panel);
+        // ...
+        mSelectionPanelText = (TextView) findViewById(R.id.selection_panel_text);
         mImageView = (ImageView) findViewById(R.id.image_view);
-        //mWhiteCircleColorView = (ImageView) findViewById(R.id.white_circle_color);
-        //mBlackCircleColorView = (ImageView) findViewById(R.id.black_circle_color);
-
         mBlackIndicatorButton = (ImageView) findViewById(R.id.black_indicator_button);
         mWhiteIndicatorButton = (ImageView) findViewById(R.id.white_indicator_button);
-        mDoneButton = (ImageButton) findViewById(R.id.done_button);
-        mRetakeButton = (ImageButton) findViewById(R.id.retake_button);
+        mDoneButton = (Button) findViewById(R.id.done_button);
+        mRetakeButton = (Button) findViewById(R.id.retake_button);
+        mMetricSelectSpinner = (Spinner) findViewById(R.id.metric_select_spinner);
+        mVisualRangeInput = (TextView) findViewById(R.id.visual_range_input);
 
-        // Let user know which indicator is selected
-        //mLowText.setTextColor(Color.GRAY);
-        //mHighText.setTextColor(Color.RED);
-        // TODO: Set an outline
+        // Spinner stuff
+        List<String> metricOptions = new ArrayList<>();
+        metricOptions.add("Miles");
+        metricOptions.add("Kilometers");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.spinner_item_text, metricOptions);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mMetricSelectSpinner.setAdapter(adapter);
 
-        // Start off with taking picture
+        // Set current button (white)
+        // TODO: Create setupIndicatorSwatches(...)
+        mWhiteIndicatorButton.setBackground(getResources().getDrawable(R.drawable.indicator_border));
+
+        // Verify camera permissions and take picture
+        Util.verifyStoragePermissions(SelectContrastActivity.this);
         takeAndSetPicture();
 
-        // Button click listeners
+        // Navigation buttons
         mDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Check if distance field is complete
+                if (!areFieldsCompleted()) {
+                    // Message and highlight error
+                    Toast.makeText(SelectContrastActivity.this, "Please enter distance from low-color point in the captured scene.", Toast.LENGTH_LONG).show();
+
+                    int colorFrom = ContextCompat.getColor(SelectContrastActivity.this, R.color.schemeTransparent);
+                    int colorTo = ContextCompat.getColor(SelectContrastActivity.this, R.color.schemeFailure);
+                    ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo, colorTo, colorFrom);
+                    colorAnimation.setDuration(1000); // milliseconds
+                    colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animator) {
+                            mRightButtonPanel.setBackgroundColor((int) animator.getAnimatedValue());
+                        }
+
+                    });
+                    colorAnimation.start();
+
+                    // Break
+                    return;
+                }
+
+                // Save distance
+                UserDataManager.setUserData("visualRange", mVisualRangeInput.getText().toString());
+
                 // Now user adds picture details
                 Intent intent = new Intent(getApplicationContext(), AddPictureDetailsActivity.class);
                 startActivity(intent);
@@ -113,22 +153,28 @@ public class SelectContrastActivity extends AppCompatActivity {
                 takeAndSetPicture();
             }
         });
+        // Indicator panel buttons
         mBlackIndicatorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Clear past circle
+                mWhiteIndicatorButton.setBackgroundResource(0);
                 mCurrentCircle = mBlackCircle;
-//                mLowText.setTextColor(Color.RED);
-//                mHighText.setTextColor(Color.GRAY);
-                // TODO
+                // Set new circle background
+                mBlackIndicatorButton.setBackground(getResources().getDrawable(R.drawable.indicator_border));
+
+                animateIndicator(mCurrentCircle);
             }
         });
         mWhiteIndicatorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mBlackIndicatorButton.setBackgroundResource(0);
                 mCurrentCircle = mWhiteCircle;
-//                mLowText.setTextColor(Color.GRAY);
-//                mHighText.setTextColor(Color.RED);
-                // TODO
+                mWhiteIndicatorButton.setBackground(getResources().getDrawable(R.drawable.indicator_border));
+
+                // Animate indicator
+                animateIndicator(mCurrentCircle);
             }
         });
 
@@ -136,44 +182,71 @@ public class SelectContrastActivity extends AppCompatActivity {
         mImageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // If point is within image
-                if (Util.isPointInView(mImageView, (int) event.getX(), (int) event.getY())) {
-                    // Get pixel we've touched
-                    int selectedPixel = Util.getPixelAtPos(mImageView, (int) event.getX(), (int) event.getY()); // 230;
 
-                    // Display and set circle position
-                    mCurrentCircle.setVisibility(View.VISIBLE);
-                    mCurrentCircle.setX(event.getX());
-                    mCurrentCircle.setY(event.getY());
+                // Handle displays
+                if (event.getAction() == MotionEvent.ACTION_UP) showDisplays();
+                else if (event.getAction() == MotionEvent.ACTION_DOWN) hideDisplays();
 
-                    // Update visual patch
-                    if (mCurrentCircle == mBlackCircle) {
-                        //mBlackCircleColorView.setBackgroundColor(Color.rgb(Color.red(selectedPixel), Color.green(selectedPixel), Color.blue(selectedPixel)));
-                        mBlackIndicatorButton.setColorFilter(selectedPixel);
-                    } else {
-                        //mWhiteCircleColorView.setBackgroundColor(Color.rgb(Color.red(selectedPixel), Color.green(selectedPixel), Color.blue(selectedPixel)));
-                        // TODO
-                        mWhiteIndicatorButton.setColorFilter(selectedPixel);
-                    }
+                // Update UI to indicator movement
+                onIndicatorMoved(mCurrentCircle, (int) event.getX(), (int) event.getY());
 
-                    // Set indicator color to pixel color
-                    mCurrentCircle.setColorFilter(Color.rgb(Color.red(selectedPixel), Color.green(selectedPixel), Color.blue(selectedPixel)));
-
-                } else { // Hide indicators outside of bounds
-                    mCurrentCircle.setVisibility(View.VISIBLE);
-                }
                 return true;
             }
         });
     }
+
+    // Check if user has filled out fields necessary
+    // TODO: Same thing with next activity
+    private boolean areFieldsCompleted() {
+        String visualRangeText = mVisualRangeInput.getText().toString();
+        if (visualRangeText == null || visualRangeText.length() == 0) return false;
+        return true;
+    }
+
+    // Checks if coordinates are valid. If so, set them
+    // Gets color at that point
+    // Updates color panels
+    private void onIndicatorMoved(ImageView indicator, int x, int y) {
+        // If point is within image
+        if (Util.isPointInView(mImageView, x, y)) {
+            // Get pixel we've touched
+            int selectedPixel = Util.getPixelAtPos(mImageView, x, y);
+
+            // Display and set circle position
+            int circleX = Math.round(x) - (indicator.getWidth() / 2);
+            int circleY = Math.round(y) - (indicator.getHeight() / 2);
+            indicator.setX(circleX);
+            indicator.setY(circleY);
+
+            // Update indicator and selection panels
+            if (indicator == mBlackCircle) {
+                mBlackIndicatorButton.setColorFilter(selectedPixel);
+                mSelectionPanelText.setText("Selecting low color...");
+            } else {
+                mWhiteIndicatorButton.setColorFilter(selectedPixel);
+                mSelectionPanelText.setText("Selecting high color...");
+            }
+            mSelectionPanel.setBackgroundColor(selectedPixel);
+            // Set text according to its background
+            double luminance = 0.2126 * Color.red(selectedPixel) +
+                    0.7152 * Color.green(selectedPixel) +
+                    0.0722 * Color.blue(selectedPixel);
+            int textColor = luminance < 128 ? Color.WHITE : Color.BLACK;
+            mSelectionPanelText.setTextColor(textColor);
+
+            // Set indicator color to pixel color
+            // NOTE: When I do .setTint(...), it seems to affect the drawable itself and thus any View which uses it
+            indicator.getBackground().setColorFilter(selectedPixel, PorterDuff.Mode.MULTIPLY);
+
+        } else {
+            // Do nothing
+        }
+    }
+
+    // Save fields
     @Override
     protected void onPause() {
 
-//        // Don't do anything on first run
-//        if (isFirstRun) {
-//            isFirstRun = false;
-//
-//        } else {
         // Only call when we have a drawable
         if (mImageView.getDrawable() != null) {
 
@@ -189,7 +262,6 @@ public class SelectContrastActivity extends AppCompatActivity {
             UserDataManager.setUserData(UserDataManager.getRecentUser(), "lowColor",
                     Integer.toString((Util.getPixelAtPos(mImageView, Math.round(mBlackCircle.getX()), Math.round(mBlackCircle.getY())))));
 
-            //Toast.makeText(getApplicationContext(), "Indicator points and colors saved", Toast.LENGTH_SHORT).show();
         }
         super.onPause();
     }
@@ -208,8 +280,13 @@ public class SelectContrastActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
-            Toast.makeText(SelectContrastActivity.this, "imageview width: " + mImageView.getWidth(), Toast.LENGTH_LONG).show();
+            //Toast.makeText(SelectContrastActivity.this, "imageview width: " + mImageView.getWidth(), Toast.LENGTH_LONG).show();
             //ImageView img = (ImageView) findViewById(R.id.img);
+
+            // Only setup indicators when window has focus, because that's when ImageView gets inflated
+            setupIndicators();
+
+            Log.println(Log.ERROR, "onWindowFocusChanged", "mImageView.getWidth(): " + mImageView.getWidth());
         }
 
     }
@@ -232,7 +309,10 @@ public class SelectContrastActivity extends AppCompatActivity {
             }
 
             // Abort mission
-            if (bitmap == null) handleImageFailure();
+            if (bitmap == null) {
+                handleImageFailure();
+                return;
+            }
 
             // Resize bitmap to screen proportions
             Display display = getWindowManager().getDefaultDisplay();
@@ -261,9 +341,6 @@ public class SelectContrastActivity extends AppCompatActivity {
                 UserDataManager.setUserData(UserDataManager.getRecentUser(), "geoY", String.valueOf(loc.getLongitude()));
             }
 
-            // Tell user to select contrast points afterwards
-            Toast.makeText(this, "Select high and low contrast points", Toast.LENGTH_LONG).show();
-
             // Set image view
             mImageView.setImageBitmap(bitmap);
 
@@ -273,8 +350,67 @@ public class SelectContrastActivity extends AppCompatActivity {
         }
     }
 
+    // Make indicator get bigger and smaller smoothly
+    private void animateIndicator(final ImageView indicator) {
+        final int sizeFrom = indicator.getWidth();
+        final int sizeTo = sizeFrom + 10;
+        final int originalX = (int) indicator.getX();
+        final int originalY = (int) indicator.getY();
+        ValueAnimator sizeAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), sizeFrom, sizeTo, sizeFrom);
+        sizeAnimation.setDuration(500); // milliseconds
+        sizeAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                int animatedValue = (int) animator.getAnimatedValue();
+                int animateDisplacement = (int) (0.5 * (animatedValue - sizeFrom));
+
+                indicator.setX(originalX - animateDisplacement);
+                indicator.setY(originalY - animateDisplacement);
+                indicator.getLayoutParams().height = indicator.getLayoutParams().width = animatedValue;
+                indicator.requestLayout(); // Makes layout do changes instantly
+            }
+        });
+        sizeAnimation.start();
+    }
+
+    // Hide displays from view while image is being touched
+    public void hideDisplays() {
+        mNavBar.setVisibility(View.INVISIBLE);
+        mButtonPanel.setVisibility(View.INVISIBLE);
+        mIndicatorPanel.setVisibility(View.INVISIBLE);
+
+        // But show selection panel!
+        mSelectionPanel.setVisibility(View.VISIBLE);
+    }
+
+    public void showDisplays() {
+        mNavBar.setVisibility(View.VISIBLE);
+        mButtonPanel.setVisibility(View.VISIBLE);
+        mIndicatorPanel.setVisibility(View.VISIBLE);
+
+        // Flash visual range patch if low indicator was just set
+        if (mCurrentCircle == mBlackCircle) {
+            // Use animation
+            int colorFrom = ContextCompat.getColor(this, R.color.schemeTransparent);
+            int colorTo = ContextCompat.getColor(this, R.color.schemeWhite);
+            ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo, colorTo, colorFrom);
+            colorAnimation.setDuration(2000); // milliseconds
+            colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animator) {
+                    mRightButtonPanel.setBackgroundColor((int) animator.getAnimatedValue());
+                }
+
+            });
+            colorAnimation.start();
+        }
+        // ...
+        mSelectionPanel.setVisibility(View.INVISIBLE);
+    }
+
     // Create, add, and return new circle
-    public ImageView addNewCircle(int id) {
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public ImageView addNewIndicator(int colorId) {
         ImageView circle = new ImageView(this);
 
         // Layout
@@ -283,11 +419,22 @@ public class SelectContrastActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.MATCH_PARENT));
 
         // Setting image resource
-        circle.setImageResource(id);
+        //circle.setImageResource(id);
+        circle.setImageResource(R.drawable.indicator_point);
+
+        Drawable outline = ContextCompat.getDrawable(getApplicationContext(), R.drawable.indicator_border);
+        outline.setTint(colorId);
+        circle.setBackground(outline);
+
+        // Set background resource that changes with color of selected
+        circle.setBackground(getResources().getDrawable(R.drawable.indicator_border));
 
         // Width and height
         circle.getLayoutParams().width = 50;
         circle.getLayoutParams().height = 50;
+
+        // Make below panels but above image
+        circle.setTranslationZ(15);
 
         // Position
         circle.setX(0);
@@ -300,42 +447,34 @@ public class SelectContrastActivity extends AppCompatActivity {
         return circle;
     }
 
-    // Mainly a debug function to put black circle where I see fit
-    public void putPermCircle(int x, int y) {
-        ImageView circle = new ImageView(this);
-        circle.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
+    // Set initial indicator positions and colors
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public void setupIndicators() {
 
-        // Setting image resource
-        circle.setImageResource(R.drawable.logo);
-        // Width and height
-        circle.getLayoutParams().width = 25;
-        circle.getLayoutParams().height = 25;
+        float lowIndicatorX;
+        float lowIndicatorY;
+        float highIndicatorX;
+        float highIndicatorY;
 
-        circle.setX(x - circle.getWidth() / 2);
-        circle.setY(y - circle.getHeight() / 2);
+        // Set indicator coordinates
+        if (UserDataManager.getUserData(UserDataManager.getRecentUser(), "lowX") != null) {
+            // Get past coordinates
+            lowIndicatorX = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getRecentUser(), "lowX"));
+            lowIndicatorY = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getRecentUser(), "lowY"));
+            highIndicatorX = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getRecentUser(), "highX"));
+            highIndicatorY = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getRecentUser(), "highY"));
 
-        ContentFrameLayout parent = (ContentFrameLayout) findViewById(android.R.id.content);
-        parent.addView(circle);
-    }
+        } else {
+            // Place indicators at center of image (in upper- and lower-quadrant)
+            lowIndicatorX = (mImageView.getWidth() / 2);
+            lowIndicatorY = (mImageView.getHeight() / 2) + (mImageView.getHeight() / 8);
+            highIndicatorX = (mImageView.getWidth() / 2);
+            highIndicatorY = (mImageView.getWidth() / 2) - (mImageView.getHeight() / 8);
+        }
 
-    // Resize the given Bitmap
-    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-        // CREATE A MATRIX FOR THE MANIPULATION
-        Matrix matrix = new Matrix();
-        // RESIZE THE BIT MAP
-        matrix.postScale(scaleWidth, scaleHeight);
-
-        // "RECREATE" THE NEW BITMAP
-        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
-        bm.recycle();
-
-        return resizedBitmap;
+        // Initial indicator update
+        onIndicatorMoved(mWhiteCircle, (int) highIndicatorX, (int) highIndicatorY);
+        onIndicatorMoved(mBlackCircle, (int) lowIndicatorX, (int) lowIndicatorY);
     }
 
     // Takes picture

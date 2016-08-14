@@ -4,6 +4,10 @@
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/res/layout/activity_information.xml"
     },
     {
+        "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/spinner_item_text.xml",
+        "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/res/layout/spinner_item_text.xml"
+    },
+    {
         "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/select_dialog_multichoice_material.xml",
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/select_dialog_multichoice_material.xml"
     },
@@ -72,6 +76,10 @@
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/res/layout/design_layout_snackbar_include.xml"
     },
     {
+        "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/secondary_nav_bar.xml",
+        "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/res/layout/secondary_nav_bar.xml"
+    },
+    {
         "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/design_layout_tab_text.xml",
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/res/layout/design_layout_tab_text.xml"
     },
@@ -96,12 +104,12 @@
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/res/layout/design_layout_snackbar.xml"
     },
     {
-        "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/notification_template_part_chronometer.xml",
-        "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/notification_template_part_chronometer.xml"
-    },
-    {
         "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/select_dialog_item_material.xml",
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/select_dialog_item_material.xml"
+    },
+    {
+        "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/notification_template_part_chronometer.xml",
+        "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/notification_template_part_chronometer.xml"
     },
     {
         "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/abc_screen_toolbar.xml",
@@ -124,12 +132,12 @@
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/support_simple_spinner_dropdown_item.xml"
     },
     {
-        "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/abc_action_bar_up_container.xml",
-        "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_action_bar_up_container.xml"
-    },
-    {
         "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/design_layout_tab_icon.xml",
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/res/layout/design_layout_tab_icon.xml"
+    },
+    {
+        "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/abc_action_bar_up_container.xml",
+        "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_action_bar_up_container.xml"
     },
     {
         "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/abc_list_menu_item_icon.xml",
@@ -156,12 +164,12 @@
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/res/layout/design_navigation_item_separator.xml"
     },
     {
-        "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/abc_dialog_title_material.xml",
-        "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_dialog_title_material.xml"
-    },
-    {
         "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/abc_list_menu_item_checkbox.xml",
         "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_list_menu_item_checkbox.xml"
+    },
+    {
+        "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/abc_dialog_title_material.xml",
+        "source": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/layout/abc_dialog_title_material.xml"
     },
     {
         "merged": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/res/merged/debug/layout/notification_template_big_media_narrow.xml",

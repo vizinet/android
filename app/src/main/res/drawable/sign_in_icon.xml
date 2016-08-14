@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- <item>-->
+    <!--<shape android:shape="ring">-->
+    <!--&lt;!&ndash; set the shadow color here &ndash;&gt;-->
+    <!--<stroke-->
+    <!--android:width="5dp"-->
+    <!--android:color="#fff" />-->
+
+    <!--&lt;!&ndash; setting the thickness of shadow (positive value will give shadow on that side) &ndash;&gt;-->
+    <!--<padding-->
+    <!--android:bottom="5dp"-->
+    <!--android:left="-1dp"-->
+    <!--android:right="5dp"-->
+    <!--android:top="-1dp" />-->
+
+    <!--&lt;!&ndash;<corners android:radius="4dp" />&ndash;&gt;-->
+    <!--</shape>-->
+    <!--</item>-->
+    <!-- Shadow -->
+    <!--<shape>-->
+    <!--<solid android:color="#fff" />-->
+    <!--<corners android:radius="@dimen/home_pane_icon_width" />-->
+    <!--<size-->
+    <!--android:width="@dimen/home_pane_icon_width"-->
+    <!--android:height="@dimen/home_pane_icon_width" />-->
+    <!--<padding-->
+    <!--android:bottom="5dp"-->
+    <!--android:left="-1dp"-->
+    <!--android:right="5dp"-->
+    <!--android:top="-1dp" />-->
+    <!--</shape>-->
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="rectangle">
+            <corners android:radius="@dimen/sign_in_button_width" />
+            <gradient
+                android:angle="45"
+                android:centerX="35%"
+                android:centerColor="#7995A8"
+                android:startColor="#E8E8E8"
+                android:endColor="#000000"
+                android:type="linear" />
+            <padding
+                android:left="0dp"
+                android:top="0dp"
+                android:right="0dp"
+                android:bottom="0dp" />
+            <size
+                android:width="270dp"
+                android:height="60dp" />
+            <stroke
+                android:width="3dp"
+                android:color="#878787" />
+        </shape>
+    </item>
+    <!-- Circular background -->
+    <item>
+        <shape>
+            <solid android:color="#C9C9C9" />
+            <corners android:radius="1000dp" />
+            <!--<size-->
+            <!--android:width="@dimen/sign_in_button_width"-->
+            <!--android:height="@dimen/sign_in_button_width" />-->
+        </shape>
+    </item>
+    <!-- Image -->
+    <item
+        android:bottom="@dimen/sign_in_button_padding"
+        android:left="@dimen/sign_in_button_padding"
+        android:right="@dimen/sign_in_button_padding"
+        android:top="@dimen/sign_in_button_padding">
+
+        <bitmap
+            android:src="@drawable/right_arrow_large"
+            android:tint="@color/signInIconImageTint"></bitmap>
+    </item>
+
+</layer-list>

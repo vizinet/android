@@ -17,4 +17,9 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- Add picture details -->
+    <string name="location_hint"><i>e.g. Mount Baker, Yakima River, etc.</i></string>
+    <string name="visual_range_hint"><i>e.g. 3.1415926</i></string>
+    <string name="description_hint"><i>e.g. Morning fog seems to be coming through. Nothing out of the ordinary; same scene as yesterday, I think.</i></string>
 </resources>

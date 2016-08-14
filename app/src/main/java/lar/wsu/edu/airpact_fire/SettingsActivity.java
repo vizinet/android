@@ -11,5 +11,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        Util.setupSecondaryNavBar(this, HomeActivity.class, "SETTINGS");
     }
 }

@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:2:1-72:12
+ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:2:1-82:12
 	xmlns:android
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:2:11-69
 	package
@@ -52,7 +52,7 @@ ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/m
 	android:name
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:17:9-47
 application
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:20:5-70:19
+ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:20:5-80:19
 MERGED from [com.android.support:appcompat-v7:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:design:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/AndroidManifest.xml:22:5-20
@@ -139,29 +139,37 @@ ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/m
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:59:13-49
 	android:name
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:58:13-48
-activity#lar.wsu.edu.airpact_fire.ViewUserXMLActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:62:9-57
-	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:62:19-54
-activity#lar.wsu.edu.airpact_fire.TutorialActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:63:9-54
-	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:63:19-51
-activity#lar.wsu.edu.airpact_fire.SettingsActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:64:9-54
-	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:64:19-51
 activity#lar.wsu.edu.airpact_fire.InformationActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:65:9-66
+ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:60:9-62:52
+	android:screenOrientation
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:62:13-49
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:65:19-54
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:61:13-48
+activity#lar.wsu.edu.airpact_fire.SettingsActivity
+ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:63:10-65:51
+	android:screenOrientation
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:65:13-49
+	android:name
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:64:13-45
+activity#lar.wsu.edu.airpact_fire.ViewUserXMLActivity
+ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:68:9-70:51
+	android:screenOrientation
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:70:13-49
+	android:name
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:69:13-48
+activity#lar.wsu.edu.airpact_fire.TutorialActivity
+ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:71:9-73:51
+	android:screenOrientation
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:73:13-49
+	android:name
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:72:13-45
 meta-data#com.google.android.gms.version
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:67:9-69:69
+ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:77:9-79:69
 MERGED from [com.google.android.gms:play-services-basement:8.1.0] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/AndroidManifest.xml:21:9-23:69
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:68:13-58
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:78:13-58
 	android:value
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:69:13-66
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:79:13-66
 uses-sdk
 INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:20:5-43
