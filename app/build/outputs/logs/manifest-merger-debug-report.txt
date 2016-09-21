@@ -146,19 +146,19 @@ ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/m
 	android:name
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:61:13-48
 activity#lar.wsu.edu.airpact_fire.SettingsActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:63:10-65:51
+ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:63:9-65:52
 	android:screenOrientation
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:65:13-49
 	android:name
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:64:13-45
 activity#lar.wsu.edu.airpact_fire.ViewUserXMLActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:68:9-70:51
+ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:68:9-70:52
 	android:screenOrientation
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:70:13-49
 	android:name
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:69:13-48
 activity#lar.wsu.edu.airpact_fire.TutorialActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:71:9-73:51
+ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:71:9-73:52
 	android:screenOrientation
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:73:13-49
 	android:name
