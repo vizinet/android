@@ -385,7 +385,12 @@ class BackgroundPostService extends IntentService {
         if (!isBackgroundPostingEnabled) return;
 
         // TODO check un-posted posts and act on the that
-
+        // Get posts
+        // If Post.Status is unposted
+            // If post not current in process
+                // Attempt to post
+            // Else
+                // Wait in queue
     }
 }
 
