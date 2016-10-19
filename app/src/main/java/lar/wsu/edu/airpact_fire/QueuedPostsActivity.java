@@ -81,7 +81,7 @@ public class QueuedPostsActivity extends AppCompatActivity {
         mPage.setBackgroundDrawable(gd);
 
         // Stats
-        String username = UserDataManager.getRecentUser();
+        String username = AppDataManager.getRecentUser();
         int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), username);
         int numQueued = PostDataManager.getNumQueued(getApplicationContext(), username);
         mPostText.setText(numPosted + " posted\n" + numQueued + " queued\n" + "0 drafted");
@@ -104,12 +104,13 @@ public class QueuedPostsActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.M)
     private void generateTable() {
 
-        if (mPostList == null) return;
-
         // No posts status
+        if (mPostList == null) return;
         if (mPostList.size() == 0) {
             mPostText.setText("No posts to display");
             mUserPostTable.removeAllViews();
+
+            return;
         }
 
         // Add background as last post image
@@ -418,7 +419,7 @@ public class QueuedPostsActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            mPostList = PostDataManager.getPosts(getApplicationContext(), UserDataManager.getRecentUser());
+            mPostList = PostDataManager.getPosts(getApplicationContext(), AppDataManager.getRecentUser());
 
             return null;
         }

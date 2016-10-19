@@ -147,7 +147,11 @@ public class HomeActivity extends AppCompatActivity {
         // Username
         String displayName;
         int cutoffLength = 10;
-        mUsername = UserDataManager.getRecentUser();
+        mUsername = AppDataManager.getRecentUser();
+
+        // TODO remove this
+        mUsername = (mUsername == null) ? "" : mUsername;
+
         mUsernameText.setAllCaps(true);
         // Make sure name gets cutoff if exceeds max length
         displayName = (mUsername.length() >= cutoffLength) ? (mUsername.substring(0, cutoffLength) + "...") : mUsername;

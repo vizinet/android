@@ -64,11 +64,11 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Util.storeTransactionImage(getApplicationContext(),
                         Util.stringToBitMap(
-                                String.valueOf(UserDataManager.getUserData(UserDataManager.getRecentUser(), "image")
+                                String.valueOf(AppDataManager.getUserData(AppDataManager.getRecentUser(), "image")
                                 )));
                 Intent intent = new Intent(getApplicationContext(), ViewImageActivity.class);
                 // Pass in image to new activity
-                //intent.putExtra("IMAGE_STRING", String.valueOf(UserDataManager.getUserData(UserDataManager.getRecentUser(), "image")));
+                //intent.putExtra("IMAGE_STRING", String.valueOf(AppDataManager.getUserData(AppDataManager.getRecentUser(), "image")));
                 startActivity(intent);
             }
         });
@@ -118,21 +118,21 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
 
     // Collect user values for post
     private void collectFormData() {
-        String lastUser = UserDataManager.getRecentUser();
-        UserDataManager.setUserData(lastUser, "description", mDescriptionInput.getText().toString());
-//        UserDataManager.setUserData(lastUser, "visualRange", mVisualRangeInput.getText().toString());
-        UserDataManager.setUserData(lastUser, "tags", mAddTagInput.getText().toString());
+        String lastUser = AppDataManager.getRecentUser();
+        AppDataManager.setUserData(lastUser, "description", mDescriptionInput.getText().toString());
+//        AppDataManager.setUserData(lastUser, "visualRange", mVisualRangeInput.getText().toString());
+        AppDataManager.setUserData(lastUser, "tags", mAddTagInput.getText().toString());
     }
 
     // Add past user values to form
     private void populateFormData() {
-        String lastUser = UserDataManager.getRecentUser();
-        mImageDateTextView.setText(UserDataManager.getUserData(lastUser, "loginTime"));
-        mImageLocationTextView.setText("(" + UserDataManager.getUserData(lastUser, "geoX")
-                + ", " + UserDataManager.getUserData(lastUser, "geoY") + ")");
-        mAddTagInput.setText(UserDataManager.getUserData(lastUser, "tags"));
-        mVisualRangeInput.setText(UserDataManager.getUserData(lastUser, "visualRange"));
-        mDescriptionInput.setText(UserDataManager.getUserData(lastUser, "description"));
+        String lastUser = AppDataManager.getRecentUser();
+        mImageDateTextView.setText(AppDataManager.getUserData(lastUser, "loginTime"));
+        mImageLocationTextView.setText("(" + AppDataManager.getUserData(lastUser, "geoX")
+                + ", " + AppDataManager.getUserData(lastUser, "geoY") + ")");
+        mAddTagInput.setText(AppDataManager.getUserData(lastUser, "tags"));
+        mVisualRangeInput.setText(AppDataManager.getUserData(lastUser, "visualRange"));
+        mDescriptionInput.setText(AppDataManager.getUserData(lastUser, "description"));
         // Spinner stuff
         List<String> metricOptions = new ArrayList<>();
         metricOptions.add("Feet");

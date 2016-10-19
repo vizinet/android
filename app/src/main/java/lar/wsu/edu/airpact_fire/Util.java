@@ -31,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Node;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -395,4 +397,21 @@ public class Util {
     public static int turnColorTransparent(int color, float transparency) {
         return Color.argb(Math.round(Color.alpha(color) * transparency), Color.red(color), Color.green(color), Color.blue(color));
     }
+
+    // Remove child nodes for DOM node
+    public static void removeNodeChildren(Node node) {
+        while (node.hasChildNodes())
+            node.removeChild(node.getFirstChild());
+    }
+
+    // Check if given page is installed
+    public static boolean isPackageInstalled(String packagename, PackageManager packageManager) {
+        try {
+            packageManager.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
 }

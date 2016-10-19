@@ -93,6 +93,12 @@ public class PostDataManager {
         return false;
     }
 
+    // Call next overloaded function, just with *current* user
+    public static List<Post> getPosts(Context context) {
+        String user = AppDataManager.getRecentUser();
+        return getPosts(context, user);
+    }
+
     // Get all posts from user
     public static List<Post> getPosts(Context context, String user) {
         // TODO: See if we shouldn't be creating a new helper each time

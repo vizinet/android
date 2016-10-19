@@ -25,7 +25,7 @@ public class ViewUserXMLActivity extends AppCompatActivity {
         XMLTextView.setText(post.toSubmissionJSON().toJSONString());
 
         // XML itself
-        //XMLTextView.append("\n\n" + UserDataManager.getXML());
+        //XMLTextView.append("\n\n" + AppDataManager.getXML());
 
 
         super.onResume();

@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
@@ -139,7 +140,7 @@ public class SelectContrastActivity extends AppCompatActivity {
                 }
 
                 // Save distance
-                UserDataManager.setUserData("visualRange", mVisualRangeInput.getText().toString());
+                AppDataManager.setUserData("visualRange", mVisualRangeInput.getText().toString());
 
                 // Now user adds picture details
                 Intent intent = new Intent(getApplicationContext(), AddPictureDetailsActivity.class);
@@ -250,16 +251,27 @@ public class SelectContrastActivity extends AppCompatActivity {
         // Only call when we have a drawable
         if (mImageView.getDrawable() != null) {
 
+            // Get actual image dimensions
+            Drawable imageDrawable = mImageView.getDrawable();
+            Rect imageBounds = imageDrawable.getBounds();
+            int imageWidth = imageBounds.width(), imageHeight = imageBounds.height();
+            float lowRelativeX = imageWidth * (mBlackCircle.getX() / Util.getScreenWidth(this));
+            float lowRelativeY = imageHeight * (mBlackCircle.getY() / Util.getScreenHeight(this));
+            float highRelativeX = imageWidth * (mWhiteCircle.getX() / Util.getScreenWidth(this));
+            float highRelativeY = imageHeight * (mWhiteCircle.getY() / Util.getScreenHeight(this));
+
             // Update data of last indicator points for user
-            UserDataManager.setUserData(UserDataManager.getRecentUser(), "lowX", (Float.toString(mBlackCircle.getX())));
-            UserDataManager.setUserData(UserDataManager.getRecentUser(), "lowY", (Float.toString(mBlackCircle.getY())));
-            UserDataManager.setUserData(UserDataManager.getRecentUser(), "highX", (Float.toString(mWhiteCircle.getX())));
-            UserDataManager.setUserData(UserDataManager.getRecentUser(), "highY", (Float.toString(mWhiteCircle.getY())));
+            AppDataManager.setUserData(AppDataManager.getRecentUser(), "lowX", (Float.toString(lowRelativeX)));
+            AppDataManager.setUserData(AppDataManager.getRecentUser(), "lowY", (Float.toString(lowRelativeY)));
+            AppDataManager.setUserData(AppDataManager.getRecentUser(), "highX", (Float.toString(highRelativeX)));
+            AppDataManager.setUserData(AppDataManager.getRecentUser(), "highY", (Float.toString(highRelativeY)));
+
+            Log.println(Log.DEBUG, "POSITIONING", "lowX: " + lowRelativeX + "lowY: " + lowRelativeY);
 
             // Get color
-            UserDataManager.setUserData(UserDataManager.getRecentUser(), "highColor",
+            AppDataManager.setUserData(AppDataManager.getRecentUser(), "highColor",
                     Integer.toString((Util.getPixelAtPos(mImageView, Math.round(mWhiteCircle.getX()), Math.round(mWhiteCircle.getY())))));
-            UserDataManager.setUserData(UserDataManager.getRecentUser(), "lowColor",
+            AppDataManager.setUserData(AppDataManager.getRecentUser(), "lowColor",
                     Integer.toString((Util.getPixelAtPos(mImageView, Math.round(mBlackCircle.getX()), Math.round(mBlackCircle.getY())))));
 
         }
@@ -280,15 +292,11 @@ public class SelectContrastActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
-            //Toast.makeText(SelectContrastActivity.this, "imageview width: " + mImageView.getWidth(), Toast.LENGTH_LONG).show();
-            //ImageView img = (ImageView) findViewById(R.id.img);
-
             // Only setup indicators when window has focus, because that's when ImageView gets inflated
             setupIndicators();
 
             Log.println(Log.ERROR, "onWindowFocusChanged", "mImageView.getWidth(): " + mImageView.getWidth());
         }
-
     }
 
     // Receives taken picture as thumbnail
@@ -325,11 +333,11 @@ public class SelectContrastActivity extends AppCompatActivity {
 
             // Add Bitmap to post in XML
             String imageString = Base64.encodeToString(Util.compressBitmap(bitmap), Base64.DEFAULT);
-            UserDataManager.setUserData(UserDataManager.getRecentUser(), "image", imageString);
+            AppDataManager.setUserData(AppDataManager.getRecentUser(), "image", imageString);
 
-            // Add placeholder geolocation
-            UserDataManager.setUserData(UserDataManager.getRecentUser(), "geoX", "-1");
-            UserDataManager.setUserData(UserDataManager.getRecentUser(), "geoY", "-1");
+            // Add placeholder geolocation (Pullman, WA)
+            AppDataManager.setUserData(AppDataManager.getRecentUser(), "geoX", String.valueOf(Post.GPS_DEFAULT_LOC[0]));
+            AppDataManager.setUserData(AppDataManager.getRecentUser(), "geoY", String.valueOf(Post.GPS_DEFAULT_LOC[1]));
             // Check for real deal
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -337,8 +345,8 @@ public class SelectContrastActivity extends AppCompatActivity {
                 // Get last location
                 Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 // Set lat and long
-                UserDataManager.setUserData(UserDataManager.getRecentUser(), "geoX", String.valueOf(loc.getLatitude()));
-                UserDataManager.setUserData(UserDataManager.getRecentUser(), "geoY", String.valueOf(loc.getLongitude()));
+                AppDataManager.setUserData(AppDataManager.getRecentUser(), "geoX", String.valueOf(loc.getLatitude()));
+                AppDataManager.setUserData(AppDataManager.getRecentUser(), "geoY", String.valueOf(loc.getLongitude()));
             }
 
             // Set image view
@@ -457,12 +465,12 @@ public class SelectContrastActivity extends AppCompatActivity {
         float highIndicatorY;
 
         // Set indicator coordinates
-        if (UserDataManager.getUserData(UserDataManager.getRecentUser(), "lowX") != null) {
+        if (AppDataManager.getUserData(AppDataManager.getRecentUser(), "lowX") != null) {
             // Get past coordinates
-            lowIndicatorX = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getRecentUser(), "lowX"));
-            lowIndicatorY = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getRecentUser(), "lowY"));
-            highIndicatorX = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getRecentUser(), "highX"));
-            highIndicatorY = Float.parseFloat(UserDataManager.getUserData(UserDataManager.getRecentUser(), "highY"));
+            lowIndicatorX = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "lowX"));
+            lowIndicatorY = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "lowY"));
+            highIndicatorX = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "highX"));
+            highIndicatorY = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "highY"));
 
         } else {
             // Place indicators at center of image (in upper- and lower-quadrant)

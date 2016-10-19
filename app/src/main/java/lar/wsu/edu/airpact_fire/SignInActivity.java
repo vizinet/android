@@ -108,7 +108,7 @@ public class SignInActivity extends AppCompatActivity {
         progress = new ProgressDialog(SignInActivity.this);
 
         // XML Stuff -- create XML if necessary
-        UserDataManager.init(getApplicationContext());
+        AppDataManager.init(getApplicationContext());
 
         // Set up the login form
         populateLoginFields();
@@ -122,13 +122,13 @@ public class SignInActivity extends AppCompatActivity {
                 String password = mPasswordView.getText().toString();
 
                 // Update user's password and login time (and create one if we need to)
-                UserDataManager.setUserData(username, "password", password);
-                UserDataManager.setUserData(username, "loginTime", (new Date()).toString());
+                AppDataManager.setUserData(username, "password", password);
+                AppDataManager.setUserData(username, "loginTime", (new Date()).toString());
                 // Set as last user
-                UserDataManager.setRecentUser(username);
+                AppDataManager.setRecentUser(username);
 
                 // For regulars; no network auth. required
-                if (Boolean.parseBoolean(UserDataManager.getUserData(UserDataManager.getRecentUser(), "isAuth")))
+                if (Boolean.parseBoolean(AppDataManager.getUserData(AppDataManager.getRecentUser(), "isAuth")))
                 {
                     Toast.makeText(SignInActivity.this, "Welcome back!", Toast.LENGTH_LONG).show();
                     openHomeScreen();
@@ -141,7 +141,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        // Open web URL
+//        // Open web URL
 //        mRegisterButton.setOnClickListener(new OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -150,6 +150,9 @@ public class SignInActivity extends AppCompatActivity {
 //                startActivity(intent);
 //            }
 //        });
+
+        // Check if scripts are updated
+        //ScriptManager.update(this);
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -186,10 +189,31 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // TODO: Fix issue with QPython not executing our Python code!
+
+        if (true) return;
+
+        if (requestCode == ScriptManager.SCRIPT_EXEC_PY) {
+            if (data != null) {
+                Bundle bundle = data.getExtras();
+                String flag = bundle.getString("flag"); // flag you set
+                String param = bundle.getString("param"); // param you set
+                String result = bundle.getString("result"); // Result your Pycode generate
+                Toast.makeText(this, "onQPyExec: return (" + result + ")", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "onQPyExec: data is null", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     // Set credentials of last user
     private void populateLoginFields() {
-        String lastUser = UserDataManager.getRecentUser();
-        String lastPassword = UserDataManager.getUserData(lastUser, "password");
+        String lastUser = AppDataManager.getRecentUser();
+        String lastPassword = AppDataManager.getUserData(lastUser, "password");
 
         mUsernameView.setText(lastUser);
         mPasswordView.setText(lastPassword);
@@ -208,13 +232,13 @@ public class SignInActivity extends AppCompatActivity {
         String password = "1234567890";
 
         // Begin XML if needed
-        UserDataManager.init(getApplicationContext());
+        AppDataManager.init(getApplicationContext());
 
         // Create new authenticated user
-        UserDataManager.setRecentUser(username);
-        UserDataManager.setUserData(username, "isAuth", "true");
-        UserDataManager.setUserData(username, "password", password);
-        UserDataManager.setUserData(username, "loginTime", (new Date()).toString());
+        AppDataManager.setRecentUser(username);
+        AppDataManager.setUserData(username, "isAuth", "true");
+        AppDataManager.setUserData(username, "password", password);
+        AppDataManager.setUserData(username, "loginTime", (new Date()).toString());
 
         // Open home
         openHomeScreen();
@@ -250,9 +274,9 @@ public class SignInActivity extends AppCompatActivity {
 
                 // JSON authentication (send) package
                 JSONObject authSendJSON = new JSONObject();
-                authSendJSON.put("username", UserDataManager.getRecentUser());
+                authSendJSON.put("username", AppDataManager.getRecentUser());
                 authSendJSON.put("password",
-                        UserDataManager.getUserData(UserDataManager.getRecentUser(), "password"));
+                        AppDataManager.getUserData(AppDataManager.getRecentUser(), "password"));
 
                 String sendMessage = authSendJSON.toJSONString(),
                         serverResponse,
@@ -309,9 +333,9 @@ public class SignInActivity extends AppCompatActivity {
                 if (isUser) {
                     // Don't do anything with key for now
                     //userKey = authReceiveJSON.get("secretKey").toString();
-                    UserDataManager.setUserData(UserDataManager.getRecentUser(), "isAuth", "true");
+                    AppDataManager.setUserData(AppDataManager.getRecentUser(), "isAuth", "true");
                 } else { // Exit if not a user
-                    UserDataManager.setUserData(UserDataManager.getRecentUser(), "isAuth", "false");
+                    AppDataManager.setUserData(AppDataManager.getRecentUser(), "isAuth", "false");
                     return null;
                 }
 
@@ -332,7 +356,7 @@ public class SignInActivity extends AppCompatActivity {
             progress.dismiss();
 
             // Open up home screen
-            if (Boolean.parseBoolean(UserDataManager.getUserData(UserDataManager.getRecentUser(),
+            if (Boolean.parseBoolean(AppDataManager.getUserData(AppDataManager.getRecentUser(),
                     "isAuth"))) {
                 Toast.makeText(SignInActivity.this, "Authentication successful.\nWelcome!",
                         Toast.LENGTH_LONG).show();

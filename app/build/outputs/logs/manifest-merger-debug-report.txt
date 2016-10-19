@@ -1,8 +1,6 @@
 -- Merging decision tree log ---
 manifest
 ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:2:1-82:12
-	xmlns:android
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:2:11-69
 	package
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:3:5-39
 		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
@@ -10,6 +8,8 @@ ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/m
 	android:versionName
 		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
 		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:2:11-69
 	android:versionCode
 		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
 		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
@@ -53,20 +53,15 @@ ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/m
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:17:9-47
 application
 ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:20:5-80:19
-MERGED from [com.android.support:appcompat-v7:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:design:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:appcompat-v7:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-appindexing:8.1.0] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/AndroidManifest.xml:19:5-20
 MERGED from [com.google.android.gms:play-services-basement:8.1.0] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/AndroidManifest.xml:20:5-24:19
-MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:22:5-20
-	android:supportsRtl
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:24:9-35
 	android:label
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:23:9-41
+	android:supportsRtl
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:24:9-35
 	android:allowBackup
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:21:9-35
 	android:icon
@@ -166,23 +161,18 @@ ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/m
 meta-data#com.google.android.gms.version
 ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:77:9-79:69
 MERGED from [com.google.android.gms:play-services-basement:8.1.0] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/AndroidManifest.xml:21:9-23:69
-	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:78:13-58
 	android:value
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:79:13-66
+	android:name
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:78:13-58
 uses-sdk
 INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-MERGED from [com.android.support:appcompat-v7:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:design:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:appcompat-v7:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:recyclerview-v7:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:20:5-43
 MERGED from [com.google.android.gms:play-services-appindexing:8.1.0] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/AndroidManifest.xml:18:5-42
 MERGED from [com.google.android.gms:play-services-basement:8.1.0] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/AndroidManifest.xml:18:5-42
-MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:20:5-43
 	android:targetSdkVersion
 		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
 		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml

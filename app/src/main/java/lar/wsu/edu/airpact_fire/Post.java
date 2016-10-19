@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.json.simple.JSONObject;
@@ -22,6 +23,7 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 // Object for handling our picture post for current user, along with all the metadata
@@ -43,17 +45,17 @@ public class Post {
             "password"
     };
     public static final String[] POST_SUBMIT_FIELDS = {
-            "user",
-            "description",
-            "image",
-            "secretKey",
-            "highColor",
-            "highX", "highY",
-            "lowColor",
-            "lowX", "lowY",
-            "visualRange",
-            "geoX", "geoY",
-            "tags"
+            "user",             // String
+            "description",      // String
+            "image",            // String
+            "secretKey",        // String
+            "highColor",        // int
+            "highX", "highY",   // float
+            "lowColor",         // int
+            "lowX", "lowY",     // float
+            "visualRange",      // float
+            "geoX", "geoY",     // float
+            "tags"              // String
     };
     public static final String[] POST_LOCAL_FIELDS = {
             "isPosted",
@@ -66,8 +68,11 @@ public class Post {
     public static final String SERVER_UPLOAD_URL = SERVER_BASE_URL + "/file_upload/upload";
     public static final String SERVER_AUTH_URL = SERVER_BASE_URL + "/user/appauth";
     public static final String SERVER_REGISTER_URL = SERVER_BASE_URL + "/user/register";
+    public static final String SERVER_SCRIPT_URL = SERVER_BASE_URL + "/getPythonScripts/";
     // Date format
     public static final String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
+    // Geo constants
+    public static final double[] GPS_DEFAULT_LOC = {46.73267, -117.163454}; // Pullman, WA
     // For submission
     public static Context Context;
     public static AppCompatActivity Activity;
@@ -122,33 +127,21 @@ public class Post {
     Post() {
         // TODO Fix all of these brute force tactics
         // Post XML => Post JSON
-        String lastUser = UserDataManager.getRecentUser();
+        String lastUser = AppDataManager.getRecentUser();
         User = lastUser;
-        Description = UserDataManager.getUserData(User, "description");
-        Image = UserDataManager.getUserData(User, "image");
-        SecretKey = UserDataManager.getUserData(User, "secretKey");
-        HighColor = UserDataManager.getUserData(User, "highColor");
-        HighX = UserDataManager.getUserData(User, "highX");
-        HighY = UserDataManager.getUserData(User, "highY");
-        LowColor = UserDataManager.getUserData(User, "lowColor");
-        LowX = UserDataManager.getUserData(User, "lowX");
-        LowY = UserDataManager.getUserData(User, "lowY");
-        VisualRange = UserDataManager.getUserData(User, "visualRange");
-        GeoX = UserDataManager.getUserData(User, "geoX");
-        GeoY = UserDataManager.getUserData(User, "geoY");
-        Tags = UserDataManager.getUserData(User, "tags");
-
-//        for (int i = 0; i < Post.POST_SUBMIT_FIELDS.length; i++) {
-//            // Get submit field name
-//            String submitFieldName = Post.POST_SUBMIT_FIELDS[i];
-//            // Set submit field variable with XML
-//            SubmitFieldVars[i] = UserDataManager.getUserData(lastUser, submitFieldName);
-//
-////            // Get variable of submit field
-////            Object submitFieldObj = SubmitFieldMap.get(submitFieldName);
-////            // Assign variable to XML value
-////            submitFieldObj = UserDataManager.getUserData(lastUser, submitFieldName);
-//        }
+        Description = AppDataManager.getUserData(User, "description");
+        Image = AppDataManager.getUserData(User, "image");
+        SecretKey = AppDataManager.getUserData(User, "secretKey");
+        HighColor = AppDataManager.getUserData(User, "highColor");
+        HighX = AppDataManager.getUserData(User, "highX");
+        HighY = AppDataManager.getUserData(User, "highY");
+        LowColor = AppDataManager.getUserData(User, "lowColor");
+        LowX = AppDataManager.getUserData(User, "lowX");
+        LowY = AppDataManager.getUserData(User, "lowY");
+        VisualRange = AppDataManager.getUserData(User, "visualRange");
+        GeoX = AppDataManager.getUserData(User, "geoX");
+        GeoY = AppDataManager.getUserData(User, "geoY");
+        Tags = AppDataManager.getUserData(User, "tags");
 
         // Now for extra fields...
 
@@ -227,7 +220,7 @@ public class Post {
         SecretKey = value;
 
         // Set XML
-        UserDataManager.setUserData(UserDataManager.getRecentUser(), "secretKey", SecretKey);
+        AppDataManager.setUserData(AppDataManager.getRecentUser(), "secretKey", SecretKey);
     }
 
     // Create JSON object from instance fields
@@ -251,16 +244,6 @@ public class Post {
         root.put("geoX", GeoX);
         root.put("geoY", GeoY);
         root.put("tags", Tags);
-
-//        for (int i = 0; i < Post.POST_SUBMIT_FIELDS.length; i++) {
-//            String submitFieldName = Post.POST_SUBMIT_FIELDS[i];
-//            root.put(submitFieldName, );
-//            //root.put(submitFieldName, SubmitFieldMap.get(submitFieldName));
-//        }
-
-        // DEBUG
-        // NOTE: The below was throwing errors, not allowing me to post
-        //Toast.makeText(Post.Context, root.toJSONString(), Toast.LENGTH_LONG).show();
 
         return root;
     }
@@ -305,6 +288,10 @@ public class Post {
         // Run queueing of post in asynchronous task
         RecordManager recordManager = new RecordManager();
         recordManager.execute(this);
+    }
+
+    public void draft(Context context) {
+        // TODO
     }
 
     // Put post in SQL
@@ -370,7 +357,7 @@ class BackgroundPostService extends IntentService {
      * @param name Used to name the worker thread, important only for debugging.
      */
     public BackgroundPostService(String name) {
-        super(name)
+        super(name);
     }
 
     // Where the work gets done
@@ -386,11 +373,19 @@ class BackgroundPostService extends IntentService {
 
         // TODO check un-posted posts and act on the that
         // Get posts
-        // If Post.Status is unposted
+        List<Post> posts = PostDataManager.getPosts(this.getApplicationContext());
+        //Queue<Post> unposted = <Post>();
+        for (Post p : posts) {
+            // If Post.Status is unposted
+            if (!Boolean.getBoolean(p.IsPosted)) {
+
+            }
             // If post not current in process
                 // Attempt to post
             // Else
                 // Wait in queue
+
+        }
     }
 }
 
@@ -431,8 +426,8 @@ class SubmissionManager extends AsyncTask<Post, Void, Void> {
 
             // Authentication package to send
             JSONObject authSendJSON = new JSONObject();
-            authSendJSON.put("username", UserDataManager.getRecentUser());
-            authSendJSON.put("password", UserDataManager.getUserData(UserDataManager.getRecentUser(), "password"));
+            authSendJSON.put("username", AppDataManager.getRecentUser());
+            authSendJSON.put("password", AppDataManager.getUserData(AppDataManager.getRecentUser(), "password"));
 
             // Submission-related variables
             String sendMessage = authSendJSON.toJSONString(),
@@ -515,6 +510,8 @@ class SubmissionManager extends AsyncTask<Post, Void, Void> {
             // Add post key and make JSON string
             String postMessage = postJSON.toString();
 
+            Log.println(Log.DEBUG, "POSTING", postMessage);
+
             // Connection properties
             postConn.setReadTimeout(10000);
             postConn.setConnectTimeout(15000);
@@ -530,6 +527,9 @@ class SubmissionManager extends AsyncTask<Post, Void, Void> {
 
             // JSON package send
             OutputStream postOutputStream = new BufferedOutputStream(postConn.getOutputStream());
+
+            Log.println(Log.DEBUG, "POSTING", "postMessage: " + postMessage);
+
             postOutputStream.write(postMessage.getBytes());
             postOutputStream.flush();
 
@@ -617,24 +617,24 @@ class RecordManager extends AsyncTask<Post, Void, Void> {
 
 //        // Create queued post from XML
 //        String isPosted = params[0];
-//        String user = UserDataManager.getRecentUser();
+//        String user = AppDataManager.getRecentUser();
 //        Calendar date = Calendar.getInstance();
 //        date.setTime(new Date());
 //        Post post = new Post(
 //                user,
-//                UserDataManager.getUserData(user, "description"),
-//                UserDataManager.getUserData(user, "image"),
-//                UserDataManager.getUserData(user, "secretKey"),
-//                UserDataManager.getUserData(user, "highColor"),
-//                UserDataManager.getUserData(user, "highX"),
-//                UserDataManager.getUserData(user, "highY"),
-//                UserDataManager.getUserData(user, "lowColor"),
-//                UserDataManager.getUserData(user, "lowX"),
-//                UserDataManager.getUserData(user, "lowY"),
-//                UserDataManager.getUserData(user, "visualRange"),
-//                UserDataManager.getUserData(user, "geoX"),
-//                UserDataManager.getUserData(user, "geoY"),
-//                UserDataManager.getUserData(user, "tags"),
+//                AppDataManager.getUserData(user, "description"),
+//                AppDataManager.getUserData(user, "image"),
+//                AppDataManager.getUserData(user, "secretKey"),
+//                AppDataManager.getUserData(user, "highColor"),
+//                AppDataManager.getUserData(user, "highX"),
+//                AppDataManager.getUserData(user, "highY"),
+//                AppDataManager.getUserData(user, "lowColor"),
+//                AppDataManager.getUserData(user, "lowX"),
+//                AppDataManager.getUserData(user, "lowY"),
+//                AppDataManager.getUserData(user, "visualRange"),
+//                AppDataManager.getUserData(user, "geoX"),
+//                AppDataManager.getUserData(user, "geoY"),
+//                AppDataManager.getUserData(user, "tags"),
 //                isPosted,
 //                -1,
 //                date
