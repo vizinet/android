@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -28,6 +29,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -46,7 +48,7 @@ import java.util.List;
 //  problems with XML reading/writing when we stored whole image.
 // TODO: Get x, y coordinates with respect to image and store those
 
-public class SelectContrastActivity extends AppCompatActivity {
+public class SelectTargetsActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
@@ -55,8 +57,9 @@ public class SelectContrastActivity extends AppCompatActivity {
     private FrameLayout mNavBar;
     private LinearLayout mButtonPanel;
     private FrameLayout mIndicatorPanel;
-    private FrameLayout mRightButtonPanel;
+    private LinearLayout mRightButtonPanel;
     private LinearLayout mSelectionPanel;
+    private LinearLayout mTabLabelPanel;
 
     private TextView mVisualRangeInput;
     private TextView mSelectionPanelText;
@@ -73,7 +76,7 @@ public class SelectContrastActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_contrast);
-        Util.setupSecondaryNavBar(this, HomeActivity.class, "SELECT COLOR POINTS");
+        Util.setupSecondaryNavBar(this, HomeActivity.class, "SELECT TARGETS");
 
         // Create UI elements
         mWhiteCircle = addNewIndicator(R.color.schemeWhite);
@@ -84,8 +87,9 @@ public class SelectContrastActivity extends AppCompatActivity {
         mNavBar = (FrameLayout) findViewById(R.id.navbar);
         mButtonPanel = (LinearLayout) findViewById(R.id.button_panel);
         mIndicatorPanel = (FrameLayout) findViewById(R.id.indicator_panel);
-        mRightButtonPanel = (FrameLayout) findViewById(R.id.right_button_panel);
+        mRightButtonPanel = (LinearLayout) findViewById(R.id.right_button_panel);
         mSelectionPanel = (LinearLayout) findViewById(R.id.selection_panel);
+        mTabLabelPanel = (LinearLayout) findViewById(R.id.tab_label_panel);
         // ...
         mSelectionPanelText = (TextView) findViewById(R.id.selection_panel_text);
         mImageView = (ImageView) findViewById(R.id.image_view);
@@ -96,21 +100,23 @@ public class SelectContrastActivity extends AppCompatActivity {
         mMetricSelectSpinner = (Spinner) findViewById(R.id.metric_select_spinner);
         mVisualRangeInput = (TextView) findViewById(R.id.visual_range_input);
 
-        // Spinner stuff
-        List<String> metricOptions = new ArrayList<>();
+        // Distance metric input (spinner stuff)
+        final List<String> metricOptions = new ArrayList<>();
         metricOptions.add("Miles");
         metricOptions.add("Kilometers");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item_text, metricOptions);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mMetricSelectSpinner.setAdapter(adapter);
+        // TODO: Grab user preference on metric and correspond to integer
+        mMetricSelectSpinner.setSelection(0);
 
         // Set current button (white)
         // TODO: Create setupIndicatorSwatches(...)
         mWhiteIndicatorButton.setBackground(getResources().getDrawable(R.drawable.indicator_border));
 
         // Verify camera permissions and take picture
-        Util.verifyStoragePermissions(SelectContrastActivity.this);
+        Util.verifyStoragePermissions(SelectTargetsActivity.this);
         takeAndSetPicture();
 
         // Navigation buttons
@@ -120,10 +126,10 @@ public class SelectContrastActivity extends AppCompatActivity {
                 // Check if distance field is complete
                 if (!areFieldsCompleted()) {
                     // Message and highlight error
-                    Toast.makeText(SelectContrastActivity.this, "Please enter distance from low-color point in the captured scene.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SelectTargetsActivity.this, "Please enter distance from low-color point in the captured scene.", Toast.LENGTH_LONG).show();
 
-                    int colorFrom = ContextCompat.getColor(SelectContrastActivity.this, R.color.schemeTransparent);
-                    int colorTo = ContextCompat.getColor(SelectContrastActivity.this, R.color.schemeFailure);
+                    int colorFrom = ContextCompat.getColor(SelectTargetsActivity.this, R.color.schemeTransparent);
+                    int colorTo = ContextCompat.getColor(SelectTargetsActivity.this, R.color.schemeFailure);
                     ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo, colorTo, colorFrom);
                     colorAnimation.setDuration(1000); // milliseconds
                     colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -131,7 +137,6 @@ public class SelectContrastActivity extends AppCompatActivity {
                         public void onAnimationUpdate(ValueAnimator animator) {
                             mRightButtonPanel.setBackgroundColor((int) animator.getAnimatedValue());
                         }
-
                     });
                     colorAnimation.start();
 
@@ -139,8 +144,13 @@ public class SelectContrastActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Save distance
-                AppDataManager.setUserData("visualRange", mVisualRangeInput.getText().toString());
+                // Save distance and metric choice
+                // TODO: Update visual ranges
+                AppDataManager.setUserData("visualRangeOne", mVisualRangeInput.getText().toString());
+                AppDataManager.setUserData("visualRangeTwo", mVisualRangeInput.getText().toString());
+                String selectedMetric = metricOptions.get(mMetricSelectSpinner.getSelectedItemPosition()).toLowerCase();
+                Toast.makeText(SelectTargetsActivity.this, "Selected metric = " + selectedMetric, Toast.LENGTH_LONG).show();
+                AppDataManager.setUserData("distanceUnits", selectedMetric);
 
                 // Now user adds picture details
                 Intent intent = new Intent(getApplicationContext(), AddPictureDetailsActivity.class);
@@ -177,6 +187,20 @@ public class SelectContrastActivity extends AppCompatActivity {
                 // Animate indicator
                 animateIndicator(mCurrentCircle);
             }
+        });
+        // Metric selection (i.e. "kilometers" or "miles?")
+        mMetricSelectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                mMetricSelectSpinner.setSelection(position);
+                // TODO: Update metric preference
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Don't update
+            }
+
         });
 
         // Indicator placement listener
@@ -222,10 +246,10 @@ public class SelectContrastActivity extends AppCompatActivity {
             // Update indicator and selection panels
             if (indicator == mBlackCircle) {
                 mBlackIndicatorButton.setColorFilter(selectedPixel);
-                mSelectionPanelText.setText("Selecting low color...");
+                mSelectionPanelText.setText("Selecting low target...");
             } else {
                 mWhiteIndicatorButton.setColorFilter(selectedPixel);
-                mSelectionPanelText.setText("Selecting high color...");
+                mSelectionPanelText.setText("Selecting high target...");
             }
             mSelectionPanel.setBackgroundColor(selectedPixel);
             // Set text according to its background
@@ -281,7 +305,6 @@ public class SelectContrastActivity extends AppCompatActivity {
     // Go home if back button pressed
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         Util.goHome(this);
     }
 
@@ -386,6 +409,7 @@ public class SelectContrastActivity extends AppCompatActivity {
         mNavBar.setVisibility(View.INVISIBLE);
         mButtonPanel.setVisibility(View.INVISIBLE);
         mIndicatorPanel.setVisibility(View.INVISIBLE);
+        mTabLabelPanel.setVisibility(View.INVISIBLE);
 
         // But show selection panel!
         mSelectionPanel.setVisibility(View.VISIBLE);
@@ -395,6 +419,7 @@ public class SelectContrastActivity extends AppCompatActivity {
         mNavBar.setVisibility(View.VISIBLE);
         mButtonPanel.setVisibility(View.VISIBLE);
         mIndicatorPanel.setVisibility(View.VISIBLE);
+        mTabLabelPanel.setVisibility(View.VISIBLE);
 
         // Flash visual range patch if low indicator was just set
         if (mCurrentCircle == mBlackCircle) {
@@ -497,12 +522,14 @@ public class SelectContrastActivity extends AppCompatActivity {
             } catch (IOException ex) {
                 return;
             }
-
             imageUri = Uri.fromFile(photoFile);
 
             // Continue only if the File was successfully created
             if (photoFile != null) {
+                // Make sure we get file back, and enforce PORTRAIT camera mode
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                takePictureIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION,
+                        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }
@@ -510,7 +537,7 @@ public class SelectContrastActivity extends AppCompatActivity {
 
     // Display message and go home
     private void handleImageFailure() {
-        Toast.makeText(SelectContrastActivity.this, "Failure retrieving image.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SelectTargetsActivity.this, "Failure retrieving image.", Toast.LENGTH_SHORT).show();
         Util.goHome(this);
     }
 }

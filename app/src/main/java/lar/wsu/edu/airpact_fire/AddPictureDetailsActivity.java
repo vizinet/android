@@ -27,7 +27,7 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_picture_details);
         // TODO: Setup back button for this activity such that it goes back to selecting contrast points, not taking new picture!
-        Util.setupSecondaryNavBar(this, SelectContrastActivity.class, "ENTER PICTURE DETAILS");
+        Util.setupSecondaryNavBar(this, SelectTargetsActivity.class, "ENTER PICTURE DETAILS");
 
         // Set post context and activity
         Post.Context = getApplicationContext();
@@ -54,7 +54,7 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         mRetakeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SelectContrastActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SelectTargetsActivity.class);
                 startActivity(intent);
             }
         });

@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -92,7 +93,7 @@ public class Post {
             HighX, HighY,
             LowColor,
             LowX, LowY,
-            VisualRange,
+            VisualRangeOne, VisualRangeTwo,
             GeoX, GeoY,
             Tags;
     // Array of all post field references
@@ -105,14 +106,13 @@ public class Post {
             HighX, HighY,
             LowColor,
             LowX, LowY,
-            VisualRange,
+            VisualRangeOne, VisualRangeTwo,
             GeoX, GeoY,
             Tags
     };
     public String IsPosted;
     public Calendar Date;
     public long SqlId, PostNum;
-
     {
         // Initialize hash-map
         SubmitFieldMap = new HashMap<>();
@@ -138,7 +138,8 @@ public class Post {
         LowColor = AppDataManager.getUserData(User, "lowColor");
         LowX = AppDataManager.getUserData(User, "lowX");
         LowY = AppDataManager.getUserData(User, "lowY");
-        VisualRange = AppDataManager.getUserData(User, "visualRange");
+        VisualRangeOne = AppDataManager.getUserData(User, "visualRangeOne");
+        VisualRangeTwo = AppDataManager.getUserData(User, "visualRangeTwo");
         GeoX = AppDataManager.getUserData(User, "geoX");
         GeoY = AppDataManager.getUserData(User, "geoY");
         Tags = AppDataManager.getUserData(User, "tags");
@@ -185,7 +186,9 @@ public class Post {
         LowColor = lowColor;
         LowX = lowX;
         LowY = lowY;
-        VisualRange = visualRange;
+        VisualRangeOne = visualRange;
+        // TODO
+        VisualRangeTwo = visualRange;
         GeoX = geoX;
         GeoY = geoY;
         Tags = tags;
@@ -228,8 +231,7 @@ public class Post {
         // Root
         JSONObject root = new JSONObject();
 
-        // Post submission field vars => JSON
-        // NOTE: I hate myself for doing this...
+        /* OLD STUFF
         root.put("user", User);
         root.put("description", Description);
         root.put("image", Image);
@@ -244,6 +246,40 @@ public class Post {
         root.put("geoX", GeoX);
         root.put("geoY", GeoY);
         root.put("tags", Tags);
+        */
+
+        // TODO: Grab these from user preferences in SQL
+        String AlgorithmType = "object_sky"; // or "near_far"
+        String DistanceUnits = "kilometers"; // or "miles"
+        String Time = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+
+        // Post submission field vars => JSON
+        root.put("user", User);
+        root.put("description", Description);
+        root.put("image", Image);
+        root.put("secretKey", getSecretKey());
+        // For "far object" or "sky"
+        root.put("highColor", HighColor);
+        root.put("highX", HighX);
+        root.put("highY", HighY);
+        // For "near object"
+        root.put("lowColor", LowColor);
+        root.put("lowX", LowX);
+        root.put("lowY", LowY);
+        // Can (currently) be "near_far" or "object_sky"
+        root.put("algorithmType", AlgorithmType);
+        // For "near object"
+        root.put("visualRangeOne", VisualRangeOne);
+        // For "far object" or "sky," depending on algorithm type
+        root.put("visualRangeTwo", VisualRangeTwo);
+        root.put("geoX", GeoX);
+        root.put("geoY", GeoY);
+        // User-defined location
+        root.put("tags", Tags);
+        // Could be "kilometers" or "miles"
+        root.put("distanceUnits", DistanceUnits);
+        // In the form "yyyy.MM.dd.HH.mm.ss"
+        root.put("time", Time);
 
         return root;
     }
@@ -513,7 +549,7 @@ class SubmissionManager extends AsyncTask<Post, Void, Void> {
             Log.println(Log.DEBUG, "POSTING", postMessage);
 
             // Connection properties
-            postConn.setReadTimeout(10000);
+            postConn.setReadTimeout(30000);
             postConn.setConnectTimeout(15000);
             postConn.setRequestMethod("POST");
             postConn.setDoInput(true);
@@ -527,9 +563,7 @@ class SubmissionManager extends AsyncTask<Post, Void, Void> {
 
             // JSON package send
             OutputStream postOutputStream = new BufferedOutputStream(postConn.getOutputStream());
-
             Log.println(Log.DEBUG, "POSTING", "postMessage: " + postMessage);
-
             postOutputStream.write(postMessage.getBytes());
             postOutputStream.flush();
 
@@ -556,6 +590,14 @@ class SubmissionManager extends AsyncTask<Post, Void, Void> {
             // Did post succeed?
             String postStatus = postReceiveJSON.get("status").toString();
             didPostFail = !postStatus.equals("success");
+
+            // Get algorithm result
+            String algorithmOutput = postReceiveJSON.get("TwoTargetContrastOutput").toString();
+            DebugManager.printLog("algorithmOutput (from server) = " + algorithmOutput);
+
+            // Image ID, to construct website URL
+            String imageID = postReceiveJSON.get("imageID").toString();
+            DebugManager.printLog("imageID = " + imageID);
 
             // Clean up
             postOutputStream.flush();

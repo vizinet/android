@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/page"
-    android:background="@color/schemeTransparentDark">
+    android:background="@color/schemeTransparent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/logo_simple" />
+                android:src="@drawable/logo" />
 
             <LinearLayout
                 android:orientation="vertical"
@@ -56,7 +56,7 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textSize="30dp"
                         android:textStyle="bold"
-                        android:textColor="#C9C9C9"
+                        android:textColor="@color/schemeTransparentDark"
                         android:typeface="sans" />
 
                     <TextView
@@ -76,10 +76,10 @@
                     android:id="@+id/textView27"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Visual Range Application"
+                    android:text='"Picture-based Air Quality\nAnalysis For the Masses"'
                     android:textSize="15dp"
                     android:textStyle="italic"
-                    android:textColor="#C9C9C9" />
+                    android:textColor="@color/schemeTransparentDark" />
 
             </LinearLayout>
         </LinearLayout>
@@ -117,8 +117,8 @@
                         android:textSize="25dp"
                         android:textStyle="normal"
                         android:typeface="sans"
-                        android:textColor="#fff"
-                        android:textColorHint="@color/schemeTransparentLight" />
+                        android:textColor="@color/schemeTransparentDark"
+                        android:textColorHint="@color/schemeTransparentLightDarker" />
 
                     <EditText
                         android:id="@+id/password"
@@ -134,9 +134,9 @@
                         android:textSize="25dp"
                         android:textStyle="normal"
                         android:typeface="sans"
-                        android:textColor="#fff"
+                        android:textColor="@color/schemeTransparentDark"
                         android:autoText="false"
-                        android:textColorHint="@color/schemeTransparentLight" />
+                        android:textColorHint="@color/schemeTransparentLightDarker" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -162,7 +162,7 @@
                                     android:id="@+id/textView2"
                                     android:textSize="15dp"
                                     android:layout_gravity="center"
-                                    android:textColor="#C9C9C9" />
+                                    android:textColor="@color/schemeTransparentDark" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -173,7 +173,7 @@
                                     android:textSize="15dp"
                                     android:layout_gravity="center"
                                     android:textStyle="bold|italic"
-                                    android:textColor="#C9C9C9" />
+                                    android:textColor="@color/schemeBlueHighlight" />
 
                             </LinearLayout>
 
@@ -188,11 +188,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="New user? "
+                                    android:text="New around here? "
                                     android:id="@+id/textView15"
                                     android:textSize="15dp"
                                     android:layout_gravity="center"
-                                    android:textColor="#C9C9C9" />
+                                    android:textColor="@color/schemeTransparentDark" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -203,7 +203,7 @@
                                     android:textSize="15dp"
                                     android:layout_gravity="center"
                                     android:textStyle="bold|italic"
-                                    android:textColor="#C9C9C9" />
+                                    android:textColor="@color/schemeBlueHighlight" />
 
                             </LinearLayout>
                         </LinearLayout>

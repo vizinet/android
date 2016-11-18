@@ -65,7 +65,7 @@ MERGED from [com.google.android.gms:play-services-basement:8.1.0] /home/luke/Doc
 	android:allowBackup
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:21:9-35
 	android:icon
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:22:9-45
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:22:9-38
 	android:theme
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:25:9-65
 activity#lar.wsu.edu.airpact_fire.SignInActivity
@@ -102,12 +102,12 @@ ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/m
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:43:13-49
 	android:name
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:42:13-48
-activity#lar.wsu.edu.airpact_fire.SelectContrastActivity
+activity#lar.wsu.edu.airpact_fire.SelectTargetsActivity
 ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:44:9-46:52
 	android:screenOrientation
 		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:46:13-49
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:45:13-51
+		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:45:13-50
 activity#lar.wsu.edu.airpact_fire.AddPictureDetailsActivity
 ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:47:9-49:52
 	android:screenOrientation

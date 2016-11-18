@@ -303,6 +303,12 @@ public class Util {
         activity.startActivity(intent);
     }
 
+    // Return to sign-in activity
+    public static void goSignIn(Activity activity) {
+        Intent intent = new Intent(activity.getApplicationContext(), SignInActivity.class);
+        activity.startActivity(intent);
+    }
+
     // Set margins of some view programmatically
     public static void setMargins(View v, int l, int t, int r, int b) {
         if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {

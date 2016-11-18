@@ -3,11 +3,6 @@ package lar.wsu.edu.airpact_fire;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +23,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /* LOGIN SCREEN */
@@ -123,19 +119,21 @@ public class SignInActivity extends AppCompatActivity {
 
                 // Update user's password and login time (and create one if we need to)
                 AppDataManager.setUserData(username, "password", password);
-                AppDataManager.setUserData(username, "loginTime", (new Date()).toString());
                 // Set as last user
                 AppDataManager.setRecentUser(username);
 
                 // For regulars; no network auth. required
                 if (Boolean.parseBoolean(AppDataManager.getUserData(AppDataManager.getRecentUser(), "isAuth")))
                 {
+                    String loginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                    AppDataManager.setUserData("lastLoginTime", loginTime);
                     Toast.makeText(SignInActivity.this, "Welcome back!", Toast.LENGTH_LONG).show();
                     openHomeScreen();
                     return;
                 }
 
                 // Attempt first-time authentication
+                // NOTE: First login time recorded here
                 AuthenticateManager authenticateManager = new AuthenticateManager();
                 authenticateManager.execute();
             }
@@ -166,27 +164,28 @@ public class SignInActivity extends AppCompatActivity {
             if (hasLoadedBG) return;
             hasLoadedBG = true;
 
-            // Get background resource
-            Bitmap landscape = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.washington_forest);
-            // Crop image
-            int landscapeWidth = landscape.getWidth();
-            int landscapeHeight = landscape.getHeight();
-            int screenWidth = Util.getScreenWidth(this);
-            int screenHeight = Util.getScreenHeight(this);
-            int cropWidth = (landscapeWidth < screenWidth) ? landscapeWidth : screenWidth;
-            int cropHeight = (landscapeHeight < screenHeight) ? landscapeHeight : screenHeight;
-            landscape = Bitmap.createBitmap(landscape, 0, 0, cropWidth, cropHeight);
-            // Apply blur
-            landscape = Util.doBlur(getApplicationContext(), landscape);
-            Drawable background = new BitmapDrawable(getResources(), landscape);
-            // Apply filter
-            int filterColor = Color.parseColor("#a0" + "5C5C5C");
-            mPageLayout.setBackgroundColor(filterColor);
-            // Set background (doesn't change with ScrollView)
-            getWindow().setBackgroundDrawable(background);
-        }
+            /** Bypassing cool background **/
 
+//            // Get background resource
+//            Bitmap landscape = BitmapFactory.decodeResource(getResources(),
+//                    R.drawable.washington_forest);
+//            // Crop image
+//            int landscapeWidth = landscape.getWidth();
+//            int landscapeHeight = landscape.getHeight();
+//            int screenWidth = Util.getScreenWidth(this);
+//            int screenHeight = Util.getScreenHeight(this);
+//            int cropWidth = (landscapeWidth < screenWidth) ? landscapeWidth : screenWidth;
+//            int cropHeight = (landscapeHeight < screenHeight) ? landscapeHeight : screenHeight;
+//            landscape = Bitmap.createBitmap(landscape, 0, 0, cropWidth, cropHeight);
+//            // Apply blur
+//            landscape = Util.doBlur(getApplicationContext(), landscape);
+//            Drawable background = new BitmapDrawable(getResources(), landscape);
+//            // Apply filter
+//            int filterColor = Color.parseColor("#a0" + "5C5C5C");
+//            mPageLayout.setBackgroundColor(filterColor);
+//            // Set background (doesn't change with ScrollView)
+//            getWindow().setBackgroundDrawable(background);
+        }
     }
 
     @Override
@@ -225,7 +224,7 @@ public class SignInActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Move on from home screen
+    // DEBUGGING: Move on from home screen
     private void testProceed() {
         // Get input data
         String username = "test";
@@ -361,10 +360,15 @@ public class SignInActivity extends AppCompatActivity {
                 Toast.makeText(SignInActivity.this, "Authentication successful.\nWelcome!",
                         Toast.LENGTH_LONG).show();
 
+                // Set first (and last) login time!
+                String firstLoginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                AppDataManager.setUserData("firstLoginTime", firstLoginTime);
+                AppDataManager.setUserData("lastLoginTime", firstLoginTime);
                 openHomeScreen();
-            } else
+            } else {
                 Toast.makeText(SignInActivity.this, "Could not authenticate user.\nPlease try again.",
                         Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

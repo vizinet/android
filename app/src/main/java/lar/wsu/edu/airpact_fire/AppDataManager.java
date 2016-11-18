@@ -63,7 +63,8 @@ import javax.xml.transform.stream.StreamResult;
 //  </app>
 
 public class AppDataManager {
-    public static final String FILENAME = "app_data.xml";
+    // NOTE: Version is changed as fields are amended
+    public static final String FILENAME = "app_data_v3.xml";
     public static final String[] APP_ELEMENTS = {
             "meta",
             "users",
@@ -76,10 +77,10 @@ public class AppDataManager {
             "password",
             "secretKey",
             "image",
-            "loginTime",
             "tags",
             "description",
-            "visualRange",
+            "visualRangeOne",
+            "visualRangeTwo",
             "highX",
             "highY",
             "lowX",
@@ -87,9 +88,13 @@ public class AppDataManager {
             "highColor",
             "lowColor",
             "geoX",
-            "geoY"
+            "geoY",
+            "distanceUnits",
+            "algorithmType",
+            "firstLoginTime",
+            "lastLoginTime"
     };
-    public static final String[] TEST_USER_CRED = {"test2", "1234567890"};
+    public static final String[] TEST_USER_CRED = {"testuser", "1234567890"};
 
     // Activity context which allows us to do things on UI, mainly for
     // debugging purposes
@@ -155,6 +160,9 @@ public class AppDataManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Log the XML
+        //DebugManager.printLog(getXML());
     }
 
     // 1. Set context
@@ -171,7 +179,7 @@ public class AppDataManager {
         } catch (FileNotFoundException e) {
             // Data file doesn't exist. So, create skeleton file.
             e.printStackTrace();
-            Toast.makeText(mContext, "Initializing local user database...", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "Initializing app database...", Toast.LENGTH_LONG).show();
 
             try {
                 FileOutputStream fos = mContext.getApplicationContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
@@ -294,7 +302,7 @@ public class AppDataManager {
     }
 
     /**
-     * SCRIPT METHODS
+     * SCRIPT METHODS (Deprecated)
      **/
 
     // Remove all algorithm names from app storage
@@ -415,6 +423,8 @@ public class AppDataManager {
         // Add content into right element of user element
         if (mContext == null) return false;
 
+        //DebugManager.printLog("SetUserData: User = " + user + ", Element = " + element + ", Content = " + content);
+
         // Create user if nonexistent
         boolean didUserExist = !createUser(user);
 
@@ -436,8 +446,13 @@ public class AppDataManager {
         return didUserExist;
     }
     // Get particular data field from user
+    public static String getUserData(String element) {
+        return getUserData(getRecentUser(), element);
+    }
     public static String getUserData(String user, String element) {
         if (mContext == null) return null;
+
+        //DebugManager.printLog("GetUserData: User = " + user + ", Element = " + element);
 
         // Get XML
         Document doc = getLocalXML();

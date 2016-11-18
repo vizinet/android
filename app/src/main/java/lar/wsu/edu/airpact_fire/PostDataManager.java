@@ -60,7 +60,8 @@ public class PostDataManager {
         values.put(PostContract.PostEntry.COLUMN_NAME_LOW_COLOR, post.LowColor);
         values.put(PostContract.PostEntry.COLUMN_NAME_LOW_X, post.LowX);
         values.put(PostContract.PostEntry.COLUMN_NAME_LOW_Y, post.LowY);
-        values.put(PostContract.PostEntry.COLUMN_NAME_VISUAL_RANGE, post.VisualRange);
+        values.put(PostContract.PostEntry.COLUMN_NAME_VISUAL_RANGE, post.VisualRangeOne);
+        //values.put(PostContract.PostEntry.COLUMN_NAME_VISUAL_RANGE, post.VisualRangeTwo);
         values.put(PostContract.PostEntry.COLUMN_NAME_GEO_X, post.GeoX);
         values.put(PostContract.PostEntry.COLUMN_NAME_GEO_Y, post.GeoY);
         values.put(PostContract.PostEntry.COLUMN_NAME_TAGS, post.Tags);
@@ -361,7 +362,9 @@ public class PostDataManager {
         post.LowColor = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_LOW_COLOR));
         post.LowX = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_LOW_X));
         post.LowY = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_LOW_Y));
-        post.VisualRange = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_VISUAL_RANGE));
+        post.VisualRangeOne = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_VISUAL_RANGE));
+        // TODO
+        post.VisualRangeTwo = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_VISUAL_RANGE));
         post.GeoX = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_GEO_X));
         post.GeoY = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_GEO_Y));
         post.Tags = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_TAGS));

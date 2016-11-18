@@ -82,7 +82,9 @@ public class PostDetailsActivity extends AppCompatActivity {
         mDescriptionText.setText(mPost.Description);
         mLocationText.setAllCaps(true);
         mLocationText.setText(mPost.Tags);
-        mVisualRangeText.setText(mPost.VisualRange + " FT");
+        // TODO: Distance units
+        mVisualRangeText.setText(mPost.VisualRangeOne + " KM");
+        // TODO: Insert VisualRangeTwo
         mTimeText.setText(Util.toDisplayDateTime(mPost.Date));
         mGpsText.setText("(" + mPost.GeoX + ", " + mPost.GeoY + ")");
         // Colors

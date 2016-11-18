@@ -27,7 +27,7 @@
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/schemeTransparentDark"
+                    android:background="@color/schemeRed"
                     android:id="@+id/back_button">
 
                     <ImageView
@@ -41,7 +41,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
                         android:layout_marginRight="10dp"
-                        android:tint="@color/paneImageTint" />
+                        android:tint="@color/schemeWhite" />
                 </FrameLayout>
 
                 <LinearLayout
@@ -80,7 +80,7 @@
                             android:textSize="10dp" />
 
                         <TextView
-                            android:id="@+id/textView36"
+                            android:id="@+id/member_register_date_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingLeft="10dp"
@@ -261,7 +261,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@color/schemeSuccess">
+            android:background="@color/schemeRedHighlight">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -271,34 +271,34 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/schemeTransparentDark"></FrameLayout>
+                    android:background="@color/schemeTransparentLightDark"></FrameLayout>
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/holo_green_dark"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp">
+                <!--<LinearLayout-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@android:color/holo_green_dark"-->
+                <!--android:paddingBottom="5dp"-->
+                <!--android:paddingTop="5dp">-->
 
-                    <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:id="@+id/server_status_icon"
-                        android:src="@drawable/up_arrow_large"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:padding="2dp" />
+                <!--<ImageView-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:id="@+id/server_status_icon"-->
+                <!--android:src="@drawable/up_arrow_large"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:padding="2dp" />-->
 
-                    <TextView
-                        android:id="@+id/server_status_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingLeft="5dp"
-                        android:text="SERVER CONNECTED (5 mins)" />
+                <!--<TextView-->
+                <!--android:id="@+id/server_status_text"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:paddingLeft="5dp"-->
+                <!--android:text="SERVER CONNECTED (5 mins)" />-->
 
-                </LinearLayout>
+                <!--</LinearLayout>-->
             </LinearLayout>
 
         </FrameLayout>
@@ -325,7 +325,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/schemeTransparentLightDarker">
+                    android:background="@color/schemeTransparentDark">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -415,7 +415,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/schemeTransparentLightDarker">
+                    android:background="@color/schemeTransparentDark">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -492,7 +492,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@color/schemeTransparentLightDarker">
+                    android:background="@color/schemeTransparentDark">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -561,7 +561,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@color/schemeTransparentLightDarker">
+                    android:background="@color/schemeTransparentDark">
 
                     <LinearLayout
                         android:layout_width="match_parent"

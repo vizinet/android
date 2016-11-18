@@ -49,7 +49,7 @@
                             <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="10dp"
-                                android:background="@color/schemeTransparentDark"></FrameLayout>
+                                android:background="@color/schemeRed"></FrameLayout>
 
                             <LinearLayout
                                 android:orientation="horizontal"

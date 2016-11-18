@@ -30,7 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     private FrameLayout mServerStatusContainer;
     private FrameLayout mBackButton;
     private LinearLayout mButtonPage;
-    private TextView mUsernameText, mNumberPostedText, mNumberQueuedText,
+    private TextView mUsernameText, mNumberPostedText, mNumberQueuedText, mRegisterDateText,
             mServerStatusText;
     private ImageView mNewPictureButton, mPictureGalleryButton, mInformationButton, mSettingsButton;
 
@@ -44,6 +44,18 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Catch errors
+        // TODO: Let's get this to work on all activities with simple util function
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
+                Toast.makeText(getApplicationContext(), "GLOBAL EXCEPTION CAUGHT", Toast.LENGTH_LONG).show();
+                //Util.goHome(getApplicationContext());
+
+            }
+        });
+
         setContentView(R.layout.activity_home);
 
         // Panes
@@ -63,8 +75,9 @@ public class HomeActivity extends AppCompatActivity {
         mUsernameText = (TextView) findViewById(R.id.username_text);
         mNumberPostedText = (TextView) findViewById(R.id.number_posted_text);
         mNumberQueuedText = (TextView) findViewById(R.id.number_queued_text);
-        mServerStatusText = (TextView) findViewById(R.id.server_status_text);
-        mServerStatusContainer = (FrameLayout) findViewById(R.id.server_status_container);
+        mRegisterDateText = (TextView) findViewById(R.id.member_register_date_text);
+        //mServerStatusText = (TextView) findViewById(R.id.server_status_text);
+        //mServerStatusContainer = (FrameLayout) findViewById(R.id.server_status_container);
 
         // Update home variables
         updateHome();
@@ -81,6 +94,10 @@ public class HomeActivity extends AppCompatActivity {
 
         // Load background once page is in view
         if (hasFocus) {
+
+            // Skipping out on background stuff for now
+            if (true) return;
+
             GradientDrawable gd = new GradientDrawable(
                     GradientDrawable.Orientation.TOP_BOTTOM,
                     //new int[] {0xFF616261,0xFF131313});
@@ -93,7 +110,7 @@ public class HomeActivity extends AppCompatActivity {
             mButtonPage.setBackgroundDrawable(gd);
 
             // TODO: Remove below line
-            //if (true) return;
+            if (true) return;
             // Get background resource
             // TODO: Check if not first time. If so, don't add landscape again
             Bitmap landscape = BitmapFactory.decodeResource(getResources(),
@@ -150,12 +167,17 @@ public class HomeActivity extends AppCompatActivity {
         mUsername = AppDataManager.getRecentUser();
 
         // TODO remove this
+        if (mUsername == null) Util.goSignIn(this);
         mUsername = (mUsername == null) ? "" : mUsername;
 
         mUsernameText.setAllCaps(true);
         // Make sure name gets cutoff if exceeds max length
         displayName = (mUsername.length() >= cutoffLength) ? (mUsername.substring(0, cutoffLength) + "...") : mUsername;
         mUsernameText.setText(displayName);
+
+        // Member register date (just grab the "yyyy.MM.dd" part)
+        mRegisterDateText.setText("First login on " +
+                AppDataManager.getUserData("firstLoginTime").substring(0, 10));
 
         // Post numbers
         int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), mUsername);
@@ -167,12 +189,12 @@ public class HomeActivity extends AppCompatActivity {
 
         // Internet connection
         //mServerStatusText.setAllCaps(true);
-        mServerStatusContainer.setBackgroundColor(getResources().getColor(R.color.schemeRedHighlight));
-        mServerStatusText.setText("SERVER DISCONNECTED (5 mins ago)");
-        if (Util.isServerAvailable(HomeActivity.this)) {//if (Util.isNetworkAvailable(this)) {
-            mServerStatusContainer.setBackgroundColor(getResources().getColor(R.color.schemeGreenHighlight));
-            mServerStatusText.setText("SERVER CONNECTED (5 mins ago)");
-        }
+//        mServerStatusContainer.setBackgroundColor(getResources().getColor(R.color.schemeRedHighlight));
+//        mServerStatusText.setText("SERVER DISCONNECTED (5 mins ago)");
+//        if (Util.isServerAvailable(HomeActivity.this)) {//if (Util.isNetworkAvailable(this)) {
+//            mServerStatusContainer.setBackgroundColor(getResources().getColor(R.color.schemeGreenHighlight));
+//            mServerStatusText.setText("SERVER CONNECTED (5 mins ago)");
+//        }
     }
 
     private void setupUIEventListeners() {
@@ -184,7 +206,7 @@ public class HomeActivity extends AppCompatActivity {
         frameToIconMap.put(mSettingsPane, mSettingsButton);
         // ---
         frameToActivityMap = new HashMap<>();
-        frameToActivityMap.put(mNewPicturePane, SelectContrastActivity.class);
+        frameToActivityMap.put(mNewPicturePane, SelectTargetsActivity.class);
         frameToActivityMap.put(mInformationPane, InformationActivity.class);
         frameToActivityMap.put(mPictureGalleryPane, QueuedPostsActivity.class);
         frameToActivityMap.put(mSettingsPane, SettingsActivity.class);

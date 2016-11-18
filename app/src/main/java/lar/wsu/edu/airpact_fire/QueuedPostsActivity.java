@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -70,21 +67,21 @@ public class QueuedPostsActivity extends AppCompatActivity {
         containerView = findViewById(R.id.post_table);//findViewById(R.id.view);
 
         // Set background gradient
-        GradientDrawable gd = new GradientDrawable(
-                GradientDrawable.Orientation.TOP_BOTTOM,
-                //new int[] {0xFF616261,0xFF131313});
-                new int[]{
-                        getResources().getColor(R.color.schemeTransparentLight),
-                        getResources().getColor(R.color.schemeTransparentDark)
-                });
-        gd.setCornerRadius(0f);
-        mPage.setBackgroundDrawable(gd);
+//        GradientDrawable gd = new GradientDrawable(
+//                GradientDrawable.Orientation.TOP_BOTTOM,
+//                //new int[] {0xFF616261,0xFF131313});
+//                new int[]{
+//                        getResources().getColor(R.color.schemeTransparentLight),
+//                        getResources().getColor(R.color.schemeTransparentDark)
+//                });
+//        gd.setCornerRadius(0f);
+//        mPage.setBackgroundDrawable(gd);
 
         // Stats
         String username = AppDataManager.getRecentUser();
         int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), username);
         int numQueued = PostDataManager.getNumQueued(getApplicationContext(), username);
-        mPostText.setText(numPosted + " posted\n" + numQueued + " queued\n" + "0 drafted");
+        mPostText.setText(numPosted + " Posted\n" + numQueued + " Queued\n" + "0 Drafted");
         //mPostText.setAllCaps(true);
 
         // Get user's posts
@@ -114,10 +111,11 @@ public class QueuedPostsActivity extends AppCompatActivity {
         }
 
         // Add background as last post image
-        Bitmap mBackgroundImageBitmap = Util.stringToBitMap(mPostList.get(mPostList.size() - 1).Image);
-        mBackgroundImageBitmap = Util.doBlur(getApplicationContext(), mBackgroundImageBitmap);
-        Drawable mBackgroundImage = new BitmapDrawable(getResources(), mBackgroundImageBitmap);
-        getWindow().setBackgroundDrawable(mBackgroundImage);
+        // Forgo cool background
+//        Bitmap mBackgroundImageBitmap = Util.stringToBitMap(mPostList.get(mPostList.size() - 1).Image);
+//        mBackgroundImageBitmap = Util.doBlur(getApplicationContext(), mBackgroundImageBitmap);
+//        Drawable mBackgroundImage = new BitmapDrawable(getResources(), mBackgroundImageBitmap);
+//        getWindow().setBackgroundDrawable(mBackgroundImage);
 
         // Image gallery
         // TODO: Image caching

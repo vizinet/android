@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="lar.wsu.edu.airpact_fire.SelectContrastActivity"
+    tools:context="lar.wsu.edu.airpact_fire.SelectTargetsActivity"
     android:background="@color/schemeDark">
 
     <include layout="@layout/secondary_nav_bar" />
@@ -89,105 +89,170 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:translationZ="20dp"
-        android:id="@+id/button_panel"
         android:background="@color/navbarBackground">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/left_button_panel"
-            android:layout_weight="1"
-            android:padding="20dp">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:translationZ="20dp"
+            android:background="@color/navbarBackground"
+            android:id="@+id/tab_label_panel">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="10dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center_vertical"
-                android:layout_gravity="center_vertical">
+                android:id="@+id/tab_label_algorithm">
 
-                <Button
-                    android:id="@+id/retake_button"
+                <TextView
+                    android:text="ALGORITHM"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:drawableLeft="@drawable/retake_button_tint"
-                    android:enabled="true"
-                    android:text="RETAKE"
-                    android:textSize="17dp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/textView16"
+                    android:gravity="center_horizontal"
                     android:textStyle="bold" />
+            </FrameLayout>
 
-                <Button
-                    android:id="@+id/done_button"
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tab_label_select">
+
+                <TextView
+                    android:text="SELECT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:drawableLeft="@drawable/proceed_button_tint"
-                    android:text="PROCEED"
-                    android:textSize="17dp"
-                    android:textStyle="bold"
-                    android:textAppearance="?android:attr/textAppearanceMedium" />
-            </LinearLayout>
-        </FrameLayout>
+                    android:id="@+id/textView13"
+                    android:gravity="center_horizontal"
+                    android:textStyle="bold" />
+            </FrameLayout>
 
-        <FrameLayout
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tab_label_submit">
+
+                <TextView
+                    android:text="SUBMIT"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView15"
+                    android:gravity="center_horizontal"
+                    android:textStyle="bold" />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/right_button_panel"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:translationZ="20dp"
+            android:id="@+id/button_panel"
+            android:background="@color/navbarBackground">
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:background="@color/schemeTransparentDark"
-                    android:id="@+id/top_bar"></FrameLayout>
+                android:layout_height="match_parent"
+                android:id="@+id/left_button_panel"
+                android:layout_weight="1"
+                android:padding="20dp">
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="10dp">
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="DISTANCE"
-                        android:id="@+id/textView4"
-                        android:textStyle="bold"
-                        android:textSize="15dp" />
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:ems="10"
-                        android:id="@+id/visual_range_input"
-                        android:hint="@string/visual_range_hint" />
-
-                    <Spinner
+                    <Button
+                        android:id="@+id/retake_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/metric_select_spinner"
-                        android:layout_weight="1"
-                        android:spinnerMode="dropdown"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="10dp" />
+                        android:layout_weight="0.5"
+                        android:drawableLeft="@drawable/retake_button_tint"
+                        android:enabled="true"
+                        android:text="RETAKE"
+                        android:textSize="17dp"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/done_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:drawableLeft="@drawable/proceed_button_tint"
+                        android:text="PROCEED"
+                        android:textSize="17dp"
+                        android:textStyle="bold"
+                        android:textAppearance="?android:attr/textAppearanceMedium" />
                 </LinearLayout>
             </FrameLayout>
 
-        </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/right_button_panel"
+                android:layout_weight="1">
 
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/schemeTransparentDark"
+                        android:id="@+id/top_bar"></FrameLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="DISTANCE"
+                            android:id="@+id/textView4"
+                            android:textStyle="bold"
+                            android:textSize="15dp" />
+
+                        <EditText
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:ems="10"
+                            android:id="@+id/visual_range_input"
+                            android:hint="@string/visual_range_hint" />
+
+                        <Spinner
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/metric_select_spinner"
+                            android:layout_weight="1"
+                            android:spinnerMode="dropdown"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
