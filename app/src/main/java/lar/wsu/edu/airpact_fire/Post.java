@@ -65,7 +65,7 @@ public class Post {
             "postId",
             "userPostId"
     };
-    public static final String SERVER_BASE_URL = "https://dry-harbor-33710.herokuapp.com";
+    public static final String SERVER_BASE_URL = "http://airpacfire.eecs.wsu.edu";//"https://dry-harbor-33710.herokuapp.com";
     public static final String SERVER_UPLOAD_URL = SERVER_BASE_URL + "/file_upload/upload";
     public static final String SERVER_AUTH_URL = SERVER_BASE_URL + "/user/appauth";
     public static final String SERVER_REGISTER_URL = SERVER_BASE_URL + "/user/register";
