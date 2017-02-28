@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ldltr-v21/values-ldltr-v21.xml",
+        "outputFile": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ldltr-v21/values-ldltr-v21.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 163
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-ldltr-v21/values-ldltr-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-ldltr-v21/values-ldltr-v21.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,

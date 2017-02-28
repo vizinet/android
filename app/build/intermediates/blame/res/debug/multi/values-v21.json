@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v21/values-v21.xml",
+        "outputFile": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v21/values-v21.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 119
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -31,7 +31,7 @@
                     "endOffset": 420
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/res/values-v21/styles.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/res/values-v21/styles.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -51,7 +51,7 @@
                     "endOffset": 511
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -70,7 +70,7 @@
                     "endOffset": 614
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -89,7 +89,7 @@
                     "endOffset": 717
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -108,7 +108,7 @@
                     "endOffset": 822
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -127,7 +127,7 @@
                     "endOffset": 929
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -146,7 +146,7 @@
                     "endOffset": 1038
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
@@ -165,7 +165,7 @@
                     "endOffset": 1147
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -184,7 +184,7 @@
                     "endOffset": 1256
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -203,7 +203,7 @@
                     "endOffset": 1365
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
@@ -222,7 +222,7 @@
                     "endOffset": 1474
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
@@ -241,7 +241,7 @@
                     "endOffset": 1581
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
@@ -260,7 +260,7 @@
                     "endOffset": 1684
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
@@ -279,7 +279,7 @@
                     "endOffset": 1803
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
@@ -299,7 +299,7 @@
                     "endOffset": 1958
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
@@ -320,7 +320,7 @@
                     "endOffset": 2113
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
@@ -340,7 +340,7 @@
                     "endOffset": 2218
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 25,
                         "startColumn": 4,
@@ -359,7 +359,7 @@
                     "endOffset": 2339
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 26,
                         "startColumn": 4,
@@ -378,7 +378,7 @@
                     "endOffset": 2440
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 27,
                         "startColumn": 4,
@@ -398,7 +398,7 @@
                     "endOffset": 2587
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 4,
@@ -419,7 +419,7 @@
                     "endOffset": 2728
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 4,
@@ -439,7 +439,7 @@
                     "endOffset": 2831
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 36,
                         "startColumn": 4,
@@ -458,7 +458,7 @@
                     "endOffset": 2950
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 37,
                         "startColumn": 4,
@@ -477,7 +477,7 @@
                     "endOffset": 3057
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 38,
                         "startColumn": 4,
@@ -496,7 +496,7 @@
                     "endOffset": 3160
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 39,
                         "startColumn": 4,
@@ -516,7 +516,7 @@
                     "endOffset": 3307
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 42,
                         "startColumn": 4,
@@ -537,7 +537,7 @@
                     "endOffset": 3462
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 44,
                         "startColumn": 4,
@@ -558,7 +558,7 @@
                     "endOffset": 3633
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 46,
                         "startColumn": 4,
@@ -579,7 +579,7 @@
                     "endOffset": 3782
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 48,
                         "startColumn": 4,
@@ -600,7 +600,7 @@
                     "endOffset": 3947
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 50,
                         "startColumn": 4,
@@ -621,7 +621,7 @@
                     "endOffset": 4104
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 52,
                         "startColumn": 4,
@@ -642,7 +642,7 @@
                     "endOffset": 4255
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 54,
                         "startColumn": 4,
@@ -662,7 +662,7 @@
                     "endOffset": 4374
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 58,
                         "startColumn": 4,
@@ -682,7 +682,7 @@
                     "endOffset": 4523
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 61,
                         "startColumn": 4,
@@ -703,7 +703,7 @@
                     "endOffset": 4672
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 63,
                         "startColumn": 4,
@@ -723,7 +723,7 @@
                     "endOffset": 4784
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 67,
                         "startColumn": 4,
@@ -742,7 +742,7 @@
                     "endOffset": 4931
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 70,
                         "startColumn": 4,
@@ -762,7 +762,7 @@
                     "endOffset": 5084
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 71,
                         "startColumn": 4,
@@ -783,7 +783,7 @@
                     "endOffset": 5231
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 73,
                         "startColumn": 4,
@@ -803,7 +803,7 @@
                     "endOffset": 5306
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 77,
                         "startColumn": 4,
@@ -822,7 +822,7 @@
                     "endOffset": 5395
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 78,
                         "startColumn": 4,
@@ -841,7 +841,7 @@
                     "endOffset": 5482
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 79,
                         "startColumn": 4,
@@ -860,7 +860,7 @@
                     "endOffset": 5583
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 80,
                         "startColumn": 4,
@@ -880,7 +880,7 @@
                     "endOffset": 8651
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 81,
                         "startColumn": 4,
@@ -901,7 +901,7 @@
                     "endOffset": 8837
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 125,
                         "startColumn": 4,
@@ -922,7 +922,7 @@
                     "endOffset": 11917
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 128,
                         "startColumn": 4,
@@ -943,7 +943,7 @@
                     "endOffset": 12115
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 172,
                         "startColumn": 4,
@@ -964,7 +964,7 @@
                     "endOffset": 12238
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 177,
                         "startColumn": 4,
@@ -985,7 +985,7 @@
                     "endOffset": 12361
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 179,
                         "startColumn": 4,
@@ -1006,7 +1006,7 @@
                     "endOffset": 12474
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 181,
                         "startColumn": 4,
@@ -1027,7 +1027,7 @@
                     "endOffset": 12657
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 183,
                         "startColumn": 4,
@@ -1048,7 +1048,7 @@
                     "endOffset": 12788
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 186,
                         "startColumn": 4,
@@ -1069,7 +1069,7 @@
                     "endOffset": 12989
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 188,
                         "startColumn": 4,
@@ -1089,7 +1089,7 @@
                     "endOffset": 13078
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 191,
                         "startColumn": 4,
@@ -1108,7 +1108,7 @@
                     "endOffset": 13189
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 192,
                         "startColumn": 4,
@@ -1127,7 +1127,7 @@
                     "endOffset": 13316
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 193,
                         "startColumn": 4,
@@ -1146,7 +1146,7 @@
                     "endOffset": 13417
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 194,
                         "startColumn": 4,
@@ -1165,7 +1165,7 @@
                     "endOffset": 13512
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 195,
                         "startColumn": 4,
@@ -1184,7 +1184,7 @@
                     "endOffset": 13635
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 196,
                         "startColumn": 4,
@@ -1203,7 +1203,7 @@
                     "endOffset": 13764
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 197,
                         "startColumn": 4,
@@ -1222,7 +1222,7 @@
                     "endOffset": 13881
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 198,
                         "startColumn": 4,
@@ -1242,7 +1242,7 @@
                     "endOffset": 14058
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 199,
                         "startColumn": 4,
@@ -1262,7 +1262,7 @@
                     "endOffset": 14157
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 202,
                         "startColumn": 4,
@@ -1282,7 +1282,7 @@
                     "endOffset": 14292
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 203,
                         "startColumn": 4,
@@ -1303,7 +1303,7 @@
                     "endOffset": 14435
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 205,
                         "startColumn": 4,
@@ -1324,7 +1324,7 @@
                     "endOffset": 14570
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 207,
                         "startColumn": 4,
@@ -1345,7 +1345,7 @@
                     "endOffset": 14689
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 209,
                         "startColumn": 4,
@@ -1366,7 +1366,7 @@
                     "endOffset": 14890
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 211,
                         "startColumn": 4,
@@ -1387,7 +1387,7 @@
                     "endOffset": 15009
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 215,
                         "startColumn": 4,
@@ -1407,7 +1407,7 @@
                     "endOffset": 15102
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 217,
                         "startColumn": 4,
@@ -1426,7 +1426,7 @@
                     "endOffset": 15213
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 218,
                         "startColumn": 4,
@@ -1445,7 +1445,7 @@
                     "endOffset": 15269
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 219,
                         "startColumn": 4,
@@ -1465,7 +1465,7 @@
                     "endOffset": 15376
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 220,
                         "startColumn": 4,
@@ -1486,7 +1486,7 @@
                     "endOffset": 15571
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 222,
                         "startColumn": 4,
@@ -1507,7 +1507,7 @@
                     "endOffset": 15682
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 226,
                         "startColumn": 4,
@@ -1528,7 +1528,7 @@
                     "endOffset": 15815
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 228,
                         "startColumn": 4,
@@ -1548,7 +1548,7 @@
                     "endOffset": 15910
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 230,
                         "startColumn": 4,
@@ -1567,7 +1567,7 @@
                     "endOffset": 16001
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 231,
                         "startColumn": 4,
@@ -1586,7 +1586,7 @@
                     "endOffset": 16092
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 232,
                         "startColumn": 4,
@@ -1605,7 +1605,7 @@
                     "endOffset": 16209
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 233,
                         "startColumn": 4,
@@ -1625,7 +1625,7 @@
                     "endOffset": 16348
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 234,
                         "startColumn": 4,
@@ -1646,7 +1646,7 @@
                     "endOffset": 16701
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 238,
                         "startColumn": 4,
@@ -1667,7 +1667,7 @@
                     "endOffset": 17066
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 245,
                         "startColumn": 4,
@@ -1688,7 +1688,7 @@
                     "endOffset": 17746
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 252,
                         "startColumn": 4,
@@ -1708,7 +1708,7 @@
                     "endOffset": 17803
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 262,
                         "startColumn": 4,
@@ -1727,7 +1727,7 @@
                     "endOffset": 17861
                 },
                 "from": {
-                    "file": "/home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
+                    "file": "/home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/res/values-v21/values-v21.xml",
                     "position": {
                         "startLine": 263,
                         "startColumn": 4,

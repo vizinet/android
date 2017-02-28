@@ -1,181 +1,181 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:2:1-82:12
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:2:1-82:12
 	package
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:3:5-39
-		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
-		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:3:5-39
+		INJECTED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
+		INJECTED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
-		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
+		INJECTED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
+		INJECTED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:2:11-69
 	android:versionCode
-		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
-		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
+		INJECTED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
+		INJECTED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
 uses-permission#android.permission.GET_ACCOUNTS
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:7:5-71
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:7:5-71
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:7:22-68
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:7:22-68
 uses-permission#android.permission.READ_PROFILE
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:8:5-71
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:8:5-71
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:8:22-68
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:8:22-68
 uses-permission#android.permission.READ_CONTACTS
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:9:5-72
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:9:5-72
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:9:22-69
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:9:22-69
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:10:5-81
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:10:5-81
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:10:22-78
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:10:22-78
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:11:5-80
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:11:5-80
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:11:22-77
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:11:22-77
 uses-permission#android.permission.INTERNET
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:12:5-67
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:12:5-67
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:12:22-64
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:12:22-64
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:13:5-79
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:13:5-79
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:13:22-76
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:13:22-76
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:14:5-79
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:14:5-79
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:14:22-76
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:14:22-76
 uses-feature#android.hardware.camera
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:16:5-18:35
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:16:5-18:35
 	android:required
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:18:9-32
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:18:9-32
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:17:9-47
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:17:9-47
 application
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:20:5-80:19
-MERGED from [com.android.support:design:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:appcompat-v7:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:22:5-20
-MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:22:5-20
-MERGED from [com.google.android.gms:play-services-appindexing:8.1.0] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/AndroidManifest.xml:19:5-20
-MERGED from [com.google.android.gms:play-services-basement:8.1.0] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/AndroidManifest.xml:20:5-24:19
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:20:5-80:19
+MERGED from [com.android.support:design:23.1.1] /home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:appcompat-v7:23.1.1] /home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:22:5-20
+MERGED from [com.google.android.gms:play-services-appindexing:8.1.0] /home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/AndroidManifest.xml:19:5-20
+MERGED from [com.google.android.gms:play-services-basement:8.1.0] /home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/AndroidManifest.xml:20:5-24:19
+MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:22:5-20
 	android:label
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:23:9-41
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:23:9-41
 	android:supportsRtl
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:24:9-35
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:24:9-35
 	android:allowBackup
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:21:9-35
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:21:9-35
 	android:icon
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:22:9-38
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:22:9-38
 	android:theme
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:25:9-65
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:25:9-65
 activity#lar.wsu.edu.airpact_fire.SignInActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:28:9-37:20
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:28:9-37:20
 	android:screenOrientation
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:31:13-49
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:31:13-49
 	android:label
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:30:13-45
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:30:13-45
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:29:13-43
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:29:13-43
 intent-filter#android.intent.action.MAIN+android.intent.category.DEFAULT+android.intent.category.LAUNCHER
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:32:13-36:29
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:32:13-36:29
 action#android.intent.action.MAIN
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:33:17-69
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:33:17-69
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:33:25-66
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:33:25-66
 category#android.intent.category.DEFAULT
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:34:17-76
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:34:17-76
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:34:27-73
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:34:27-73
 category#android.intent.category.LAUNCHER
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:35:17-77
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:35:17-77
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:35:27-74
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:35:27-74
 activity#lar.wsu.edu.airpact_fire.HomeActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:38:9-40:52
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:38:9-40:52
 	android:screenOrientation
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:40:13-49
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:40:13-49
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:39:13-41
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:39:13-41
 activity#lar.wsu.edu.airpact_fire.QueuedPostsActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:41:9-43:52
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:41:9-43:52
 	android:screenOrientation
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:43:13-49
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:43:13-49
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:42:13-48
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:42:13-48
 activity#lar.wsu.edu.airpact_fire.SelectTargetsActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:44:9-46:52
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:44:9-46:52
 	android:screenOrientation
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:46:13-49
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:46:13-49
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:45:13-50
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:45:13-50
 activity#lar.wsu.edu.airpact_fire.AddPictureDetailsActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:47:9-49:52
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:47:9-49:52
 	android:screenOrientation
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:49:13-49
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:49:13-49
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:48:13-54
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:48:13-54
 activity#lar.wsu.edu.airpact_fire.ViewImageActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:50:9-53:59
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:50:9-53:59
 	android:screenOrientation
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:52:13-49
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:52:13-49
 	android:theme
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:53:13-56
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:53:13-56
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:51:13-46
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:51:13-46
 activity#lar.wsu.edu.airpact_fire.PostReviewActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:54:9-56:52
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:54:9-56:52
 	android:screenOrientation
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:56:13-49
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:56:13-49
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:55:13-47
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:55:13-47
 activity#lar.wsu.edu.airpact_fire.PostDetailsActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:57:9-59:52
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:57:9-59:52
 	android:screenOrientation
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:59:13-49
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:59:13-49
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:58:13-48
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:58:13-48
 activity#lar.wsu.edu.airpact_fire.InformationActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:60:9-62:52
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:60:9-62:52
 	android:screenOrientation
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:62:13-49
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:62:13-49
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:61:13-48
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:61:13-48
 activity#lar.wsu.edu.airpact_fire.SettingsActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:63:9-65:52
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:63:9-65:52
 	android:screenOrientation
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:65:13-49
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:65:13-49
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:64:13-45
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:64:13-45
 activity#lar.wsu.edu.airpact_fire.ViewUserXMLActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:68:9-70:52
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:68:9-70:52
 	android:screenOrientation
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:70:13-49
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:70:13-49
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:69:13-48
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:69:13-48
 activity#lar.wsu.edu.airpact_fire.TutorialActivity
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:71:9-73:52
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:71:9-73:52
 	android:screenOrientation
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:73:13-49
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:73:13-49
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:72:13-45
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:72:13-45
 meta-data#com.google.android.gms.version
-ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:77:9-79:69
-MERGED from [com.google.android.gms:play-services-basement:8.1.0] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/AndroidManifest.xml:21:9-23:69
+ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:77:9-79:69
+MERGED from [com.google.android.gms:play-services-basement:8.1.0] /home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/AndroidManifest.xml:21:9-23:69
 	android:value
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:79:13-66
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:79:13-66
 	android:name
-		ADDED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:78:13-58
+		ADDED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml:78:13-58
 uses-sdk
-INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-MERGED from [com.android.support:design:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:appcompat-v7:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:20:5-43
-MERGED from [com.android.support:recyclerview-v7:23.1.1] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/AndroidManifest.xml:20:5-43
-MERGED from [com.google.android.gms:play-services-appindexing:8.1.0] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/AndroidManifest.xml:18:5-42
-MERGED from [com.google.android.gms:play-services-basement:8.1.0] /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/AndroidManifest.xml:18:5-42
+INJECTED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+MERGED from [com.android.support:design:23.1.1] /home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/design/23.1.1/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:appcompat-v7:23.1.1] /home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.1/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:recyclerview-v7:23.1.1] /home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.1/AndroidManifest.xml:20:5-43
+MERGED from [com.google.android.gms:play-services-appindexing:8.1.0] /home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/8.1.0/AndroidManifest.xml:18:5-42
+MERGED from [com.google.android.gms:play-services-basement:8.1.0] /home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-basement/8.1.0/AndroidManifest.xml:18:5-42
+MERGED from [com.android.support:support-v4:23.1.1] /home/luke/Documents/Groups/AIRPACT-Fire/App/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.1/AndroidManifest.xml:20:5-43
 	android:targetSdkVersion
-		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
-		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
+		INJECTED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
+		INJECTED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
-		INJECTED from /home/luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
+		INJECTED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
+		INJECTED from /home/luke/Documents/Groups/AIRPACT-Fire/App/app/src/main/AndroidManifest.xml
