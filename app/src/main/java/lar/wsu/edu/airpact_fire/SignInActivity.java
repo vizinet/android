@@ -196,6 +196,7 @@ public class SignInActivity extends AppCompatActivity {
 
         if (true) return;
 
+        /*
         if (requestCode == ScriptManager.SCRIPT_EXEC_PY) {
             if (data != null) {
                 Bundle bundle = data.getExtras();
@@ -207,6 +208,7 @@ public class SignInActivity extends AppCompatActivity {
                 Toast.makeText(this, "onQPyExec: data is null", Toast.LENGTH_SHORT).show();
             }
         }
+        */
     }
 
     // Set credentials of last user
