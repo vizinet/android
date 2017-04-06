@@ -52,9 +52,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".PostReviewActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".PostDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
