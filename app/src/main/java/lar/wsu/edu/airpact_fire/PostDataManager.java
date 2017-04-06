@@ -138,8 +138,6 @@ public class PostDataManager {
         String selection = PostContract.PostEntry.COLUMN_NAME_USER + " LIKE ?";
         String[] selectionArgs = {user};
 
-        //Toast.makeText(context, "user in PDM is " + user, Toast.LENGTH_SHORT).show();
-
         // Get rows
         Cursor c = db.query(
                 PostContract.PostEntry.TABLE_NAME,  // The table to query
@@ -161,8 +159,7 @@ public class PostDataManager {
         do {
             // Get SQL post SubmitFieldVars
             long itemId = c.getLong(c.getColumnIndexOrThrow(PostContract.PostEntry._ID));
-            long postNum = Long.parseLong(
-                    c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_POST_NUM)));
+            long postNum = Long.parseLong(c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_POST_NUM)));
             String postFlag = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_POST_FLAG));
             String image = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_IMAGE));
             String secretKey = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_SECRET_KEY));
@@ -255,8 +252,7 @@ public class PostDataManager {
 
         // Read post SubmitFieldVars
         long itemId = c.getLong(c.getColumnIndexOrThrow(PostContract.PostEntry._ID));
-        long postNum = Long.parseLong(
-                c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_POST_NUM)));
+        long postNum = Long.parseLong(c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_POST_NUM)));
         String user = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_USER));
         String postFlag = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_POST_FLAG));
         String image = c.getString(c.getColumnIndexOrThrow(PostContract.PostEntry.COLUMN_NAME_IMAGE));
@@ -421,9 +417,6 @@ public class PostDataManager {
         // Read rows with exactly the same date
         String selection = PostContract.PostEntry.COLUMN_NAME_DATE + " LIKE ?";
         String[] selectionArgs = {post.Date.getTime().toString()}; // Store string version of date
-
-//        Toast.makeText(Post.Activity.getApplicationContext(), "PostDataManager.doesPostExist(...) -> date to be checked against is\n"
-//                + post.Date.getTime().toString(), Toast.LENGTH_SHORT).show();
 
         // Get rows
         Cursor c = db.query(

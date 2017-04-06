@@ -102,7 +102,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
-                android:hint="@string/location_hint" />
+                android:hint="@string/location_hint"
+                android:singleLine="true" />
         </LinearLayout>
 
         <LinearLayout
