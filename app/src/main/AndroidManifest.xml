@@ -24,9 +24,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <!-- Startup activity -->
         <activity
-            android:name=".SignInActivity"
+            android:name="edu.wsu.lar.airpact_fire.activity.SignInActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -36,37 +35,29 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name="edu.wsu.lar.airpact_fire.activity.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".QueuedPostsActivity"
+            android:name="edu.wsu.lar.airpact_fire.activity.QueuedPostsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SelectTargetsActivity"
+            android:name="edu.wsu.lar.airpact_fire.activity.SelectTargetsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddPictureDetailsActivity"
+            android:name="edu.wsu.lar.airpact_fire.activity.AddPictureDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ViewImageActivity"
+            android:name="edu.wsu.lar.airpact_fire.activity.ViewImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".PostDetailsActivity"
+            android:name="edu.wsu.lar.airpact_fire.activity.PostDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".InformationActivity"
+            android:name="edu.wsu.lar.airpact_fire.activity.InformationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SettingsActivity"
-            android:screenOrientation="portrait" />
-
-        <!-- Phased out -->
-        <activity
-            android:name=".ViewUserXMLActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".TutorialActivity"
+            android:name="edu.wsu.lar.airpact_fire.activity.SettingsActivity"
             android:screenOrientation="portrait" />
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for

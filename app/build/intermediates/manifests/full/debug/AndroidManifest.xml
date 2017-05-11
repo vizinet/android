@@ -32,7 +32,7 @@
 
         <!-- Startup activity -->
         <activity
-            android:name="lar.wsu.edu.airpact_fire.SignInActivity"
+            android:name="edu.wsu.edu.airpact_fire.activity.SignInActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -43,37 +43,37 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="lar.wsu.edu.airpact_fire.HomeActivity"
+            android:name="edu.wsu.edu.airpact_fire.activity.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="lar.wsu.edu.airpact_fire.QueuedPostsActivity"
+            android:name="edu.wsu.edu.airpact_fire.activity.QueuedPostsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="lar.wsu.edu.airpact_fire.SelectTargetsActivity"
+            android:name="edu.wsu.edu.airpact_fire.activity.SelectTargetsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="lar.wsu.edu.airpact_fire.AddPictureDetailsActivity"
+            android:name="edu.wsu.edu.airpact_fire.activity.AddPictureDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="lar.wsu.edu.airpact_fire.ViewImageActivity"
+            android:name="edu.wsu.edu.airpact_fire.activity.ViewImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="lar.wsu.edu.airpact_fire.PostDetailsActivity"
+            android:name="edu.wsu.edu.airpact_fire.activity.PostDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="lar.wsu.edu.airpact_fire.InformationActivity"
+            android:name="edu.wsu.edu.airpact_fire.activity.InformationActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="lar.wsu.edu.airpact_fire.SettingsActivity"
+            android:name="edu.wsu.edu.airpact_fire.activity.SettingsActivity"
             android:screenOrientation="portrait" />
 
         <!-- Phased out -->
         <activity
-            android:name="lar.wsu.edu.airpact_fire.ViewUserXMLActivity"
+            android:name="edu.wsu.edu.airpact_fire.activity.ViewUserXMLActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="lar.wsu.edu.airpact_fire.TutorialActivity"
+            android:name="edu.wsu.edu.airpact_fire.activity.TutorialActivity"
             android:screenOrientation="portrait" />
 
         <!--
