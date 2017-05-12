@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -16,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -64,7 +66,7 @@ import javax.xml.transform.stream.StreamResult;
 
 public class AppDataManager {
     // NOTE: Version is changed as fields are amended
-    public static final String FILENAME = "app_data_v3.xml";
+    public static final String FILENAME = "app_data_0.1.xml";
     public static final String[] APP_ELEMENTS = {
             "meta",
             "users",
@@ -94,7 +96,6 @@ public class AppDataManager {
             "firstLoginTime",
             "lastLoginTime"
     };
-    public static final String[] TEST_USER_CRED = {"testuser", "1234567890"};
 
     // Activity context which allows us to do things on UI, mainly for
     // debugging purposes
@@ -204,53 +205,9 @@ public class AppDataManager {
                 Element dummyAlgElement = doc.createElement("dummy_alg_0");
                 scriptsElement.appendChild(dummyAlgElement);
 
-                // CREATING TEST USER
-
                 // Last user elements starting with a testUser
                 Element lastUser = doc.createElement("lastUser");
-                lastUser.appendChild(doc.createTextNode(TEST_USER_CRED[0]));
                 metaElement.appendChild(lastUser);
-
-                // Create testUser data section
-                Element testUser = doc.createElement(TEST_USER_CRED[0]);
-
-                // Password
-                Element testPassword = doc.createElement("password");
-                testPassword.appendChild(doc.createTextNode(TEST_USER_CRED[1]));
-                testUser.appendChild(testPassword);
-
-                // Login time
-                Element testLoginTime = doc.createElement("loginTime");
-                testLoginTime.appendChild(doc.createTextNode((new Date()).toString()));
-                testUser.appendChild(testLoginTime);
-
-                // Tags
-                Element testTags = doc.createElement("tags");
-                testTags.appendChild(doc.createTextNode("testTag,testwow,testohboy"));
-                testUser.appendChild(testTags);
-
-                // Description
-                Element testDescription = doc.createElement("description");
-                testDescription.appendChild(doc.createTextNode("This is a mundane and superfluous post description."));
-                testUser.appendChild(testDescription);
-
-                // Low indicators
-                Element testLowIndicatorX = doc.createElement("lowIndicatorX");
-                testLowIndicatorX.appendChild(doc.createTextNode("200.0"));
-                testUser.appendChild(testLowIndicatorX);
-                Element testLowIndicatorY = doc.createElement("lowIndicatorY");
-                testLowIndicatorY.appendChild(doc.createTextNode("200.0"));
-                testUser.appendChild(testLowIndicatorY);
-
-                // High indicators
-                Element testHighIndicatorX = doc.createElement("highIndicatorX");
-                testHighIndicatorX.appendChild(doc.createTextNode("100.0"));
-                testUser.appendChild(testHighIndicatorX);
-                Element testHighIndicatorY = doc.createElement("highIndicatorY");
-                testHighIndicatorY.appendChild(doc.createTextNode("100.0"));
-                testUser.appendChild(testHighIndicatorY);
-
-                usersElement.appendChild(testUser);
 
                 // Write skeleton (as string) to file
                 fos.write(domToString(doc).getBytes());
@@ -302,60 +259,12 @@ public class AppDataManager {
     }
 
     /**
-     * SCRIPT METHODS (Deprecated)
-     **/
-
-    // Remove all algorithm names from app storage
-    public static void clearScriptNames() {
-        if (mContext == null) return;
-
-        Document doc = getLocalXML();
-        Element scriptsElement = (Element) doc.getElementsByTagName("scripts").item(0);
-        Util.removeNodeChildren(scriptsElement);
-
-        Log.println(Log.DEBUG, "SCRIPTNAMES", "Clear script names. Now we have "
-                + scriptsElement.getChildNodes().getLength()
-                + " script names");
-
-        writeLocalXML();
-    }
-
-    // Returns true or false depending on if script doesn't exist or not, respectively
-    public static boolean addScriptName(String name) {
-        Log.println(Log.DEBUG, "SCRIPTNAMES", "Attempting to add script name = " + name);
-
-        Document doc = getLocalXML();
-        Element scriptsElement = (Element) doc.getElementsByTagName("scripts").item(0);
-        // Stop if we find that script name is already there
-        if (scriptsElement.getElementsByTagName(name).getLength() > 0) return false;
-        scriptsElement.appendChild(doc.createElement(name));
-
-        Log.println(Log.DEBUG, "SCRIPTNAMES", "Script name added!");
-
-        writeLocalXML();
-        return true;
-    }
-
-    public static ArrayList<String> getScriptNames() {
-        ArrayList<String> scriptNames = new ArrayList<>();
-
-        Document doc = getLocalXML();
-        Element scriptsElement = (Element) doc.getElementsByTagName("scripts").item(0);
-
-        NodeList nameNodes = scriptsElement.getChildNodes();
-        for (int i = 0; i < nameNodes.getLength(); i++) {
-            scriptNames.add(((Element) (nameNodes.item(i))).getTagName());
-        }
-
-        return scriptNames;
-    }
-
-    /**
      * USER METHODS
      **/
 
     // Returns last user logged
     public static String getRecentUser() {
+
         if (mContext == null) return null;
         if (mLastUser != null) return mLastUser; // Return cached info
 
@@ -369,8 +278,10 @@ public class AppDataManager {
         // Return user
         return lastUser.getTextContent();
     }
+
     // Set last user for future reference
     public static void setRecentUser(String user) {
+
         if (mContext == null) return;
 
         // Get XML data
@@ -420,8 +331,9 @@ public class AppDataManager {
         return setUserData(getRecentUser(), element, content);
     }
     public static boolean setUserData(String user, String element, String content) {
+
         // Add content into right element of user element
-        if (mContext == null) return false;
+        if (mContext == null || user == "") return false;
 
         //DebugManager.printLog("SetUserData: User = " + user + ", Element = " + element + ", Content = " + content);
 
@@ -450,9 +362,8 @@ public class AppDataManager {
         return getUserData(getRecentUser(), element);
     }
     public static String getUserData(String user, String element) {
-        if (mContext == null) return null;
 
-        //DebugManager.printLog("GetUserData: User = " + user + ", Element = " + element);
+        if (mContext == null || user == "") return null;
 
         // Get XML
         Document doc = getLocalXML();
@@ -472,6 +383,7 @@ public class AppDataManager {
     }
 
     public static String getXML() {
+
         // Convert xml file from disk into string
         try {
             FileInputStream fis = mContext.getApplicationContext().openFileInput(FILENAME);

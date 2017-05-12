@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context="lar.wsu.edu.airpact_fire.HomeActivity">
 
     <LinearLayout
@@ -20,27 +20,27 @@
             android:background="@color/schemeTransparentLightish">
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
                 <FrameLayout
+                    android:id="@+id/back_button"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="@color/schemeRed"
-                    android:id="@+id/back_button">
+                    android:background="@android:color/black">
 
                     <ImageView
+                        android:id="@+id/imageView3"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:id="@+id/imageView3"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
                         android:scaleX="-1"
                         android:src="@drawable/sign_out_large"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginRight="10dp"
                         android:tint="@color/schemeWhite" />
                 </FrameLayout>
 
@@ -53,8 +53,8 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/username_text"
@@ -65,18 +65,18 @@
                             android:text="STEPHSUMMER..."
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:textColor="@color/abc_primary_text_disable_only_material_light"
+                            android:textIsSelectable="false"
                             android:textSize="17dp"
-                            android:textStyle="bold"
-                            android:textIsSelectable="false" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/textView8"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingLeft="10dp"
-                            android:text="Welcome to the beta!"
+                            android:text="Thanks for testing the alpha!"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:textColor="@color/schemeGray"
+                            android:textColor="@android:color/black"
                             android:textSize="10dp" />
 
                         <TextView
@@ -86,7 +86,7 @@
                             android:paddingLeft="10dp"
                             android:text="Member since xx/xx/xx"
                             android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:textColor="@color/schemeGray"
+                            android:textColor="@android:color/black"
                             android:textSize="10dp" />
 
                     </LinearLayout>
@@ -94,25 +94,25 @@
                     <FrameLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_gravity="center_vertical">
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="20dp"
                             android:layout_marginRight="0dp"
                             android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:layout_marginLeft="20dp"
-                            android:layout_gravity="center_vertical">
+                            android:orientation="horizontal">
 
                             <LinearLayout
-                                android:orientation="vertical"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="5dp"
                                 android:layout_gravity="center_vertical"
-                                android:layout_weight="1">
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
                                 <FrameLayout
                                     android:layout_width="match_parent"
@@ -130,12 +130,12 @@
                                         android:id="@+id/number_posted_text"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="10"
-                                        android:textAppearance="?android:attr/textAppearanceLarge"
-                                        android:textColor="@color/schemeGray"
-                                        android:textSize="12dp"
                                         android:layout_gravity="center"
                                         android:password="false"
+                                        android:text="10"
+                                        android:textAppearance="?android:attr/textAppearanceLarge"
+                                        android:textColor="@android:color/black"
+                                        android:textSize="12dp"
                                         android:textStyle="bold" />
                                 </FrameLayout>
 
@@ -143,23 +143,23 @@
                                     android:id="@+id/textView29"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="POSTED"
-                                    android:textAppearance="?android:attr/textAppearanceLarge"
-                                    android:textColor="@color/schemeGray"
-                                    android:textSize="8dp"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_marginTop="5dp"
+                                    android:text="POSTED"
+                                    android:textAppearance="?android:attr/textAppearanceLarge"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="8dp"
                                     android:textStyle="italic" />
 
                             </LinearLayout>
 
                             <LinearLayout
-                                android:orientation="vertical"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="5dp"
                                 android:layout_gravity="center_vertical"
-                                android:layout_weight="1">
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
                                 <FrameLayout
                                     android:layout_width="match_parent"
@@ -180,7 +180,7 @@
                                         android:layout_gravity="center"
                                         android:text="10"
                                         android:textAppearance="?android:attr/textAppearanceLarge"
-                                        android:textColor="@color/schemeGray"
+                                        android:textColor="@android:color/black"
                                         android:textSize="12dp"
                                         android:textStyle="bold" />
 
@@ -190,24 +190,24 @@
                                     android:id="@+id/textView30"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginTop="5dp"
+                                    android:password="false"
                                     android:text="QUEUED"
                                     android:textAppearance="?android:attr/textAppearanceLarge"
-                                    android:textColor="@color/schemeGray"
+                                    android:textColor="@android:color/black"
                                     android:textSize="8dp"
-                                    android:layout_gravity="center"
-                                    android:password="false"
-                                    android:textStyle="italic"
-                                    android:layout_marginTop="5dp" />
+                                    android:textStyle="italic" />
 
                             </LinearLayout>
 
                             <LinearLayout
-                                android:orientation="vertical"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginRight="5dp"
                                 android:layout_gravity="center_vertical"
-                                android:layout_weight="1">
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
                                 <FrameLayout
                                     android:layout_width="match_parent"
@@ -228,7 +228,7 @@
                                         android:layout_gravity="center"
                                         android:text="0"
                                         android:textAppearance="?android:attr/textAppearanceLarge"
-                                        android:textColor="@color/schemeGray"
+                                        android:textColor="@android:color/black"
                                         android:textSize="12dp"
                                         android:textStyle="bold" />
 
@@ -239,11 +239,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="5dp"
                                     android:text="DRAFTED"
                                     android:textAppearance="?android:attr/textAppearanceLarge"
-                                    android:textColor="@color/schemeGray"
+                                    android:textColor="@android:color/black"
                                     android:textSize="8dp"
-                                    android:layout_marginTop="5dp"
                                     android:textStyle="italic" />
 
                             </LinearLayout>
@@ -261,12 +261,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@color/schemeRedHighlight">
+            android:background="@android:color/black">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -304,11 +304,11 @@
         </FrameLayout>
 
         <LinearLayout
+            android:id="@+id/button_page"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:id="@+id/button_page">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -320,12 +320,11 @@
                     android:id="@+id/new_picture_pane"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/schemeTransparentDark">
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -343,7 +342,9 @@
                             android:layout_height="100dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="20dp"
-                            android:src="@drawable/camera_material_small" />
+                            android:foregroundTint="@android:color/black"
+                            android:src="@drawable/camera"
+                            android:tintMode="multiply" />
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -369,21 +370,22 @@
                                         android:id="@+id/textView11"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:background="@android:color/black"
                                         android:gravity="center_horizontal"
-                                        android:text="CAPTURE"
+                                        android:text=" CAPTURE "
+                                        android:textColor="@android:color/white"
                                         android:textSize="20dp"
-                                        android:textColor="@color/schemeWhite"
                                         android:textStyle="bold" />
                                 </LinearLayout>
 
                             </LinearLayout>
 
                             <FrameLayout
+                                android:id="@+id/bottom_bar"
                                 android:layout_width="match_parent"
                                 android:layout_height="10dp"
-                                android:background="@color/schemeTransparentLightDark"
                                 android:layout_gravity="bottom"
-                                android:id="@+id/bottom_bar" />
+                                android:background="@android:color/black" />
 
                         </FrameLayout>
                         <![CDATA[
@@ -410,12 +412,11 @@
                     android:id="@+id/information_pane"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
-                    android:background="@color/schemeTransparentDark">
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -432,7 +433,7 @@
                             android:layout_height="100dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="20dp"
-                            android:src="@drawable/info_material_small" />
+                            android:src="@drawable/information" />
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -456,20 +457,21 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
+                                    android:background="@android:color/black"
                                     android:gravity="center_horizontal"
-                                    android:text="INFO"
+                                    android:text=" INFO "
+                                    android:textColor="@android:color/white"
                                     android:textSize="20dp"
-                                    android:textColor="@color/schemeWhite"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
 
                             <FrameLayout
+                                android:id="@+id/frameLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="10dp"
-                                android:background="@color/schemeTransparentLightDark"
                                 android:layout_gravity="bottom"
-                                android:id="@+id/frameLayout" />
+                                android:background="@android:color/black" />
 
                         </FrameLayout>
 
@@ -487,12 +489,11 @@
                     android:id="@+id/picture_gallery_pane"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@color/schemeTransparentDark">
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -509,7 +510,7 @@
                             android:layout_height="100dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="20dp"
-                            android:src="@drawable/gallery_material_small" />
+                            android:src="@drawable/gallery" />
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -532,20 +533,21 @@
                                     android:id="@+id/textView35"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:background="@android:color/black"
                                     android:gravity="center_horizontal"
-                                    android:text="GALLERY"
+                                    android:text=" GALLERY "
+                                    android:textColor="@android:color/white"
                                     android:textSize="20dp"
-                                    android:textColor="@color/schemeWhite"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
 
                             <FrameLayout
+                                android:id="@+id/frameLayout2"
                                 android:layout_width="match_parent"
                                 android:layout_height="10dp"
-                                android:background="@color/schemeTransparentLightDark"
                                 android:layout_gravity="bottom"
-                                android:id="@+id/frameLayout2" />
+                                android:background="@android:color/black" />
 
                         </FrameLayout>
 
@@ -556,12 +558,11 @@
                     android:id="@+id/settings_pane"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@color/schemeTransparentDark">
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -578,7 +579,7 @@
                             android:layout_height="100dp"
                             android:layout_gravity="center"
                             android:layout_marginTop="20dp"
-                            android:src="@drawable/settings_material_small" />
+                            android:src="@drawable/settings" />
 
                         <FrameLayout
                             android:layout_width="match_parent"
@@ -602,20 +603,21 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
+                                    android:background="@android:color/black"
                                     android:gravity="center_horizontal|left"
-                                    android:text="SETTINGS"
+                                    android:text=" SETTINGS "
+                                    android:textColor="@android:color/white"
                                     android:textSize="20dp"
-                                    android:textColor="@color/schemeWhite"
                                     android:textStyle="bold" />
 
                             </LinearLayout>
 
                             <FrameLayout
+                                android:id="@+id/frameLayout3"
                                 android:layout_width="match_parent"
                                 android:layout_height="10dp"
-                                android:background="@color/schemeTransparentLightDark"
                                 android:layout_gravity="bottom"
-                                android:id="@+id/frameLayout3" />
+                                android:background="@android:color/black" />
 
                         </FrameLayout>
 

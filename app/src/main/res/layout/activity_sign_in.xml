@@ -1,10 +1,11 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/page"
-    android:background="@color/schemeTransparent">
+    android:background="@color/schemeWhite">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,64 +25,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:id="@+id/logo_title"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="0dp">
 
             <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/logo" />
-
-            <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/sign_in_banner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="0.5"
-                        android:gravity="right"
-                        android:text="AIRPACT"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textSize="30dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/schemeTransparentDark"
-                        android:typeface="sans" />
-
-                    <TextView
-                        android:id="@+id/textView10"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="0.5"
-                        android:text="Fire"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="@color/schemeRed"
-                        android:textSize="30dp"
-                        android:typeface="sans" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/textView27"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text='"Picture-based Air Quality\nAnalysis For the Masses"'
-                    android:textSize="15dp"
-                    android:textStyle="italic"
-                    android:textColor="@color/schemeTransparentDark" />
-
-            </LinearLayout>
+                android:layout_weight="1"
+                android:src="@drawable/banner" />
         </LinearLayout>
 
         <ScrollView
@@ -104,7 +55,7 @@
                     android:gravity="center_vertical|center_horizontal|fill_vertical"
                     android:orientation="vertical"
                     android:layout_gravity="center_vertical"
-                    android:paddingTop="70dp">
+                    android:paddingTop="30dp">
 
                     <EditText
                         android:id="@+id/username"
@@ -113,17 +64,17 @@
                         android:hint="@string/prompt_email"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:singleLine="true"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/schemeTransparentLightDarker"
                         android:textSize="25dp"
                         android:textStyle="normal"
-                        android:typeface="sans"
-                        android:textColor="@color/schemeTransparentDark"
-                        android:textColorHint="@color/schemeTransparentLightDarker" />
+                        android:typeface="monospace" />
 
                     <EditText
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:autoText="false"
                         android:hint="@string/prompt_password"
                         android:imeActionId="@+id/login"
                         android:imeActionLabel="@string/action_sign_in_short"
@@ -131,12 +82,11 @@
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:singleLine="true"
+                        android:textColor="@android:color/black"
+                        android:textColorHint="@color/schemeTransparentLightDarker"
                         android:textSize="25dp"
                         android:textStyle="normal"
-                        android:typeface="sans"
-                        android:textColor="@color/schemeTransparentDark"
-                        android:autoText="false"
-                        android:textColorHint="@color/schemeTransparentLightDarker" />
+                        android:typeface="monospace" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -148,32 +98,32 @@
                             android:layout_height="match_parent">
 
                             <LinearLayout
-                                android:orientation="horizontal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:paddingTop="10dp"
-                                android:layout_gravity="center">
+                                android:layout_gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingTop="15dp">
 
                                 <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="Having trouble siging in? "
                                     android:id="@+id/textView2"
-                                    android:textSize="15dp"
-                                    android:layout_gravity="center"
-                                    android:textColor="@color/schemeTransparentDark" />
-
-                                <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="Get info"
-                                    android:id="@+id/textView18"
-                                    android:textSize="15dp"
                                     android:layout_gravity="center"
-                                    android:textStyle="bold|italic"
-                                    android:textColor="@color/schemeBlueHighlight" />
+                                    android:text="Having trouble siging in? "
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="15dp" />
+
+                                <TextView
+                                    android:id="@+id/textView18"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="Get info"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:textColor="@color/schemeBlue"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold" />
 
                             </LinearLayout>
 
@@ -185,14 +135,14 @@
                                 android:layout_gravity="center">
 
                                 <TextView
+                                    android:id="@+id/textView15"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="New around here? "
-                                    android:id="@+id/textView15"
-                                    android:textSize="15dp"
                                     android:layout_gravity="center"
-                                    android:textColor="@color/schemeTransparentDark" />
+                                    android:text="New around here? "
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="15dp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -202,8 +152,8 @@
                                     android:id="@+id/textView17"
                                     android:textSize="15dp"
                                     android:layout_gravity="center"
-                                    android:textStyle="bold|italic"
-                                    android:textColor="@color/schemeBlueHighlight" />
+                                    android:textStyle="bold"
+                                    android:textColor="@color/schemeBlue" />
 
                             </LinearLayout>
                         </LinearLayout>
@@ -221,37 +171,13 @@
             android:id="@+id/login_buttons"
             android:layout_weight="1">
 
-            <ImageButton
-                android:layout_width="@dimen/sign_in_button_width"
-                android:layout_height="@dimen/sign_in_button_width"
-                android:id="@+id/email_sign_in_icon"
-                android:src="@drawable/sign_in_icon"
-                android:scaleType="fitXY"
-                android:layout_gravity="center_horizontal|bottom"
-                android:background="@null"
-                android:layout_marginBottom="40dp" />
-
-            <LinearLayout
+            <Button
+                android:id="@+id/sign_in_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:orientation="horizontal"
-                android:layout_gravity="bottom">
-
-                <Button
-                    style="?android:textAppearanceSmall"
-                    android:id="@+id/email_sign_in_button"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:layout_weight="0.5"
-                    android:drawableLeft="@drawable/login_button_tint"
-                    android:gravity="center|center_vertical"
-                    android:text="LOGIN"
-                    android:textStyle="bold"
-                    android:typeface="sans"
-                    android:visibility="gone" />
-            </LinearLayout>
+                android:layout_gravity="center_vertical"
+                android:text="Sign In"
+                android:textColor="@android:color/black" />
         </FrameLayout>
 
     </LinearLayout>

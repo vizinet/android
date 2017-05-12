@@ -1,14 +1,13 @@
 package lar.wsu.edu.airpact_fire;
 
-import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -75,12 +74,13 @@ import java.util.Date;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private boolean hasLoadedBG = false;
+    // NOTE: Debugging flag
+    private boolean isDebugging = false;
 
     // UI references
     private RelativeLayout mPageLayout;
     private EditText mPasswordView, mUsernameView;
-    private ImageButton mEmailSignInButton, mRegisterButton;
+    private Button mSignInButton, mRegisterButton;
 
     // Startup progress
     private ProgressDialog progress;
@@ -90,29 +90,29 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        // TODO: Remove
-        // NOTE: Having trouble with image stuff when I do a test proceed?
-        //testProceed();
+        // (Debugging) Move forward to home without authentication
+        if (isDebugging) noAuthenticationProceed();
 
         // Attach objects to UI
         mPageLayout = (RelativeLayout) findViewById(R.id.page);
         mUsernameView = (EditText) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mEmailSignInButton = (ImageButton) findViewById(R.id.email_sign_in_icon);
+        mSignInButton = (Button) findViewById(R.id.sign_in_button);
         //mRegisterButton = (Button) findViewById(R.id.register_button);
 
         progress = new ProgressDialog(SignInActivity.this);
 
-        // XML Stuff -- create XML if necessary
+        // XML Stuff: create XML if necessary
         AppDataManager.init(getApplicationContext());
 
         // Set up the login form
         populateLoginFields();
 
         // Proceeds to home
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // Store values at the time of the login attempt.
                 String username = mUsernameView.getText().toString();
                 String password = mPasswordView.getText().toString();
@@ -139,6 +139,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
+        // TODO: Activate this stuff
 //        // Open web URL
 //        mRegisterButton.setOnClickListener(new OnClickListener() {
 //            @Override
@@ -149,72 +150,13 @@ public class SignInActivity extends AppCompatActivity {
 //            }
 //        });
 
-        // Check if scripts are updated
-        //ScriptManager.update(this);
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-
-        // Load background once page is in view
-        if (hasFocus) {
-
-            // Check if background already loaded
-            if (hasLoadedBG) return;
-            hasLoadedBG = true;
-
-            /** Bypassing cool background **/
-
-//            // Get background resource
-//            Bitmap landscape = BitmapFactory.decodeResource(getResources(),
-//                    R.drawable.washington_forest);
-//            // Crop image
-//            int landscapeWidth = landscape.getWidth();
-//            int landscapeHeight = landscape.getHeight();
-//            int screenWidth = Util.getScreenWidth(this);
-//            int screenHeight = Util.getScreenHeight(this);
-//            int cropWidth = (landscapeWidth < screenWidth) ? landscapeWidth : screenWidth;
-//            int cropHeight = (landscapeHeight < screenHeight) ? landscapeHeight : screenHeight;
-//            landscape = Bitmap.createBitmap(landscape, 0, 0, cropWidth, cropHeight);
-//            // Apply blur
-//            landscape = Util.doBlur(getApplicationContext(), landscape);
-//            Drawable background = new BitmapDrawable(getResources(), landscape);
-//            // Apply filter
-//            int filterColor = Color.parseColor("#a0" + "5C5C5C");
-//            mPageLayout.setBackgroundColor(filterColor);
-//            // Set background (doesn't change with ScrollView)
-//            getWindow().setBackgroundDrawable(background);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // TODO: Fix issue with QPython not executing our Python code!
-
-        if (true) return;
-
-        /*
-        if (requestCode == ScriptManager.SCRIPT_EXEC_PY) {
-            if (data != null) {
-                Bundle bundle = data.getExtras();
-                String flag = bundle.getString("flag"); // flag you set
-                String param = bundle.getString("param"); // param you set
-                String result = bundle.getString("result"); // Result your Pycode generate
-                Toast.makeText(this, "onQPyExec: return (" + result + ")", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "onQPyExec: data is null", Toast.LENGTH_SHORT).show();
-            }
-        }
-        */
     }
 
     // Set credentials of last user
     private void populateLoginFields() {
+
         String lastUser = AppDataManager.getRecentUser();
-        String lastPassword = AppDataManager.getUserData(lastUser, "password");
+        String lastPassword = AppDataManager.getUserData("password");
 
         mUsernameView.setText(lastUser);
         mPasswordView.setText(lastPassword);
@@ -227,7 +169,8 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     // DEBUGGING: Move on from home screen
-    private void testProceed() {
+    private void noAuthenticationProceed() {
+
         // Get input data
         String username = "test";
         String password = "1234567890";
@@ -235,14 +178,22 @@ public class SignInActivity extends AppCompatActivity {
         // Begin XML if needed
         AppDataManager.init(getApplicationContext());
 
+        // Debugging
+        DebugManager.printLog(AppDataManager.getXML());
+
         // Create new authenticated user
         AppDataManager.setRecentUser(username);
         AppDataManager.setUserData(username, "isAuth", "true");
         AppDataManager.setUserData(username, "password", password);
-        AppDataManager.setUserData(username, "loginTime", (new Date()).toString());
+        String loginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+        AppDataManager.setUserData(username, "lastLoginTime", loginTime);
+
+        DebugManager.printLog("Added the user successfully!");
 
         // Open home
         openHomeScreen();
+
+        DebugManager.printLog("Past openHomeScreen()");
     }
 
     // Deals with server
@@ -362,10 +313,11 @@ public class SignInActivity extends AppCompatActivity {
                 Toast.makeText(SignInActivity.this, "Authentication successful.\nWelcome!",
                         Toast.LENGTH_LONG).show();
 
-                // Set first (and last) login time!
+                // Set first login time
                 String firstLoginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
                 AppDataManager.setUserData("firstLoginTime", firstLoginTime);
-                AppDataManager.setUserData("lastLoginTime", firstLoginTime);
+
+                // Go to home screen
                 openHomeScreen();
             } else {
                 Toast.makeText(SignInActivity.this, "Could not authenticate user.\nPlease try again.",
