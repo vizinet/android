@@ -13,9 +13,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wsu.lar.airpact_fire.data.AppDataManager;
+import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.Post;
-import edu.wsu.lar.airpact_fire.tool.Util;
+import edu.wsu.lar.airpact_fire.util.Util;
 import lar.wsu.edu.airpact_fire.R;
 
 // User provides picture details before posting/queueing

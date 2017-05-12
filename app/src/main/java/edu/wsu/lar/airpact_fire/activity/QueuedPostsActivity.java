@@ -29,11 +29,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.util.Calendar;
 import java.util.List;
 
-import edu.wsu.lar.airpact_fire.data.AppDataManager;
+import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.Post;
-import edu.wsu.lar.airpact_fire.data.PostDataManager;
+import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import lar.wsu.edu.airpact_fire.R;
-import edu.wsu.lar.airpact_fire.tool.Util;
+import edu.wsu.lar.airpact_fire.util.Util;
 
 public class QueuedPostsActivity extends AppCompatActivity {
 

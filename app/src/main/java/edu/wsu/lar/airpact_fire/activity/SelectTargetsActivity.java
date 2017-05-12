@@ -44,10 +44,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.wsu.lar.airpact_fire.data.AppDataManager;
+import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.Post;
 import lar.wsu.edu.airpact_fire.R;
-import edu.wsu.lar.airpact_fire.tool.Util;
+import edu.wsu.lar.airpact_fire.util.Util;
 
 // TODO: Find way to compress image and display in very short amount of time. We started having
 //  problems with XML reading/writing when we stored whole image.

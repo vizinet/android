@@ -5,5 +5,6 @@ import io.realm.RealmObject;
 
 public class App extends RealmObject {
 
+    public Server server;
     public List<User> users;
 }

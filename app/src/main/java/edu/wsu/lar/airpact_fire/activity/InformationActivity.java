@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import lar.wsu.edu.airpact_fire.R;
-import edu.wsu.lar.airpact_fire.tool.Util;
+import edu.wsu.lar.airpact_fire.util.Util;
 
 //import com.google.android.gms.maps.*;
 //import com.google.android.gms.maps.model.*;

@@ -13,9 +13,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import edu.wsu.lar.airpact_fire.data.Post;
-import edu.wsu.lar.airpact_fire.data.PostDataManager;
+import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import lar.wsu.edu.airpact_fire.R;
-import edu.wsu.lar.airpact_fire.tool.Util;
+import edu.wsu.lar.airpact_fire.util.Util;
 
 public class PostDetailsActivity extends AppCompatActivity {
 

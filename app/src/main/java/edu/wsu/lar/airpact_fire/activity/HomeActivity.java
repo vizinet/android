@@ -24,10 +24,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import edu.wsu.lar.airpact_fire.data.PostDataManager;
-import edu.wsu.lar.airpact_fire.data.AppDataManager;
+import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
+import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import lar.wsu.edu.airpact_fire.R;
-import edu.wsu.lar.airpact_fire.tool.Util;
+import edu.wsu.lar.airpact_fire.util.Util;
 
 public class HomeActivity extends AppCompatActivity {
 

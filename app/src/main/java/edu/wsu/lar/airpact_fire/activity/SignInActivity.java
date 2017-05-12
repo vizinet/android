@@ -1,3 +1,7 @@
+/* Sign-In Activity
+ * Screen for users to sign-in to or sign-up for AIRPACT-Fire account
+ */
+
 package edu.wsu.lar.airpact_fire.activity;
 
 import android.app.ProgressDialog;
@@ -11,10 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,17 +25,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import edu.wsu.lar.airpact_fire.data.AppDataManager;
+import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.Post;
-import edu.wsu.lar.airpact_fire.tool.DebugManager;
+import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import lar.wsu.edu.airpact_fire.R;
-
-/* LOGIN SCREEN */
-/*
- * [INSERT DESCRIPTION]
- *
- */
 
 // NOTE: Problem is with retrieving <isAuth /> field in *XML*, not the network auth. I'm pretty sure
 // it has to do with the image. This happened after I took a picture for that user and then logged out.
@@ -75,7 +70,7 @@ import lar.wsu.edu.airpact_fire.R;
 // TODO: Organize resources and Java files in directories
 // TODO: Rename things for efficiency
 
-
+// NOTE: Only saves users which have been authenticated
 public class SignInActivity extends AppCompatActivity {
 
     // NOTE: Debugging flag
@@ -112,12 +107,12 @@ public class SignInActivity extends AppCompatActivity {
         // Set up the login form
         populateLoginFields();
 
-        // Proceeds to home
+        // Checks credentials before proceeding to home
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // Store values at the time of the login attempt.
+                // Store credentials
                 String username = mUsernameView.getText().toString();
                 String password = mPasswordView.getText().toString();
 

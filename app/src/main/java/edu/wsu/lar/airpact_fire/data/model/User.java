@@ -9,6 +9,6 @@ public class User extends RealmObject {
     @PrimaryKey
     public String name;
     public String password;
-    public List<Session> sessions; // Helps give first and last login times
-    public List<Post> posts;
+    public List<Session> sessions;  // App usage sessions by this user
+    public List<Post> posts;        // Queued and submitted posts
 }

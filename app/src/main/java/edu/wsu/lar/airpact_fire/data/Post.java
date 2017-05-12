@@ -28,9 +28,10 @@ import java.util.List;
 import java.util.Map;
 
 import edu.wsu.lar.airpact_fire.activity.QueuedPostsActivity;
-import edu.wsu.lar.airpact_fire.data.model.User;
-import edu.wsu.lar.airpact_fire.tool.DebugManager;
-import edu.wsu.lar.airpact_fire.tool.Util;
+import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
+import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
+import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
+import edu.wsu.lar.airpact_fire.util.Util;
 
 // Object for handling our picture post for current user, along with all the metadata
 public class Post {
@@ -176,9 +177,9 @@ public class Post {
 
     // Big-ass constructor
     // (for PostDataManager)
-    Post(String user, String description, String image, String secretKey, String highColor,
-         String highX, String highY, String lowColor, String lowX, String lowY, String visualRange,
-         String geoX, String geoY, String tags, String isPosted, long sqlId, Calendar date, long postNum) {
+    public Post(String user, String description, String image, String secretKey, String highColor,
+                String highX, String highY, String lowColor, String lowX, String lowY, String visualRange,
+                String geoX, String geoY, String tags, String isPosted, long sqlId, Calendar date, long postNum) {
 
         // Submission values
         User = user;
@@ -523,7 +524,8 @@ class SubmissionManager extends AsyncTask<Post, Void, Void> {
             isUser = Boolean.parseBoolean((String) authReceiveJSON.get("isUser"));
             if (isUser) {
                 userKey = authReceiveJSON.get("secretKey").toString();
-                User.postKeys.add(userKey);
+                // TODO: Accompany this the below commented-out code
+                //User.postKeys.add(userKey);
                 Post.isUser = true;
             } else { // Exit if not a user
 
