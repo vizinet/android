@@ -4,4 +4,6 @@ package edu.wsu.lar.airpact_fire.data.manager;
 public interface DataManager {
     boolean isAuthenticatedUser(String username, String password);
     void createAndAddUser(String username, String password);
+    void startSession();
+    void init(); // Called on app's first run
 }

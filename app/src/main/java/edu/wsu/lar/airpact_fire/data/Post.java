@@ -130,7 +130,7 @@ public class Post {
     }
 
     // Create new post from XML values
-    Post() {
+    public Post() {
         // TODO Fix all of these brute force tactics
         // Post XML => Post JSON
         String lastUser = AppDataManager.getRecentUser();

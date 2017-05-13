@@ -36,15 +36,15 @@ public class ServerManager {
      * that draw the image will incrementally paint on the screen.
      *
      * @author Luke Weber
-     * @param  url  an absolute URL giving the base location of the image
-     * @param  name the location of the image, relative to the url argument
-     * @return      the image at the specified URL
-     * @see         Image
+     * @param  username  server alias of user
+     * @param  password
+     * @return true/false depending on server authentication
      */
     public static boolean authenticate(String username, String password) {
         return false;
     }
 
+    // Gets run when new credentials are found that are not in the database
     public class AuthenticateManager extends AsyncTask<String, Void, Void> {
 
         private Context mContext;
@@ -139,7 +139,7 @@ public class ServerManager {
         @Override
         protected void onPostExecute(Void context) {
 
-            // To dismiss the dialog
+            // Dismiss loading dialog
             mProgress.dismiss();
 
             // TODO: Something will a callback
@@ -150,12 +150,15 @@ public class ServerManager {
                         Toast.LENGTH_LONG).show();
 
                 // Set first login time
-                String firstLoginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-                AppDataManager.setUserData("firstLoginTime", firstLoginTime);
+                String firstLoginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss")
+                        .format(new Date());
+                (new RealmDataManager(mContext)).startSession();
+
+                //AppDataManager.setUserData("firstLoginTime", firstLoginTime);
 
                 // Go to home screen
 
-                openHomeScreen();
+                //openHomeScreen();
             } else {
                 Toast.makeText(mContext, "Could not authenticate user.\nPlease try again.",
                         Toast.LENGTH_SHORT).show();

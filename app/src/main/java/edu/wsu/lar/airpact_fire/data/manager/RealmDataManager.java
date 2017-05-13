@@ -4,7 +4,9 @@ package edu.wsu.lar.airpact_fire.data.manager;
 
 import android.content.Context;
 
+import edu.wsu.lar.airpact_fire.data.model.User;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  33    * This class consists exclusively of static methods that operate on or return
@@ -59,13 +61,27 @@ public class RealmDataManager implements DataManager {
         mRealm = Realm.getDefaultInstance();
     }
 
+    public void init() { }
+
     @Override
     public boolean isAuthenticatedUser(String username, String password) {
-        return false;
+        final RealmResults<User> matchingUsers = mRealm.where(User.class)
+                .equalTo("name", username)
+                .equalTo("password", password)
+                .findAll();
+        return matchingUsers.size() == 0 ? false : true;
     }
 
     @Override
     public void createAndAddUser(String username, String password) {
+        User user = mRealm.createObject(User.class);
+        user.username = username;
+        user.password = password;
+        mRealm.commitTransaction();
+    }
 
+    @Override
+    public void startSession() {
+        // TODO: Init session with user
     }
 }
