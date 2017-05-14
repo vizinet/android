@@ -66,7 +66,7 @@ public class RealmDataManager implements DataManager {
     @Override
     public boolean isAuthenticatedUser(String username, String password) {
         final RealmResults<User> matchingUsers = mRealm.where(User.class)
-                .equalTo("name", username)
+                .equalTo("username", username)
                 .equalTo("password", password)
                 .findAll();
         return matchingUsers.size() == 0 ? false : true;
@@ -78,6 +78,11 @@ public class RealmDataManager implements DataManager {
         user.username = username;
         user.password = password;
         mRealm.commitTransaction();
+    }
+
+    @Override
+    public User getRecentUser() {
+        return null;
     }
 
     @Override

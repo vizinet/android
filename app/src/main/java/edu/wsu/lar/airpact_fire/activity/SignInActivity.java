@@ -6,6 +6,7 @@ package edu.wsu.lar.airpact_fire.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,12 +28,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.Post;
+import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
+import edu.wsu.lar.airpact_fire.manager.AppManager;
+import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import lar.wsu.edu.airpact_fire.R;
 
-// NOTE: Problem is with retrieving <isAuth /> field in *XML*, not the network auth. I'm pretty sure
-// it has to do with the image. This happened after I took a picture for that user and then logged out.
-// TODO: Address above NOTE
 // TODO: Internet status (color-coded) on home, view gallery option (web browser), as well as last login time and other stats
 // TODO: Custom Toast display, to make it more obvious to user
 // TODO: More responsive buttons
@@ -73,24 +74,22 @@ import lar.wsu.edu.airpact_fire.R;
 // NOTE: Only saves users which have been authenticated
 public class SignInActivity extends AppCompatActivity {
 
-    // NOTE: Debugging flag
-    private boolean isDebugging = false;
+    private DataManager mDataManager;
+    private SharedPreferences mPreferences;
 
     // UI references
     private RelativeLayout mPageLayout;
     private EditText mPasswordView, mUsernameView;
     private Button mSignInButton, mRegisterButton;
 
-    // Startup progress
-    private ProgressDialog progress;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        // (Debugging) Move forward to home without authentication
-        if (isDebugging) noAuthenticationProceed();
+        // Grab our data manager
+        mDataManager = AppManager.getDataManager(this);
+        mPreferences = getSharedPreferences("edu.wsu.lar.airpact_fire", MODE_PRIVATE);
 
         // Attach objects to UI
         mPageLayout = (RelativeLayout) findViewById(R.id.page);
@@ -99,13 +98,14 @@ public class SignInActivity extends AppCompatActivity {
         mSignInButton = (Button) findViewById(R.id.sign_in_button);
         //mRegisterButton = (Button) findViewById(R.id.register_button);
 
-        progress = new ProgressDialog(SignInActivity.this);
-
         // XML Stuff: create XML if necessary
         AppDataManager.init(getApplicationContext());
 
         // Set up the login form
         populateLoginFields();
+
+        // (Debugging) Move forward to home without authentication
+        if (AppManager.IS_DEBUGGING) noAuthenticationProceed();
 
         // Checks credentials before proceeding to home
         mSignInButton.setOnClickListener(new OnClickListener() {
@@ -115,6 +115,20 @@ public class SignInActivity extends AppCompatActivity {
                 // Store credentials
                 String username = mUsernameView.getText().toString();
                 String password = mPasswordView.getText().toString();
+
+                // Check if user exists
+                if (mDataManager.isAuthenticatedUser(username, password)) {
+                    // Known user - proceed to home
+                    openHomeScreen();
+                } else {
+                    // New guy - needs authentication
+                    // TODO: Pass before and after callbacks into this function
+                    boolean authenticated = (new ServerManager()).authenticate(
+                            SignInActivity.this, username, password);
+                    if (authenticated) openHomeScreen();
+                }
+
+                // ----
 
                 // Update user's password and login time (and create one if we need to)
                 AppDataManager.setUserData(username, "password", password);
@@ -151,6 +165,17 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mPreferences.getBoolean("firstrun", true)) {
+            // Run code on app's conception
+            mDataManager.init();
+            mPreferences.edit().putBoolean("firstrun", false).commit();
+        }
+    }
+
     // Set credentials of last user
     private void populateLoginFields() {
 
@@ -161,7 +186,7 @@ public class SignInActivity extends AppCompatActivity {
         mPasswordView.setText(lastPassword);
     }
 
-    // Open main page
+    // Open home page
     private void openHomeScreen() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);

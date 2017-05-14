@@ -16,14 +16,24 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.concurrent.ExecutionException;
+
 import edu.wsu.lar.airpact_fire.activity.SignInActivity;
 import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.manager.RealmDataManager;
-import edu.wsu.lar.airpact_fire.server.Server;
 
 public class ServerManager {
+
+    // URL fields
+    public static final String BASE_URL = "http://airpacfire.eecs.wsu.edu";
+    public static final String UPLOAD_URL = BASE_URL + "/file_upload/upload";
+    public static final String AUTHENTICATION_URL = BASE_URL + "/user/appauth";
+    public static final String REGISTER_URL = BASE_URL + "/user/register";
+
+    // Data standards
+    // TODO: Possibly move this to App manager
+    public static final String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
+    public static final double[] GPS_DEFAULT_LOC = {46.73267, -117.163454}; // Pullman, WA
 
     /**
      * Returns an Image object that can then be painted on the screen.
@@ -40,17 +50,27 @@ public class ServerManager {
      * @param  password
      * @return true/false depending on server authentication
      */
-    public static boolean authenticate(String username, String password) {
-        return false;
+    public boolean authenticate(Context context, String username, String password) {
+        boolean authenticated = false;
+        AuthenticationManager authenticationManager = new AuthenticationManager(context);
+        try {
+            authenticated = authenticationManager.execute(username, password).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return authenticated;
     }
 
     // Gets run when new credentials are found that are not in the database
-    public class AuthenticateManager extends AsyncTask<String, Void, Void> {
+    // TODO: Remove UI stuff from here (ProgressDialog)
+    private class AuthenticationManager extends AsyncTask<String, Void, Boolean> {
 
         private Context mContext;
         private ProgressDialog mProgress;
 
-        public AuthenticateManager(Context context) {
+        public AuthenticationManager(Context context) {
             mContext = context;
             mProgress = new ProgressDialog(mContext);
         }
@@ -66,11 +86,13 @@ public class ServerManager {
         }
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected Boolean doInBackground(String... params) {
 
             // Retrieve passed credentials
             String username = params[0];
             String password = params[1];
+
+            boolean isUser = false;
 
             try {
                 // Send package for server
@@ -80,7 +102,7 @@ public class ServerManager {
                 String sendMessage = authenticationSendJSON.toJSONString();
 
                 // Establish HTTP connection
-                URL authenticationUrl = new URL(Server.AUTHENTICATION_URL);
+                URL authenticationUrl = new URL(AUTHENTICATION_URL);
                 HttpURLConnection authConn = (HttpURLConnection) authenticationUrl.openConnection();
 
                 // Set connection properties
@@ -120,7 +142,7 @@ public class ServerManager {
                 authenticationReceiveJSON = (JSONObject) new JSONParser().parse(serverResponse);
 
                 // See if credentials were authenticated
-                boolean isUser = Boolean.parseBoolean(
+                isUser = Boolean.parseBoolean(
                         (String) authenticationReceiveJSON.get("isUser"));
                 if (isUser) {
                     (new RealmDataManager(mContext)).createAndAddUser(username, password);
@@ -133,11 +155,11 @@ public class ServerManager {
                 e.printStackTrace();
             }
 
-            return null;
+            return isUser;
         }
-
+/*
         @Override
-        protected void onPostExecute(Void context) {
+        protected Void onPostExecute(Void arg) {
 
             // Dismiss loading dialog
             mProgress.dismiss();
@@ -149,20 +171,11 @@ public class ServerManager {
                 Toast.makeText(mContext, "Authentication successful.\nWelcome!",
                         Toast.LENGTH_LONG).show();
 
-                // Set first login time
-                String firstLoginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss")
-                        .format(new Date());
-                (new RealmDataManager(mContext)).startSession();
-
-                //AppDataManager.setUserData("firstLoginTime", firstLoginTime);
-
-                // Go to home screen
-
-                //openHomeScreen();
             } else {
                 Toast.makeText(mContext, "Could not authenticate user.\nPlease try again.",
                         Toast.LENGTH_SHORT).show();
             }
         }
+        */
     }
 }
