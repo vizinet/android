@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 23
@@ -9,7 +10,13 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "0.0.1"
+        versionName "0.9"
+        // Gives Java 8 support
+        /*
+        jackOptions {
+            enabled true
+        }
+        */
     }
     buildTypes {
         release {
@@ -17,16 +24,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    compile rootProject.files("libs/json-simple-1.1.1.jar")
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
-    //compile files('C:/Users/Luke/Documents/AndroidStudioProjects/AIRPACT-Fire/App/libs/json-simple-1.1.1.jar')
-    //compile fileTree(dir: 'libs', include: ['*.jar']) // Include all JARs in local repository
-    // Previously: compile files('./App/libs/json-simple-1.1.1.jar')
-    compile rootProject.files("libs/json-simple-1.1.1.jar")
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile 'com.android.support.constraint:constraint-layout:+'
+    testCompile 'junit:junit:4.12'
 }

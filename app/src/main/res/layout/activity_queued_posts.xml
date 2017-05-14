@@ -14,7 +14,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="lar.wsu.edu.airpact_fire.QueuedPostsActivity">
+            tools:context="lar.wsu.edu.airpact_fire.edu.wsu.edu.airpact_fire.activity.QueuedPostsActivity">
 
             <android.support.v4.widget.NestedScrollView
                 android:id="@+id/view"

@@ -10,7 +10,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
         android:orientation="vertical"
-    tools:context="lar.wsu.edu.airpact_fire.AddPictureDetailsActivity">
+    tools:context="lar.wsu.edu.airpact_fire.edu.wsu.edu.airpact_fire.activity.AddPictureDetailsActivity">
 
         <include layout="@layout/secondary_nav_bar" />
 
