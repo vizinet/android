@@ -73,7 +73,7 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
                                 )));
                 Intent intent = new Intent(getApplicationContext(), ViewImageActivity.class);
                 // Pass in image to new activity
-                //intent.putExtra("IMAGE_STRING", String.valueOf(AppDataManager.getUserData(AppDataManager.getRecentUser(), "image")));
+                //intent.putExtra("IMAGE_STRING", String.valueOf(AppDataManager.getUserData(AppDataManager.getLastUser(), "image")));
                 startActivity(intent);
             }
         });

@@ -666,7 +666,7 @@ class RecordManager extends AsyncTask<Post, Void, Void> {
 
 //        // Create queued post from XML
 //        String isPosted = params[0];
-//        String user = AppDataManager.getRecentUser();
+//        String user = AppDataManager.getLastUser();
 //        Calendar date = Calendar.getInstance();
 //        date.setTime(new Date());
 //        Post post = new Post(

@@ -18,6 +18,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="authentication_success">Authentication successful.\nWelcome!</string>
+    <string name="authentication_failed">Invalid username or password.\nPlease try again.</string>
 
     <!-- Add picture details -->
     <string name="location_hint"><i>e.g. Mount Baker, Yakima River, etc.</i></string>
