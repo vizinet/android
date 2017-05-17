@@ -5,8 +5,10 @@
 package edu.wsu.lar.airpact_fire.activity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -33,6 +35,10 @@ import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import lar.wsu.edu.airpact_fire.R;
+
+// TODO: Address all below to-do statements
+
+// TODO: Add copywrite/disclaimer/license code to each code file in AIRPACT-Fire, along with authorship information in each file
 
 // TODO: Internet status (color-coded) on home, view gallery option (web browser), as well as last login time and other stats
 // TODO: Custom Toast display, to make it more obvious to user
@@ -68,7 +74,6 @@ import lar.wsu.edu.airpact_fire.R;
 //  want to use SQL for everything and populate each SQL post gradually. Also, it means we'll have the following identifiers
 //  for posts: submitted, queued, and drafted. This proposes a drastic design change.)
 
-// TODO: Organize resources and Java files in directories
 // TODO: Rename things for efficiency
 
 // NOTE: Only saves users which have been authenticated
@@ -78,9 +83,9 @@ public class SignInActivity extends AppCompatActivity {
     private SharedPreferences mPreferences;
 
     // UI references
-    private RelativeLayout mPageLayout;
     private EditText mPasswordView, mUsernameView;
-    private Button mSignInButton, mRegisterButton;
+    private Button mSignInButton;
+    private TextView mRegisterLink, mInfoLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,23 +94,21 @@ public class SignInActivity extends AppCompatActivity {
 
         // Grab our data manager
         mDataManager = AppManager.getDataManager(this);
-        mPreferences = getSharedPreferences("edu.wsu.lar.airpact_fire", MODE_PRIVATE);
+        mPreferences = getSharedPreferences(this.getPackageName(), MODE_PRIVATE);
 
         // Attach objects to UI
-        mPageLayout = (RelativeLayout) findViewById(R.id.page);
         mUsernameView = (EditText) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
         mSignInButton = (Button) findViewById(R.id.sign_in_button);
-        //mRegisterButton = (Button) findViewById(R.id.register_button);
+        mRegisterLink = (TextView) findViewById(R.id.register_text);
+        mInfoLink = (TextView) findViewById(R.id.info_text);
 
         // XML Stuff: create XML if necessary
+        // TODO: Remove
         AppDataManager.init(getApplicationContext());
 
         // Set up the login form
         populateLoginFields();
-
-        // (Debugging) Move forward to home without authentication
-        if (AppManager.IS_DEBUGGING) noAuthenticationProceed();
 
         // Checks credentials before proceeding to home
         mSignInButton.setOnClickListener(new OnClickListener() {
@@ -116,19 +119,62 @@ public class SignInActivity extends AppCompatActivity {
                 String username = mUsernameView.getText().toString();
                 String password = mPasswordView.getText().toString();
 
+                DebugManager.printLog("Pre-authentication");
+
                 // Check if user exists
                 if (mDataManager.isAuthenticatedUser(username, password)) {
-                    // Known user - proceed to home
+                    DebugManager.printLog("Realm user already in DB");
                     openHomeScreen();
                 } else {
                     // New guy - needs authentication
-                    // TODO: Pass before and after callbacks into this function
-                    boolean authenticated = (new ServerManager()).authenticate(
-                            SignInActivity.this, username, password);
-                    if (authenticated) openHomeScreen();
+                    DebugManager.printLog("Realm user does not exist");
+                    (new ServerManager()).authenticate(
+                            SignInActivity.this, username, password,
+                            new ServerManager.ServerCallback() {
+
+                                private ProgressDialog mProgress;
+                                private Context mContext;
+
+                                @Override
+                                public void onStart(Object... args) {
+
+                                    mContext = (Context) args[0];
+
+                                    // Show loading display
+                                    mProgress = new ProgressDialog(mContext);
+                                    mProgress.setTitle("Signing In...");
+                                    mProgress.setMessage("Please wait while we authenticate");
+                                    mProgress.show();
+                                }
+
+                                @Override
+                                public void onFinish(Object... args) {
+
+                                    boolean isUser = (boolean) args[0];
+                                    String username = (String) args[1];
+                                    String password = (String) args[2];
+
+                                    // Dismiss loading dialog
+                                    mProgress.dismiss();
+
+                                    if (isUser) {
+                                        Toast.makeText(mContext, R.string.authentication_success,
+                                                Toast.LENGTH_LONG).show();
+
+                                        // Create new user and proceed
+                                        mDataManager.createAndAddUser(username, password);
+                                        openHomeScreen();
+
+                                    } else {
+                                        Toast.makeText(mContext, R.string.authentication_failed,
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                 }
 
-                // ----
+                // TODO: Remove below ------------------------------------------------------------
+                if (true) return;
 
                 // Update user's password and login time (and create one if we need to)
                 AppDataManager.setUserData(username, "password", password);
@@ -152,16 +198,25 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        // TODO: Activate this stuff
-//        // Open web URL
-//        mRegisterButton.setOnClickListener(new OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Uri uri = Uri.parse(Post.SERVER_REGISTER_URL);
-//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                startActivity(intent);
-//            }
-//        });
+        // Allow user to register on website
+        mRegisterLink.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse(ServerManager.REGISTER_URL);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
+
+        // Redirect user to info on website
+        mInfoLink.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse(ServerManager.INFO_URL);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -170,7 +225,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onResume();
 
         if (mPreferences.getBoolean("firstrun", true)) {
-            // Run code on app's conception
+            // Code to run at app's conception
             mDataManager.init();
             mPreferences.edit().putBoolean("firstrun", false).commit();
         }
@@ -178,12 +233,8 @@ public class SignInActivity extends AppCompatActivity {
 
     // Set credentials of last user
     private void populateLoginFields() {
-
-        String lastUser = AppDataManager.getRecentUser();
-        String lastPassword = AppDataManager.getUserData("password");
-
-        mUsernameView.setText(lastUser);
-        mPasswordView.setText(lastPassword);
+        String lastUsername = mDataManager.getLastUser().username;
+        mUsernameView.setText(lastUsername);
     }
 
     // Open home page
@@ -192,35 +243,8 @@ public class SignInActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // DEBUGGING: Move on from home screen
-    private void noAuthenticationProceed() {
-
-        // Get input data
-        String username = "test";
-        String password = "1234567890";
-
-        // Begin XML if needed
-        AppDataManager.init(getApplicationContext());
-
-        // Debugging
-        DebugManager.printLog(AppDataManager.getXML());
-
-        // Create new authenticated user
-        AppDataManager.setRecentUser(username);
-        AppDataManager.setUserData(username, "isAuth", "true");
-        AppDataManager.setUserData(username, "password", password);
-        String loginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-        AppDataManager.setUserData(username, "lastLoginTime", loginTime);
-
-        DebugManager.printLog("Added the user successfully!");
-
-        // Open home
-        openHomeScreen();
-
-        DebugManager.printLog("Past openHomeScreen()");
-    }
-
     // Deals with server
+    // TODO: Remove
     class AuthenticateManager extends AsyncTask<Void, Void, Void> {
 
         private ProgressDialog progress = new ProgressDialog(SignInActivity.this);

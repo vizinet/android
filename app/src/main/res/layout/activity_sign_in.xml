@@ -115,7 +115,7 @@
                                     android:textSize="15dp" />
 
                                 <TextView
-                                    android:id="@+id/textView18"
+                                    android:id="@+id/info_text"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
@@ -145,15 +145,15 @@
                                     android:textSize="15dp" />
 
                                 <TextView
+                                    android:id="@+id/register_text"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textAppearance="?android:attr/textAppearanceSmall"
-                                    android:text="Register here"
-                                    android:id="@+id/textView17"
-                                    android:textSize="15dp"
                                     android:layout_gravity="center"
-                                    android:textStyle="bold"
-                                    android:textColor="@color/schemeBlue" />
+                                    android:text="Register here"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:textColor="@color/schemeBlue"
+                                    android:textSize="15dp"
+                                    android:textStyle="bold" />
 
                             </LinearLayout>
                         </LinearLayout>

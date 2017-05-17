@@ -5,6 +5,7 @@ package edu.wsu.lar.airpact_fire.data.manager;
 import android.content.Context;
 
 import edu.wsu.lar.airpact_fire.data.model.User;
+import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -74,14 +75,32 @@ public class RealmDataManager implements DataManager {
 
     @Override
     public void createAndAddUser(String username, String password) {
-        User user = mRealm.createObject(User.class);
-        user.username = username;
+        mRealm.beginTransaction();
+        User user = mRealm.createObject(User.class, username); // Primary key
         user.password = password;
         mRealm.commitTransaction();
     }
 
     @Override
-    public User getRecentUser() {
+    // Returns the last user logged into the database
+    public User getLastUser() {
+        // TODO
+        return null;
+    }
+
+    // Return user in the current app session
+    public User getCurrentUser() {
+        // TODO
+        return null;
+    }
+
+    public Object getUserField(String fieldName) {
+        User user = getCurrentUser();
+        final User matchingUsers = mRealm.where(User.class)
+                .equalTo("username", user.username)
+                .equalTo("password", user.password)
+                .findFirst();
+
         return null;
     }
 

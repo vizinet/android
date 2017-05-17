@@ -36,7 +36,7 @@ import javax.xml.transform.stream.StreamResult;
 //  - User fills out post form and submits or queues (tags, estimated visual range, description)
 //
 // Retrieves user info when:
-//  - LoginActivity (getRecentUser --> username, password)
+//  - LoginActivity (getLastUser --> username, password)
 //  - ViewImageActivity ()
 //  - AddPictureDetailsActivity ()
 //

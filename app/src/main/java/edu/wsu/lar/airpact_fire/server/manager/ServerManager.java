@@ -22,6 +22,7 @@ import edu.wsu.lar.airpact_fire.activity.SignInActivity;
 import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.manager.RealmDataManager;
 
+// NOTE: This manager should never touch a bit of UI or DB code
 public class ServerManager {
 
     // URL fields
@@ -29,76 +30,64 @@ public class ServerManager {
     public static final String UPLOAD_URL = BASE_URL + "/file_upload/upload";
     public static final String AUTHENTICATION_URL = BASE_URL + "/user/appauth";
     public static final String REGISTER_URL = BASE_URL + "/user/register";
+    public static final String INFO_URL = BASE_URL + "/";
 
     // Data standards
-    // TODO: Possibly move this to App manager
+    // TODO: Possibly move this to AppManager or DataManager
     public static final String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
     public static final double[] GPS_DEFAULT_LOC = {46.73267, -117.163454}; // Pullman, WA
 
+    public interface ServerCallback {
+        void onStart(Object... args);
+        void onFinish(Object... args);
+    }
+
     /**
-     * Returns an Image object that can then be painted on the screen.
-     * The url argument must specify an absolute {@link URL}. The name
-     * argument is a specifier that is relative to the url argument.
-     * <p>
-     * This method always returns immediately, whether or not the
-     * image exists. When this applet attempts to draw the image on
-     * the screen, the data will be loaded. The graphics primitives
-     * that draw the image will incrementally paint on the screen.
+     * Async method for initializing authentication of user credentials with server
      *
-     * @author Luke Weber
-     * @param  username  server alias of user
-     * @param  password
-     * @return true/false depending on server authentication
+     * @author  Luke Weber
+     * @param   username    server alias of user
+     * @param   password
+     * @param   callback    interface of callback functions
      */
-    public boolean authenticate(Context context, String username, String password) {
+    public void authenticate(Context context, String username, String password, ServerCallback callback) {
         boolean authenticated = false;
-        AuthenticationManager authenticationManager = new AuthenticationManager(context);
-        try {
-            authenticated = authenticationManager.execute(username, password).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return authenticated;
+        AuthenticationManager authenticationManager = new AuthenticationManager(context, callback);
+        authenticationManager.execute(username, password);
     }
 
     // Gets run when new credentials are found that are not in the database
-    // TODO: Remove UI stuff from here (ProgressDialog)
     private class AuthenticationManager extends AsyncTask<String, Void, Boolean> {
 
         private Context mContext;
-        private ProgressDialog mProgress;
+        private ServerCallback mCallback;
+        private String mUsername, mPassword;
 
-        public AuthenticationManager(Context context) {
+        public AuthenticationManager(Context context, ServerCallback callback) {
             mContext = context;
-            mProgress = new ProgressDialog(mContext);
+            mCallback = callback;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            // Show loading display
-            mProgress.setTitle("Signing In...");
-            mProgress.setMessage("Please wait while we attempt authentication");
-            mProgress.show();
+            mCallback.onStart(mContext);
         }
 
         @Override
         protected Boolean doInBackground(String... params) {
 
             // Retrieve passed credentials
-            String username = params[0];
-            String password = params[1];
+            mUsername = params[0];
+            mPassword = params[1];
 
             boolean isUser = false;
 
             try {
                 // Send package for server
                 JSONObject authenticationSendJSON = new JSONObject();
-                authenticationSendJSON.put("username", username);
-                authenticationSendJSON.put("password", password);
+                authenticationSendJSON.put("username", mUsername);
+                authenticationSendJSON.put("password", mPassword);
                 String sendMessage = authenticationSendJSON.toJSONString();
 
                 // Establish HTTP connection
@@ -142,11 +131,7 @@ public class ServerManager {
                 authenticationReceiveJSON = (JSONObject) new JSONParser().parse(serverResponse);
 
                 // See if credentials were authenticated
-                isUser = Boolean.parseBoolean(
-                        (String) authenticationReceiveJSON.get("isUser"));
-                if (isUser) {
-                    (new RealmDataManager(mContext)).createAndAddUser(username, password);
-                } // Do nothing if not real user
+                isUser = Boolean.parseBoolean((String) authenticationReceiveJSON.get("isUser"));
 
                 authOutputStream.flush();
                 authOutputStream.close();
@@ -157,25 +142,10 @@ public class ServerManager {
 
             return isUser;
         }
-/*
+
         @Override
-        protected Void onPostExecute(Void arg) {
-
-            // Dismiss loading dialog
-            mProgress.dismiss();
-
-            // TODO: Something will a callback
-            // Open up home screen
-            if (Boolean.parseBoolean(AppDataManager.getUserData(AppDataManager.getRecentUser(),
-                    "isAuth"))) {
-                Toast.makeText(mContext, "Authentication successful.\nWelcome!",
-                        Toast.LENGTH_LONG).show();
-
-            } else {
-                Toast.makeText(mContext, "Could not authenticate user.\nPlease try again.",
-                        Toast.LENGTH_SHORT).show();
-            }
+        protected void onPostExecute(Boolean result) {
+            mCallback.onFinish(result, mUsername, mPassword);
         }
-        */
     }
 }

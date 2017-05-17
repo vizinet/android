@@ -8,5 +8,5 @@ public interface DataManager {
     void startSession();
     boolean isAuthenticatedUser(String username, String password);
     void createAndAddUser(String username, String password);
-    User getRecentUser();
+    User getLastUser();
 }
