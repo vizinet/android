@@ -24,31 +24,31 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
+import edu.wsu.lar.airpact_fire.manager.AppManager;
 import lar.wsu.edu.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.util.Util;
 
 public class HomeActivity extends AppCompatActivity {
 
     private FrameLayout mNewPicturePane, mInformationPane, mPictureGalleryPane, mSettingsPane;
-    private FrameLayout mServerStatusContainer;
     private FrameLayout mBackButton;
     private LinearLayout mButtonPage;
-    private TextView mUsernameText, mNumberPostedText, mNumberQueuedText, mRegisterDateText,
-            mServerStatusText;
+    private TextView mUsernameText, mNumberPostedText, mNumberQueuedText, mRegisterDateText;
     private ImageView mNewPictureButton, mPictureGalleryButton, mInformationButton, mSettingsButton;
 
-    // Map frames to their icons
-    private Map<FrameLayout, ImageView> frameToIconMap;
-    // Map frames to their following activities
-    private Map<FrameLayout, Class<?>> frameToActivityMap;
+    private Map<FrameLayout, ImageView> frameToIconMap;    // Map frames to their icons
+    private Map<FrameLayout, Class<?>> frameToActivityMap; // Map frames to their following activities
 
     private String mUsername;
+    private DataManager mDataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
 
         // Catch errors
         // TODO: Let's get this to work on all activities with simple util function
@@ -57,11 +57,10 @@ public class HomeActivity extends AppCompatActivity {
             public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
                 Toast.makeText(getApplicationContext(), "GLOBAL EXCEPTION CAUGHT", Toast.LENGTH_LONG).show();
                 //Util.goHome(getApplicationContext());
-
             }
         });
 
-        setContentView(R.layout.activity_home);
+        mDataManager = AppManager.getDataManager(this);
 
         // Panes
         mNewPicturePane = (FrameLayout) findViewById(R.id.new_picture_pane);
@@ -69,6 +68,7 @@ public class HomeActivity extends AppCompatActivity {
         mPictureGalleryPane = (FrameLayout) findViewById(R.id.picture_gallery_pane);
         mSettingsPane = (FrameLayout) findViewById(R.id.settings_pane);
         mButtonPage = (LinearLayout) findViewById(R.id.button_page);
+
         // Icons of panes
         mNewPictureButton = (ImageView) findViewById(R.id.new_picture_button);
         mInformationButton = (ImageView) findViewById(R.id.information_button);
@@ -81,8 +81,6 @@ public class HomeActivity extends AppCompatActivity {
         mNumberPostedText = (TextView) findViewById(R.id.number_posted_text);
         mNumberQueuedText = (TextView) findViewById(R.id.number_queued_text);
         mRegisterDateText = (TextView) findViewById(R.id.member_register_date_text);
-        //mServerStatusText = (TextView) findViewById(R.id.server_status_text);
-        //mServerStatusContainer = (FrameLayout) findViewById(R.id.server_status_container);
 
         // Update home variables
         updateHome();
@@ -166,23 +164,24 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void updateHome() {
+
         // Username
         String displayName;
         int cutoffLength = 10;
-        mUsername = AppDataManager.getRecentUser();
+        mUsername = mDataManager.getLastUser();
 
         // TODO remove this
         if (mUsername == null) Util.goSignIn(this);
         mUsername = (mUsername == null) ? "" : mUsername;
 
-        mUsernameText.setAllCaps(true);
         // Make sure name gets cutoff if exceeds max length
+        mUsernameText.setAllCaps(true);
         displayName = (mUsername.length() >= cutoffLength) ? (mUsername.substring(0, cutoffLength) + "...") : mUsername;
         mUsernameText.setText(displayName);
 
         // Member register date (just grab the "yyyy.MM.dd" part)
         mRegisterDateText.setText("First login on " +
-                AppDataManager.getUserData("firstLoginTime").substring(0, 10));
+                mDataManager.getUserField("firstLoginTime").substring(0, 10));
 
         // Post numbers
         int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), mUsername);
@@ -191,18 +190,10 @@ public class HomeActivity extends AppCompatActivity {
         mNumberPostedText.setText(numPosted + "");
         mNumberQueuedText.setAllCaps(true);
         mNumberQueuedText.setText(numQueued + "");
-
-        // Internet connection
-        //mServerStatusText.setAllCaps(true);
-//        mServerStatusContainer.setBackgroundColor(getResources().getColor(R.color.schemeRedHighlight));
-//        mServerStatusText.setText("SERVER DISCONNECTED (5 mins ago)");
-//        if (Util.isServerAvailable(HomeActivity.this)) {//if (Util.isNetworkAvailable(this)) {
-//            mServerStatusContainer.setBackgroundColor(getResources().getColor(R.color.schemeGreenHighlight));
-//            mServerStatusText.setText("SERVER CONNECTED (5 mins ago)");
-//        }
     }
 
     private void setupUIEventListeners() {
+
         // Draw maps
         frameToIconMap = new HashMap<>();
         frameToIconMap.put(mNewPicturePane, mNewPictureButton);
@@ -220,9 +211,7 @@ public class HomeActivity extends AppCompatActivity {
         Iterator it = frameToIconMap.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry) it.next();
-
             setupListeners((FrameLayout) pair.getKey());
-
             it.remove(); // avoids a ConcurrentModificationException
         }
 

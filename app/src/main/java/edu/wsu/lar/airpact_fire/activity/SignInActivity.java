@@ -15,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +40,10 @@ import lar.wsu.edu.airpact_fire.R;
 
 // TODO: Address all below to-do statements
 
-// TODO: Add copywrite/disclaimer/license code to each code file in AIRPACT-Fire, along with authorship information in each file
+// TODO: Add service which monitors app state (namely, exit, so we can call onAppEnd)
+// TODO: Add copyright/disclaimer/license code to each code file in AIRPACT-Fire, along with authorship information in each file
+// TODO: Look into making custom image-capture activity
+// TODO: Adapt to new research-based, clean design scheme
 
 // TODO: Internet status (color-coded) on home, view gallery option (web browser), as well as last login time and other stats
 // TODO: Custom Toast display, to make it more obvious to user
@@ -86,6 +91,7 @@ public class SignInActivity extends AppCompatActivity {
     private EditText mPasswordView, mUsernameView;
     private Button mSignInButton;
     private TextView mRegisterLink, mInfoLink;
+    private CheckBox mRememberPasswordCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +100,7 @@ public class SignInActivity extends AppCompatActivity {
 
         // Grab our data manager
         mDataManager = AppManager.getDataManager(this);
+        mDataManager.onAppStart();
         mPreferences = getSharedPreferences(this.getPackageName(), MODE_PRIVATE);
 
         // Attach objects to UI
@@ -102,6 +109,7 @@ public class SignInActivity extends AppCompatActivity {
         mSignInButton = (Button) findViewById(R.id.sign_in_button);
         mRegisterLink = (TextView) findViewById(R.id.register_text);
         mInfoLink = (TextView) findViewById(R.id.info_text);
+        mRememberPasswordCheckBox = (CheckBox) findViewById(R.id.remember_password_checkbox);
 
         // XML Stuff: create XML if necessary
         // TODO: Remove
@@ -109,6 +117,13 @@ public class SignInActivity extends AppCompatActivity {
 
         // Set up the login form
         populateLoginFields();
+
+        mRememberPasswordCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mDataManager.rememberPassword(b);
+            }
+        });
 
         // Checks credentials before proceeding to home
         mSignInButton.setOnClickListener(new OnClickListener() {
@@ -122,9 +137,9 @@ public class SignInActivity extends AppCompatActivity {
                 DebugManager.printLog("Pre-authentication");
 
                 // Check if user exists
-                if (mDataManager.isAuthenticatedUser(username, password)) {
+                if (mDataManager.isUser(username, password)) {
                     DebugManager.printLog("Realm user already in DB");
-                    openHomeScreen();
+                    login(username, password);
                 } else {
                     // New guy - needs authentication
                     DebugManager.printLog("Realm user does not exist");
@@ -161,9 +176,8 @@ public class SignInActivity extends AppCompatActivity {
                                         Toast.makeText(mContext, R.string.authentication_success,
                                                 Toast.LENGTH_LONG).show();
 
-                                        // Create new user and proceed
-                                        mDataManager.createAndAddUser(username, password);
-                                        openHomeScreen();
+                                        // Log user in
+                                        login(username, password);
 
                                     } else {
                                         Toast.makeText(mContext, R.string.authentication_failed,
@@ -187,7 +201,7 @@ public class SignInActivity extends AppCompatActivity {
                     String loginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
                     AppDataManager.setUserData("lastLoginTime", loginTime);
                     Toast.makeText(SignInActivity.this, "Welcome back!", Toast.LENGTH_LONG).show();
-                    openHomeScreen();
+                    //openHomeScreen();
                     return;
                 }
 
@@ -217,7 +231,6 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     @Override
@@ -225,20 +238,29 @@ public class SignInActivity extends AppCompatActivity {
         super.onResume();
 
         if (mPreferences.getBoolean("firstrun", true)) {
-            // Code to run at app's conception
-            mDataManager.init();
+            mDataManager.onAppFirstRun();
             mPreferences.edit().putBoolean("firstrun", false).commit();
         }
     }
 
     // Set credentials of last user
     private void populateLoginFields() {
-        String lastUsername = mDataManager.getLastUser().username;
+        String lastUsername = mDataManager.getLastUser();
         mUsernameView.setText(lastUsername);
+        if (mDataManager.rememberPassword()) {
+            String lastPassword = mDataManager.getUserField("password");
+            mPasswordView.setText(lastPassword);
+            mRememberPasswordCheckBox.setChecked(true);
+        }
     }
 
     // Open home page
-    private void openHomeScreen() {
+    private void login(String username, String password) {
+
+        // Let DB know we're logging in with this user
+        mDataManager.onLogin(username, password);
+
+        // Open home screen
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
@@ -366,7 +388,7 @@ public class SignInActivity extends AppCompatActivity {
                 AppDataManager.setUserData("firstLoginTime", firstLoginTime);
 
                 // Go to home screen
-                openHomeScreen();
+                //openHomeScreen();
             } else {
                 Toast.makeText(SignInActivity.this, "Could not authenticate user.\nPlease try again.",
                         Toast.LENGTH_SHORT).show();

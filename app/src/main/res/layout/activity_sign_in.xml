@@ -88,6 +88,13 @@
                         android:textStyle="normal"
                         android:typeface="monospace" />
 
+                    <CheckBox
+                        android:id="@+id/remember_password_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Remember password" />
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
