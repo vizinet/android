@@ -5,6 +5,6 @@ import io.realm.annotations.PrimaryKey;
 
 // Stores global app info and preferences
 public class App extends RealmObject {
-    public User lastUser; // TODO: Trigger-update
+    public User lastUser;              // TODO: Trigger-update
     public boolean rememberPassword;
 }

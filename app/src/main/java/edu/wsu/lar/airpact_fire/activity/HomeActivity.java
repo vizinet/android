@@ -60,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        mDataManager = AppManager.getDataManager(this);
+        //mDataManager = AppManager.getDataManager(this);
 
         // Panes
         mNewPicturePane = (FrameLayout) findViewById(R.id.new_picture_pane);
@@ -180,8 +180,8 @@ public class HomeActivity extends AppCompatActivity {
         mUsernameText.setText(displayName);
 
         // Member register date (just grab the "yyyy.MM.dd" part)
-        mRegisterDateText.setText("First login on " +
-                mDataManager.getUserField("firstLoginTime").substring(0, 10));
+        //mRegisterDateText.setText("First login on " +
+          //      mDataManager.getUserField("firstLoginTime").substring(0, 10));
 
         // Post numbers
         int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), mUsername);

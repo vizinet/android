@@ -6,47 +6,42 @@ import java.util.Date;
 import edu.wsu.lar.airpact_fire.data.model.App;
 import edu.wsu.lar.airpact_fire.data.model.Session;
 import edu.wsu.lar.airpact_fire.data.model.User;
+import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import io.realm.Realm;
+import io.realm.RealmFieldType;
 
-/**
- * This class consists variables and methods which abide by this app's data
- * manager interface for handling this app's persistently stored information
- * under the Realm database management platform.
- *
- * <p>This data manager is always run on the UI thread and will be constructed/
- * deconstructed with the corresponding life-cycle of each succeeding activity.
- * This class must be initialized for its methods to be called.</p>
- *
- * @author  Luke Weber
- * @see     DataManager
- * @see     Realm
- * @since   0.9
- */
 public class RealmDataManager implements DataManager {
 
-    // Data standards
-    public static final String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
-    public static final double[] GPS_DEFAULT_LOC = {46.73267, -117.163454}; // Pullman, WA
-
     private Realm mRealm;
+    private DebugManager mDebugManager;
 
-    /* Activity Lifecycle Methods */
+    public RealmDataManager(DebugManager debugManager) {
+        mDebugManager = debugManager;
+    }
+
+    /* Activity lifecycle methods */
 
     @Override
-    public void onAppFirstRun() {
-        // Create app
+    public void onAppFirstRun(Object... args) {
+        // Create app model with default fields at app's conception
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                mRealm.createObject(App.class);
+                mRealm.beginTransaction();
+                App app = mRealm.createObject(App.class);
+                app.lastUser = null;
+                app.rememberPassword = false;
+                mRealm.commitTransaction();
             }
         });
     }
 
-    // Called at the start of a new activity (basically our constructor)
-    public void onActivityStart(Context context) {
+    @Override
+    public void onActivityStart(Object... args) {
 
-        // Initialize Realm
+        final Context context = (Context) args[0];
+
+        // Initialize Realm for this activity
         Realm.init(context);
 
         // Get a Realm instance for this thread
@@ -56,14 +51,16 @@ public class RealmDataManager implements DataManager {
     }
 
     // Called at the end of a new activity
-    public void onActivityEnd() {
+    @Override
+    public void onActivityEnd(Object... args) {
         // TODO: Close triggers/subscriptions
     }
 
     @Override
-    // NOTE: These user credentials must be authenticated with server
-    // Called once user (successfully) logs into our app
-    public void onLogin(final String username, final String password) {
+    public void onLogin(Object... args) {
+
+        final String username = (String) args[0];
+        final String password = (String) args[1];
 
         // Get user or create one if nonexistent
         User user = getUser(username, password);
@@ -86,7 +83,7 @@ public class RealmDataManager implements DataManager {
     }
 
     @Override
-    public void onLogout() {
+    public void onLogout(Object... args) {
 
         // End session
         mRealm.beginTransaction();
@@ -96,18 +93,88 @@ public class RealmDataManager implements DataManager {
     }
 
     @Override
-    // Called once app starts
-    public void onAppStart() {
+    public void onAppStart(Object... args) {
 
     }
 
     @Override
-    // Called at the end of the app
-    public void onAppEnd() {
+    public void onAppEnd(Object... args) {
 
     }
 
-    /* Data Manipulation Methods */
+    /* Data manipulation methods */
+
+    @Override
+    public Object getAppField(String fieldName) {
+
+        App app = getApp();
+        String fieldValue = null;
+        try {
+            Field field = app.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            fieldValue = field.get(app).toString();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        mDebugManager.printLog(String.format("getAppField(%s) -> %s", fieldName, fieldValue));
+        return fieldValue;
+    }
+
+    // TODO: Ensure the passed type is Realm compatible (RealmFieldType doesn't work)
+
+    @Override
+    public void setAppField(String fieldName, RealmFieldType fieldValue) {
+
+        App app = getApp();
+        mRealm.beginTransaction();
+        try {
+            Field field = app.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(app, fieldValue);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        mRealm.commitTransaction();
+        mDebugManager.printLog(String.format("setAppField(%s, %s)", fieldName, fieldValue));
+    }
+
+    @Override
+    public Object getUserField(String fieldName) {
+
+        User user = getCurrentUser();
+        String value = null;
+        try {
+            Field field = user.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            value = field.get(user).toString();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    @Override
+    public void setUserField(String fieldName, String fieldValue) {
+
+        User user = getCurrentUser();
+        mRealm.beginTransaction();
+        try {
+            Field field = user.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(user, fieldValue);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        mRealm.commitTransaction();
+    }
 
     // TODO: Give each database model an explicit field name to stand on its own or to update
     // its value given a trigger from somewhere else
@@ -137,25 +204,11 @@ public class RealmDataManager implements DataManager {
     }
 
     @Override
-    public void rememberPassword(final boolean b) {
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                getApp().rememberPassword = b;
-            }
-        });
-    }
-
-    @Override
-    public boolean rememberPassword() {
-        return getApp().rememberPassword;
-    }
-
-    @Override
-    // Returns the last user logged into the database
     public String getLastUser() {
-        return getApp().lastUser.username;
+        return getApp().lastUser.toString();
     }
+
+    public String getLastSession() { return null; }
 
     // Return user in the current app session
     @Override
@@ -167,34 +220,6 @@ public class RealmDataManager implements DataManager {
     @Override
     public Session getCurrentSession() {
         // TODO
-        return null;
-    }
-
-    @Override
-    // Use reflection to get field value
-    public String getUserField(String fieldName) {
-        User user = getCurrentUser();
-        String value = null;
-        try {
-            Field field = user.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            value = field.get(user).toString();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return value;
-    }
-
-    @Override
-    public Object setUserField(String fieldName, Object fieldValue) {
-        User user = getCurrentUser();
-        final User matchingUsers = mRealm.where(User.class)
-                .equalTo("username", user.username)
-                .equalTo("password", user.password)
-                .findFirst();
-
         return null;
     }
 }
