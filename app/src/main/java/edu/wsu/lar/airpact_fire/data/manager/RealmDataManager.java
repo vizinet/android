@@ -1,111 +1,225 @@
 package edu.wsu.lar.airpact_fire.data.manager;
 
-// TODO: Adapt the below JavaDoc
-
 import android.content.Context;
-
+import java.lang.reflect.Field;
+import java.util.Date;
+import edu.wsu.lar.airpact_fire.data.model.App;
+import edu.wsu.lar.airpact_fire.data.model.Session;
 import edu.wsu.lar.airpact_fire.data.model.User;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import io.realm.Realm;
-import io.realm.RealmResults;
+import io.realm.RealmFieldType;
 
-/**
- 33    * This class consists exclusively of static methods that operate on or return
- 34    * collections.  It contains polymorphic algorithms that operate on
- 35    * collections, "wrappers", which return a new collection backed by a
- 36    * specified collection, and a few other odds and ends.
- 37    *
- 38    * <p>The methods of this class all throw a <tt>NullPointerException</tt>
- 39    * if the collections or class objects provided to them are null.
- 40    *
- 41    * <p>The documentation for the polymorphic algorithms contained in this class
- 42    * generally includes a brief description of the <i>implementation</i>.  Such
- 43    * descriptions should be regarded as <i>implementation notes</i>, rather than
- 44    * parts of the <i>specification</i>.  Implementors should feel free to
- 45    * substitute other algorithms, so long as the specification itself is adhered
- 46    * to.  (For example, the algorithm used by <tt>sort</tt> does not have to be
- 47    * a mergesort, but it does have to be <i>stable</i>.)
- 48    *
- 49    * <p>The "destructive" algorithms contained in this class, that is, the
- 50    * algorithms that modify the collection on which they operate, are specified
- 51    * to throw <tt>UnsupportedOperationException</tt> if the collection does not
- 52    * support the appropriate mutation primitive(s), such as the <tt>set</tt>
- 53    * method.  These algorithms may, but are not required to, throw this
- 54    * exception if an invocation would have no effect on the collection.  For
- 55    * example, invoking the <tt>sort</tt> method on an unmodifiable list that is
- 56    * already sorted may or may not throw <tt>UnsupportedOperationException</tt>.
- 57    *
- 58    * <p>This class is a member of the
- 59    * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- 60    * Java Collections Framework</a>.
- 61    *
- 62    * @author  Josh Bloch
- 63    * @author  Neal Gafter
- 64    * @see     Collection
- 65    * @see     Set
- 66    * @see     List
- 67    * @see     Map
- 68    * @since   1.2
- 69    */
-
-// Class for handling
 public class RealmDataManager implements DataManager {
 
     private Realm mRealm;
+    private DebugManager mDebugManager;
 
-    public RealmDataManager(Context context) {
+    public RealmDataManager(DebugManager debugManager) {
+        mDebugManager = debugManager;
+    }
 
-        // Initialize Realm
+    /* Activity lifecycle methods */
+
+    @Override
+    public void onAppFirstRun(Object... args) {
+        // Create app model with default fields at app's conception
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                mRealm.beginTransaction();
+                App app = mRealm.createObject(App.class);
+                app.lastUser = null;
+                app.rememberPassword = false;
+                mRealm.commitTransaction();
+            }
+        });
+    }
+
+    @Override
+    public void onActivityStart(Object... args) {
+
+        final Context context = (Context) args[0];
+
+        // Initialize Realm for this activity
         Realm.init(context);
 
         // Get a Realm instance for this thread
         mRealm = Realm.getDefaultInstance();
+
+        // TODO: Trigger/subscription setups
     }
 
-    public void init() { }
-
+    // Called at the end of a new activity
     @Override
-    public boolean isAuthenticatedUser(String username, String password) {
-        final RealmResults<User> matchingUsers = mRealm.where(User.class)
-                .equalTo("username", username)
-                .equalTo("password", password)
-                .findAll();
-        return matchingUsers.size() == 0 ? false : true;
+    public void onActivityEnd(Object... args) {
+        // TODO: Close triggers/subscriptions
     }
 
     @Override
-    public void createAndAddUser(String username, String password) {
+    public void onLogin(Object... args) {
+
+        final String username = (String) args[0];
+        final String password = (String) args[1];
+
+        // Get user or create one if nonexistent
+        User user = getUser(username, password);
+        if (user == null) {
+            mRealm.beginTransaction();
+            user = mRealm.createObject(User.class, username); // Primary key
+            user.password = password;
+            mRealm.commitTransaction();
+        }
+
+        // Start session
+        // TODO: Trigger app.lastUser = user when a Session is created
         mRealm.beginTransaction();
-        User user = mRealm.createObject(User.class, username); // Primary key
-        user.password = password;
+        Session session = mRealm.createObject(Session.class);
+        session.startTime = new Date(DATE_FORMAT);
+        user.sessions.add(session);
+        App app = getApp();
+        app.lastUser = user; // TODO: Remove
         mRealm.commitTransaction();
     }
 
     @Override
-    // Returns the last user logged into the database
-    public User getLastUser() {
-        // TODO
-        return null;
+    public void onLogout(Object... args) {
+
+        // End session
+        mRealm.beginTransaction();
+        Session session = getCurrentSession();
+        session.endTime = new Date(DATE_FORMAT);
+        mRealm.commitTransaction();
     }
 
+    @Override
+    public void onAppStart(Object... args) {
+
+    }
+
+    @Override
+    public void onAppEnd(Object... args) {
+
+    }
+
+    /* Data manipulation methods */
+
+    @Override
+    public Object getAppField(String fieldName) {
+
+        App app = getApp();
+        String fieldValue = null;
+        try {
+            Field field = app.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            fieldValue = field.get(app).toString();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        mDebugManager.printLog(String.format("getAppField(%s) -> %s", fieldName, fieldValue));
+        return fieldValue;
+    }
+
+    // TODO: Ensure the passed type is Realm compatible (RealmFieldType doesn't work)
+
+    @Override
+    public void setAppField(String fieldName, RealmFieldType fieldValue) {
+
+        App app = getApp();
+        mRealm.beginTransaction();
+        try {
+            Field field = app.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(app, fieldValue);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        mRealm.commitTransaction();
+        mDebugManager.printLog(String.format("setAppField(%s, %s)", fieldName, fieldValue));
+    }
+
+    @Override
+    public Object getUserField(String fieldName) {
+
+        User user = getCurrentUser();
+        String value = null;
+        try {
+            Field field = user.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            value = field.get(user).toString();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    @Override
+    public void setUserField(String fieldName, String fieldValue) {
+
+        User user = getCurrentUser();
+        mRealm.beginTransaction();
+        try {
+            Field field = user.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(user, fieldValue);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        mRealm.commitTransaction();
+    }
+
+    // TODO: Give each database model an explicit field name to stand on its own or to update
+    // its value given a trigger from somewhere else
+
+    // TODO: Make sure we can get a field value given its name
+
+    @Override
+    public boolean isUser(String username, String password) {
+        return getUser(username, password) == null ? false : true;
+    }
+
+    @Override
+    public User getUser(String username, String password) {
+        final User user = mRealm.where(User.class)
+                .equalTo("username", username)
+                .equalTo("password", password)
+                .findFirst();
+
+        // TODO: Ensure this returns null if user isn't found
+        return user;
+    }
+
+    @Override
+    public App getApp() {
+        final App app = mRealm.where(App.class).findFirst();
+        return app;
+    }
+
+    @Override
+    public String getLastUser() {
+        return getApp().lastUser.toString();
+    }
+
+    public String getLastSession() { return null; }
+
     // Return user in the current app session
+    @Override
     public User getCurrentUser() {
         // TODO
         return null;
     }
 
-    public Object getUserField(String fieldName) {
-        User user = getCurrentUser();
-        final User matchingUsers = mRealm.where(User.class)
-                .equalTo("username", user.username)
-                .equalTo("password", user.password)
-                .findFirst();
-
-        return null;
-    }
-
     @Override
-    public void startSession() {
-        // TODO: Init session with user
+    public Session getCurrentSession() {
+        // TODO
+        return null;
     }
 }

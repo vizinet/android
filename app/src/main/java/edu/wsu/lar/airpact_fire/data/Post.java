@@ -600,11 +600,11 @@ class SubmissionManager extends AsyncTask<Post, Void, Void> {
 
             // Get algorithm result
             String algorithmOutput = postReceiveJSON.get("TwoTargetContrastOutput").toString();
-            DebugManager.printLog("algorithmOutput (from server) = " + algorithmOutput);
+            //DebugManager.printLog("algorithmOutput (from server) = " + algorithmOutput);
 
             // Image ID, to construct website URL
             String imageID = postReceiveJSON.get("imageID").toString();
-            DebugManager.printLog("imageID = " + imageID);
+            //DebugManager.printLog("imageID = " + imageID);
 
             // Clean up
             postOutputStream.flush();
