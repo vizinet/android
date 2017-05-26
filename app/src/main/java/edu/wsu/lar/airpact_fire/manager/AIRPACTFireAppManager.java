@@ -68,7 +68,7 @@ public class AIRPACTFireAppManager implements AppManager {
 
         Context context = (Context) args[0];
 
-        // Create managers
+        // Construct managers
         mDebugManager = new DebugManager(isDebugging());
         mDataManager = new RealmDataManager(mDebugManager);
         mServerManager = new HTTPServerManager();

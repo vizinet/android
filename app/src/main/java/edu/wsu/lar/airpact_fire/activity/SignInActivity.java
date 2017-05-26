@@ -122,7 +122,7 @@ public class SignInActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 //mDataManager.rememberPassword(b);
-                mAppManager.getDataManager().setAppField("rememberPassword", (RealmFieldType) b);
+                mAppManager.getDataManager().setAppField("rememberPassword", b);
             }
         });
 

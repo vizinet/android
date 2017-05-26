@@ -42,7 +42,7 @@ public interface DataManager {
 
     // Get/set any arbitrary app field
     Object getAppField(String fieldName);
-    void setAppField(String fieldName, RealmFieldType fieldValue);
+    void setAppField(String fieldName, Object fieldValue);
 
     // Get/set any arbitrary field for current user
     Object getUserField(String fieldName);
