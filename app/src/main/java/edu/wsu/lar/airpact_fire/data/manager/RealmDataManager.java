@@ -157,6 +157,16 @@ public class RealmDataManager implements DataManager {
         return null;
     }
 
+    // Getter/setter of app's lastUser field
+    private String appUserName(Object... args) {
+        String username = getUser((String) args[0]);
+        if (args.length == 0) { return username; }
+        mRealm.beginTransaction();
+        app.lastUser = (User) args[0];
+        mRealm.commitTransaction();
+        return null;
+    }
+
     // TODO: Get/set methods for user
 
     @Override
