@@ -1,19 +1,25 @@
 package edu.wsu.lar.airpact_fire.data.manager;
 
 import android.content.Context;
-import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import edu.wsu.lar.airpact_fire.data.model.App;
 import edu.wsu.lar.airpact_fire.data.model.Session;
 import edu.wsu.lar.airpact_fire.data.model.User;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import io.realm.Realm;
-import io.realm.RealmFieldType;
 
 public class RealmDataManager implements DataManager {
 
     private Realm mRealm;
     private DebugManager mDebugManager;
+    private Map<String, Command> mAppMethodMap;
+    private Map<String, Command> mUserMethodMap;
+
+    interface Command {
+        Object run(Object... args);
+    }
 
     public RealmDataManager(DebugManager debugManager) {
         mDebugManager = debugManager;
@@ -23,15 +29,14 @@ public class RealmDataManager implements DataManager {
 
     @Override
     public void onAppFirstRun(Object... args) {
+
         // Create app model with default fields at app's conception
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                mRealm.beginTransaction();
                 App app = mRealm.createObject(App.class);
                 app.lastUser = null;
                 app.rememberPassword = false;
-                mRealm.commitTransaction();
             }
         });
     }
@@ -46,6 +51,20 @@ public class RealmDataManager implements DataManager {
 
         // Get a Realm instance for this thread
         mRealm = Realm.getDefaultInstance();
+
+        mAppMethodMap = new HashMap();
+        mAppMethodMap.put("rememberPassword", new Command() {
+            @Override
+            public Object run(Object... args) {
+                return appRememberPassword(args);
+            }
+        });
+        mAppMethodMap.put("lastUser", new Command() {
+            @Override
+            public Object run(Object... args) {
+                return appLastUser(args);
+            }
+        });
 
         // TODO: Trigger/subscription setups
     }
@@ -106,80 +125,61 @@ public class RealmDataManager implements DataManager {
 
     @Override
     public Object getAppField(String fieldName) {
-
-        App app = getApp();
-        String fieldValue = null;
-        try {
-            Field field = app.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            fieldValue = field.get(app).toString();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        mDebugManager.printLog(String.format("getAppField(%s) -> %s", fieldName, fieldValue));
+        Object fieldValue = mAppMethodMap.get(fieldName).run();
+        mDebugManager.printLog(String.format("getAppField(%s) -> %s", fieldName, fieldValue.toString()));
         return fieldValue;
     }
 
-    // TODO: Ensure the passed type is Realm compatible (RealmFieldType doesn't work)
-
     @Override
-    public void setAppField(String fieldName, RealmFieldType fieldValue) {
-
-        App app = getApp();
-        mRealm.beginTransaction();
-        try {
-            Field field = app.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            field.set(app, fieldValue);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        mRealm.commitTransaction();
+    public void setAppField(String fieldName, Object fieldValue) {
+        mAppMethodMap.get(fieldName).run(fieldValue);
         mDebugManager.printLog(String.format("setAppField(%s, %s)", fieldName, fieldValue));
+        getAppField(fieldName);
     }
+
+    // Getter/setter of app's rememberPassword field
+    private boolean appRememberPassword(Object... args) {
+        App app = getApp();
+        if (args.length == 0) { return app.rememberPassword; }
+        mRealm.beginTransaction();
+        app.rememberPassword = (boolean) args[0];
+        mRealm.commitTransaction();
+        return false;
+    }
+
+    // Getter/setter of app's lastUser field
+    private User appLastUser(Object... args) {
+        App app = getApp();
+        if (args.length == 0) { return app.lastUser; }
+        mRealm.beginTransaction();
+        app.lastUser = (User) args[0];
+        mRealm.commitTransaction();
+        return null;
+    }
+
+    // Getter/setter of app's lastUser field
+    private String appUserName(Object... args) {
+        String username = getUser((String) args[0]);
+        if (args.length == 0) { return username; }
+        mRealm.beginTransaction();
+        app.lastUser = (User) args[0];
+        mRealm.commitTransaction();
+        return null;
+    }
+
+    // TODO: Get/set methods for user
 
     @Override
     public Object getUserField(String fieldName) {
-
-        User user = getCurrentUser();
-        String value = null;
-        try {
-            Field field = user.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            value = field.get(user).toString();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return value;
+        return null;
     }
 
     @Override
     public void setUserField(String fieldName, String fieldValue) {
 
-        User user = getCurrentUser();
-        mRealm.beginTransaction();
-        try {
-            Field field = user.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            field.set(user, fieldValue);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        mRealm.commitTransaction();
     }
 
-    // TODO: Give each database model an explicit field name to stand on its own or to update
-    // its value given a trigger from somewhere else
-
-    // TODO: Make sure we can get a field value given its name
+    /* TODO: Assign section */
 
     @Override
     public boolean isUser(String username, String password) {
