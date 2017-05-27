@@ -86,8 +86,8 @@ public class AIRPACTFireAppManager implements AppManager {
 
     @Override
     public void onLogin(Object... args) {
-        mDataManager.onLogin();
-        mServerManager.onLogin();
+        mDataManager.onLogin(args);
+        mServerManager.onLogin(args);
     }
 
     @Override

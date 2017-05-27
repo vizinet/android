@@ -52,6 +52,7 @@ public class RealmDataManager implements DataManager {
         // Get a Realm instance for this thread
         mRealm = Realm.getDefaultInstance();
 
+        // App string fields -> methods
         mAppMethodMap = new HashMap();
         mAppMethodMap.put("rememberPassword", new Command() {
             @Override
@@ -66,10 +67,42 @@ public class RealmDataManager implements DataManager {
             }
         });
 
+        // User string fields -> methods
+        mUserMethodMap = new HashMap();
+        mUserMethodMap.put("username", new Command() {
+            @Override
+            public Object run(Object... args) {
+                return userUsername(args);
+            }
+        });
+        mUserMethodMap.put("password", new Command() {
+            @Override
+            public Object run(Object... args) {
+                return userPassword(args);
+            }
+        });
+        mUserMethodMap.put("firstLoginDate", new Command() {
+            @Override
+            public Object run(Object... args) {
+                return userFirstLoginDate(args);
+            }
+        });
+        mUserMethodMap.put("lastLoginDate", new Command() {
+            @Override
+            public Object run(Object... args) {
+                return userLastLoginDate(args);
+            }
+        });
+        mUserMethodMap.put("distanceMetric", new Command() {
+            @Override
+            public Object run(Object... args) {
+                return userDistanceMetric(args);
+            }
+        });
+
         // TODO: Trigger/subscription setups
     }
 
-    // Called at the end of a new activity
     @Override
     public void onActivityEnd(Object... args) {
         // TODO: Close triggers/subscriptions
@@ -106,7 +139,7 @@ public class RealmDataManager implements DataManager {
 
         // End session
         mRealm.beginTransaction();
-        Session session = getCurrentSession();
+        Session session = getLastSession();
         session.endTime = new Date(DATE_FORMAT);
         mRealm.commitTransaction();
     }
@@ -121,7 +154,7 @@ public class RealmDataManager implements DataManager {
 
     }
 
-    /* Data manipulation methods */
+    /* App data manipulation methods */
 
     @Override
     public Object getAppField(String fieldName) {
@@ -137,7 +170,6 @@ public class RealmDataManager implements DataManager {
         getAppField(fieldName);
     }
 
-    // Getter/setter of app's rememberPassword field
     private boolean appRememberPassword(Object... args) {
         App app = getApp();
         if (args.length == 0) { return app.rememberPassword; }
@@ -147,7 +179,6 @@ public class RealmDataManager implements DataManager {
         return false;
     }
 
-    // Getter/setter of app's lastUser field
     private User appLastUser(Object... args) {
         App app = getApp();
         if (args.length == 0) { return app.lastUser; }
@@ -157,26 +188,65 @@ public class RealmDataManager implements DataManager {
         return null;
     }
 
-    // Getter/setter of app's lastUser field
-    private String appUserName(Object... args) {
-        String username = getUser((String) args[0]);
-        if (args.length == 0) { return username; }
-        mRealm.beginTransaction();
-        app.lastUser = (User) args[0];
-        mRealm.commitTransaction();
-        return null;
-    }
-
-    // TODO: Get/set methods for user
+    /* User data manipulation methods */
 
     @Override
     public Object getUserField(String fieldName) {
-        return null;
+        Object fieldValue = mUserMethodMap.get(fieldName).run();
+        mDebugManager.printLog(String.format("getUserField(%s) -> %s", fieldName, fieldValue.toString()));
+        return fieldValue;
     }
 
     @Override
     public void setUserField(String fieldName, String fieldValue) {
+        mUserMethodMap.get(fieldName).run(fieldValue);
+        mDebugManager.printLog(String.format("setUserField(%s, %s)", fieldName, fieldValue));
+        getAppField(fieldName);
+    }
 
+    private String userUsername(Object... args) {
+        User user = getLastUser();
+        if (args.length == 0) { return user.username; }
+        mRealm.beginTransaction();
+        user.username = (String) args[0];
+        mRealm.commitTransaction();
+        return null;
+    }
+
+    private String userPassword(Object... args) {
+        User user = getLastUser();
+        if (args.length == 0) { return user.password; }
+        mRealm.beginTransaction();
+        user.password = (String) args[0];
+        mRealm.commitTransaction();
+        return null;
+    }
+
+    private String userFirstLoginDate(Object... args) {
+        User user = getLastUser();
+        if (args.length == 0) { return user.firstLoginDate; }
+        mRealm.beginTransaction();
+        user.firstLoginDate = (String) args[0];
+        mRealm.commitTransaction();
+        return null;
+    }
+
+    private String userLastLoginDate(Object... args) {
+        User user = getLastUser();
+        if (args.length == 0) { return user.lastLoginDate; }
+        mRealm.beginTransaction();
+        user.lastLoginDate = (String) args[0];
+        mRealm.commitTransaction();
+        return null;
+    }
+
+    private String userDistanceMetric(Object... args) {
+        User user = getLastUser();
+        if (args.length == 0) { return user.distanceMetric; }
+        mRealm.beginTransaction();
+        user.distanceMetric = (String) args[0];
+        mRealm.commitTransaction();
+        return null;
     }
 
     /* TODO: Assign section */
@@ -204,21 +274,11 @@ public class RealmDataManager implements DataManager {
     }
 
     @Override
-    public String getLastUser() {
-        return getApp().lastUser.toString();
-    }
-
-    public String getLastSession() { return null; }
+    public Session getLastSession() { return null; }
 
     // Return user in the current app session
     @Override
-    public User getCurrentUser() {
-        // TODO
-        return null;
-    }
-
-    @Override
-    public Session getCurrentSession() {
+    public User getLastUser() {
         // TODO
         return null;
     }
