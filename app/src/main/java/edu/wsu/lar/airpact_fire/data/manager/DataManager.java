@@ -24,14 +24,14 @@ public interface DataManager {
     String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
     double[] GPS_DEFAULT_LOC = {46.73267, -117.163454}; // Pullman, WA
 
+    // Utility function
     boolean isUser(String username, String password);
     User getUser(String username, String password);
+    User getLastUser();
+    Session getLastSession();
     App getApp();
 
-    String getLastUser(); // Return user in the current app session
-    User getCurrentUser();
-    Session getCurrentSession();
-
+    // Activity lifecycle methods
     void onAppFirstRun(Object... args);
     void onAppStart(Object... args);
     void onAppEnd(Object... args);

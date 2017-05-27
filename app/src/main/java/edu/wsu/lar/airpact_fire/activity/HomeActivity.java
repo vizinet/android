@@ -12,6 +12,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -24,9 +25,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import edu.wsu.lar.airpact_fire.data.manager.DataManager;
+import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
-import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import lar.wsu.edu.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.util.Util;
@@ -43,12 +43,15 @@ public class HomeActivity extends AppCompatActivity {
     private Map<FrameLayout, Class<?>> frameToActivityMap; // Map frames to their following activities
 
     private String mUsername;
-    private DataManager mDataManager;
+    private AppManager mAppManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.home_toolbar);
+        setSupportActionBar(toolbar);
 
         // Catch errors
         // TODO: Let's get this to work on all activities with simple util function
@@ -56,11 +59,10 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
                 Toast.makeText(getApplicationContext(), "GLOBAL EXCEPTION CAUGHT", Toast.LENGTH_LONG).show();
-                //Util.goHome(getApplicationContext());
             }
         });
 
-        //mDataManager = AppManager.getDataManager(this);
+        mAppManager = Reference.getAppManager();
 
         // Panes
         mNewPicturePane = (FrameLayout) findViewById(R.id.new_picture_pane);
@@ -82,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
         mNumberQueuedText = (TextView) findViewById(R.id.number_queued_text);
         mRegisterDateText = (TextView) findViewById(R.id.member_register_date_text);
 
-        // Update home variables
+        setupHome();
         updateHome();
 
         // Give each pane an event listener; respond to user events
@@ -141,16 +143,11 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
-        // Recycle bitmap
-        //landscape.recycle();
     }
 
-    // NOTE: user may have changed!
     @Override
     protected void onResume() {
         super.onResume();
-
         updateHome();
     }
 
@@ -163,25 +160,26 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void setupHome() {
+        mUsernameText.setAllCaps(true);
+    }
+
     private void updateHome() {
 
         // Username
         String displayName;
         int cutoffLength = 10;
-        mUsername = mDataManager.getLastUser();
-
-        // TODO remove this
-        if (mUsername == null) Util.goSignIn(this);
-        mUsername = (mUsername == null) ? "" : mUsername;
+        mUsername = mAppManager.getDataManager().getLastUser().toString();
 
         // Make sure name gets cutoff if exceeds max length
-        mUsernameText.setAllCaps(true);
-        displayName = (mUsername.length() >= cutoffLength) ? (mUsername.substring(0, cutoffLength) + "...") : mUsername;
+        displayName = (mUsername.length() >= cutoffLength)
+                ? (mUsername.substring(0, cutoffLength) + "...")
+                : mUsername;
         mUsernameText.setText(displayName);
 
         // Member register date (just grab the "yyyy.MM.dd" part)
-        //mRegisterDateText.setText("First login on " +
-          //      mDataManager.getUserField("firstLoginTime").substring(0, 10));
+        // mRegisterDateText.setText("First login on " +
+        // mDataManager.getUserField("firstLoginTime").substring(0, 10));
 
         // Post numbers
         int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), mUsername);

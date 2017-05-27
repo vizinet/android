@@ -30,9 +30,8 @@
             <ImageView
                 android:id="@+id/sign_in_banner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/banner" />
+                android:layout_height="215dp"
+                android:src="@drawable/banner_alpha" />
         </LinearLayout>
 
         <ScrollView
@@ -52,10 +51,10 @@
                     android:id="@+id/email_login_form"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:gravity="center_vertical|center_horizontal|fill_vertical"
                     android:orientation="vertical"
-                    android:layout_gravity="center_vertical"
-                    android:paddingTop="30dp">
+                    android:paddingTop="0dp">
 
                     <EditText
                         android:id="@+id/username"
@@ -100,9 +99,9 @@
                         android:layout_height="match_parent">
 
                         <LinearLayout
-                            android:orientation="vertical"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -135,11 +134,11 @@
                             </LinearLayout>
 
                             <LinearLayout
-                                android:orientation="horizontal"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:paddingTop="5dp"
-                                android:layout_gravity="center">
+                                android:layout_gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingTop="5dp">
 
                                 <TextView
                                     android:id="@+id/textView15"

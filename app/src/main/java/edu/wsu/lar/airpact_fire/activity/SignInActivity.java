@@ -121,7 +121,6 @@ public class SignInActivity extends AppCompatActivity {
         mRememberPasswordCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                //mDataManager.rememberPassword(b);
                 mAppManager.getDataManager().setAppField("rememberPassword", b);
             }
         });
@@ -235,11 +234,11 @@ public class SignInActivity extends AppCompatActivity {
     private void populateLoginFields() {
 
         DataManager dataManager = mAppManager.getDataManager();
-        //String lastUsername = dataManager.getAppField("lastUser").toString();
-        //mUsernameView.setText(lastUsername);
+        String lastUsername = dataManager.getAppField("lastUser").toString();
+        mUsernameView.setText(lastUsername);
         if ((boolean) dataManager.getAppField("rememberPassword")) {
-            //String lastPassword = dataManager.getUserField("password").toString();
-            //mPasswordView.setText(lastPassword);
+            String lastPassword = (String) dataManager.getUserField("password");
+            mPasswordView.setText(lastPassword);
             mRememberPasswordCheckBox.setChecked(true);
         }
     }
@@ -247,10 +246,8 @@ public class SignInActivity extends AppCompatActivity {
     // Open home page
     private void login(String username, String password) {
 
-        DataManager dataManager = mAppManager.getDataManager();
-
         // Let DB know we're logging in with this user
-        dataManager.onLogin(username, password);
+        mAppManager.onLogin(username, password);
 
         // Open home screen
         Intent intent = new Intent(this, HomeActivity.class);
