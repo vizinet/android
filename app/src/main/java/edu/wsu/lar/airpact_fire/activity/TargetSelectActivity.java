@@ -53,7 +53,7 @@ import edu.wsu.lar.airpact_fire.util.Util;
 //  problems with XML reading/writing when we stored whole image.
 // TODO: Get x, y coordinates with respect to image and store those
 
-public class SelectTargetsActivity extends AppCompatActivity {
+public class TargetSelectActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_TAKE_PHOTO = 1;
@@ -121,7 +121,7 @@ public class SelectTargetsActivity extends AppCompatActivity {
         mWhiteIndicatorButton.setBackground(getResources().getDrawable(R.drawable.indicator_border));
 
         // Verify camera permissions and take picture
-        Util.verifyStoragePermissions(SelectTargetsActivity.this);
+        Util.verifyStoragePermissions(TargetSelectActivity.this);
         takeAndSetPicture();
 
         // Navigation buttons
@@ -131,10 +131,10 @@ public class SelectTargetsActivity extends AppCompatActivity {
                 // Check if distance field is complete
                 if (!areFieldsCompleted()) {
                     // Message and highlight error
-                    Toast.makeText(SelectTargetsActivity.this, "Please enter distance from low-color point in the captured scene.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(TargetSelectActivity.this, "Please enter distance from low-color point in the captured scene.", Toast.LENGTH_LONG).show();
 
-                    int colorFrom = ContextCompat.getColor(SelectTargetsActivity.this, R.color.schemeTransparent);
-                    int colorTo = ContextCompat.getColor(SelectTargetsActivity.this, R.color.schemeFailure);
+                    int colorFrom = ContextCompat.getColor(TargetSelectActivity.this, R.color.schemeTransparent);
+                    int colorTo = ContextCompat.getColor(TargetSelectActivity.this, R.color.schemeFailure);
                     ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo, colorTo, colorFrom);
                     colorAnimation.setDuration(1000); // milliseconds
                     colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -154,7 +154,7 @@ public class SelectTargetsActivity extends AppCompatActivity {
                 AppDataManager.setUserData("visualRangeOne", mVisualRangeInput.getText().toString());
                 AppDataManager.setUserData("visualRangeTwo", mVisualRangeInput.getText().toString());
                 String selectedMetric = metricOptions.get(mMetricSelectSpinner.getSelectedItemPosition()).toLowerCase();
-                Toast.makeText(SelectTargetsActivity.this, "Selected metric = " + selectedMetric, Toast.LENGTH_LONG).show();
+                Toast.makeText(TargetSelectActivity.this, "Selected metric = " + selectedMetric, Toast.LENGTH_LONG).show();
                 AppDataManager.setUserData("distanceUnits", selectedMetric);
 
                 // Now user adds picture details
@@ -542,7 +542,7 @@ public class SelectTargetsActivity extends AppCompatActivity {
 
     // Display message and go home
     private void handleImageFailure() {
-        Toast.makeText(SelectTargetsActivity.this, "Failure retrieving image.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(TargetSelectActivity.this, "Failure retrieving image.", Toast.LENGTH_SHORT).show();
         Util.goHome(this);
     }
 }

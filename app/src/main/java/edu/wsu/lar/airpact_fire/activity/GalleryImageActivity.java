@@ -12,7 +12,7 @@ import lar.wsu.edu.airpact_fire.R;
 
 // TODO: Find more efficient way of displaying image
 
-public class ViewImageActivity extends AppCompatActivity {
+public class GalleryImageActivity extends AppCompatActivity {
 
     private ImageView mImageView;
 

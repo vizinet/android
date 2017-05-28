@@ -35,7 +35,7 @@ import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import lar.wsu.edu.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.util.Util;
 
-public class QueuedPostsActivity extends AppCompatActivity {
+public class GalleryActivity extends AppCompatActivity {
 
     /* QUEUED POSTS ACTIVITY
      *      - Displays queued posts in SQL database
@@ -403,7 +403,7 @@ public class QueuedPostsActivity extends AppCompatActivity {
 
     class PostReadManager extends AsyncTask<Void, Void, Void> {
 
-        private ProgressDialog progress = new ProgressDialog(QueuedPostsActivity.this);
+        private ProgressDialog progress = new ProgressDialog(GalleryActivity.this);
         private long postId;
 
         @Override

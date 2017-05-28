@@ -8,6 +8,7 @@ import edu.wsu.lar.airpact_fire.data.model.App;
 import edu.wsu.lar.airpact_fire.data.model.Session;
 import edu.wsu.lar.airpact_fire.data.model.User;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
+import edu.wsu.lar.airpact_fire.util.Util;
 import io.realm.Realm;
 
 public class RealmDataManager implements DataManager {
@@ -114,23 +115,25 @@ public class RealmDataManager implements DataManager {
         final String username = (String) args[0];
         final String password = (String) args[1];
 
+        mRealm.beginTransaction();
+
         // Get user or create one if nonexistent
         User user = getUser(username, password);
         if (user == null) {
-            mRealm.beginTransaction();
             user = mRealm.createObject(User.class, username); // Primary key
             user.password = password;
-            mRealm.commitTransaction();
         }
 
         // Start session
-        // TODO: Trigger app.lastUser = user when a Session is created
-        mRealm.beginTransaction();
         Session session = mRealm.createObject(Session.class);
-        session.startTime = new Date(DATE_FORMAT);
+        session.startTime = Util.getCurrentDate();
         user.sessions.add(session);
-        App app = getApp();
-        app.lastUser = user; // TODO: Remove
+
+        // TODO: Trigger app.lastUser = user when a Session is created
+        getApp().lastUser = user;
+
+        mDebugManager.printLog("Created new session and set last user of app");
+
         mRealm.commitTransaction();
     }
 
@@ -146,7 +149,7 @@ public class RealmDataManager implements DataManager {
 
     @Override
     public void onAppStart(Object... args) {
-
+        mDebugManager.printLog("App started!");
     }
 
     @Override
@@ -159,6 +162,7 @@ public class RealmDataManager implements DataManager {
     @Override
     public Object getAppField(String fieldName) {
         Object fieldValue = mAppMethodMap.get(fieldName).run();
+        if (fieldValue == null) { return null; }
         mDebugManager.printLog(String.format("getAppField(%s) -> %s", fieldName, fieldValue.toString()));
         return fieldValue;
     }
@@ -193,6 +197,7 @@ public class RealmDataManager implements DataManager {
     @Override
     public Object getUserField(String fieldName) {
         Object fieldValue = mUserMethodMap.get(fieldName).run();
+        if (fieldValue == null) { return null; }
         mDebugManager.printLog(String.format("getUserField(%s) -> %s", fieldName, fieldValue.toString()));
         return fieldValue;
     }
@@ -205,7 +210,7 @@ public class RealmDataManager implements DataManager {
     }
 
     private String userUsername(Object... args) {
-        User user = getLastUser();
+        User user = (User) getAppField("lastUser");
         if (args.length == 0) { return user.username; }
         mRealm.beginTransaction();
         user.username = (String) args[0];
@@ -214,7 +219,7 @@ public class RealmDataManager implements DataManager {
     }
 
     private String userPassword(Object... args) {
-        User user = getLastUser();
+        User user = (User) getAppField("lastUser");
         if (args.length == 0) { return user.password; }
         mRealm.beginTransaction();
         user.password = (String) args[0];
@@ -222,26 +227,26 @@ public class RealmDataManager implements DataManager {
         return null;
     }
 
-    private String userFirstLoginDate(Object... args) {
-        User user = getLastUser();
+    private Date userFirstLoginDate(Object... args) {
+        User user = (User) getAppField("lastUser");
         if (args.length == 0) { return user.firstLoginDate; }
         mRealm.beginTransaction();
-        user.firstLoginDate = (String) args[0];
+        user.firstLoginDate = (Date) args[0];
         mRealm.commitTransaction();
         return null;
     }
 
-    private String userLastLoginDate(Object... args) {
-        User user = getLastUser();
+    private Date userLastLoginDate(Object... args) {
+        User user = (User) getAppField("lastUser");
         if (args.length == 0) { return user.lastLoginDate; }
         mRealm.beginTransaction();
-        user.lastLoginDate = (String) args[0];
+        user.lastLoginDate = (Date) args[0];
         mRealm.commitTransaction();
         return null;
     }
 
     private String userDistanceMetric(Object... args) {
-        User user = getLastUser();
+        User user = (User) getAppField("lastUser");
         if (args.length == 0) { return user.distanceMetric; }
         mRealm.beginTransaction();
         user.distanceMetric = (String) args[0];
@@ -276,10 +281,4 @@ public class RealmDataManager implements DataManager {
     @Override
     public Session getLastSession() { return null; }
 
-    // Return user in the current app session
-    @Override
-    public User getLastUser() {
-        // TODO
-        return null;
-    }
 }

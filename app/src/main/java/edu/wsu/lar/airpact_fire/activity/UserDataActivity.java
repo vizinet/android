@@ -11,7 +11,7 @@ import edu.wsu.lar.airpact_fire.util.Util;
 //import android.app.Activity;
 //import android.os.Bundle;
 
-public class InformationActivity extends AppCompatActivity {//implements OnMapReadyCallback {
+public class UserDataActivity extends AppCompatActivity {//implements OnMapReadyCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

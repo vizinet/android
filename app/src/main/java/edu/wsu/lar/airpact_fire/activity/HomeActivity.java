@@ -13,6 +13,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,11 +22,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
@@ -33,6 +33,7 @@ import edu.wsu.lar.airpact_fire.util.Util;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private Toolbar mToolbar;
     private FrameLayout mNewPicturePane, mInformationPane, mPictureGalleryPane, mSettingsPane;
     private FrameLayout mBackButton;
     private LinearLayout mButtonPage;
@@ -50,19 +51,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.home_toolbar);
-        setSupportActionBar(toolbar);
-
-        // Catch errors
-        // TODO: Let's get this to work on all activities with simple util function
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
-                Toast.makeText(getApplicationContext(), "GLOBAL EXCEPTION CAUGHT", Toast.LENGTH_LONG).show();
-            }
-        });
+        mToolbar = (Toolbar) findViewById(R.id.home_toolbar);
+        setSupportActionBar(mToolbar);
 
         mAppManager = Reference.getAppManager();
+        mAppManager.onActivityStart(this);
 
         // Panes
         mNewPicturePane = (FrameLayout) findViewById(R.id.new_picture_pane);
@@ -84,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
         mNumberQueuedText = (TextView) findViewById(R.id.number_queued_text);
         mRegisterDateText = (TextView) findViewById(R.id.member_register_date_text);
 
+        // Give home a spankin'
         setupHome();
         updateHome();
 
@@ -141,8 +135,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.bar, menu);
+        return true;
     }
 
     @Override
@@ -169,17 +165,15 @@ public class HomeActivity extends AppCompatActivity {
         // Username
         String displayName;
         int cutoffLength = 10;
-        mUsername = mAppManager.getDataManager().getLastUser().toString();
+        mUsername = mAppManager.getDataManager().getAppField("lastUser").toString();
+
+        mToolbar.setTitle(String.format("[ %s ]", mUsername.toUpperCase()));
 
         // Make sure name gets cutoff if exceeds max length
         displayName = (mUsername.length() >= cutoffLength)
                 ? (mUsername.substring(0, cutoffLength) + "...")
                 : mUsername;
         mUsernameText.setText(displayName);
-
-        // Member register date (just grab the "yyyy.MM.dd" part)
-        // mRegisterDateText.setText("First login on " +
-        // mDataManager.getUserField("firstLoginTime").substring(0, 10));
 
         // Post numbers
         int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), mUsername);
@@ -200,9 +194,9 @@ public class HomeActivity extends AppCompatActivity {
         frameToIconMap.put(mSettingsPane, mSettingsButton);
         // ---
         frameToActivityMap = new HashMap<>();
-        frameToActivityMap.put(mNewPicturePane, SelectTargetsActivity.class);
-        frameToActivityMap.put(mInformationPane, InformationActivity.class);
-        frameToActivityMap.put(mPictureGalleryPane, QueuedPostsActivity.class);
+        frameToActivityMap.put(mNewPicturePane, TargetSelectActivity.class);
+        frameToActivityMap.put(mInformationPane, UserDataActivity.class);
+        frameToActivityMap.put(mPictureGalleryPane, GalleryActivity.class);
         frameToActivityMap.put(mSettingsPane, SettingsActivity.class);
 
         // Run through frames and add event listeners

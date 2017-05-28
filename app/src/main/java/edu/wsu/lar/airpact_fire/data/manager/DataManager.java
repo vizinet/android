@@ -27,7 +27,6 @@ public interface DataManager {
     // Utility function
     boolean isUser(String username, String password);
     User getUser(String username, String password);
-    User getLastUser();
     Session getLastSession();
     App getApp();
 

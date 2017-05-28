@@ -1,6 +1,7 @@
 package edu.wsu.lar.airpact_fire.debug.manager;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -22,8 +23,8 @@ public class DebugManager {
         Log.wtf(sDebugTag, message);
     }
 
-    public void printToast(Activity activity, String message) {
+    public void printToast(Context context, String message) {
         if (!mDebugMode) return;
-        Toast.makeText(activity.getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 }

@@ -99,8 +99,8 @@ public class SignInActivity extends AppCompatActivity {
 
         // Setup our application manager
         mAppManager = Reference.getAppManager();
-        mAppManager.onActivityStart(this);
-        mAppManager.onAppStart(this);
+        mAppManager.onActivityStart(getApplicationContext());
+        mAppManager.onAppStart(getApplicationContext());
 
         // Attach objects to UI
         mUsernameView = (EditText) findViewById(R.id.username);
@@ -234,12 +234,16 @@ public class SignInActivity extends AppCompatActivity {
     private void populateLoginFields() {
 
         DataManager dataManager = mAppManager.getDataManager();
-        String lastUsername = dataManager.getAppField("lastUser").toString();
-        mUsernameView.setText(lastUsername);
-        if ((boolean) dataManager.getAppField("rememberPassword")) {
-            String lastPassword = (String) dataManager.getUserField("password");
-            mPasswordView.setText(lastPassword);
-            mRememberPasswordCheckBox.setChecked(true);
+        Object lastUser = dataManager.getAppField("lastUser");
+        if (lastUser != null) {
+            String lastUsername = lastUser.toString();
+            mAppManager.getDebugManager().printLog("lastUsername = " + lastUsername);
+            mUsernameView.setText(lastUsername);
+            if ((boolean) dataManager.getAppField("rememberPassword")) {
+                String lastPassword = (String) dataManager.getUserField("password");
+                mPasswordView.setText(lastPassword);
+                mRememberPasswordCheckBox.setChecked(true);
+            }
         }
     }
 

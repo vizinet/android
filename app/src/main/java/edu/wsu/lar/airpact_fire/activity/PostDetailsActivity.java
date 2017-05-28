@@ -47,7 +47,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         }
 
         // Set appbar title
-        Util.setupSecondaryNavBar(this, QueuedPostsActivity.class, "POST #" + mPostId);
+        Util.setupSecondaryNavBar(this, GalleryActivity.class, "POST #" + mPostId);
 
         // Get post from post id
         mPost = PostDataManager.getPost(this, Long.parseLong(mPostId));
@@ -106,7 +106,7 @@ public class PostDetailsActivity extends AppCompatActivity {
                 //Toast.makeText(PostDetailsActivity.this, "Stored image of size " + mPost.Image.length(), Toast.LENGTH_SHORT).show();
 
                 // View image
-                Intent intent = new Intent(getApplicationContext(), ViewImageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), GalleryImageActivity.class);
                 //intent.putExtra("IMAGE_STRING", mPost.Image);
                 startActivity(intent);
             }

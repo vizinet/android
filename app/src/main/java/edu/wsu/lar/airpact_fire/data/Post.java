@@ -27,10 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.wsu.lar.airpact_fire.activity.QueuedPostsActivity;
+import edu.wsu.lar.airpact_fire.activity.GalleryActivity;
 import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
-import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.util.Util;
 
 // Object for handling our picture post for current user, along with all the metadata
@@ -349,7 +348,7 @@ public class Post {
         Toast.makeText(context, "Post deleted.", Toast.LENGTH_SHORT).show();
 
         // Go to all posts
-        Intent intent = new Intent(context, QueuedPostsActivity.class);
+        Intent intent = new Intent(context, GalleryActivity.class);
         Post.Activity.startActivity(intent);
     }
 

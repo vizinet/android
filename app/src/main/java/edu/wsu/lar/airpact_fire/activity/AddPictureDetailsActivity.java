@@ -32,7 +32,7 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_picture_details);
         // TODO: Setup back button for this activity such that it goes back to selecting contrast points, not taking new picture!
-        Util.setupSecondaryNavBar(this, SelectTargetsActivity.class, "ENTER PICTURE DETAILS");
+        Util.setupSecondaryNavBar(this, TargetSelectActivity.class, "ENTER PICTURE DETAILS");
 
         // Set post context and activity
         Post.Context = getApplicationContext();
@@ -59,7 +59,7 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         mRetakeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SelectTargetsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), TargetSelectActivity.class);
                 startActivity(intent);
             }
         });
@@ -71,7 +71,7 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
                         Util.stringToBitMap(
                                 String.valueOf(AppDataManager.getUserData(AppDataManager.getRecentUser(), "image")
                                 )));
-                Intent intent = new Intent(getApplicationContext(), ViewImageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), GalleryImageActivity.class);
                 // Pass in image to new activity
                 //intent.putExtra("IMAGE_STRING", String.valueOf(AppDataManager.getUserData(AppDataManager.getLastUser(), "image")));
                 startActivity(intent);

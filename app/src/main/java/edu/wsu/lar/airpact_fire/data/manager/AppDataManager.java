@@ -37,7 +37,7 @@ import javax.xml.transform.stream.StreamResult;
 //
 // Retrieves user info when:
 //  - LoginActivity (getLastUser --> username, password)
-//  - ViewImageActivity ()
+//  - GalleryImageActivity ()
 //  - AddPictureDetailsActivity ()
 //
 // Stores like this:
