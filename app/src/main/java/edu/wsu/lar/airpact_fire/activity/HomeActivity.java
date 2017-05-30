@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import edu.wsu.lar.airpact_fire.Reference;
+import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import lar.wsu.edu.airpact_fire.R;
@@ -48,11 +49,13 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
         mToolbar = (Toolbar) findViewById(R.id.home_toolbar);
-        setSupportActionBar(mToolbar);
+        // TODO: Uncomment
+        //setSupportActionBar(mToolbar);
 
         mAppManager = Reference.getAppManager();
         mAppManager.onActivityStart(this);
@@ -165,7 +168,8 @@ public class HomeActivity extends AppCompatActivity {
         // Username
         String displayName;
         int cutoffLength = 10;
-        mUsername = mAppManager.getDataManager().getAppField("lastUser").toString();
+        mUsername = mAppManager.getDataManager().fieldAccess(DataManager.DataField.USER_USERNAME)
+                .toString();
 
         mToolbar.setTitle(String.format("[ %s ]", mUsername.toUpperCase()));
 

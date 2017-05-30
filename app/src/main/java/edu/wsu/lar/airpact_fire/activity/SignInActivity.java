@@ -110,18 +110,14 @@ public class SignInActivity extends AppCompatActivity {
         mInfoLink = (TextView) findViewById(R.id.info_text);
         mRememberPasswordCheckBox = (CheckBox) findViewById(R.id.remember_password_checkbox);
 
-        // TODO: Remove -------
-        // XML Stuff: create XML if necessary
-        AppDataManager.init(getApplicationContext());
-        // TODO: Remove -------
-
         // Set up the login form
         populateLoginFields();
 
+        // Listen for changes in user preference
         mRememberPasswordCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mAppManager.getDataManager().setAppField("rememberPassword", b);
+                mAppManager.getDataManager().fieldAccess(DataManager.DataField.APP_REMEMBER_PASSWORD, b);
             }
         });
 
@@ -136,10 +132,13 @@ public class SignInActivity extends AppCompatActivity {
 
                 // Check if user exists
                 if (mAppManager.getDataManager().isUser(username, password)) {
+
                     // Pre-authenticated user - continue
                     mAppManager.getDebugManager().printLog("Realm user already in DB");
                     login(username, password);
+
                 } else {
+
                     // New guy - needs authentication
                     mAppManager.getDebugManager().printLog("Realm user does not exist");
                     mAppManager.getServerManager().authenticate(
@@ -185,27 +184,6 @@ public class SignInActivity extends AppCompatActivity {
                                 }
                             });
                 }
-
-                // TODO: Remove -------
-                if (true) return;
-                // Update user's password and login time (and create one if we need to)
-                AppDataManager.setUserData(username, "password", password);
-                // Set as last user
-                AppDataManager.setRecentUser(username);
-                // For regulars; no network auth. required
-                if (Boolean.parseBoolean(AppDataManager.getUserData(AppDataManager.getRecentUser(), "isAuth")))
-                {
-                    String loginTime = new SimpleDateFormat(DataManager.DATE_FORMAT).format(new Date());
-                    AppDataManager.setUserData("lastLoginTime", loginTime);
-                    Toast.makeText(SignInActivity.this, "Welcome back!", Toast.LENGTH_LONG).show();
-                    //openHomeScreen();
-                    return;
-                }
-                // Attempt first-time authentication
-                // NOTE: First login time recorded here
-                AuthenticateManager authenticateManager = new AuthenticateManager();
-                authenticateManager.execute();
-                // TODO: Remove -------
             }
         });
 
@@ -234,13 +212,13 @@ public class SignInActivity extends AppCompatActivity {
     private void populateLoginFields() {
 
         DataManager dataManager = mAppManager.getDataManager();
-        Object lastUser = dataManager.getAppField("lastUser");
+        Object lastUser = dataManager.fieldAccess(DataManager.DataField.APP_LAST_USER);
         if (lastUser != null) {
             String lastUsername = lastUser.toString();
             mAppManager.getDebugManager().printLog("lastUsername = " + lastUsername);
             mUsernameView.setText(lastUsername);
-            if ((boolean) dataManager.getAppField("rememberPassword")) {
-                String lastPassword = (String) dataManager.getUserField("password");
+            if ((boolean) dataManager.fieldAccess(DataManager.DataField.APP_REMEMBER_PASSWORD)) {
+                String lastPassword = (String) dataManager.fieldAccess(DataManager.DataField.USER_PASSWORD);
                 mPasswordView.setText(lastPassword);
                 mRememberPasswordCheckBox.setChecked(true);
             }
@@ -257,136 +235,4 @@ public class SignInActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
-
-    // Deals with server
-    // TODO: Remove -------
-    class AuthenticateManager extends AsyncTask<Void, Void, Void> {
-
-        private ProgressDialog progress = new ProgressDialog(SignInActivity.this);
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            // Show loader
-            progress.setTitle("Logging In");
-            progress.setMessage("Please wait while we attempt authentication...");
-            progress.show();
-
-            // Make sure it displays before doing work
-            while (!progress.isShowing()) try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                // Authentication URL
-                URL authUrl = new URL(Post.SERVER_AUTH_URL);
-
-                // JSON authentication (send) package
-                JSONObject authSendJSON = new JSONObject();
-                authSendJSON.put("username", AppDataManager.getRecentUser());
-                authSendJSON.put("password",
-                        AppDataManager.getUserData(AppDataManager.getRecentUser(), "password"));
-
-                String sendMessage = authSendJSON.toJSONString(),
-                        serverResponse,
-                        userKey;
-                Boolean isUser;
-
-                // JSON receive package
-                JSONObject authReceiveJSON;
-
-                // Establish HTTP connection
-                HttpURLConnection authConn = (HttpURLConnection) authUrl.openConnection();
-
-                // Set connection properties
-                authConn.setReadTimeout(10000);
-                authConn.setConnectTimeout(15000);
-                authConn.setRequestMethod("POST");
-                authConn.setDoInput(true);
-                authConn.setDoOutput(true);
-                authConn.setFixedLengthStreamingMode(sendMessage.getBytes().length);
-                authConn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
-                authConn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
-
-                // Connect to server
-                authConn.connect();
-
-                // JSON package sent
-                OutputStream authOutputStream = new BufferedOutputStream(authConn.getOutputStream());
-                authOutputStream.write(sendMessage.getBytes());
-                // NOTE: Had an error here before because I didn't flush
-                authOutputStream.flush();
-
-                // Server reply
-                InputStream in = null;
-                try {
-                    in = authConn.getInputStream();
-                    int ch;
-                    StringBuffer sb = new StringBuffer();
-                    while ((ch = in.read()) != -1) {
-                        sb.append((char) ch);
-                    }
-                    serverResponse = sb.toString();
-                } catch (IOException e) {
-                    throw e;
-                }
-                if (in != null) {
-                    in.close();
-                }
-
-                // Parse JSON
-                authReceiveJSON = (JSONObject) new JSONParser().parse(serverResponse);
-
-                // Get SubmitFieldVars and see if server authenticated us
-                isUser = Boolean.parseBoolean((String) authReceiveJSON.get("isUser"));
-                if (isUser) {
-                    // Don't do anything with key for now
-                    //userKey = authReceiveJSON.get("secretKey").toString();
-                    AppDataManager.setUserData(AppDataManager.getRecentUser(), "isAuth", "true");
-                } else { // Exit if not a user
-                    AppDataManager.setUserData(AppDataManager.getRecentUser(), "isAuth", "false");
-                    return null;
-                }
-
-                authOutputStream.flush();
-                authOutputStream.close();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void context) {
-
-            // To dismiss the dialog
-            progress.dismiss();
-
-            // Open up home screen
-            if (Boolean.parseBoolean(AppDataManager.getUserData(AppDataManager.getRecentUser(),
-                    "isAuth"))) {
-                Toast.makeText(SignInActivity.this, "Authentication successful.\nWelcome!",
-                        Toast.LENGTH_LONG).show();
-
-                // Set first login time
-                String firstLoginTime = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-                AppDataManager.setUserData("firstLoginTime", firstLoginTime);
-
-                // Go to home screen
-                //openHomeScreen();
-            } else {
-                Toast.makeText(SignInActivity.this, "Could not authenticate user.\nPlease try again.",
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-    // TODO: Remove -------
 }

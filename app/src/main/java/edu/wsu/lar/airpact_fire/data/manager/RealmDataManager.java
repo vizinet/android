@@ -15,12 +15,7 @@ public class RealmDataManager implements DataManager {
 
     private Realm mRealm;
     private DebugManager mDebugManager;
-    private Map<String, Command> mAppMethodMap;
-    private Map<String, Command> mUserMethodMap;
-
-    interface Command {
-        Object run(Object... args);
-    }
+    private Map<DataField, Command> mDataFieldCommandMap;
 
     public RealmDataManager(DebugManager debugManager) {
         mDebugManager = debugManager;
@@ -53,48 +48,45 @@ public class RealmDataManager implements DataManager {
         // Get a Realm instance for this thread
         mRealm = Realm.getDefaultInstance();
 
-        // App string fields -> methods
-        mAppMethodMap = new HashMap();
-        mAppMethodMap.put("rememberPassword", new Command() {
-            @Override
-            public Object run(Object... args) {
-                return appRememberPassword(args);
-            }
-        });
-        mAppMethodMap.put("lastUser", new Command() {
+        // Data field -> method
+        mDataFieldCommandMap = new HashMap();
+        mDataFieldCommandMap.put(DataField.APP_LAST_USER, new Command() {
             @Override
             public Object run(Object... args) {
                 return appLastUser(args);
             }
         });
-
-        // User string fields -> methods
-        mUserMethodMap = new HashMap();
-        mUserMethodMap.put("username", new Command() {
+        mDataFieldCommandMap.put(DataField.APP_REMEMBER_PASSWORD, new Command() {
+            @Override
+            public Object run(Object... args) {
+                return appRememberPassword(args);
+            }
+        });
+        mDataFieldCommandMap.put(DataField.USER_USERNAME, new Command() {
             @Override
             public Object run(Object... args) {
                 return userUsername(args);
             }
         });
-        mUserMethodMap.put("password", new Command() {
+        mDataFieldCommandMap.put(DataField.USER_PASSWORD, new Command() {
             @Override
             public Object run(Object... args) {
                 return userPassword(args);
             }
         });
-        mUserMethodMap.put("firstLoginDate", new Command() {
+        mDataFieldCommandMap.put(DataField.USER_FIRST_LOGIN_DATE, new Command() {
             @Override
             public Object run(Object... args) {
                 return userFirstLoginDate(args);
             }
         });
-        mUserMethodMap.put("lastLoginDate", new Command() {
+        mDataFieldCommandMap.put(DataField.USER_LAST_LOGIN_DATE, new Command() {
             @Override
             public Object run(Object... args) {
                 return userLastLoginDate(args);
             }
         });
-        mUserMethodMap.put("distanceMetric", new Command() {
+        mDataFieldCommandMap.put(DataField.USER_DISTANCE_METRIC, new Command() {
             @Override
             public Object run(Object... args) {
                 return userDistanceMetric(args);
@@ -157,21 +149,31 @@ public class RealmDataManager implements DataManager {
 
     }
 
-    /* App data manipulation methods */
+    /* Data field manipulation methods */
 
     @Override
-    public Object getAppField(String fieldName) {
-        Object fieldValue = mAppMethodMap.get(fieldName).run();
-        if (fieldValue == null) { return null; }
-        mDebugManager.printLog(String.format("getAppField(%s) -> %s", fieldName, fieldValue.toString()));
-        return fieldValue;
-    }
+    public Object fieldAccess(Object... args) {
 
-    @Override
-    public void setAppField(String fieldName, Object fieldValue) {
-        mAppMethodMap.get(fieldName).run(fieldValue);
-        mDebugManager.printLog(String.format("setAppField(%s, %s)", fieldName, fieldValue));
-        getAppField(fieldName);
+        if (args.length == 1) {
+
+            // Getter
+            DataField field = (DataField) args[0];
+            Object value = mDataFieldCommandMap.get(field).run();
+            mDebugManager.printLog(String.format("fieldAccess(%s) -> %s", field.name(), value.toString()));
+            return value;
+
+        } else if (args.length == 2) {
+
+            // Setter
+            DataField field = (DataField) args[0];
+            Object value = args[1];
+            mDataFieldCommandMap.get(field).run(value);
+            mDebugManager.printLog(String.format("fieldAccess(%s, %s)", field.name(), value.toString()));
+            return null;
+        }
+
+        // Follow-up
+        throw new IllegalArgumentException();
     }
 
     private boolean appRememberPassword(Object... args) {
@@ -192,25 +194,8 @@ public class RealmDataManager implements DataManager {
         return null;
     }
 
-    /* User data manipulation methods */
-
-    @Override
-    public Object getUserField(String fieldName) {
-        Object fieldValue = mUserMethodMap.get(fieldName).run();
-        if (fieldValue == null) { return null; }
-        mDebugManager.printLog(String.format("getUserField(%s) -> %s", fieldName, fieldValue.toString()));
-        return fieldValue;
-    }
-
-    @Override
-    public void setUserField(String fieldName, String fieldValue) {
-        mUserMethodMap.get(fieldName).run(fieldValue);
-        mDebugManager.printLog(String.format("setUserField(%s, %s)", fieldName, fieldValue));
-        getAppField(fieldName);
-    }
-
     private String userUsername(Object... args) {
-        User user = (User) getAppField("lastUser");
+        User user = (User) fieldAccess(DataField.APP_LAST_USER);
         if (args.length == 0) { return user.username; }
         mRealm.beginTransaction();
         user.username = (String) args[0];
@@ -219,7 +204,7 @@ public class RealmDataManager implements DataManager {
     }
 
     private String userPassword(Object... args) {
-        User user = (User) getAppField("lastUser");
+        User user = (User) fieldAccess(DataField.APP_LAST_USER);
         if (args.length == 0) { return user.password; }
         mRealm.beginTransaction();
         user.password = (String) args[0];
@@ -228,7 +213,7 @@ public class RealmDataManager implements DataManager {
     }
 
     private Date userFirstLoginDate(Object... args) {
-        User user = (User) getAppField("lastUser");
+        User user = (User) fieldAccess(DataField.APP_LAST_USER);
         if (args.length == 0) { return user.firstLoginDate; }
         mRealm.beginTransaction();
         user.firstLoginDate = (Date) args[0];
@@ -237,7 +222,7 @@ public class RealmDataManager implements DataManager {
     }
 
     private Date userLastLoginDate(Object... args) {
-        User user = (User) getAppField("lastUser");
+        User user = (User) fieldAccess(DataField.APP_LAST_USER);
         if (args.length == 0) { return user.lastLoginDate; }
         mRealm.beginTransaction();
         user.lastLoginDate = (Date) args[0];
@@ -246,7 +231,7 @@ public class RealmDataManager implements DataManager {
     }
 
     private String userDistanceMetric(Object... args) {
-        User user = (User) getAppField("lastUser");
+        User user = (User) fieldAccess(DataField.APP_LAST_USER);
         if (args.length == 0) { return user.distanceMetric; }
         mRealm.beginTransaction();
         user.distanceMetric = (String) args[0];

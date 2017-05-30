@@ -3,7 +3,6 @@ package edu.wsu.lar.airpact_fire.data.manager;
 import edu.wsu.lar.airpact_fire.data.model.App;
 import edu.wsu.lar.airpact_fire.data.model.Session;
 import edu.wsu.lar.airpact_fire.data.model.User;
-import io.realm.RealmFieldType;
 
 /**
  * This interface consists of variables and methods for handling this app's
@@ -24,7 +23,22 @@ public interface DataManager {
     String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
     double[] GPS_DEFAULT_LOC = {46.73267, -117.163454}; // Pullman, WA
 
-    // Utility function
+    // Fields for UI to request from a data manager
+    enum DataField {
+        APP_LAST_USER,
+        APP_REMEMBER_PASSWORD,
+        USER_USERNAME,
+        USER_PASSWORD,
+        USER_FIRST_LOGIN_DATE,
+        USER_LAST_LOGIN_DATE,
+        USER_DISTANCE_METRIC
+    }
+
+    interface Command {
+        Object run(Object... args);
+    }
+
+    // Utility functions
     boolean isUser(String username, String password);
     User getUser(String username, String password);
     Session getLastSession();
@@ -39,11 +53,6 @@ public interface DataManager {
     void onActivityStart(Object... args);
     void onActivityEnd(Object... args);
 
-    // Get/set any arbitrary app field
-    Object getAppField(String fieldName);
-    void setAppField(String fieldName, Object fieldValue);
-
-    // Get/set any arbitrary field for current user
-    Object getUserField(String fieldName);
-    void setUserField(String fieldName, String fieldValue);
+    // Get/set any arbitrary field in DB
+    Object fieldAccess(Object... args);
 }
