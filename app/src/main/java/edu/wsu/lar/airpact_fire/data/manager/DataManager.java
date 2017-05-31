@@ -1,8 +1,8 @@
 package edu.wsu.lar.airpact_fire.data.manager;
 
-import edu.wsu.lar.airpact_fire.data.model.App;
-import edu.wsu.lar.airpact_fire.data.model.Session;
-import edu.wsu.lar.airpact_fire.data.model.User;
+import edu.wsu.lar.airpact_fire.data.realm.model.App;
+import edu.wsu.lar.airpact_fire.data.realm.model.Session;
+import edu.wsu.lar.airpact_fire.data.realm.model.User;
 
 /**
  * This interface consists of variables and methods for handling this app's
@@ -25,15 +25,20 @@ public interface DataManager {
 
     // Fields for UI to request from a data manager
     enum DataField {
+        // App meta
         APP_LAST_USER,
         APP_REMEMBER_PASSWORD,
+        // User meta
         USER_USERNAME,
         USER_PASSWORD,
         USER_FIRST_LOGIN_DATE,
         USER_LAST_LOGIN_DATE,
         USER_DISTANCE_METRIC
+        // Post meta
+
     }
 
+    // Function wrapper
     interface Command {
         Object run(Object... args);
     }

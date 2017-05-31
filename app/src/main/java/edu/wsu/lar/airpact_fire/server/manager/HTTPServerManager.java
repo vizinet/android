@@ -20,8 +20,6 @@ import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.Post;
 import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
-import edu.wsu.lar.airpact_fire.data.manager.RealmDataManager;
-import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 
 public class HTTPServerManager implements ServerManager {
 

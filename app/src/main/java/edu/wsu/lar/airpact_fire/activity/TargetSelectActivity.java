@@ -38,12 +38,10 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.Post;
 import lar.wsu.edu.airpact_fire.R;
@@ -69,18 +67,17 @@ public class TargetSelectActivity extends AppCompatActivity {
     private TextView mVisualRangeInput;
     private TextView mSelectionPanelText;
     private ImageView mWhiteCircle, mBlackCircle, mCurrentCircle;
-    // UI elements
-    private ImageView mImageView; //, mBlackCircleColorView, mWhiteCircleColorView;
+    private ImageView mImageView;
     private Button mDoneButton, mRetakeButton;
-    //private TextView mLowText, mHighText;
     private ImageView mBlackIndicatorButton, mWhiteIndicatorButton;
     private Spinner mMetricSelectSpinner;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_contrast);
+        setContentView(R.layout.activity_select_target);
         Util.setupSecondaryNavBar(this, HomeActivity.class, "SELECT TARGETS");
 
         // Create UI elements
@@ -128,8 +125,10 @@ public class TargetSelectActivity extends AppCompatActivity {
         mDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // Check if distance field is complete
                 if (!areFieldsCompleted()) {
+
                     // Message and highlight error
                     Toast.makeText(TargetSelectActivity.this, "Please enter distance from low-color point in the captured scene.", Toast.LENGTH_LONG).show();
 
@@ -305,12 +304,6 @@ public class TargetSelectActivity extends AppCompatActivity {
 
         }
         super.onPause();
-    }
-
-    // Go home if back button pressed
-    @Override
-    public void onBackPressed() {
-        Util.goHome(this);
     }
 
     // Called when activity has focus
@@ -496,13 +489,16 @@ public class TargetSelectActivity extends AppCompatActivity {
 
         // Set indicator coordinates
         if (AppDataManager.getUserData(AppDataManager.getRecentUser(), "lowX") != null) {
+
             // Get past coordinates
+            lowIndicatorX = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "lowX"));
             lowIndicatorX = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "lowX"));
             lowIndicatorY = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "lowY"));
             highIndicatorX = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "highX"));
             highIndicatorY = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "highY"));
 
         } else {
+
             // Place indicators at center of image (in upper- and lower-quadrant)
             lowIndicatorX = (mImageView.getWidth() / 2);
             lowIndicatorY = (mImageView.getHeight() / 2) + (mImageView.getHeight() / 8);

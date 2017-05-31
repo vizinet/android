@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,25 +14,11 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import edu.wsu.lar.airpact_fire.Reference;
-import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
-import edu.wsu.lar.airpact_fire.data.Post;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
-import io.realm.RealmFieldType;
 import lar.wsu.edu.airpact_fire.R;
 
 // TODO: Address all below to-do statements

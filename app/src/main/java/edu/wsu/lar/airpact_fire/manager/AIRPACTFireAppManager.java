@@ -3,7 +3,7 @@ package edu.wsu.lar.airpact_fire.manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.manager.RealmDataManager;
+import edu.wsu.lar.airpact_fire.data.realm.RealmDataManager;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.server.manager.HTTPServerManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
