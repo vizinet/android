@@ -30,7 +30,7 @@
             <ImageView
                 android:id="@+id/sign_in_banner"
                 android:layout_width="wrap_content"
-                android:layout_height="215dp"
+                android:layout_height="200dp"
                 android:src="@drawable/banner_alpha" />
         </LinearLayout>
 
@@ -60,6 +60,7 @@
                         android:id="@+id/username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
                         android:hint="@string/prompt_email"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
@@ -67,13 +68,14 @@
                         android:textColorHint="@color/schemeTransparentLightDarker"
                         android:textSize="25dp"
                         android:textStyle="normal"
-                        android:typeface="monospace" />
+                        android:typeface="sans" />
 
                     <EditText
                         android:id="@+id/password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:autoText="false"
+                        android:fontFamily="sans-serif"
                         android:hint="@string/prompt_password"
                         android:imeActionId="@+id/login"
                         android:imeActionLabel="@string/action_sign_in_short"
@@ -85,7 +87,7 @@
                         android:textColorHint="@color/schemeTransparentLightDarker"
                         android:textSize="25dp"
                         android:textStyle="normal"
-                        android:typeface="monospace" />
+                        android:typeface="sans" />
 
                     <CheckBox
                         android:id="@+id/remember_password_checkbox"

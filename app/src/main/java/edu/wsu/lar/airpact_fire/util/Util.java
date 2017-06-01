@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,7 +57,6 @@ import edu.wsu.lar.airpact_fire.activity.SignInActivity;
 // Class for basic utilities used throughout app
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class Util {
-
 
     // Storage permissions
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -107,10 +107,11 @@ public class Util {
         // Create new one
         return Bitmap.createScaledBitmap(bitmap, width, height, true);
     }
+
     // Check if (x, y) point is within view
     public static boolean isPointInView(View view, int x, int y) {
         return (x > view.getX())
-                && (x <  (view.getX() + view.getWidth()))
+                && (x < (view.getX() + view.getWidth()))
                 && (y > view.getY())
                 && (y < (view.getY() + view.getHeight()));
     }
@@ -137,6 +138,7 @@ public class Util {
         drawable.draw(canvas);
         return bitmap;
     }
+
     // TODO Get analysis of circular area around x and y point
     public static int getPixelAtPos(ImageView imageView, int x, int y) {
         //Bitmap bitmap = ((BitmapDrawable) imageView.getBackground()).getBitmap();
@@ -146,6 +148,7 @@ public class Util {
 
         return pixel;
     }
+
     // Create an image file with collision resistant title to public directory
     public static File createImageFile() throws IOException {
         // Create an image file name -- timestamped
@@ -161,12 +164,13 @@ public class Util {
 
         return image;
     }
-    public static String bitmapToString(Bitmap bitmap){
+
+    public static String bitmapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         // Compression format is loss less with PNG
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-        byte [] b=baos.toByteArray();
-        String temp=Base64.encodeToString(b, Base64.DEFAULT);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
     }
 
@@ -404,6 +408,23 @@ public class Util {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+    }
+
+    public static Date getCurrentDate() {
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        return date;
+    }
+
+    public static Date stringToDate(String dateString, String dateFormat) {
+        Date parsed;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat(dateFormat);
+            parsed = format.parse(dateString);
+        } catch(ParseException pe) {
+            throw new IllegalArgumentException();
+        }
+        return parsed;
     }
 
     // Make given color transparent to given degree

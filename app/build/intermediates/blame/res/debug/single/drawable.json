@@ -60,6 +60,10 @@
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\camera.png"
     },
     {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\banner_alpha.png",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\banner_alpha.png"
+    },
+    {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\mountain_wallpaper_unknown.jpg",
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\mountain_wallpaper_unknown.jpg"
     },

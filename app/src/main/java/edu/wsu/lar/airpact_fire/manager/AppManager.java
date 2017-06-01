@@ -1,7 +1,5 @@
 package edu.wsu.lar.airpact_fire.manager;
 
-import android.os.Debug;
-
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;

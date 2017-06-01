@@ -1,9 +1,13 @@
+// Copyright © 2017,
+// Laboratory for Atmospheric Research at Washington State University,
+// All rights reserved.
+
 package edu.wsu.lar.airpact_fire.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.manager.RealmDataManager;
+import edu.wsu.lar.airpact_fire.data.realm.RealmDataManager;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.server.manager.HTTPServerManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
@@ -11,8 +15,8 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class AIRPACTFireAppManager implements AppManager {
 
-    // Flag set by programmer
-    public static final boolean IS_DEBUGGING = true;
+    // NOTE: Flag set by programmer
+    private static final boolean sIsDebugging = true;
 
     private DataManager mDataManager;
     private ServerManager mServerManager;
@@ -20,7 +24,7 @@ public class AIRPACTFireAppManager implements AppManager {
 
     @Override
     public boolean isDebugging() {
-        return IS_DEBUGGING;
+        return sIsDebugging;
     }
 
     @Override
@@ -66,16 +70,27 @@ public class AIRPACTFireAppManager implements AppManager {
     @Override
     public void onActivityStart(Object... args) {
 
-        Context context = (Context) args[0];
+        final Context context = (Context) args[0];
 
         // Construct managers
         mDebugManager = new DebugManager(isDebugging());
         mDataManager = new RealmDataManager(mDebugManager);
         mServerManager = new HTTPServerManager();
 
+        mDebugManager.printLog("Started activity = " + context.toString());
+
         // Notify that activity has begun
         mDataManager.onActivityStart(context);
         mServerManager.onActivityStart();
+
+        // Catch global exceptions
+        // NOTE: Has never been thrown, to my observation
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
+                mDebugManager.printToast(context, "[Global exception caught]");
+            }
+        });
     }
 
     @Override
