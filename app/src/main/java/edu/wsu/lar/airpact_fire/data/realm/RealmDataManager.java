@@ -1,22 +1,30 @@
+// Copyright © 2017,
+// Laboratory for Atmospheric Research at Washington State University,
+// All rights reserved.
+
 package edu.wsu.lar.airpact_fire.data.realm;
 
 import android.content.Context;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
+import edu.wsu.lar.airpact_fire.data.object.AppObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.App;
 import edu.wsu.lar.airpact_fire.data.realm.model.Session;
 import edu.wsu.lar.airpact_fire.data.realm.model.User;
+import edu.wsu.lar.airpact_fire.data.realm.object.RealmAppObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
-import edu.wsu.lar.airpact_fire.util.Util;
+import io.realm.ObjectChangeSet;
 import io.realm.Realm;
+import io.realm.RealmObjectChangeListener;
+
+// TODO: Make sure to return the Realm version of our data.objects
 
 public class RealmDataManager implements DataManager {
 
     private Realm mRealm;
     private DebugManager mDebugManager;
-    private Map<DataField, Command> mDataFieldCommandMap;
+    private Map<Object, Object> mDataFieldCommandMap;
 
     public RealmDataManager(DebugManager debugManager) {
         mDebugManager = debugManager;
@@ -36,6 +44,9 @@ public class RealmDataManager implements DataManager {
                 app.rememberPassword = false;
             }
         });
+
+        // Setup Realm object notifications
+        setupRealmObjectNotifications();
     }
 
     @Override
@@ -50,6 +61,7 @@ public class RealmDataManager implements DataManager {
         mRealm = Realm.getDefaultInstance();
 
         // Data field -> method
+        /*
         mDataFieldCommandMap = new HashMap();
         mDataFieldCommandMap.put(DataField.APP_LAST_USER, new Command() {
             @Override
@@ -93,8 +105,7 @@ public class RealmDataManager implements DataManager {
                 return userDistanceMetric(args);
             }
         });
-
-        // TODO: Trigger/subscription setups
+        */
     }
 
     @Override
@@ -108,26 +119,7 @@ public class RealmDataManager implements DataManager {
         final String username = (String) args[0];
         final String password = (String) args[1];
 
-        mRealm.beginTransaction();
-
-        // Get user or create one if nonexistent
-        User user = getUser(username, password);
-        if (user == null) {
-            user = mRealm.createObject(User.class, username); // Primary key
-            user.password = password;
-        }
-
-        // Start session
-        Session session = mRealm.createObject(Session.class);
-        session.startTime = Util.getCurrentDate();
-        user.sessions.add(session);
-
-        // TODO: Trigger app.lastUser = user when a Session is created
-        getApp().lastUser = user;
-
-        mDebugManager.printLog("Created new session and set last user of app");
-
-        mRealm.commitTransaction();
+        getApp().startSession(username, password);
     }
 
     @Override
@@ -240,28 +232,29 @@ public class RealmDataManager implements DataManager {
         return null;
     }
 
-    /* TODO: Assign section */
+    /* ... */
 
-    @Override
-    public boolean isUser(String username, String password) {
-        return getUser(username, password) == null ? false : true;
+    private void setupRealmObjectNotifications() {
+
     }
 
-    @Override
-    public User getUser(String username, String password) {
-        final User user = mRealm.where(User.class)
-                .equalTo("username", username)
-                .equalTo("password", password)
-                .findFirst();
+    private final RealmObjectChangeListener<Session> listener = new RealmObjectChangeListener<Session>() {
+        @Override
+        public void onChange(Session dog, ObjectChangeSet changeSet) {
+            if (changeSet.isDeleted()) {
+                mDebugManager.printLog("The dog was deleted");
+                return;
+            }
 
-        // TODO: Ensure this returns null if user isn't found
-        return user;
-    }
+            for (String fieldName : changeSet.getChangedFields()) {
+                mDebugManager.printLog("Field " + fieldName + " was changed.");
+            }
+        }
+    };
 
     @Override
-    public App getApp() {
-        final App app = mRealm.where(App.class).findFirst();
-        return app;
+    public AppObject getApp() {
+        return new RealmAppObject(mRealm);
     }
 
     @Override

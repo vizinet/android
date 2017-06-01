@@ -1044,7 +1044,7 @@ int layout activity_home 0x7f04001a
 int layout activity_information 0x7f04001b
 int layout activity_post_details 0x7f04001c
 int layout activity_queued_posts 0x7f04001d
-int layout activity_select_contrast 0x7f04001e
+int layout activity_select_target 0x7f04001e
 int layout activity_settings 0x7f04001f
 int layout activity_sign_in 0x7f040020
 int layout activity_splash_screen 0x7f040021

@@ -166,15 +166,12 @@ public class HomeActivity extends AppCompatActivity {
     private void updateHome() {
 
         // Username
-        String displayName;
-        int cutoffLength = 10;
-        mUsername = mAppManager.getDataManager().fieldAccess(DataManager.DataField.USER_USERNAME)
-                .toString();
-
+        mUsername = mAppManager.getDataManager().getApp().getLastUser().getUsername();
         mToolbar.setTitle(String.format("[ %s ]", mUsername.toUpperCase()));
 
         // Make sure name gets cutoff if exceeds max length
-        displayName = (mUsername.length() >= cutoffLength)
+        int cutoffLength = 10;
+        String displayName = (mUsername.length() >= cutoffLength)
                 ? (mUsername.substring(0, cutoffLength) + "...")
                 : mUsername;
         mUsernameText.setText(displayName);

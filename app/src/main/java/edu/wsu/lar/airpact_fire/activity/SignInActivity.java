@@ -14,9 +14,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
+import edu.wsu.lar.airpact_fire.data.object.AppObject;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import lar.wsu.edu.airpact_fire.R;
@@ -64,6 +64,7 @@ import lar.wsu.edu.airpact_fire.R;
  * @author  Luke Weber
  * @see     Reference
  * @see     AppManager
+ * @see     DataManager
  * @since   0.1
  */
 public class SignInActivity extends AppCompatActivity {
@@ -102,7 +103,7 @@ public class SignInActivity extends AppCompatActivity {
         mRememberPasswordCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mAppManager.getDataManager().fieldAccess(DataManager.DataField.APP_REMEMBER_PASSWORD, b);
+                mAppManager.getDataManager().getApp().setRememberPassword(b);
             }
         });
 
@@ -116,7 +117,7 @@ public class SignInActivity extends AppCompatActivity {
                 String password = mPasswordView.getText().toString();
 
                 // Check if user exists
-                if (mAppManager.getDataManager().isUser(username, password)) {
+                if (mAppManager.getDataManager().getApp().getUser(username) == null) {
 
                     // Pre-authenticated user - continue
                     mAppManager.getDebugManager().printLog("Realm user already in DB");
@@ -196,14 +197,14 @@ public class SignInActivity extends AppCompatActivity {
     // Set credentials of last user
     private void populateLoginFields() {
 
-        DataManager dataManager = mAppManager.getDataManager();
-        Object lastUser = dataManager.fieldAccess(DataManager.DataField.APP_LAST_USER);
+        AppObject appObject = mAppManager.getDataManager().getApp();
+        Object lastUser = appObject.getLastUser();
         if (lastUser != null) {
             String lastUsername = lastUser.toString();
             mAppManager.getDebugManager().printLog("lastUsername = " + lastUsername);
             mUsernameView.setText(lastUsername);
-            if ((boolean) dataManager.fieldAccess(DataManager.DataField.APP_REMEMBER_PASSWORD)) {
-                String lastPassword = (String) dataManager.fieldAccess(DataManager.DataField.USER_PASSWORD);
+            if (appObject.getRememberPassword()) {
+                String lastPassword = appObject.getLastUser().getPassword();
                 mPasswordView.setText(lastPassword);
                 mRememberPasswordCheckBox.setChecked(true);
             }
