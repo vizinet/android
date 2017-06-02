@@ -15,10 +15,6 @@ package edu.wsu.lar.airpact_fire.data.object;
  */
 public interface AppObject {
 
-    // Create user and start app usage session
-    void startSession(String username, String password);
-    void endSession();
-
     /* Field accessors and modifiers */
 
     boolean getRememberPassword();
