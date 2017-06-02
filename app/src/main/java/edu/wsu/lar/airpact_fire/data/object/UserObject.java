@@ -4,6 +4,8 @@
 
 package edu.wsu.lar.airpact_fire.data.object;
 
+import java.util.Date;
+
 /**
  * User object interface for UI to deal with.
  *
@@ -21,4 +23,7 @@ public interface UserObject {
 
     PostObject[] getPosts();
     PostObject createPost();
+
+    Date getFirstLoginDate();
+    void getFirstLoginDate(Date value);
 }

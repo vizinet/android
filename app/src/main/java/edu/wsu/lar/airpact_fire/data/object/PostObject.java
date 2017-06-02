@@ -4,6 +4,8 @@
 
 package edu.wsu.lar.airpact_fire.data.object;
 
+import java.util.Date;
+
 /**
  * Image post interface for UI to use and change.
  *
@@ -15,9 +17,29 @@ package edu.wsu.lar.airpact_fire.data.object;
  */
 public interface PostObject {
 
+    Date getDate();
+
     String getImage();
     void setImage(String value);
 
     float[] getGPS();
     void setGPS(float[] values);
+
+    float getVisualRange();
+    void setVisualRange(float value);
+
+    boolean getIsSubmitted();
+    void setIsSubmitted(boolean value);
+
+    float[][] getTargets();
+    void setTargets(float[][] values);
+
+    String getDescription();
+    void setDescription(String value);
+
+    String getTag();
+    void setTag(String value);
+
+    double[] getGPSCoordinates();
+    void setGPSCoordinates(double[] values);
 }

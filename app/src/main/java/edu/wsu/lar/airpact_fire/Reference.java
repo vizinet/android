@@ -18,6 +18,10 @@ public final class Reference {
     public static final String SERVER_REGISTER_URL = SERVER_BASE_URL + "/user/register";
     public static final String SERVER_INFORMATION_URL = SERVER_BASE_URL + "/";
 
+    public enum ALGORITHM_ENUM {
+        TWO_IN_ONE, ONE_IN_ONE
+    };
+
     public static AppManager getAppManager() {
         return new AIRPACTFireAppManager();
     }

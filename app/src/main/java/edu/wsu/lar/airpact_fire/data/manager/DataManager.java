@@ -29,12 +29,9 @@ public interface DataManager {
     String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
     double[] GPS_DEFAULT_LOCATION = {46.73267, -117.163454}; // Pullman, WA
 
-    /*
-    // Function wrapper
-    interface Command {
-        Object run(Object... args);
-    }
-    */
+    // Create user and start app usage session
+    void startSession(String username, String password);
+    void endSession();
 
     // Give app object - key to all of database access for UI
     AppObject getApp();
@@ -47,9 +44,4 @@ public interface DataManager {
     void onLogout(Object... args);
     void onActivityStart(Object... args);
     void onActivityEnd(Object... args);
-
-    /*
-    // Get/set any arbitrary field in DB
-    Object fieldAccess(Object... args);
-    */
 }

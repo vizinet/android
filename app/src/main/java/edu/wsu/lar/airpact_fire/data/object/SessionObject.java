@@ -4,6 +4,9 @@
 
 package edu.wsu.lar.airpact_fire.data.object;
 
+import java.util.Date;
+import edu.wsu.lar.airpact_fire.Reference;
+
 /**
  * Usage session object interface for UI to deal handle.
  *
@@ -15,4 +18,15 @@ package edu.wsu.lar.airpact_fire.data.object;
  */
 public interface SessionObject {
 
+    Date getStartDate();
+    void getEndDate();
+
+    Date getLastLoginDate();
+    void setLastLoginDate(Date value);
+
+    float getEstimatedDistance();
+    void setEstimatedDistance(float value);
+
+    Reference.ALGORITHM_ENUM getSelectedAlgorithm();
+    void setSelectedAlgorithm(Reference.ALGORITHM_ENUM value);
 }
