@@ -9,10 +9,10 @@ import io.realm.annotations.PrimaryKey;
 public class Session extends RealmObject {
 
     @PrimaryKey
-    public String sessionId;
+    public int sessionId;
     public User user;
     public Date startDate, endDate;
-    public String selectedAlgorithm;
+    public int selectedAlgorithm;
     public RealmList<Target> targets;
     public String location;
     public String description;

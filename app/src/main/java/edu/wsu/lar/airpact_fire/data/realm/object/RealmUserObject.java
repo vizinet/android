@@ -1,7 +1,10 @@
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
+import java.util.Date;
+
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.realm.model.User;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import io.realm.Realm;
 
@@ -20,14 +23,20 @@ public class RealmUserObject implements UserObject {
         mDebugManager = debugManager;
     }
 
+    public RealmUserObject(Realm realm, User userModel, DebugManager debugManager) {
+        mRealm = realm;
+        mUsername = userModel.username;
+        mDebugManager = debugManager;
+    }
+
     @Override
     public String getUsername() {
-        return null;
+        return mUsername;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return mRealm.where(User.class).equalTo("username", mUsername).findFirst().password;
     }
 
     @Override
@@ -38,5 +47,15 @@ public class RealmUserObject implements UserObject {
     @Override
     public PostObject createPost() {
         return null;
+    }
+
+    @Override
+    public Date getFirstLoginDate() {
+        return null;
+    }
+
+    @Override
+    public void getFirstLoginDate(Date value) {
+
     }
 }

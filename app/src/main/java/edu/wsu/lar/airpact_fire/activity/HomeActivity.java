@@ -1,15 +1,12 @@
+// Copyright © 2017,
+// Laboratory for Atmospheric Research at Washington State University,
+// All rights reserved.
+
 package edu.wsu.lar.airpact_fire.activity;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,11 +23,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import edu.wsu.lar.airpact_fire.Reference;
-import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import lar.wsu.edu.airpact_fire.R;
-import edu.wsu.lar.airpact_fire.util.Util;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -53,12 +48,14 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mToolbar = (Toolbar) findViewById(R.id.home_toolbar);
-        // TODO: Uncomment
-        //setSupportActionBar(mToolbar);
-
+        // App manager
         mAppManager = Reference.getAppManager();
         mAppManager.onActivityStart(this);
+
+        // Action bar
+        mToolbar = (Toolbar) findViewById(R.id.home_toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().hide();
 
         // Panes
         mNewPicturePane = (FrameLayout) findViewById(R.id.new_picture_pane);
@@ -86,55 +83,6 @@ public class HomeActivity extends AppCompatActivity {
 
         // Give each pane an event listener; respond to user events
         setupUIEventListeners();
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-
-        // TODO: Move
-
-        // Load background once page is in view
-        if (hasFocus) {
-
-            // Skipping out on background stuff for now
-            if (true) return;
-
-            GradientDrawable gd = new GradientDrawable(
-                    GradientDrawable.Orientation.TOP_BOTTOM,
-                    //new int[] {0xFF616261,0xFF131313});
-                    new int[]{
-                            getResources().getColor(R.color.schemeTransparentLight),
-                            getResources().getColor(R.color.schemeTransparentDark)
-                    });
-            gd.setCornerRadius(0f);
-
-            mButtonPage.setBackgroundDrawable(gd);
-
-            // TODO: Remove below line
-            if (true) return;
-            // Get background resource
-            // TODO: Check if not first time. If so, don't add landscape again
-            Bitmap landscape = BitmapFactory.decodeResource(getResources(),
-                    R.drawable.washington_forest_cropped);
-            // Crop image
-            int landscapeWidth = landscape.getWidth();
-            int landscapeHeight = landscape.getHeight();
-            int screenWidth = Util.getScreenWidth(this);
-            int screenHeight = Util.getScreenHeight(this);
-            int cropWidth = (landscapeWidth < screenWidth) ? landscapeWidth : screenWidth;
-            int cropHeight = (landscapeHeight < screenHeight) ? landscapeHeight : screenHeight;
-            landscape = Bitmap.createBitmap(landscape, 0, 0, cropWidth, cropHeight);
-            // Apply blur
-            landscape = Util.doBlur(getApplicationContext(), landscape);
-            Drawable background = new BitmapDrawable(getResources(), landscape);
-            // Apply filter
-            //int filterColor = Color.parseColor("#a0" + "ffffff");
-            //mButtonPage.setBackgroundColor(filterColor);
-            // Set background (doesn't change with ScrollView)
-            getWindow().setBackgroundDrawable(background);
-
-        }
     }
 
     @Override

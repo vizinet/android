@@ -17,6 +17,7 @@ import android.widget.Toast;
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
+import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import lar.wsu.edu.airpact_fire.R;
@@ -197,16 +198,18 @@ public class SignInActivity extends AppCompatActivity {
     // Set credentials of last user
     private void populateLoginFields() {
 
+        mAppManager.getDebugManager().printLog("Populating login fields");
         AppObject appObject = mAppManager.getDataManager().getApp();
-        Object lastUser = appObject.getLastUser();
+        UserObject lastUser = appObject.getLastUser();
+        mAppManager.getDebugManager().printLog("lastUser = " + lastUser);
+
         if (lastUser != null) {
-            String lastUsername = lastUser.toString();
-            mAppManager.getDebugManager().printLog("lastUsername = " + lastUsername);
-            mUsernameView.setText(lastUsername);
-            if (appObject.getRememberPassword()) {
-                String lastPassword = appObject.getLastUser().getPassword();
-                mPasswordView.setText(lastPassword);
-                mRememberPasswordCheckBox.setChecked(true);
+            mUsernameView.setText(lastUser.getUsername());
+        }
+        if (appObject.getRememberPassword()) {
+            mRememberPasswordCheckBox.setChecked(true);
+            if (mUsernameView.getText().toString().length() > 0) {
+                mPasswordView.setText(lastUser.getPassword());
             }
         }
     }
@@ -216,6 +219,8 @@ public class SignInActivity extends AppCompatActivity {
 
         // Let DB know we're logging in with this user
         mAppManager.onLogin(username, password);
+
+        Toast.makeText(getApplicationContext(), R.string.login_success, Toast.LENGTH_LONG).show();
 
         // Open home screen
         Intent intent = new Intent(this, HomeActivity.class);

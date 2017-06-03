@@ -29,14 +29,22 @@ public interface DataManager {
     String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
     double[] GPS_DEFAULT_LOCATION = {46.73267, -117.163454}; // Pullman, WA
 
-    // Create user and start app usage session
-    void startSession(String username, String password);
-    void endSession();
-
     // Give app object - key to all of database access for UI
     AppObject getApp();
 
+    int generateSessionId();
+
     // Activity lifecycle methods
+
+    /** TODO: Adapt the below doc
+     * Finds the maximum value of a field.
+     *
+     * @param fieldName the field to look for a maximum on. Only number fields are supported.
+     * @return if no objects exist or they all have {@code null} as the value for the given field, {@code null} will be
+     * returned. Otherwise the maximum value is returned. When determining the maximum value, objects with {@code null}
+     * values are ignored.
+     * @throws java.lang.IllegalArgumentException if the field is not a number type.
+     */
     void onAppFirstRun(Object... args);
     void onAppStart(Object... args);
     void onAppEnd(Object... args);

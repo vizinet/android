@@ -411,8 +411,10 @@ public class Util {
     }
 
     public static Date getCurrentDate() {
+        Log.e("Wowza", "getCurrentDate");
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
+        Log.e("Wowza", "date = " + date);
         return date;
     }
 
