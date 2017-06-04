@@ -6,25 +6,26 @@ package edu.wsu.lar.airpact_fire.data.realm;
 
 import android.content.Context;
 import java.util.Date;
-import java.util.Map;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
+import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.App;
 import edu.wsu.lar.airpact_fire.data.realm.model.Session;
 import edu.wsu.lar.airpact_fire.data.realm.model.User;
 import edu.wsu.lar.airpact_fire.data.realm.object.RealmAppObject;
+import edu.wsu.lar.airpact_fire.data.realm.object.RealmUserObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
+import edu.wsu.lar.airpact_fire.util.Util;
 import io.realm.ObjectChangeSet;
 import io.realm.Realm;
 import io.realm.RealmObjectChangeListener;
-
-// TODO: Make sure to return the Realm version of our data.objects
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class RealmDataManager implements DataManager {
 
     private Realm mRealm;
     private DebugManager mDebugManager;
-    private Map<Object, Object> mDataFieldCommandMap;
 
     public RealmDataManager(DebugManager debugManager) {
         mDebugManager = debugManager;
@@ -59,53 +60,6 @@ public class RealmDataManager implements DataManager {
 
         // Get a Realm instance for this thread
         mRealm = Realm.getDefaultInstance();
-
-        // Data field -> method
-        /*
-        mDataFieldCommandMap = new HashMap();
-        mDataFieldCommandMap.put(DataField.APP_LAST_USER, new Command() {
-            @Override
-            public Object run(Object... args) {
-                return appLastUser(args);
-            }
-        });
-        mDataFieldCommandMap.put(DataField.APP_REMEMBER_PASSWORD, new Command() {
-            @Override
-            public Object run(Object... args) {
-                return appRememberPassword(args);
-            }
-        });
-        mDataFieldCommandMap.put(DataField.USER_USERNAME, new Command() {
-            @Override
-            public Object run(Object... args) {
-                return userUsername(args);
-            }
-        });
-        mDataFieldCommandMap.put(DataField.USER_PASSWORD, new Command() {
-            @Override
-            public Object run(Object... args) {
-                return userPassword(args);
-            }
-        });
-        mDataFieldCommandMap.put(DataField.USER_FIRST_LOGIN_DATE, new Command() {
-            @Override
-            public Object run(Object... args) {
-                return userFirstLoginDate(args);
-            }
-        });
-        mDataFieldCommandMap.put(DataField.USER_LAST_LOGIN_DATE, new Command() {
-            @Override
-            public Object run(Object... args) {
-                return userLastLoginDate(args);
-            }
-        });
-        mDataFieldCommandMap.put(DataField.USER_DISTANCE_METRIC, new Command() {
-            @Override
-            public Object run(Object... args) {
-                return userDistanceMetric(args);
-            }
-        });
-        */
     }
 
     @Override
@@ -119,17 +73,13 @@ public class RealmDataManager implements DataManager {
         final String username = (String) args[0];
         final String password = (String) args[1];
 
-        getApp().startSession(username, password);
+        createOrReturnUser(username, password);
+        startSession(username);
     }
 
     @Override
     public void onLogout(Object... args) {
-
-        // End session
-        mRealm.beginTransaction();
-        Session session = getLastSession();
-        session.endTime = new Date(DATE_FORMAT);
-        mRealm.commitTransaction();
+        endSession();
     }
 
     @Override
@@ -144,31 +94,7 @@ public class RealmDataManager implements DataManager {
 
     /* Data field manipulation methods */
 
-    @Override
-    public Object fieldAccess(Object... args) {
-
-        if (args.length == 1) {
-
-            // Getter
-            DataField field = (DataField) args[0];
-            Object value = mDataFieldCommandMap.get(field).run();
-            mDebugManager.printLog(String.format("fieldAccess(%s) -> %s", field.name(), value.toString()));
-            return value;
-
-        } else if (args.length == 2) {
-
-            // Setter
-            DataField field = (DataField) args[0];
-            Object value = args[1];
-            mDataFieldCommandMap.get(field).run(value);
-            mDebugManager.printLog(String.format("fieldAccess(%s, %s)", field.name(), value.toString()));
-            return null;
-        }
-
-        // Follow-up
-        throw new IllegalArgumentException();
-    }
-
+    /* TODO: Move these methods to the correct DataObject methods
     private boolean appRememberPassword(Object... args) {
         App app = getApp();
         if (args.length == 0) { return app.rememberPassword; }
@@ -231,33 +157,94 @@ public class RealmDataManager implements DataManager {
         mRealm.commitTransaction();
         return null;
     }
+    */
 
-    /* ... */
+    /* Utilities */
+
+    // Get user or create one if nonexistent
+    private UserObject createOrReturnUser(String username, String password) {
+
+        mDebugManager.printLog("Create user if none");
+        User userModel = getUser(username);
+        mDebugManager.printLog("userModel = " + userModel);
+
+        if (userModel == null) {
+            mRealm.beginTransaction();
+            userModel = mRealm.createObject(User.class, username); // Primary key
+            userModel.password = password;
+            mRealm.commitTransaction();
+            mDebugManager.printLog("User created!");
+        }
+
+        return new RealmUserObject(mRealm, userModel, mDebugManager);
+    }
+
+    // Start new session with given user
+    private void startSession(String username) {
+
+        mDebugManager.printLog("Start session");
+
+        // Start session
+        mRealm.beginTransaction();
+        User userModel = getUser(username);
+        Session session = mRealm.createObject(Session.class, generateSessionId());
+        session.startDate = Util.getCurrentDate();
+        session.user = userModel;
+        userModel.sessions.add(session);
+        mRealm.commitTransaction();
+
+        // TODO: Trigger app.lastUser = user when a Session is created
+        mDebugManager.printLog("Created new session");
+    }
+
+    // End current session
+    private void endSession() {
+        mRealm.beginTransaction();
+        Session session = getLastSession();
+        session.endDate = new Date(DATE_FORMAT);
+        mRealm.commitTransaction();
+
+        mDebugManager.printLog("Ended the session");
+    }
+
+    // Internal get-user method
+    private User getUser(String username) {
+        final RealmResults<User> results = mRealm.where(User.class).findAll();
+        if (results.isEmpty()) { return null; }
+        return results.first();
+    }
+
+    private Session getLastSession() {
+        // TODO: See if right order
+        return mRealm.where(Session.class).findAllSorted("startDate", Sort.DESCENDING).first();
+    }
 
     private void setupRealmObjectNotifications() {
 
+        RealmObjectChangeListener<Session> listener = new RealmObjectChangeListener<Session>() {
+            @Override
+            public void onChange(Session dog, ObjectChangeSet changeSet) {
+                if (changeSet.isDeleted()) {
+                    mDebugManager.printLog("The dog was deleted");
+                    return;
+                }
+
+                for (String fieldName : changeSet.getChangedFields()) {
+                    mDebugManager.printLog("Field " + fieldName + " was changed.");
+                }
+            }
+        };
     }
-
-    private final RealmObjectChangeListener<Session> listener = new RealmObjectChangeListener<Session>() {
-        @Override
-        public void onChange(Session dog, ObjectChangeSet changeSet) {
-            if (changeSet.isDeleted()) {
-                mDebugManager.printLog("The dog was deleted");
-                return;
-            }
-
-            for (String fieldName : changeSet.getChangedFields()) {
-                mDebugManager.printLog("Field " + fieldName + " was changed.");
-            }
-        }
-    };
 
     @Override
     public AppObject getApp() {
-        return new RealmAppObject(mRealm);
+        return new RealmAppObject(mRealm, mDebugManager);
     }
 
     @Override
-    public Session getLastSession() { return null; }
+    public int generateSessionId() {
+        Number currentSessionId = mRealm.where(Session.class).max("sessionId");
+        return (currentSessionId == null) ? 0 : currentSessionId.intValue() + 1;
+    }
 
 }

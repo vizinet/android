@@ -27,6 +27,6 @@ public interface SessionObject {
     float getEstimatedDistance();
     void setEstimatedDistance(float value);
 
-    Reference.ALGORITHM_ENUM getSelectedAlgorithm();
-    void setSelectedAlgorithm(Reference.ALGORITHM_ENUM value);
+    Reference.Algorithm getSelectedAlgorithm();
+    void setSelectedAlgorithm(Reference.Algorithm value);
 }

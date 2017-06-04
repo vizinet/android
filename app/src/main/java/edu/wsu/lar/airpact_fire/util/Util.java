@@ -1,3 +1,7 @@
+// Copyright © 2017,
+// Laboratory for Atmospheric Research at Washington State University,
+// All rights reserved.
+
 package edu.wsu.lar.airpact_fire.util;
 
 import android.Manifest;
@@ -57,13 +61,6 @@ import edu.wsu.lar.airpact_fire.activity.SignInActivity;
 // Class for basic utilities used throughout app
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class Util {
-
-    // Storage permissions
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
 
     // Image fields
     private static final String TRANSACTION_IMAGE_FILENAME = "transaction_image";
@@ -389,30 +386,11 @@ public class Util {
         return outputBitmap;
     }
 
-    /**
-     * Checks if the app has permission to write to device storage
-     * <p/>
-     * If the app does not has permission then the user will be prompted to grant permissions
-     *
-     * @param activity
-     */
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
-    }
-
     public static Date getCurrentDate() {
+        Log.e("Wowza", "getCurrentDate");
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
+        Log.e("Wowza", "date = " + date);
         return date;
     }
 

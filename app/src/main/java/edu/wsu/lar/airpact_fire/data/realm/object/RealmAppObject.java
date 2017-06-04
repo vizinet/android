@@ -11,10 +11,9 @@ import edu.wsu.lar.airpact_fire.data.realm.model.App;
 import edu.wsu.lar.airpact_fire.data.realm.model.Session;
 import edu.wsu.lar.airpact_fire.data.realm.model.User;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
-import edu.wsu.lar.airpact_fire.util.Util;
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * @see AppObject
@@ -32,59 +31,42 @@ public class RealmAppObject implements AppObject {
     // TODO: See if this truly returns the last user
     public UserObject getUser() {
         final RealmResults<User> results = mRealm.where(User.class).findAll();
-        return new RealmUserObject(mRealm, results.first().username, mDebugManager);
-    }
-
-    @Override
-    public void startSession(String username, String password) {
-
-        mRealm.beginTransaction();
-
-        // Get user or create one if nonexistent
-        // TODO: Use Realm
-        UserObject userObject = getUser(username);
-        if (userObject == null) {
-            User userModel = mRealm.createObject(User.class, username); // Primary key
-            userModel.password = password;
-        }
-
-        // Start session
-        Session session = mRealm.createObject(Session.class);
-        session.startTime = Util.getCurrentDate();
-        user.sessions.add(session);
-
-        // TODO: Trigger app.lastUser = user when a Session is created
-        mDebugManager.printLog("Created new session and set last user of app");
-
-        mRealm.commitTransaction();
-    }
-
-    @Override
-    public void endSession() {
-
-    }
-
-    @Override
-    public void createUser(String username, String password) {
-
+        return new RealmUserObject(mRealm, results.first(), mDebugManager);
     }
 
     @Override
     public boolean getRememberPassword() {
-        return false;
+        final App app = mRealm.where(App.class).findFirst();
+        return app.rememberPassword;
     }
 
     @Override
     public void setRememberPassword(boolean value) {
         final App app = mRealm.where(App.class).findFirst();
+        mRealm.beginTransaction();
+        app.rememberPassword = value;
+        mRealm.commitTransaction();
     }
 
     @Override
     public UserObject getLastUser() {
-        return null;
+
+        // Get sessions ordered by date
+        RealmResults<Session> orderedSessions = mRealm.where(Session.class).findAllSorted(
+                "startDate", Sort.DESCENDING);
+        if (orderedSessions.isEmpty()) { return null; }
+
+        // Get user of most recent session
+        Session lastSession = orderedSessions.first();
+        return new RealmUserObject(mRealm, lastSession.user, mDebugManager);
     }
 
-    public UserObject getUser(String username) { return null; }
+    public UserObject getUser(String username) {
+        User matchUser = mRealm.where(User.class).equalTo("username", username).findFirst();
+        return (matchUser == null)
+                ? null
+                : new RealmUserObject(mRealm, matchUser, mDebugManager);
+    }
 
     @Override
     public SessionObject getLastSession() {

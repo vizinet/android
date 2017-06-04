@@ -1,3 +1,7 @@
+// Copyright © 2017,
+// Laboratory for Atmospheric Research at Washington State University,
+// All rights reserved.
+
 package edu.wsu.lar.airpact_fire.activity;
 
 import android.app.ProgressDialog;
@@ -17,13 +21,13 @@ import android.widget.Toast;
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
+import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import lar.wsu.edu.airpact_fire.R;
 
 // TODO: Address all below to-do statements
 
-// TODO: See if we can get AppManager to handle both the DataManager and ServerManager
 // TODO: AppManager: Method which adds service to monitor app state (namely, exit, so we can call onAppEnd)
 // TODO: Add copyright/disclaimer/license code (Luke Weber, WSU, LAR, etc.) to each code file in AIRPACT-Fire, along with authorship information in each file
 // TODO: Look into making custom image-capture activity
@@ -58,7 +62,7 @@ import lar.wsu.edu.airpact_fire.R;
 //  want to use SQL for everything and populate each SQL post gradually. Also, it means we'll have the following identifiers
 
 /**
- * Activity for users to sign-in and proceed to main app or sign-up for
+ * Activity for users to sign-in and proceed to main activity or sign-up for
  * AIRPACT-Fire account
  *
  * @author  Luke Weber
@@ -85,8 +89,8 @@ public class SignInActivity extends AppCompatActivity {
 
         // Setup our application manager
         mAppManager = Reference.getAppManager();
-        mAppManager.onActivityStart(getApplicationContext());
-        mAppManager.onAppStart(getApplicationContext());
+        mAppManager.onActivityStart(this);
+        mAppManager.onAppStart(this);
 
         // Attach objects to UI
         mUsernameView = (EditText) findViewById(R.id.username);
@@ -197,16 +201,18 @@ public class SignInActivity extends AppCompatActivity {
     // Set credentials of last user
     private void populateLoginFields() {
 
+        mAppManager.getDebugManager().printLog("Populating login fields");
         AppObject appObject = mAppManager.getDataManager().getApp();
-        Object lastUser = appObject.getLastUser();
+        UserObject lastUser = appObject.getLastUser();
+        mAppManager.getDebugManager().printLog("lastUser = " + lastUser);
+
         if (lastUser != null) {
-            String lastUsername = lastUser.toString();
-            mAppManager.getDebugManager().printLog("lastUsername = " + lastUsername);
-            mUsernameView.setText(lastUsername);
-            if (appObject.getRememberPassword()) {
-                String lastPassword = appObject.getLastUser().getPassword();
-                mPasswordView.setText(lastPassword);
-                mRememberPasswordCheckBox.setChecked(true);
+            mUsernameView.setText(lastUser.getUsername());
+        }
+        if (appObject.getRememberPassword()) {
+            mRememberPasswordCheckBox.setChecked(true);
+            if (mUsernameView.getText().toString().length() > 0) {
+                mPasswordView.setText(lastUser.getPassword());
             }
         }
     }
@@ -216,6 +222,8 @@ public class SignInActivity extends AppCompatActivity {
 
         // Let DB know we're logging in with this user
         mAppManager.onLogin(username, password);
+
+        Toast.makeText(getApplicationContext(), R.string.login_success, Toast.LENGTH_LONG).show();
 
         // Open home screen
         Intent intent = new Intent(this, HomeActivity.class);
