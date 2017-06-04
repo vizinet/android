@@ -19,6 +19,9 @@ public interface PostObject {
 
     Date getDate();
 
+    int getMode();
+    void setMode(int value);
+
     String getImage();
     void setImage(String value);
 

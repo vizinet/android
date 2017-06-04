@@ -9,12 +9,23 @@ import java.util.Date;
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.SessionObject;
+import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
+import io.realm.Realm;
 
 /**
  * @see PostObject
  */
 public class RealmSessionObject implements SessionObject {
 
+    private Realm mRealm;
+    private String mUsername;
+    private DebugManager mDebugManager;
+
+    public RealmSessionObject(Realm realm, String username, DebugManager debugManager) {
+        mRealm = realm;
+        mUsername = username;
+        mDebugManager = debugManager;
+    }
 
     @Override
     public Date getStartDate() {
@@ -47,12 +58,12 @@ public class RealmSessionObject implements SessionObject {
     }
 
     @Override
-    public Reference.ALGORITHM_ENUM getSelectedAlgorithm() {
+    public Reference.Algorithm getSelectedAlgorithm() {
         return null;
     }
 
     @Override
-    public void setSelectedAlgorithm(Reference.ALGORITHM_ENUM value) {
+    public void setSelectedAlgorithm(Reference.Algorithm value) {
 
     }
 }

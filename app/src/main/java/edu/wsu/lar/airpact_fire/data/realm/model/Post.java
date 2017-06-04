@@ -9,12 +9,13 @@ public class Post extends RealmObject {
 
     @PrimaryKey
     public String postId;           // i.e. secret key
+    public User user;
     public Date date;
     public String imageLocation;
     public double visualRange;
     public boolean isSubmitted;     // Flags post as queued or submitted
     public RealmList<Target> targets;
-    public RealmList<Coordinate> geoCoordinates;
+    public Coordinate geoCoordinate;
     public String description;
     public String tags;
 }

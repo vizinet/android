@@ -1,3 +1,7 @@
+// Copyright © 2017,
+// Laboratory for Atmospheric Research at Washington State University,
+// All rights reserved.
+
 package edu.wsu.lar.airpact_fire.activity;
 
 import android.app.ProgressDialog;
@@ -24,7 +28,6 @@ import lar.wsu.edu.airpact_fire.R;
 
 // TODO: Address all below to-do statements
 
-// TODO: See if we can get AppManager to handle both the DataManager and ServerManager
 // TODO: AppManager: Method which adds service to monitor app state (namely, exit, so we can call onAppEnd)
 // TODO: Add copyright/disclaimer/license code (Luke Weber, WSU, LAR, etc.) to each code file in AIRPACT-Fire, along with authorship information in each file
 // TODO: Look into making custom image-capture activity
@@ -59,7 +62,7 @@ import lar.wsu.edu.airpact_fire.R;
 //  want to use SQL for everything and populate each SQL post gradually. Also, it means we'll have the following identifiers
 
 /**
- * Activity for users to sign-in and proceed to main app or sign-up for
+ * Activity for users to sign-in and proceed to main activity or sign-up for
  * AIRPACT-Fire account
  *
  * @author  Luke Weber
@@ -86,8 +89,8 @@ public class SignInActivity extends AppCompatActivity {
 
         // Setup our application manager
         mAppManager = Reference.getAppManager();
-        mAppManager.onActivityStart(getApplicationContext());
-        mAppManager.onAppStart(getApplicationContext());
+        mAppManager.onActivityStart(this);
+        mAppManager.onAppStart(this);
 
         // Attach objects to UI
         mUsernameView = (EditText) findViewById(R.id.username);

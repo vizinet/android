@@ -29,6 +29,10 @@ import lar.wsu.edu.airpact_fire.R;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private AppManager mAppManager;
+
+    private String mUsername;
+
     private Toolbar mToolbar;
     private FrameLayout mNewPicturePane, mInformationPane, mPictureGalleryPane, mSettingsPane;
     private FrameLayout mBackButton;
@@ -38,9 +42,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private Map<FrameLayout, ImageView> frameToIconMap;    // Map frames to their icons
     private Map<FrameLayout, Class<?>> frameToActivityMap; // Map frames to their following activities
-
-    private String mUsername;
-    private AppManager mAppManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,12 +118,12 @@ public class HomeActivity extends AppCompatActivity {
         mUsername = mAppManager.getDataManager().getApp().getLastUser().getUsername();
         mToolbar.setTitle(String.format("[ %s ]", mUsername.toUpperCase()));
 
-        // Make sure name gets cutoff if exceeds max length
+        // Limit length for cutoff reasons
         int cutoffLength = 10;
         String displayName = (mUsername.length() >= cutoffLength)
-                ? (mUsername.substring(0, cutoffLength) + "...")
+                ? mUsername.substring(0, cutoffLength) + "..."
                 : mUsername;
-        mUsernameText.setText(displayName);
+        mUsernameText.setText(String.format("[ %s ]", displayName));
 
         // Post numbers
         int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), mUsername);
@@ -173,31 +174,22 @@ public class HomeActivity extends AppCompatActivity {
         final ImageView frameIcon = frameToIconMap.get(frameLayout);
         final Class frameActivity = frameToActivityMap.get(frameLayout);
 
-//        // Setup action
-//        frameLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), frameActivity);
-//                Toast.makeText(HomeActivity.this, "setOnClickListener", Toast.LENGTH_SHORT).show();
-//                startActivity(intent);
-//            }
-//        });
-
         // Setup touch animation
         frameLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
+
                     case MotionEvent.ACTION_DOWN:
+
                         frameIcon.setColorFilter(Color.argb(50, 0, 0, 0), PorterDuff.Mode.MULTIPLY);
                         return true;
+
                     case MotionEvent.ACTION_UP:
+
                         // Start it's activity
-//                        if (Util.isPointInView(v, Math.round(event.getX()), Math.round(event.getY()))) {
                         Intent intent = new Intent(getApplicationContext(), frameActivity);
-                        //Toast.makeText(HomeActivity.this, "setOnClickListener", Toast.LENGTH_SHORT).show();
                         startActivity(intent);
-//                        }
                         frameIcon.clearColorFilter();
                         return true;
                 }

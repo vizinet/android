@@ -6,7 +6,6 @@ package edu.wsu.lar.airpact_fire.data.realm;
 
 import android.content.Context;
 import java.util.Date;
-
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;

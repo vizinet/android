@@ -11,6 +11,7 @@ public class Session extends RealmObject {
     @PrimaryKey
     public int sessionId;
     public User user;
+    public int mode;
     public Date startDate, endDate;
     public int selectedAlgorithm;
     public RealmList<Target> targets;

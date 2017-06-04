@@ -1,3 +1,7 @@
+// Copyright © 2017,
+// Laboratory for Atmospheric Research at Washington State University,
+// All rights reserved.
+
 package edu.wsu.lar.airpact_fire;
 
 import edu.wsu.lar.airpact_fire.manager.AIRPACTFireAppManager;
@@ -18,9 +22,10 @@ public final class Reference {
     public static final String SERVER_REGISTER_URL = SERVER_BASE_URL + "/user/register";
     public static final String SERVER_INFORMATION_URL = SERVER_BASE_URL + "/";
 
-    public enum ALGORITHM_ENUM {
-        TWO_IN_ONE, ONE_IN_ONE
-    };
+    // App-wide enums
+    public enum Algorithm { TWO_IN_ONE, ONE_IN_ONE };
+    public enum DistanceMetric { MILES, KILOMETERS };
+    public enum PostMode { DRAFTED, QUEUED, SUBMITTED };
 
     public static AppManager getAppManager() {
         return new AIRPACTFireAppManager();
