@@ -50,6 +50,7 @@ import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.Post;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
+import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import lar.wsu.edu.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.util.Util;
@@ -166,6 +167,9 @@ public class TargetSelectActivity extends AppCompatActivity {
 
                 // Save distance and metric choice
                 // TODO: Update visual ranges
+                PostObject postObject = mAppManager.getDataManager().getApp().getLastUser().createPost();
+                //postObject.setVisualRange();
+
                 AppDataManager.setUserData("visualRangeOne", mVisualRangeInput.getText().toString());
                 AppDataManager.setUserData("visualRangeTwo", mVisualRangeInput.getText().toString());
                 String selectedMetric = metricOptions.get(mMetricSelectSpinner.getSelectedItemPosition()).toLowerCase();
