@@ -5,18 +5,12 @@
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
 import java.util.Date;
-
-import edu.wsu.lar.airpact_fire.data.object.AppObject;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.SessionObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
-import edu.wsu.lar.airpact_fire.data.realm.model.App;
-import edu.wsu.lar.airpact_fire.data.realm.model.Session;
-import edu.wsu.lar.airpact_fire.data.realm.model.User;
+import edu.wsu.lar.airpact_fire.data.realm.model.Post;
+import edu.wsu.lar.airpact_fire.data.realm.model.VisualRange;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
-import edu.wsu.lar.airpact_fire.util.Util;
 import io.realm.Realm;
-import io.realm.RealmResults;
+import io.realm.RealmList;
 
 /**
  * @see PostObject
@@ -24,29 +18,35 @@ import io.realm.RealmResults;
 public class RealmPostObject implements PostObject {
 
     private Realm mRealm;
-    private String mUsername;
+    private String mPostId;
     private DebugManager mDebugManager;
 
-    public RealmPostObject(Realm realm, String username, DebugManager debugManager) {
+    public RealmPostObject(Realm realm, String postId, DebugManager debugManager) {
         mRealm = realm;
-        mUsername = username;
+        mPostId = postId;
+        mDebugManager = debugManager;
+    }
+
+    public RealmPostObject(Realm realm, Post post, DebugManager debugManager) {
+        mRealm = realm;
+        mPostId = post.postId;
         mDebugManager = debugManager;
     }
 
     @Override
     public Date getDate() {
-        return null;
+        return mRealm.where(Post.class).equalTo("postId", mPostId).findFirst().date;
     }
 
     @Override
     public int getMode() {
-        return mRealm.where(Session.class).equalTo("user.username", mUsername).findFirst().mode;
+        return mRealm.where(Post.class).equalTo("postId", mPostId).findFirst().mode;
     }
 
     @Override
     public void setMode(int value) {
         mRealm.beginTransaction();
-        mRealm.where(Session.class).equalTo("user.username", mUsername).findFirst().mode = value;
+        mRealm.where(Post.class).equalTo("postId", mPostId).findFirst().mode = value;
         mRealm.commitTransaction();
     }
 
@@ -71,13 +71,27 @@ public class RealmPostObject implements PostObject {
     }
 
     @Override
-    public float getVisualRange() {
-        return 0;
+    public float[] getVisualRanges() {
+        RealmList<VisualRange> realmList = mRealm.where(Post.class).equalTo("postId", mPostId)
+                .findFirst().visualRanges;
+        float[] values = new float[realmList.size()];
+        int i = 0;
+        for (VisualRange v : realmList) {
+            values[i++] = v.value;
+        }
+        return values;
     }
 
     @Override
-    public void setVisualRange(float value) {
-
+    public void setVisualRanges(float[] values) {
+        mRealm.beginTransaction();
+        RealmList<VisualRange> realmList = mRealm.where(Post.class).equalTo("postId", mPostId)
+                .findFirst().visualRanges;
+        int i = 0;
+        for (VisualRange v : realmList) {
+            v.value = values[i++];
+        }
+        mRealm.commitTransaction();
     }
 
     @Override
@@ -91,12 +105,35 @@ public class RealmPostObject implements PostObject {
     }
 
     @Override
-    public float[][] getTargets() {
-        return new float[0][];
+    public float[][] getTargetsCoordinates() {
+
+        return null;
+
+        /*
+        RealmList<VisualRange> realmList = mRealm.where(Post.class).equalTo("postId", mPostId)
+                .findFirst().visualRanges;
+        float[] values = new float[realmList.size()];
+        int i = 0;
+        for (VisualRange v : realmList) {
+            values[i++] = v.value;
+        }
+        return values;
+        */
     }
 
     @Override
-    public void setTargets(float[][] values) {
+    public void setTargetsCoorindates(float[][] values) {
+        // TODO
+    }
+
+    @Override
+    public int[] getTargetsColors() {
+        mRealm.where(Post.class).equalTo("postId", mPostId).findAll();
+        return null;
+    }
+
+    @Override
+    public void setTargetsColors(int[] values) {
 
     }
 
@@ -117,16 +154,6 @@ public class RealmPostObject implements PostObject {
 
     @Override
     public void setTag(String value) {
-
-    }
-
-    @Override
-    public double[] getGPSCoordinates() {
-        return new double[0];
-    }
-
-    @Override
-    public void setGPSCoordinates(double[] values) {
 
     }
 }

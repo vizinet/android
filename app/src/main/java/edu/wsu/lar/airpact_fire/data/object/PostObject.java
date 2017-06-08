@@ -28,21 +28,20 @@ public interface PostObject {
     float[] getGPS();
     void setGPS(float[] values);
 
-    float getVisualRange();
-    void setVisualRange(float value);
+    float[] getVisualRanges();
+    void setVisualRanges(float[] values);
 
     boolean getIsSubmitted();
     void setIsSubmitted(boolean value);
 
-    float[][] getTargets();
-    void setTargets(float[][] values);
+    float[][] getTargetsCoordinates();
+    void setTargetsCoorindates(float[][] values);
+    int[] getTargetsColors();
+    void setTargetsColors(int[] values);
 
     String getDescription();
     void setDescription(String value);
 
     String getTag();
     void setTag(String value);
-
-    double[] getGPSCoordinates();
-    void setGPSCoordinates(double[] values);
 }

@@ -29,7 +29,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ContentFrameLayout;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,9 +47,9 @@ import java.util.ArrayList;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
-import edu.wsu.lar.airpact_fire.data.Post;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import lar.wsu.edu.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.util.Util;
@@ -165,18 +164,17 @@ public class TargetSelectActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Save distance and metric choice
-                // TODO: Update visual ranges
-                PostObject postObject = mAppManager.getDataManager().getApp().getLastUser().createPost();
-                //postObject.setVisualRange();
+                // TODO: Grab multiple visual ranges and put into database
 
-                AppDataManager.setUserData("visualRangeOne", mVisualRangeInput.getText().toString());
-                AppDataManager.setUserData("visualRangeTwo", mVisualRangeInput.getText().toString());
-                String selectedMetric = metricOptions.get(mMetricSelectSpinner.getSelectedItemPosition()).toLowerCase();
-                Toast.makeText(TargetSelectActivity.this, "Selected metric = " + selectedMetric, Toast.LENGTH_LONG).show();
-                AppDataManager.setUserData("distanceUnits", selectedMetric);
+                // Save visual ranges
+                UserObject userObject = mAppManager.getDataManager().getApp().getLastUser();
+                PostObject postObject = userObject.createPost();
+                float[] values = new float[]{
+                        Float.parseFloat(mVisualRangeInput.getText().toString()), 0};
+                postObject.setVisualRanges(values);
 
                 // Now user adds picture details
+                // TODO: Remove
                 Intent intent = new Intent(getApplicationContext(), AddPictureDetailsActivity.class);
                 startActivity(intent);
             }
@@ -184,6 +182,7 @@ public class TargetSelectActivity extends AppCompatActivity {
         mRetakeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // User takes another picture
                 takeAndSetPicture();
             }
@@ -304,42 +303,40 @@ public class TargetSelectActivity extends AppCompatActivity {
             Drawable imageDrawable = mImageView.getDrawable();
             Rect imageBounds = imageDrawable.getBounds();
             int imageWidth = imageBounds.width(), imageHeight = imageBounds.height();
-            float lowRelativeX = imageWidth * (mBlackCircle.getX() / Util.getScreenWidth(this));
-            float lowRelativeY = imageHeight * (mBlackCircle.getY() / Util.getScreenHeight(this));
-            float highRelativeX = imageWidth * (mWhiteCircle.getX() / Util.getScreenWidth(this));
-            float highRelativeY = imageHeight * (mWhiteCircle.getY() / Util.getScreenHeight(this));
+            float[][] targets = new float[][] {
+                    new float[] {
+                            imageWidth * (mBlackCircle.getX() / Util.getScreenWidth(this)),
+                            imageHeight * (mBlackCircle.getY() / Util.getScreenHeight(this))
+                    },
+                    new float[] {
+                            imageWidth * (mWhiteCircle.getX() / Util.getScreenWidth(this)),
+                            imageHeight * (mWhiteCircle.getY() / Util.getScreenHeight(this))
+                    }
+            };
 
-            // Update data of last indicator points for user
-            AppDataManager.setUserData(AppDataManager.getRecentUser(), "lowX", (Float.toString(lowRelativeX)));
-            AppDataManager.setUserData(AppDataManager.getRecentUser(), "lowY", (Float.toString(lowRelativeY)));
-            AppDataManager.setUserData(AppDataManager.getRecentUser(), "highX", (Float.toString(highRelativeX)));
-            AppDataManager.setUserData(AppDataManager.getRecentUser(), "highY", (Float.toString(highRelativeY)));
-
-            Log.println(Log.DEBUG, "POSITIONING", "lowX: " + lowRelativeX + "lowY: " + lowRelativeY);
-
-            // Get color
-            AppDataManager.setUserData(AppDataManager.getRecentUser(), "highColor",
-                    Integer.toString((Util.getPixelAtPos(mImageView, Math.round(mWhiteCircle.getX()),
-                            Math.round(mWhiteCircle.getY())))));
-            AppDataManager.setUserData(AppDataManager.getRecentUser(), "lowColor",
-                    Integer.toString((Util.getPixelAtPos(mImageView, Math.round(mBlackCircle.getX()),
-                            Math.round(mBlackCircle.getY())))));
-
+            // Set targets' absolute locations and colors
+            mAppManager.getDataManager().getApp().getLastUser().getLastPost().setTargetsCoorindates(targets);
+            int[] colors = new int[] {
+                    Util.getPixelAtPos(mImageView,
+                            Math.round(mWhiteCircle.getX()),
+                            Math.round(mWhiteCircle.getY())),
+                    Util.getPixelAtPos(mImageView,
+                            Math.round(mBlackCircle.getX()),
+                            Math.round(mBlackCircle.getY()))
+            };
+            mAppManager.getDataManager().getApp().getLastUser().getLastPost().setTargetsColors(colors);
         }
         super.onPause();
     }
 
     // Called when activity has focus
-    // NOTE: We use this to set the bitmap to full dimensions of the image view, which we only
-    // have access to after onCreate is called.
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
             // Only setup indicators when window has focus, because that's when ImageView gets inflated
             setupIndicators();
-
-            Log.println(Log.ERROR, "onWindowFocusChanged", "mImageView.getWidth(): " + mImageView.getWidth());
         }
     }
 
@@ -380,10 +377,9 @@ public class TargetSelectActivity extends AppCompatActivity {
             AppDataManager.setUserData(AppDataManager.getRecentUser(), "image", imageString);
 
             // Add placeholder/default geolocation
-            mAppManager.getDataManager().getApp().getLastUser().setGPS(
-                    new double[] {DataManager.GPS_DEFAULT_LOCATION[0], DataManager.GPS_DEFAULT_LOCATION[1]});
-            AppDataManager.setUserData(AppDataManager.getRecentUser(), "geoX", String.valueOf(Post.GPS_DEFAULT_LOC[0]));
-            AppDataManager.setUserData(AppDataManager.getRecentUser(), "geoY", String.valueOf(Post.GPS_DEFAULT_LOC[1]));
+            mAppManager.getDataManager().getApp().getLastUser().setGPS(new double[] {
+                            DataManager.GPS_DEFAULT_LOCATION[0],
+                            DataManager.GPS_DEFAULT_LOCATION[1]});
 
             // Check for real deal
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -463,6 +459,7 @@ public class TargetSelectActivity extends AppCompatActivity {
             });
             colorAnimation.start();
         }
+
         // ...
         mSelectionPanel.setVisibility(View.INVISIBLE);
     }
@@ -470,6 +467,7 @@ public class TargetSelectActivity extends AppCompatActivity {
     // Create, add, and return new circle
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ImageView addNewIndicator(int colorId) {
+
         ImageView circle = new ImageView(this);
 
         // Layout
@@ -509,36 +507,32 @@ public class TargetSelectActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void setupIndicators() {
 
-        float lowIndicatorX;
-        float lowIndicatorY;
-        float highIndicatorX;
-        float highIndicatorY;
+        // Get past coordinates
+        PostObject postObject = mAppManager.getDataManager().getApp().getLastUser().getLastPost();
+        float[][] targets = postObject.getTargetsCoordinates();
 
-        // Set indicator coordinates
-        if (AppDataManager.getUserData(AppDataManager.getRecentUser(), "lowX") != null) {
+        if (targets == null) {
 
-            // Get past coordinates
-            lowIndicatorX = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "lowX"));
-            lowIndicatorY = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "lowY"));
-            highIndicatorX = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "highX"));
-            highIndicatorY = Float.parseFloat(AppDataManager.getUserData(AppDataManager.getRecentUser(), "highY"));
-
-        } else {
-
-            // Place indicators at center of image (in upper- and lower-quadrant)
-            lowIndicatorX = (mImageView.getWidth() / 2);
-            lowIndicatorY = (mImageView.getHeight() / 2) + (mImageView.getHeight() / 8);
-            highIndicatorX = (mImageView.getWidth() / 2);
-            highIndicatorY = (mImageView.getWidth() / 2) - (mImageView.getHeight() / 8);
+            // Default position: place indicators at center of image (in upper- and lower-quadrant)
+            targets = new float[][]{
+                new float[]{
+                    mImageView.getWidth() / 2,
+                    mImageView.getHeight() / 2 + mImageView.getHeight() / 8
+                }, new float[]{
+                    mImageView.getWidth() / 2,
+                    mImageView.getWidth() / 2 - mImageView.getHeight() / 8
+                }
+            };
         }
 
         // Initial indicator update
-        onIndicatorMoved(mWhiteCircle, (int) highIndicatorX, (int) highIndicatorY);
-        onIndicatorMoved(mBlackCircle, (int) lowIndicatorX, (int) lowIndicatorY);
+        onIndicatorMoved(mWhiteCircle, (int) targets[0][0], (int) targets[0][1]);
+        onIndicatorMoved(mBlackCircle, (int) targets[1][0], (int) targets[1][1]);
     }
 
     // Takes picture
     private void takeAndSetPicture() {
+
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {

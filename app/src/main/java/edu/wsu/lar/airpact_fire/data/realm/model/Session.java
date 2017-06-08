@@ -1,3 +1,7 @@
+// Copyright © 2017,
+// Laboratory for Atmospheric Research at Washington State University,
+// All rights reserved.
+
 package edu.wsu.lar.airpact_fire.data.realm.model;
 
 import java.util.Date;
@@ -21,6 +25,6 @@ public class Session extends RealmObject {
 
     public double getDuration() {
         // TODO
-        return 0; //endTime - startTime;
+        return 0; // i.e., endTime - startTime;
     }
 }
