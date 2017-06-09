@@ -28,6 +28,7 @@ public interface UserObject {
     void setHasDraftPost(boolean value);
 
     PostObject[] getPosts();
+    PostObject getLastPost();
     PostObject createPost();
 
     int getDistanceMetric();

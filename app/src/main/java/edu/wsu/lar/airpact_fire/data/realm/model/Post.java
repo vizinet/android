@@ -11,8 +11,9 @@ public class Post extends RealmObject {
     public String postId;           // i.e. secret key
     public User user;
     public Date date;
+    public int mode;
     public String imageLocation;
-    public double visualRange;
+    public RealmList<VisualRange> visualRanges;
     public boolean isSubmitted;     // Flags post as queued or submitted
     public RealmList<Target> targets;
     public Coordinate geoCoordinate;

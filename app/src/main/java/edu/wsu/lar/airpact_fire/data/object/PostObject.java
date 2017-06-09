@@ -4,6 +4,8 @@
 
 package edu.wsu.lar.airpact_fire.data.object;
 
+import android.graphics.Bitmap;
+
 import java.util.Date;
 
 /**
@@ -22,27 +24,26 @@ public interface PostObject {
     int getMode();
     void setMode(int value);
 
-    String getImage();
-    void setImage(String value);
+    Bitmap getImage();
+    void setImage(Bitmap value);
 
     float[] getGPS();
     void setGPS(float[] values);
 
-    float getVisualRange();
-    void setVisualRange(float value);
+    float[] getVisualRanges();
+    void setVisualRanges(float[] values);
 
     boolean getIsSubmitted();
     void setIsSubmitted(boolean value);
 
-    float[][] getTargets();
-    void setTargets(float[][] values);
+    float[][] getTargetsCoordinates();
+    void setTargetsCoorindates(float[][] values);
+    int[] getTargetsColors();
+    void setTargetsColors(int[] values);
 
     String getDescription();
     void setDescription(String value);
 
     String getTag();
     void setTag(String value);
-
-    double[] getGPSCoordinates();
-    void setGPSCoordinates(double[] values);
 }
