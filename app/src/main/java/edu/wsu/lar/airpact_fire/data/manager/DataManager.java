@@ -4,6 +4,9 @@
 
 package edu.wsu.lar.airpact_fire.data.manager;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
 
 /**
@@ -31,7 +34,7 @@ public interface DataManager {
 
     // Give app object - key to all of database access for UI
     AppObject getApp();
-
+    Activity getActivity();
     int generateSessionId();
 
     // Activity lifecycle methods

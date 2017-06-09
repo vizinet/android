@@ -4,7 +4,16 @@
 
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
+
+import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
 import edu.wsu.lar.airpact_fire.data.realm.model.VisualRange;
@@ -20,17 +29,20 @@ public class RealmPostObject implements PostObject {
     private Realm mRealm;
     private String mPostId;
     private DebugManager mDebugManager;
+    private DataManager mDataManager;
 
-    public RealmPostObject(Realm realm, String postId, DebugManager debugManager) {
+    public RealmPostObject(Realm realm, String postId, DataManager mDataManager, DebugManager debugManager) {
         mRealm = realm;
         mPostId = postId;
         mDebugManager = debugManager;
+        mDataManager = mDataManager;
     }
 
-    public RealmPostObject(Realm realm, Post post, DebugManager debugManager) {
+    public RealmPostObject(Realm realm, Post post, DataManager mDataManager, DebugManager debugManager) {
         mRealm = realm;
         mPostId = post.postId;
         mDebugManager = debugManager;
+        mDataManager = mDataManager;
     }
 
     @Override
@@ -51,13 +63,40 @@ public class RealmPostObject implements PostObject {
     }
 
     @Override
-    public String getImage() {
+    public Bitmap getImage() {
+        // TODO
+        String fileLocation = mRealm.where(Post.class).equalTo("postId", mPostId)
+                .findFirst().imageLocation;
         return null;
     }
 
     @Override
-    public void setImage(String value) {
+    public void setImage(Bitmap value) {
 
+        ContextWrapper cw = new ContextWrapper(mDataManager.getActivity().getApplicationContext());
+
+        // Path to "/data/data/airpact_fire/app_data/imageDir"
+        File directory = cw.getDir("images", Context.MODE_PRIVATE);
+        File file = new File(directory, "post_image_" + mPostId + ".jpg");
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(file);
+            value.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        String fileLocation = file.getAbsolutePath();
+
+        // Store image location in DB
+        mRealm.beginTransaction();
+        mRealm.where(Post.class).equalTo("postId", mPostId).findFirst().imageLocation = fileLocation;
+        mRealm.commitTransaction();
     }
 
     @Override

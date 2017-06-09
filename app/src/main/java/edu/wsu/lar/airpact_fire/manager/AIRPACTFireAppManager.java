@@ -7,9 +7,15 @@ package edu.wsu.lar.airpact_fire.manager;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.support.v4.app.ActivityCompat;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.realm.RealmDataManager;
@@ -93,7 +99,7 @@ public class AIRPACTFireAppManager implements AppManager {
 
         // Construct managers
         mDebugManager = new DebugManager(isDebugging());
-        mDataManager = new RealmDataManager(mDebugManager);
+        mDataManager = new RealmDataManager(mDebugManager, mActivity);
         mServerManager = new HTTPServerManager();
 
         mDebugManager.printLog("Started activity = " + context.toString());

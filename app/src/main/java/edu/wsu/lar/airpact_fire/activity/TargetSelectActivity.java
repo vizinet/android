@@ -254,6 +254,7 @@ public class TargetSelectActivity extends AppCompatActivity {
     // Gets color at that point
     // Updates color panels
     private void onIndicatorMoved(ImageView indicator, int x, int y) {
+
         // If point is within image
         if (Util.isPointInView(mImageView, x, y)) {
             // Get pixel we've touched
@@ -292,7 +293,7 @@ public class TargetSelectActivity extends AppCompatActivity {
         }
     }
 
-    // Save fields
+    // Take a moment to save our fields
     @Override
     protected void onPause() {
 
@@ -304,6 +305,7 @@ public class TargetSelectActivity extends AppCompatActivity {
             Rect imageBounds = imageDrawable.getBounds();
             int imageWidth = imageBounds.width(), imageHeight = imageBounds.height();
             float[][] targets = new float[][] {
+
                     new float[] {
                             imageWidth * (mBlackCircle.getX() / Util.getScreenWidth(this)),
                             imageHeight * (mBlackCircle.getY() / Util.getScreenHeight(this))
@@ -315,7 +317,8 @@ public class TargetSelectActivity extends AppCompatActivity {
             };
 
             // Set targets' absolute locations and colors
-            mAppManager.getDataManager().getApp().getLastUser().getLastPost().setTargetsCoorindates(targets);
+            mAppManager.getDataManager().getApp().getLastUser().getLastPost()
+                    .setTargetsCoorindates(targets);
             int[] colors = new int[] {
                     Util.getPixelAtPos(mImageView,
                             Math.round(mWhiteCircle.getX()),
@@ -324,7 +327,8 @@ public class TargetSelectActivity extends AppCompatActivity {
                             Math.round(mBlackCircle.getX()),
                             Math.round(mBlackCircle.getY()))
             };
-            mAppManager.getDataManager().getApp().getLastUser().getLastPost().setTargetsColors(colors);
+            mAppManager.getDataManager().getApp().getLastUser().getLastPost()
+                    .setTargetsColors(colors);
         }
         super.onPause();
     }
@@ -335,7 +339,8 @@ public class TargetSelectActivity extends AppCompatActivity {
         super.onWindowFocusChanged(hasFocus);
 
         if (hasFocus) {
-            // Only setup indicators when window has focus, because that's when ImageView gets inflated
+            // Only setup indicators when window has focus, because that's when ImageView
+            // gets inflated
             setupIndicators();
         }
     }
@@ -344,12 +349,14 @@ public class TargetSelectActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
 
         // Call garbage collection
         Runtime.getRuntime().gc();
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
             Bitmap bitmap = null;
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
@@ -514,11 +521,11 @@ public class TargetSelectActivity extends AppCompatActivity {
         if (targets == null) {
 
             // Default position: place indicators at center of image (in upper- and lower-quadrant)
-            targets = new float[][]{
+            targets = new float[][] {
                 new float[]{
                     mImageView.getWidth() / 2,
                     mImageView.getHeight() / 2 + mImageView.getHeight() / 8
-                }, new float[]{
+                }, new float[] {
                     mImageView.getWidth() / 2,
                     mImageView.getWidth() / 2 - mImageView.getHeight() / 8
                 }
@@ -533,9 +540,10 @@ public class TargetSelectActivity extends AppCompatActivity {
     // Takes picture
     private void takeAndSetPicture() {
 
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+
             // Create the File where the photo should go
             File photoFile = null;
             try {
@@ -547,10 +555,13 @@ public class TargetSelectActivity extends AppCompatActivity {
 
             // Continue only if the File was successfully created
             if (photoFile != null) {
+
                 // Make sure we get file back, and enforce PORTRAIT camera mode
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                takePictureIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION,
-                        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                takePictureIntent.putExtra(
+                        MediaStore.EXTRA_SCREEN_ORIENTATION,
+                        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                );
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
             }
         }

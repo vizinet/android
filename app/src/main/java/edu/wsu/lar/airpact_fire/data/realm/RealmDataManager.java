@@ -4,6 +4,7 @@
 
 package edu.wsu.lar.airpact_fire.data.realm;
 
+import android.app.Activity;
 import android.content.Context;
 import java.util.Date;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
@@ -22,13 +23,18 @@ import io.realm.RealmObjectChangeListener;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
+/**
+ * @see DataManager
+ */
 public class RealmDataManager implements DataManager {
 
     private Realm mRealm;
     private DebugManager mDebugManager;
+    private Activity mActivity;
 
-    public RealmDataManager(DebugManager debugManager) {
+    public RealmDataManager(DebugManager debugManager, Activity activity) {
         mDebugManager = debugManager;
+        mActivity = activity;
     }
 
     /* Activity lifecycle methods */
@@ -239,6 +245,11 @@ public class RealmDataManager implements DataManager {
     @Override
     public AppObject getApp() {
         return new RealmAppObject(mRealm, mDebugManager);
+    }
+
+    @Override
+    public Activity getActivity() {
+        return mActivity;
     }
 
     @Override
