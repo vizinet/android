@@ -7,12 +7,10 @@ package edu.wsu.lar.airpact_fire.data.realm.object;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
-
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
@@ -28,21 +26,20 @@ public class RealmPostObject implements PostObject {
 
     private Realm mRealm;
     private String mPostId;
-    private DebugManager mDebugManager;
     private DataManager mDataManager;
+    private DebugManager mDebugManager;
 
-    public RealmPostObject(Realm realm, String postId, DataManager mDataManager, DebugManager debugManager) {
+    public RealmPostObject(Realm realm, String postId, DataManager dataManager,
+                           DebugManager debugManager) {
         mRealm = realm;
         mPostId = postId;
+        mDataManager = dataManager;
         mDebugManager = debugManager;
-        mDataManager = mDataManager;
     }
 
-    public RealmPostObject(Realm realm, Post post, DataManager mDataManager, DebugManager debugManager) {
-        mRealm = realm;
-        mPostId = post.postId;
-        mDebugManager = debugManager;
-        mDataManager = mDataManager;
+    public RealmPostObject(Realm realm, Post post, DataManager dataManager,
+                           DebugManager debugManager) {
+        this(realm, post.postId, dataManager, debugManager);
     }
 
     @Override
@@ -95,7 +92,8 @@ public class RealmPostObject implements PostObject {
 
         // Store image location in DB
         mRealm.beginTransaction();
-        mRealm.where(Post.class).equalTo("postId", mPostId).findFirst().imageLocation = fileLocation;
+        mRealm.where(Post.class).equalTo("postId", mPostId).findFirst()
+                .imageLocation = fileLocation;
         mRealm.commitTransaction();
     }
 

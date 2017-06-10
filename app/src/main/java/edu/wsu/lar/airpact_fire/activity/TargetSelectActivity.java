@@ -46,10 +46,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.Reference;
-import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import lar.wsu.edu.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.util.Util;
@@ -60,11 +58,12 @@ import edu.wsu.lar.airpact_fire.util.Util;
 
 public class TargetSelectActivity extends AppCompatActivity {
 
-    static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int REQUEST_TAKE_PHOTO = 1;
-    public static Uri imageUri;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_TAKE_PHOTO = 1;
 
     private AppManager mAppManager;
+    private PostObject mPostObject;
+    private Uri mImageUri;
 
     private FrameLayout mNavBar;
     private LinearLayout mButtonPanel;
@@ -72,7 +71,6 @@ public class TargetSelectActivity extends AppCompatActivity {
     private LinearLayout mRightButtonPanel;
     private LinearLayout mSelectionPanel;
     private LinearLayout mTabLabelPanel;
-
     private TextView mVisualRangeInput;
     private TextView mSelectionPanelText;
     private ImageView mWhiteCircle, mBlackCircle, mCurrentCircle;
@@ -93,6 +91,9 @@ public class TargetSelectActivity extends AppCompatActivity {
         mAppManager = Reference.getAppManager();
         mAppManager.onActivityStart(this);
 
+        // Create new post (for this image)
+        mPostObject = mAppManager.getDataManager().getApp().getLastUser().createPost();
+
         // Create UI elements
         mWhiteCircle = addNewIndicator(R.color.schemeWhite);
         mBlackCircle = addNewIndicator(R.color.schemeDark);
@@ -105,7 +106,6 @@ public class TargetSelectActivity extends AppCompatActivity {
         mRightButtonPanel = (LinearLayout) findViewById(R.id.right_button_panel);
         mSelectionPanel = (LinearLayout) findViewById(R.id.selection_panel);
         mTabLabelPanel = (LinearLayout) findViewById(R.id.tab_label_panel);
-        // ...
         mSelectionPanelText = (TextView) findViewById(R.id.selection_panel_text);
         mImageView = (ImageView) findViewById(R.id.image_view);
         mBlackIndicatorButton = (ImageView) findViewById(R.id.black_indicator_button);
@@ -116,25 +116,29 @@ public class TargetSelectActivity extends AppCompatActivity {
         mVisualRangeInput = (TextView) findViewById(R.id.visual_range_input);
 
         // Distance metric input (spinner stuff)
-        int selectedMetric = mAppManager.getDataManager().getApp().getLastUser().getDistanceMetric();
+        int selectedMetric = mAppManager.getDataManager().getApp().getLastUser()
+                .getDistanceMetric();
         final List<String> metricOptions = new ArrayList<>();
         for (Reference.DistanceMetric distanceMetric : Reference.DistanceMetric.values()) {
             metricOptions.add(distanceMetric.name().toLowerCase());
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item_text, metricOptions);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item_text,
+                metricOptions);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mMetricSelectSpinner.setAdapter(adapter);
         mMetricSelectSpinner.setSelection(selectedMetric);
 
         // Set current button (white)
         // TODO: Create setupIndicatorSwatches(...)
-        mWhiteIndicatorButton.setBackground(getResources().getDrawable(R.drawable.indicator_border));
+        mWhiteIndicatorButton.setBackground(getResources()
+                .getDrawable(R.drawable.indicator_border));
 
         // Take picture
         takeAndSetPicture();
 
         // Navigation buttons
         mDoneButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
@@ -142,8 +146,9 @@ public class TargetSelectActivity extends AppCompatActivity {
                 if (!areFieldsCompleted()) {
 
                     // Message and highlight error
-                    Toast.makeText(TargetSelectActivity.this, "Please enter distance from low-color" +
-                            " point in the captured scene.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(TargetSelectActivity.this,
+                            "Please enter distance from low-color point in the captured scene.",
+                            Toast.LENGTH_LONG).show();
 
                     int colorFrom = ContextCompat.getColor(TargetSelectActivity.this,
                             R.color.schemeTransparent);
@@ -160,29 +165,27 @@ public class TargetSelectActivity extends AppCompatActivity {
                     });
                     colorAnimation.start();
 
-                    // Break
+                    // Break - thou shall not pass
                     return;
                 }
 
                 // TODO: Grab multiple visual ranges and put into database
 
                 // Save visual ranges
-                UserObject userObject = mAppManager.getDataManager().getApp().getLastUser();
-                PostObject postObject = userObject.createPost();
                 float[] values = new float[]{
                         Float.parseFloat(mVisualRangeInput.getText().toString()), 0};
-                postObject.setVisualRanges(values);
+                mPostObject.setVisualRanges(values);
 
                 // Now user adds picture details
                 // TODO: Remove
-                Intent intent = new Intent(getApplicationContext(), AddPictureDetailsActivity.class);
+                Intent intent = new Intent(getApplicationContext(),
+                        AddPictureDetailsActivity.class);
                 startActivity(intent);
             }
         });
         mRetakeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 // User takes another picture
                 takeAndSetPicture();
             }
@@ -195,7 +198,8 @@ public class TargetSelectActivity extends AppCompatActivity {
                 mWhiteIndicatorButton.setBackgroundResource(0);
                 mCurrentCircle = mBlackCircle;
                 // Set new circle background
-                mBlackIndicatorButton.setBackground(getResources().getDrawable(R.drawable.indicator_border));
+                mBlackIndicatorButton.setBackground(getResources().getDrawable(
+                        R.drawable.indicator_border));
                 animateIndicator(mCurrentCircle);
             }
         });
@@ -204,7 +208,8 @@ public class TargetSelectActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mBlackIndicatorButton.setBackgroundResource(0);
                 mCurrentCircle = mWhiteCircle;
-                mWhiteIndicatorButton.setBackground(getResources().getDrawable(R.drawable.indicator_border));
+                mWhiteIndicatorButton.setBackground(getResources().getDrawable(
+                        R.drawable.indicator_border));
 
                 // Animate indicator
                 animateIndicator(mCurrentCircle);
@@ -213,7 +218,8 @@ public class TargetSelectActivity extends AppCompatActivity {
         // Metric selection (i.e. "kilometers" or "miles?")
         mMetricSelectSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView,
+                                       int position, long id) {
                 // Set and update DB metric preference
                 mMetricSelectSpinner.setSelection(position);
                 mAppManager.getDataManager().getApp().getLastUser().setDistanceMetric(position);
@@ -257,6 +263,7 @@ public class TargetSelectActivity extends AppCompatActivity {
 
         // If point is within image
         if (Util.isPointInView(mImageView, x, y)) {
+
             // Get pixel we've touched
             int selectedPixel = Util.getPixelAtPos(mImageView, x, y);
 
@@ -285,7 +292,8 @@ public class TargetSelectActivity extends AppCompatActivity {
             mSelectionPanelText.setTextColor(textColor);
 
             // Set indicator color to pixel color
-            // NOTE: When I do .setTint(...), it seems to affect the drawable itself and thus any View which uses it
+            // NOTE: When I do .setTint(...), it seems to affect the drawable itself and thus
+            // any View which uses it
             indicator.getBackground().setColorFilter(selectedPixel, PorterDuff.Mode.MULTIPLY);
 
         } else {
@@ -317,8 +325,7 @@ public class TargetSelectActivity extends AppCompatActivity {
             };
 
             // Set targets' absolute locations and colors
-            mAppManager.getDataManager().getApp().getLastUser().getLastPost()
-                    .setTargetsCoorindates(targets);
+            mPostObject.setTargetsCoorindates(targets);
             int[] colors = new int[] {
                     Util.getPixelAtPos(mImageView,
                             Math.round(mWhiteCircle.getX()),
@@ -327,8 +334,7 @@ public class TargetSelectActivity extends AppCompatActivity {
                             Math.round(mBlackCircle.getX()),
                             Math.round(mBlackCircle.getY()))
             };
-            mAppManager.getDataManager().getApp().getLastUser().getLastPost()
-                    .setTargetsColors(colors);
+            mPostObject.setTargetsColors(colors);
         }
         super.onPause();
     }
@@ -359,7 +365,7 @@ public class TargetSelectActivity extends AppCompatActivity {
 
             Bitmap bitmap = null;
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -370,18 +376,23 @@ public class TargetSelectActivity extends AppCompatActivity {
                 return;
             }
 
-            // Resize bitmap to screen proportions
+            // Save original image
+            mPostObject.setImage(bitmap);
+
+            // Resize bitmap for display (to screen proportions)
             Display display = getWindowManager().getDefaultDisplay();
             Point size = new Point();
             display.getSize(size);
             int screenWidth = size.x;
-            int imageHeight = (int) (bitmap.getHeight() * (screenWidth / (float) bitmap.getWidth()));
+            int imageHeight = (int) (bitmap.getHeight() *
+                    (screenWidth / (float) bitmap.getWidth()));
             int imageWidth = screenWidth;
             bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, true);
 
             // Add Bitmap to post in XML
-            String imageString = Base64.encodeToString(Util.compressBitmap(bitmap), Base64.DEFAULT);
-            AppDataManager.setUserData(AppDataManager.getRecentUser(), "image", imageString);
+            // TODO: Remove?
+            String imageString = Base64.encodeToString(Util.compressBitmap(bitmap),
+                    Base64.DEFAULT);
 
             // Add placeholder/default geolocation
             mAppManager.getDataManager().getApp().getLastUser().setGPS(new double[] {
@@ -389,11 +400,13 @@ public class TargetSelectActivity extends AppCompatActivity {
                             DataManager.GPS_DEFAULT_LOCATION[1]});
 
             // Check for real deal
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            LocationManager locationManager = (LocationManager) getSystemService(
+                    Context.LOCATION_SERVICE);
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                     || ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    Manifest.permission.ACCESS_COARSE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
 
                 // Get and store last location
                 Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -422,7 +435,6 @@ public class TargetSelectActivity extends AppCompatActivity {
             public void onAnimationUpdate(ValueAnimator animator) {
                 int animatedValue = (int) animator.getAnimatedValue();
                 int animateDisplacement = (int) (0.5 * (animatedValue - sizeFrom));
-
                 indicator.setX(originalX - animateDisplacement);
                 indicator.setY(originalY - animateDisplacement);
                 indicator.getLayoutParams().height = indicator.getLayoutParams().width = animatedValue;
@@ -515,8 +527,7 @@ public class TargetSelectActivity extends AppCompatActivity {
     public void setupIndicators() {
 
         // Get past coordinates
-        PostObject postObject = mAppManager.getDataManager().getApp().getLastUser().getLastPost();
-        float[][] targets = postObject.getTargetsCoordinates();
+        float[][] targets =  mPostObject.getTargetsCoordinates();
 
         if (targets == null) {
 
@@ -551,13 +562,13 @@ public class TargetSelectActivity extends AppCompatActivity {
             } catch (IOException ex) {
                 return;
             }
-            imageUri = Uri.fromFile(photoFile);
+            mImageUri = Uri.fromFile(photoFile);
 
             // Continue only if the File was successfully created
             if (photoFile != null) {
 
                 // Make sure we get file back, and enforce PORTRAIT camera mode
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
                 takePictureIntent.putExtra(
                         MediaStore.EXTRA_SCREEN_ORIENTATION,
                         ActivityInfo.SCREEN_ORIENTATION_PORTRAIT

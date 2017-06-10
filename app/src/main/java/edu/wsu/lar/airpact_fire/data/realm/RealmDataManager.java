@@ -11,6 +11,7 @@ import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.App;
+import edu.wsu.lar.airpact_fire.data.realm.model.Post;
 import edu.wsu.lar.airpact_fire.data.realm.model.Session;
 import edu.wsu.lar.airpact_fire.data.realm.model.User;
 import edu.wsu.lar.airpact_fire.data.realm.object.RealmAppObject;
@@ -182,7 +183,7 @@ public class RealmDataManager implements DataManager {
             mDebugManager.printLog("User created!");
         }
 
-        return new RealmUserObject(mRealm, userModel, mDebugManager);
+        return new RealmUserObject(mRealm, userModel, this, mDebugManager);
     }
 
     // Start new session with given user
@@ -244,7 +245,7 @@ public class RealmDataManager implements DataManager {
 
     @Override
     public AppObject getApp() {
-        return new RealmAppObject(mRealm, mDebugManager);
+        return new RealmAppObject(mRealm, this, mDebugManager);
     }
 
     @Override
@@ -256,6 +257,12 @@ public class RealmDataManager implements DataManager {
     public int generateSessionId() {
         Number currentSessionId = mRealm.where(Session.class).max("sessionId");
         return (currentSessionId == null) ? 0 : currentSessionId.intValue() + 1;
+    }
+
+    @Override
+    public int generatePostId() {
+        Number currentPostId = mRealm.where(Post.class).max("postId");
+        return (currentPostId == null) ? 0 : currentPostId.intValue() + 1;
     }
 
 }

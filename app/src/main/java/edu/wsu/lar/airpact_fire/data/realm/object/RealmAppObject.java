@@ -4,6 +4,7 @@
 
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
+import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
 import edu.wsu.lar.airpact_fire.data.object.SessionObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
@@ -21,17 +22,19 @@ import io.realm.Sort;
 public class RealmAppObject implements AppObject {
 
     private Realm mRealm;
+    private DataManager mDataManager;
     private DebugManager mDebugManager;
 
-    public RealmAppObject(Realm realm, DebugManager debugManager) {
+    public RealmAppObject(Realm realm, DataManager dataManager, DebugManager debugManager) {
         mRealm = realm;
+        mDataManager = dataManager;
         mDebugManager = debugManager;
     }
 
     // TODO: See if this truly returns the last user
     public UserObject getUser() {
         final RealmResults<User> results = mRealm.where(User.class).findAll();
-        return new RealmUserObject(mRealm, results.first(), mDebugManager);
+        return new RealmUserObject(mRealm, results.first(), mDataManager, mDebugManager);
     }
 
     @Override
@@ -58,14 +61,14 @@ public class RealmAppObject implements AppObject {
 
         // Get user of most recent session
         Session lastSession = orderedSessions.first();
-        return new RealmUserObject(mRealm, lastSession.user, mDebugManager);
+        return new RealmUserObject(mRealm, lastSession.user, mDataManager, mDebugManager);
     }
 
     public UserObject getUser(String username) {
         User matchUser = mRealm.where(User.class).equalTo("username", username).findFirst();
         return (matchUser == null)
                 ? null
-                : new RealmUserObject(mRealm, matchUser, mDebugManager);
+                : new RealmUserObject(mRealm, matchUser, mDataManager, mDebugManager);
     }
 
     @Override

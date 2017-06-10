@@ -2,6 +2,8 @@ package edu.wsu.lar.airpact_fire.data.realm.object;
 
 import java.util.Date;
 
+import edu.wsu.lar.airpact_fire.Reference;
+import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Coordinate;
@@ -17,18 +19,20 @@ public class RealmUserObject implements UserObject {
 
     private Realm mRealm;
     private String mUsername;
+    private DataManager mDataManager;
     private DebugManager mDebugManager;
 
-    public RealmUserObject(Realm realm, String username, DebugManager debugManager) {
+    public RealmUserObject(Realm realm, String username, DataManager dataManager,
+                           DebugManager debugManager) {
         mRealm = realm;
         mUsername = username;
+        mDataManager = dataManager;
         mDebugManager = debugManager;
     }
 
-    public RealmUserObject(Realm realm, User userModel, DebugManager debugManager) {
-        mRealm = realm;
-        mUsername = userModel.username;
-        mDebugManager = debugManager;
+    public RealmUserObject(Realm realm, User userModel, DataManager dataManager,
+                           DebugManager debugManager) {
+        this(realm, userModel.username, dataManager, debugManager);
     }
 
     @Override
@@ -66,7 +70,7 @@ public class RealmUserObject implements UserObject {
 
     @Override
     public void setHasDraftPost(boolean value) {
-
+        // TODO
     }
 
     @Override
@@ -78,12 +82,16 @@ public class RealmUserObject implements UserObject {
     public PostObject getLastPost() {
         Post post = mRealm.where(Post.class).equalTo("user.username", mUsername)
                 .findAllSorted("date").first();
-        return new RealmPostObject(mRealm, post, mDebugManager);
+        return new RealmPostObject(mRealm, post, mDataManager, mDebugManager);
     }
 
     @Override
     public PostObject createPost() {
-        return null;
+        mRealm.beginTransaction();
+        Post postModel = mRealm.createObject(Post.class, mDataManager.generatePostId());
+        postModel.mode = Reference.PostMode.DRAFTED.ordinal();
+        mRealm.commitTransaction();
+        return new RealmPostObject(mRealm, postModel, mDataManager, mDebugManager);
     }
 
     @Override
