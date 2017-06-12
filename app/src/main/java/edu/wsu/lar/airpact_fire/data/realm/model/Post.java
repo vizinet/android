@@ -8,11 +8,12 @@ import io.realm.annotations.PrimaryKey;
 public class Post extends RealmObject {
 
     @PrimaryKey
-    public String postId;           // i.e. secret key
+    public int postId;
     public User user;
     public Date date;
     public int mode;
     public String imageLocation;
+    public String secretKey;
     public RealmList<VisualRange> visualRanges;
     public boolean isSubmitted;     // Flags post as queued or submitted
     public RealmList<Target> targets;

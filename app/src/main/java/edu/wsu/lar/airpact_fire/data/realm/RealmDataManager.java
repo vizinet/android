@@ -11,6 +11,7 @@ import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.App;
+import edu.wsu.lar.airpact_fire.data.realm.model.Post;
 import edu.wsu.lar.airpact_fire.data.realm.model.Session;
 import edu.wsu.lar.airpact_fire.data.realm.model.User;
 import edu.wsu.lar.airpact_fire.data.realm.object.RealmAppObject;
@@ -20,6 +21,7 @@ import edu.wsu.lar.airpact_fire.util.Util;
 import io.realm.ObjectChangeSet;
 import io.realm.Realm;
 import io.realm.RealmObjectChangeListener;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -182,7 +184,7 @@ public class RealmDataManager implements DataManager {
             mDebugManager.printLog("User created!");
         }
 
-        return new RealmUserObject(mRealm, userModel, mDebugManager);
+        return new RealmUserObject(mRealm, userModel, this, mDebugManager);
     }
 
     // Start new session with given user
@@ -244,7 +246,7 @@ public class RealmDataManager implements DataManager {
 
     @Override
     public AppObject getApp() {
-        return new RealmAppObject(mRealm, mDebugManager);
+        return new RealmAppObject(mRealm, this, mDebugManager);
     }
 
     @Override
@@ -254,8 +256,20 @@ public class RealmDataManager implements DataManager {
 
     @Override
     public int generateSessionId() {
+        RealmResults<Session> results = mRealm.where(Session.class).findAll();
+        if (results == null) { return 0; }
         Number currentSessionId = mRealm.where(Session.class).max("sessionId");
         return (currentSessionId == null) ? 0 : currentSessionId.intValue() + 1;
+    }
+
+    @Override
+    public int generatePostId() {
+        mDebugManager.printLog("before results");
+        RealmResults<Post> results = mRealm.where(Post.class).findAll();
+        mDebugManager.printLog("after results");
+        if (results == null) { return 0; }
+        Number currentPostId = results.max("postId");
+        return (currentPostId == null) ? 0 : currentPostId.intValue() + 1;
     }
 
 }

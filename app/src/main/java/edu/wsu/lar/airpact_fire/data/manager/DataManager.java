@@ -36,9 +36,9 @@ public interface DataManager {
     AppObject getApp();
     Activity getActivity();
     int generateSessionId();
+    int generatePostId();
 
     // Activity lifecycle methods
-
     /** TODO: Adapt the below doc
      * Finds the maximum value of a field.
      *
