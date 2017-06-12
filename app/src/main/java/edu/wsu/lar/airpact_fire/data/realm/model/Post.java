@@ -8,7 +8,7 @@ import io.realm.annotations.PrimaryKey;
 public class Post extends RealmObject {
 
     @PrimaryKey
-    public String postId;
+    public int postId;
     public User user;
     public Date date;
     public int mode;

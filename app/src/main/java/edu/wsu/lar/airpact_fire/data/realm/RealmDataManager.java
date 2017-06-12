@@ -21,6 +21,7 @@ import edu.wsu.lar.airpact_fire.util.Util;
 import io.realm.ObjectChangeSet;
 import io.realm.Realm;
 import io.realm.RealmObjectChangeListener;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -255,13 +256,19 @@ public class RealmDataManager implements DataManager {
 
     @Override
     public int generateSessionId() {
+        RealmResults<Session> results = mRealm.where(Session.class).findAll();
+        if (results == null) { return 0; }
         Number currentSessionId = mRealm.where(Session.class).max("sessionId");
         return (currentSessionId == null) ? 0 : currentSessionId.intValue() + 1;
     }
 
     @Override
     public int generatePostId() {
-        Number currentPostId = mRealm.where(Post.class).max("postId");
+        mDebugManager.printLog("before results");
+        RealmResults<Post> results = mRealm.where(Post.class).findAll();
+        mDebugManager.printLog("after results");
+        if (results == null) { return 0; }
+        Number currentPostId = results.max("postId");
         return (currentPostId == null) ? 0 : currentPostId.intValue() + 1;
     }
 

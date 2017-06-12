@@ -88,7 +88,10 @@ public class RealmUserObject implements UserObject {
     @Override
     public PostObject createPost() {
         mRealm.beginTransaction();
+        mDebugManager.printLog("before postModel");
+        mDebugManager.printLog("" + mDataManager.generatePostId());
         Post postModel = mRealm.createObject(Post.class, mDataManager.generatePostId());
+        mDebugManager.printLog("after postModel");
         postModel.mode = Reference.PostMode.DRAFTED.ordinal();
         mRealm.commitTransaction();
         return new RealmPostObject(mRealm, postModel, mDataManager, mDebugManager);

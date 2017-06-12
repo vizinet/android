@@ -52,10 +52,6 @@ import edu.wsu.lar.airpact_fire.manager.AppManager;
 import lar.wsu.edu.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.util.Util;
 
-// TODO: Find way to compress image and display in very short amount of time. We started having
-//  problems with XML reading/writing when we stored whole image.
-// TODO: Get x, y coordinates with respect to image and store those
-
 public class TargetSelectActivity extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -92,7 +88,9 @@ public class TargetSelectActivity extends AppCompatActivity {
         mAppManager.onActivityStart(this);
 
         // Create new post (for this image)
+        mAppManager.getDebugManager().printLog("before mPostObject");
         mPostObject = mAppManager.getDataManager().getApp().getLastUser().createPost();
+        mAppManager.getDebugManager().printLog("before mPostObject");
 
         // Create UI elements
         mWhiteCircle = addNewIndicator(R.color.schemeWhite);
@@ -116,6 +114,7 @@ public class TargetSelectActivity extends AppCompatActivity {
         mVisualRangeInput = (TextView) findViewById(R.id.visual_range_input);
 
         // Distance metric input (spinner stuff)
+        mAppManager.getDebugManager().printLog("before selectedMetric");
         int selectedMetric = mAppManager.getDataManager().getApp().getLastUser()
                 .getDistanceMetric();
         final List<String> metricOptions = new ArrayList<>();
@@ -132,6 +131,8 @@ public class TargetSelectActivity extends AppCompatActivity {
         // TODO: Create setupIndicatorSwatches(...)
         mWhiteIndicatorButton.setBackground(getResources()
                 .getDrawable(R.drawable.indicator_border));
+
+        mAppManager.getDebugManager().printLog("before takeAndSetPicture()");
 
         // Take picture
         takeAndSetPicture();

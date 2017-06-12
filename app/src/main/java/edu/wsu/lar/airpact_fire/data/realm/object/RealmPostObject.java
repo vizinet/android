@@ -25,11 +25,11 @@ import io.realm.RealmList;
 public class RealmPostObject implements PostObject {
 
     private Realm mRealm;
-    private String mPostId;
+    private int mPostId;
     private DataManager mDataManager;
     private DebugManager mDebugManager;
 
-    public RealmPostObject(Realm realm, String postId, DataManager dataManager,
+    public RealmPostObject(Realm realm, int postId, DataManager dataManager,
                            DebugManager debugManager) {
         mRealm = realm;
         mPostId = postId;
