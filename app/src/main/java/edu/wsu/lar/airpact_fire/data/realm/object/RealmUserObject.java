@@ -46,23 +46,6 @@ public class RealmUserObject implements UserObject {
     }
 
     @Override
-    public void setGPS(double[] values) {
-        mRealm.beginTransaction();
-        Coordinate coordinate = mRealm.where(Post.class).equalTo("user.username", mUsername)
-                .findFirst().geoCoordinate;
-        coordinate.x = values[0];
-        coordinate.y = values[1];
-        mRealm.commitTransaction();
-    }
-
-    @Override
-    public double[] getGPS() {
-        Coordinate coordinate = mRealm.where(Post.class).equalTo("user.username", mUsername)
-                .findFirst().geoCoordinate;
-        return new double[] {coordinate.x, coordinate.y};
-    }
-
-    @Override
     // TODO: Forward to target selection activity when there is an active draft post
     public boolean getHasDraftPost() {
         return false;

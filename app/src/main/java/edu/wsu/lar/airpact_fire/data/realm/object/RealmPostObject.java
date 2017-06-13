@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.util.Date;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.realm.model.Coordinate;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
+import edu.wsu.lar.airpact_fire.data.realm.model.Target;
 import edu.wsu.lar.airpact_fire.data.realm.model.VisualRange;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import io.realm.Realm;
@@ -25,6 +27,7 @@ import io.realm.RealmList;
 public class RealmPostObject implements PostObject {
 
     private Realm mRealm;
+    private Post mPost;
     private int mPostId;
     private DataManager mDataManager;
     private DebugManager mDebugManager;
@@ -32,6 +35,7 @@ public class RealmPostObject implements PostObject {
     public RealmPostObject(Realm realm, int postId, DataManager dataManager,
                            DebugManager debugManager) {
         mRealm = realm;
+        mPost = mRealm.where(Post.class).equalTo("postId", mPostId).findFirst();
         mPostId = postId;
         mDataManager = dataManager;
         mDebugManager = debugManager;
@@ -44,26 +48,25 @@ public class RealmPostObject implements PostObject {
 
     @Override
     public Date getDate() {
-        return mRealm.where(Post.class).equalTo("postId", mPostId).findFirst().date;
+        return mPost.date;
     }
 
     @Override
     public int getMode() {
-        return mRealm.where(Post.class).equalTo("postId", mPostId).findFirst().mode;
+        return mPost.mode;
     }
 
     @Override
     public void setMode(int value) {
         mRealm.beginTransaction();
-        mRealm.where(Post.class).equalTo("postId", mPostId).findFirst().mode = value;
+        mPost.mode = value;
         mRealm.commitTransaction();
     }
 
     @Override
     public Bitmap getImage() {
         // TODO
-        String fileLocation = mRealm.where(Post.class).equalTo("postId", mPostId)
-                .findFirst().imageLocation;
+        String fileLocation = mPost.imageLocation;
         return null;
     }
 
@@ -76,6 +79,7 @@ public class RealmPostObject implements PostObject {
         File directory = cw.getDir("images", Context.MODE_PRIVATE);
         File file = new File(directory, "post_image_" + mPostId + ".jpg");
         FileOutputStream fos = null;
+
         try {
             fos = new FileOutputStream(file);
             value.compress(Bitmap.CompressFormat.PNG, 100, fos);
@@ -92,25 +96,29 @@ public class RealmPostObject implements PostObject {
 
         // Store image location in DB
         mRealm.beginTransaction();
-        mRealm.where(Post.class).equalTo("postId", mPostId).findFirst()
-                .imageLocation = fileLocation;
+        mPost.imageLocation = fileLocation;
         mRealm.commitTransaction();
     }
 
     @Override
-    public float[] getGPS() {
-        return new float[0];
+    public void setGPS(double[] values) {
+        mRealm.beginTransaction();
+        Coordinate coordinate = mRealm.createObject(Coordinate.class);
+        coordinate.x = values[0];
+        coordinate.y = values[1];
+        mPost.geoCoordinate = coordinate;
+        mRealm.commitTransaction();
     }
 
     @Override
-    public void setGPS(float[] values) {
-
+    public double[] getGPS() {
+        Coordinate coordinate = mPost.geoCoordinate;
+        return new double[] {coordinate.x, coordinate.y};
     }
 
     @Override
     public float[] getVisualRanges() {
-        RealmList<VisualRange> realmList = mRealm.where(Post.class).equalTo("postId", mPostId)
-                .findFirst().visualRanges;
+        RealmList<VisualRange> realmList = mPost.visualRanges;
         float[] values = new float[realmList.size()];
         int i = 0;
         for (VisualRange v : realmList) {
@@ -122,8 +130,7 @@ public class RealmPostObject implements PostObject {
     @Override
     public void setVisualRanges(float[] values) {
         mRealm.beginTransaction();
-        RealmList<VisualRange> realmList = mRealm.where(Post.class).equalTo("postId", mPostId)
-                .findFirst().visualRanges;
+        RealmList<VisualRange> realmList = mPost.visualRanges;
         int i = 0;
         for (VisualRange v : realmList) {
             v.value = values[i++];
@@ -165,7 +172,7 @@ public class RealmPostObject implements PostObject {
 
     @Override
     public int[] getTargetsColors() {
-        mRealm.where(Post.class).equalTo("postId", mPostId).findAll();
+        RealmList<Target> targets = mPost.targets;
         return null;
     }
 
