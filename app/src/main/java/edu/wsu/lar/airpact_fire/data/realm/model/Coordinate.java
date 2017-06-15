@@ -8,5 +8,6 @@ import io.realm.RealmObject;
 
 public class Coordinate extends RealmObject {
 
-    public double x, y;
+    public double x;
+    public double y;
 }

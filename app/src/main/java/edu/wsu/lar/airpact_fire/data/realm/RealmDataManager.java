@@ -264,9 +264,7 @@ public class RealmDataManager implements DataManager {
 
     @Override
     public int generatePostId() {
-        mDebugManager.printLog("before results");
         RealmResults<Post> results = mRealm.where(Post.class).findAll();
-        mDebugManager.printLog("after results");
         if (results == null) { return 0; }
         Number currentPostId = results.max("postId");
         return (currentPostId == null) ? 0 : currentPostId.intValue() + 1;

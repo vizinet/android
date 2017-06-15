@@ -21,9 +21,6 @@ public interface UserObject {
     String getUsername();
     String getPassword();
 
-    void setGPS(double[] values);
-    double[] getGPS();
-
     boolean getHasDraftPost();
     void setHasDraftPost(boolean value);
 

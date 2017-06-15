@@ -27,8 +27,8 @@ public interface PostObject {
     Bitmap getImage();
     void setImage(Bitmap value);
 
-    float[] getGPS();
-    void setGPS(float[] values);
+    double[] getGPS();
+    void setGPS(double[] values);
 
     float[] getVisualRanges();
     void setVisualRanges(float[] values);

@@ -88,9 +88,7 @@ public class TargetSelectActivity extends AppCompatActivity {
         mAppManager.onActivityStart(this);
 
         // Create new post (for this image)
-        mAppManager.getDebugManager().printLog("before mPostObject");
         mPostObject = mAppManager.getDataManager().getApp().getLastUser().createPost();
-        mAppManager.getDebugManager().printLog("before mPostObject");
 
         // Create UI elements
         mWhiteCircle = addNewIndicator(R.color.schemeWhite);
@@ -114,7 +112,6 @@ public class TargetSelectActivity extends AppCompatActivity {
         mVisualRangeInput = (TextView) findViewById(R.id.visual_range_input);
 
         // Distance metric input (spinner stuff)
-        mAppManager.getDebugManager().printLog("before selectedMetric");
         int selectedMetric = mAppManager.getDataManager().getApp().getLastUser()
                 .getDistanceMetric();
         final List<String> metricOptions = new ArrayList<>();
@@ -131,8 +128,6 @@ public class TargetSelectActivity extends AppCompatActivity {
         // TODO: Create setupIndicatorSwatches(...)
         mWhiteIndicatorButton.setBackground(getResources()
                 .getDrawable(R.drawable.indicator_border));
-
-        mAppManager.getDebugManager().printLog("before takeAndSetPicture()");
 
         // Take picture
         takeAndSetPicture();
@@ -391,14 +386,13 @@ public class TargetSelectActivity extends AppCompatActivity {
             bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, true);
 
             // Add Bitmap to post in XML
-            // TODO: Remove?
-            String imageString = Base64.encodeToString(Util.compressBitmap(bitmap),
-                    Base64.DEFAULT);
+            // TODO: Find use somewhere else
+            // String imageString = Base64.encodeToString(Util.compressBitmap(bitmap), Base64.DEFAULT);
 
             // Add placeholder/default geolocation
-            mAppManager.getDataManager().getApp().getLastUser().setGPS(new double[] {
-                            DataManager.GPS_DEFAULT_LOCATION[0],
-                            DataManager.GPS_DEFAULT_LOCATION[1]});
+            mPostObject.setGPS(new double[] {
+                DataManager.GPS_DEFAULT_LOCATION[0],
+                DataManager.GPS_DEFAULT_LOCATION[1]});
 
             // Check for real deal
             LocationManager locationManager = (LocationManager) getSystemService(
@@ -411,12 +405,12 @@ public class TargetSelectActivity extends AppCompatActivity {
 
                 // Get and store last location
                 Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                mAppManager.getDataManager().getApp().getLastUser().setGPS(
-                        new double[] {loc.getLatitude(), loc.getLatitude()});
+                mPostObject.setGPS(new double[] {loc.getLatitude(), loc.getLatitude()});
             }
 
             // Set image view
             mImageView.setImageBitmap(bitmap);
+
         } else {
             // If no image take, go home
             Util.goHome(this);
