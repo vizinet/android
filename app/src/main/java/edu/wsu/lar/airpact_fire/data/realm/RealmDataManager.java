@@ -100,73 +100,6 @@ public class RealmDataManager implements DataManager {
 
     }
 
-    /* Data field manipulation methods */
-
-    /* TODO: Move these methods to the correct DataObject methods
-    private boolean appRememberPassword(Object... args) {
-        App app = getApp();
-        if (args.length == 0) { return app.rememberPassword; }
-        mRealm.beginTransaction();
-        app.rememberPassword = (boolean) args[0];
-        mRealm.commitTransaction();
-        return false;
-    }
-
-    private User appLastUser(Object... args) {
-        App app = getApp();
-        if (args.length == 0) { return app.lastUser; }
-        mRealm.beginTransaction();
-        app.lastUser = (User) args[0];
-        mRealm.commitTransaction();
-        return null;
-    }
-
-    private String userUsername(Object... args) {
-        User user = (User) fieldAccess(DataField.APP_LAST_USER);
-        if (args.length == 0) { return user.username; }
-        mRealm.beginTransaction();
-        user.username = (String) args[0];
-        mRealm.commitTransaction();
-        return null;
-    }
-
-    private String userPassword(Object... args) {
-        User user = (User) fieldAccess(DataField.APP_LAST_USER);
-        if (args.length == 0) { return user.password; }
-        mRealm.beginTransaction();
-        user.password = (String) args[0];
-        mRealm.commitTransaction();
-        return null;
-    }
-
-    private Date userFirstLoginDate(Object... args) {
-        User user = (User) fieldAccess(DataField.APP_LAST_USER);
-        if (args.length == 0) { return user.firstLoginDate; }
-        mRealm.beginTransaction();
-        user.firstLoginDate = (Date) args[0];
-        mRealm.commitTransaction();
-        return null;
-    }
-
-    private Date userLastLoginDate(Object... args) {
-        User user = (User) fieldAccess(DataField.APP_LAST_USER);
-        if (args.length == 0) { return user.lastLoginDate; }
-        mRealm.beginTransaction();
-        user.lastLoginDate = (Date) args[0];
-        mRealm.commitTransaction();
-        return null;
-    }
-
-    private String userDistanceMetric(Object... args) {
-        User user = (User) fieldAccess(DataField.APP_LAST_USER);
-        if (args.length == 0) { return user.distanceMetric; }
-        mRealm.beginTransaction();
-        user.distanceMetric = (String) args[0];
-        mRealm.commitTransaction();
-        return null;
-    }
-    */
-
     /* Utilities */
 
     // Get user or create one if nonexistent
@@ -201,7 +134,6 @@ public class RealmDataManager implements DataManager {
         userModel.sessions.add(session);
         mRealm.commitTransaction();
 
-        // TODO: Trigger app.lastUser = user when a Session is created
         mDebugManager.printLog("Created new session");
     }
 
@@ -217,7 +149,8 @@ public class RealmDataManager implements DataManager {
 
     // Internal get-user method
     private User getUser(String username) {
-        final RealmResults<User> results = mRealm.where(User.class).findAll();
+        final RealmResults<User> results = mRealm.where(User.class).equalTo("username", username)
+                .findAll();
         if (results.isEmpty()) { return null; }
         return results.first();
     }
@@ -269,5 +202,4 @@ public class RealmDataManager implements DataManager {
         Number currentPostId = results.max("postId");
         return (currentPostId == null) ? 0 : currentPostId.intValue() + 1;
     }
-
 }

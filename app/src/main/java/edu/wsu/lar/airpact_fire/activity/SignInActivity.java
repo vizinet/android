@@ -34,7 +34,7 @@ import lar.wsu.edu.airpact_fire.R;
 // TODO: Adapt to new research-based, clean design scheme
 // TODO: Splash screen
 // TODO: Remove AppDataManager and PostDataManager
-// TODO: Add "alpha" print to logo and banner
+// TODO: Add "alpha" print to logo
 // TODO: Have auto-fill for login page and post page
 // TODO: Better image storage - perhaps Make separate files for the image, linked to by the <image /> tag by the user (e.g. "test_image.jpg")
 
@@ -121,7 +121,7 @@ public class SignInActivity extends AppCompatActivity {
                 String password = mPasswordView.getText().toString();
 
                 // Check if user exists
-                if (mAppManager.getDataManager().getApp().getUser(username) == null) {
+                if (mAppManager.getDataManager().getApp().getUser(username, password) != null) {
 
                     // Pre-authenticated user - continue
                     mAppManager.getDebugManager().printLog("Realm user already in DB");

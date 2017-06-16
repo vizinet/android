@@ -7,9 +7,13 @@ package edu.wsu.lar.airpact_fire.data.realm.object;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
@@ -65,13 +69,40 @@ public class RealmPostObject implements PostObject {
 
     @Override
     public Bitmap getImage() {
-        // TODO
         String fileLocation = mPost.imageLocation;
-        return null;
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(mDataManager.getActivity()
+                    .getContentResolver(), Uri.parse(fileLocation));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
 
     @Override
-    public void setImage(Bitmap value) {
+    public Uri createImage() {
+
+        // Create an image file in public "Pictures/" directory to be populated by
+        // picture capturing activity
+        // TODO: Possibly store in private directory
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_.jpg";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = new File(storageDir, imageFileName);
+        Uri imageUri = Uri.fromFile(image);
+
+        // Save image location
+        mRealm.beginTransaction();
+        mPost.imageLocation = imageUri.toString();
+        mRealm.commitTransaction();
+
+        return imageUri;
+    }
+
+    // TODO: Possibly remove, possibly use to store image file to private dir
+    private void setImage(Bitmap value) {
 
         ContextWrapper cw = new ContextWrapper(mDataManager.getActivity().getApplicationContext());
 

@@ -28,7 +28,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ContentFrameLayout;
-import android.util.Base64;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,7 +58,6 @@ public class TargetSelectActivity extends AppCompatActivity {
 
     private AppManager mAppManager;
     private PostObject mPostObject;
-    private Uri mImageUri;
 
     private FrameLayout mNavBar;
     private LinearLayout mButtonPanel;
@@ -359,21 +357,19 @@ public class TargetSelectActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mImageUri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            long time = System.nanoTime();
 
-            // Abort mission
+            // Get bitmap
+            Bitmap bitmap = mPostObject.getImage();
             if (bitmap == null) {
+                // Abort mission
                 handleImageFailure();
                 return;
             }
 
-            // Save original image
-            mPostObject.setImage(bitmap);
+            time = System.nanoTime() - time;
+            double seconds = (double) time / 1000000000.0;
+            mAppManager.getDebugManager().printLog("Elapsed image storage time = " + seconds + "s");
 
             // Resize bitmap for display (to screen proportions)
             Display display = getWindowManager().getDefaultDisplay();
@@ -459,6 +455,7 @@ public class TargetSelectActivity extends AppCompatActivity {
 
         // Flash visual range patch if low indicator was just set
         if (mCurrentCircle == mBlackCircle) {
+
             // Use animation
             int colorFrom = ContextCompat.getColor(this, R.color.schemeTransparent);
             int colorTo = ContextCompat.getColor(this, R.color.schemeWhite);
@@ -550,26 +547,15 @@ public class TargetSelectActivity extends AppCompatActivity {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
 
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = Util.createImageFile();
-            } catch (IOException ex) {
-                return;
-            }
-            mImageUri = Uri.fromFile(photoFile);
+            Uri imageUri = mPostObject.createImage();
 
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-
-                // Make sure we get file back, and enforce PORTRAIT camera mode
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-                takePictureIntent.putExtra(
-                        MediaStore.EXTRA_SCREEN_ORIENTATION,
-                        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-                );
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-            }
+            // Make sure we get file back, and enforce PORTRAIT camera mode
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            takePictureIntent.putExtra(
+                    MediaStore.EXTRA_SCREEN_ORIENTATION,
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            );
+            startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
     }
 

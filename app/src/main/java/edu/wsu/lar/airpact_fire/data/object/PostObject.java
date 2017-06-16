@@ -5,6 +5,7 @@
 package edu.wsu.lar.airpact_fire.data.object;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import java.util.Date;
 
@@ -25,7 +26,7 @@ public interface PostObject {
     void setMode(int value);
 
     Bitmap getImage();
-    void setImage(Bitmap value);
+    Uri createImage();
 
     double[] getGPS();
     void setGPS(double[] values);
