@@ -131,27 +131,29 @@ public class SignInActivity extends AppCompatActivity {
 
                     // New guy - needs authentication
                     mAppManager.getDebugManager().printLog("Realm user does not exist");
-                    mAppManager.getServerManager().authenticate(
-                            SignInActivity.this, username, password,
+                    mAppManager.onAuthenticate(
+                            username, password,
                             new ServerManager.ServerCallback() {
 
                                 private ProgressDialog mProgress;
                                 private Context mContext;
 
                                 @Override
-                                public void onStart(Object... args) {
+                                public Object onStart(Object... args) {
 
                                     mContext = (Context) args[0];
 
                                     // Show loading display
                                     mProgress = new ProgressDialog(mContext);
                                     mProgress.setTitle("Signing In...");
-                                    mProgress.setMessage("Please wait while we authenticate");
+                                    mProgress.setMessage("Please wait while we onAuthenticate");
                                     mProgress.show();
+
+                                    return null;
                                 }
 
                                 @Override
-                                public void onFinish(Object... args) {
+                                public Object onFinish(Object... args) {
 
                                     boolean isUser = (boolean) args[0];
                                     String username = (String) args[1];
@@ -171,6 +173,8 @@ public class SignInActivity extends AppCompatActivity {
                                         Toast.makeText(mContext, R.string.authentication_failed,
                                                 Toast.LENGTH_SHORT).show();
                                     }
+
+                                    return null;
                                 }
                             });
                 }

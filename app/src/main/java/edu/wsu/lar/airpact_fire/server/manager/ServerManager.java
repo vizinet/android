@@ -2,6 +2,8 @@ package edu.wsu.lar.airpact_fire.server.manager;
 
 import android.content.Context;
 
+import edu.wsu.lar.airpact_fire.data.object.PostObject;
+
 /**
  * Communication interface between app and some authenticating and submission-accepting entity
  *
@@ -12,6 +14,20 @@ import android.content.Context;
  */
 public interface ServerManager {
 
+    String[] SUBMISSION_FIELDS = {
+        "user",             // String
+        "description",      // String
+        "image",            // String
+        "secretKey",        // String
+        "highColor",        // int
+        "highX", "highY",   // float
+        "lowColor",         // int
+        "lowX", "lowY",     // float
+        "visualRange",      // float
+        "geoX", "geoY",     // float
+        "tags"              // String
+    };
+
     /**
      * Communication interface between app and some authenticating and submission-accepting entity
      *
@@ -21,8 +37,8 @@ public interface ServerManager {
      * @since   0.9
      */
     interface ServerCallback {
-        void onStart(Object... args);
-        void onFinish(Object... args);
+        Object onStart(Object... args);
+        Object onFinish(Object... args);
     }
 
     /**
@@ -35,7 +51,7 @@ public interface ServerManager {
      * @see     ServerCallback
      * @since   0.9
      */
-    void authenticate(Context context, String username, String password, ServerCallback callback);
+    void onAuthenticate(Context context, String username, String password, ServerCallback callback);
 
     void onAppStart(Object... args);
     void onAppEnd(Object... args);
@@ -43,4 +59,5 @@ public interface ServerManager {
     void onActivityEnd(Object... args);
     void onLogin(Object... args);
     void onLogout(Object... args);
+    void onSubmit(Context context, PostObject postObject, ServerCallback serverCallback);
 }

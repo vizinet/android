@@ -7,6 +7,8 @@ package edu.wsu.lar.airpact_fire.data.object;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import org.json.simple.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -20,8 +22,25 @@ import java.util.Date;
  */
 public interface PostObject {
 
+    UserObject getUser();
+
     Date getDate();
 
+    long getImageServerId();
+    void setImageServerId(long value);
+
+    /** @see edu.wsu.lar.airpact_fire.Reference.DistanceMetric */
+    int getMetric();
+    void setMetric(int value);
+
+    /** @see edu.wsu.lar.airpact_fire.Reference.Algorithm */
+    int getAlgorithm();
+    void setAlgorithm(int value);
+
+    String getSecretKey();
+    void setSecretKey(String value);
+
+    /** @see edu.wsu.lar.airpact_fire.Reference.PostMode */
     int getMode();
     void setMode(int value);
 
@@ -31,11 +50,15 @@ public interface PostObject {
     double[] getGPS();
     void setGPS(double[] values);
 
-    float[] getVisualRanges();
-    void setVisualRanges(float[] values);
+    float[] getDistances();
+    void setDistances(float[] values);
 
-    boolean getIsSubmitted();
-    void setIsSubmitted(boolean value);
+    float getEstimatedVisualRange();
+    void setEstimatedVisualRange(float value);
+
+    /** Computed visual range returned from server */
+    float getComputedVisualRange();
+    void setComputedVisualRange(float value);
 
     float[][] getTargetsCoordinates();
     void setTargetsCoorindates(float[][] values);
@@ -45,6 +68,8 @@ public interface PostObject {
     String getDescription();
     void setDescription(String value);
 
-    String getTag();
-    void setTag(String value);
+    String getLocation();
+    void setLocation(String value);
+
+    JSONObject toJSON();
 }

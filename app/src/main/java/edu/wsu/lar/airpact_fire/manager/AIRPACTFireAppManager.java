@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
+import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.realm.RealmDataManager;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.server.manager.HTTPServerManager;
@@ -135,6 +136,19 @@ public class AIRPACTFireAppManager implements AppManager {
     public void onLogout(Object... args) {
         mDataManager.onLogout();
         mServerManager.onLogout();
+    }
+
+    @Override
+    public void onAuthenticate(String username, String password,
+                               ServerManager.ServerCallback callback) {
+        mServerManager.onAuthenticate(mActivity.getApplicationContext(), username, password,
+                callback);
+    }
+
+    @Override
+    public void onSubmit(PostObject postObject, ServerManager.ServerCallback serverCallback) {
+        // Attempt submission to server, update database with results
+        mServerManager.onSubmit(postObject, serverCallback);
     }
 
     /**

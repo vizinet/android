@@ -6,9 +6,16 @@ package edu.wsu.lar.airpact_fire.data.realm;
 
 import android.app.Activity;
 import android.content.Context;
+
+import org.json.simple.JSONObject;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
+import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.App;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
@@ -21,7 +28,6 @@ import edu.wsu.lar.airpact_fire.util.Util;
 import io.realm.ObjectChangeSet;
 import io.realm.Realm;
 import io.realm.RealmObjectChangeListener;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import io.realm.Sort;
 

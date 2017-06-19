@@ -10,24 +10,25 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import org.json.simple.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Coordinate;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
 import edu.wsu.lar.airpact_fire.data.realm.model.Target;
-import edu.wsu.lar.airpact_fire.data.realm.model.VisualRange;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
+import edu.wsu.lar.airpact_fire.util.Util;
 import io.realm.Realm;
 import io.realm.RealmList;
 
-/**
- * @see PostObject
- */
+/** @see PostObject */
 public class RealmPostObject implements PostObject {
 
     private Realm mRealm;
@@ -51,8 +52,53 @@ public class RealmPostObject implements PostObject {
     }
 
     @Override
+    public UserObject getUser() {
+        return null;
+    }
+
+    @Override
+    public String getSecretKey() {
+        return null;
+    }
+
+    @Override
+    public void setSecretKey(String value) {
+
+    }
+
+    @Override
     public Date getDate() {
         return mPost.date;
+    }
+
+    @Override
+    public long getImageServerId() {
+        return 0;
+    }
+
+    @Override
+    public void setImageServerId(long value) {
+
+    }
+
+    @Override
+    public int getMetric() {
+        return 0;
+    }
+
+    @Override
+    public void setMetric(int value) {
+
+    }
+
+    @Override
+    public int getAlgorithm() {
+        return 0;
+    }
+
+    @Override
+    public void setAlgorithm(int value) {
+
     }
 
     @Override
@@ -142,41 +188,39 @@ public class RealmPostObject implements PostObject {
     }
 
     @Override
+    public float[] getDistances() {
+        return new float[0];
+    }
+
+    @Override
+    public void setDistances(float[] values) {
+
+    }
+
+    @Override
+    public float getEstimatedVisualRange() {
+        return 0;
+    }
+
+    @Override
+    public void setEstimatedVisualRange(float value) {
+
+    }
+
+    @Override
+    public float getComputedVisualRange() {
+        return 0;
+    }
+
+    @Override
+    public void setComputedVisualRange(float value) {
+
+    }
+
+    @Override
     public double[] getGPS() {
         Coordinate coordinate = mPost.geoCoordinate;
         return new double[] {coordinate.x, coordinate.y};
-    }
-
-    @Override
-    public float[] getVisualRanges() {
-        RealmList<VisualRange> realmList = mPost.visualRanges;
-        float[] values = new float[realmList.size()];
-        int i = 0;
-        for (VisualRange v : realmList) {
-            values[i++] = v.value;
-        }
-        return values;
-    }
-
-    @Override
-    public void setVisualRanges(float[] values) {
-        mRealm.beginTransaction();
-        RealmList<VisualRange> realmList = mPost.visualRanges;
-        int i = 0;
-        for (VisualRange v : realmList) {
-            v.value = values[i++];
-        }
-        mRealm.commitTransaction();
-    }
-
-    @Override
-    public boolean getIsSubmitted() {
-        return false;
-    }
-
-    @Override
-    public void setIsSubmitted(boolean value) {
-
     }
 
     @Override
@@ -223,12 +267,40 @@ public class RealmPostObject implements PostObject {
     }
 
     @Override
-    public String getTag() {
+    public String getLocation() {
         return null;
     }
 
     @Override
-    public void setTag(String value) {
+    public void setLocation(String value) {
 
+    }
+
+    @Override
+    public JSONObject toJSON() {
+
+        // Intermediate objects
+        int[] targetColors = getTargetsColors();
+        float[][] splitTargetCoordinates = Util.splitXY(getTargetsCoordinates());
+
+        // Post submission field vars => JSON
+        JSONObject root = new JSONObject();
+        root.put("user", getUser().getUsername());
+        root.put("description", getDescription());
+        root.put("image", Util.bitmapToString(getImage()));
+        root.put("secretKey", getSecretKey());
+        root.put("algorithmType", Reference.Algorithm.values()[getAlgorithm()]
+                .toString());
+        root.put("distanceMetric", getMetric());
+        root.put("targetColors", Util.joinArray(targetColors, ","));
+        root.put("targetXCoordinates", Util.joinArray(splitTargetCoordinates[0], ","));
+        root.put("targetYCoordinates", Util.joinArray(splitTargetCoordinates[1], ","));
+        root.put("estimatedDistances", Util.joinArray(getDistances(), ","));
+        root.put("estimatedVisualRange", getEstimatedVisualRange());
+        root.put("gpsCoordinates", Util.joinArray(getGPS(), ","));
+        root.put("location", getLocation());
+        root.put("time", new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(getDate()));
+
+        return root;
     }
 }

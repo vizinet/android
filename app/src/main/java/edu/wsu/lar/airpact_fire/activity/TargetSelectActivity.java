@@ -8,6 +8,7 @@ import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -40,14 +41,13 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
+import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import lar.wsu.edu.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.util.Util;
 
@@ -163,12 +163,11 @@ public class TargetSelectActivity extends AppCompatActivity {
                     return;
                 }
 
-                // TODO: Grab multiple visual ranges and put into database
+                // TODO: Grab more distances
 
-                // Save visual ranges
-                float[] values = new float[]{
-                        Float.parseFloat(mVisualRangeInput.getText().toString()), 0};
-                mPostObject.setVisualRanges(values);
+                // Save visual range
+                mPostObject.setEstimatedVisualRange(
+                        Float.parseFloat(mVisualRangeInput.getText().toString()));
 
                 // Now user adds picture details
                 // TODO: Remove
@@ -180,6 +179,60 @@ public class TargetSelectActivity extends AppCompatActivity {
         mRetakeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // TODO: Refactor
+                mAppManager.onSubmit(
+                        mPostObject,
+                        new ServerManager.ServerCallback() {
+
+                            private ProgressDialog mProgress;
+                            private Context mContext;
+
+                            @Override
+                            public Object onStart(Object... args) {
+
+                                mContext = (Context) args[0];
+
+                                // Show loading display
+                                mProgress = new ProgressDialog(mContext);
+                                mProgress.setTitle("Posting Image...");
+                                mProgress.setMessage("Please wait while your image is being " +
+                                        "sent");
+                                mProgress.show();
+
+                                return null;
+                            }
+
+                            @Override
+                            public Object onFinish(Object... args) {
+
+                                boolean didSubmit = (boolean) args[0];
+
+                                // Dismiss loading dialog
+                                mProgress.dismiss();
+
+                                if (didSubmit) {
+
+                                    // Mark post as queued
+                                    mPostObject.setMode(Reference.PostMode.QUEUED.ordinal());
+                                    Toast.makeText(mContext, R.string.submission_success,
+                                            Toast.LENGTH_LONG).show();
+
+                                } else {
+
+                                    // Mark as submitted
+                                    mPostObject.setMode(Reference.PostMode.SUBMITTED.ordinal());
+                                    Toast.makeText(mContext, R.string.submission_failed,
+                                            Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, R.string.post_queued,
+                                            Toast.LENGTH_SHORT).show();
+                                }
+
+                                return null;
+                            }
+                        });
+
+                // TODO: Return to normal
                 // User takes another picture
                 takeAndSetPicture();
             }
