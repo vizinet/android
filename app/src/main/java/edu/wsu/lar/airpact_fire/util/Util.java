@@ -148,6 +148,7 @@ public class Util {
 
     // Create an image file with collision resistant title to public directory
     public static File createImageFile() throws IOException {
+
         // Create an image file name -- timestamped
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";

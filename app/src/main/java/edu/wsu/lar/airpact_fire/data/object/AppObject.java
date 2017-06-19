@@ -21,7 +21,7 @@ public interface AppObject {
     void setRememberPassword(boolean value);
 
     UserObject getLastUser();
-    UserObject getUser(String username);
+    UserObject getUser(String username, String password);
 
     SessionObject getLastSession();
     SessionObject getSession(); // Current session

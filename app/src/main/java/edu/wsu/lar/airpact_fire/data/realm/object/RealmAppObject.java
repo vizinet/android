@@ -31,12 +31,6 @@ public class RealmAppObject implements AppObject {
         mDebugManager = debugManager;
     }
 
-    // TODO: See if this truly returns the last user
-    public UserObject getUser() {
-        final RealmResults<User> results = mRealm.where(User.class).findAll();
-        return new RealmUserObject(mRealm, results.first(), mDataManager, mDebugManager);
-    }
-
     @Override
     public boolean getRememberPassword() {
         final App app = mRealm.where(App.class).findFirst();
@@ -64,8 +58,14 @@ public class RealmAppObject implements AppObject {
         return new RealmUserObject(mRealm, lastSession.user, mDataManager, mDebugManager);
     }
 
-    public UserObject getUser(String username) {
-        User matchUser = mRealm.where(User.class).equalTo("username", username).findFirst();
+    @Override
+    public UserObject getUser(String username, String password) {
+
+        // Ensure username and password match-up in DB
+        User matchUser = mRealm.where(User.class)
+                .equalTo("username", username)
+                .equalTo("password", password)
+                .findFirst();
         return (matchUser == null)
                 ? null
                 : new RealmUserObject(mRealm, matchUser, mDataManager, mDebugManager);
