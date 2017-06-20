@@ -28,6 +28,7 @@ import lar.wsu.edu.airpact_fire.R;
 
 // TODO: Address all below to-do statements
 
+// TODO: Adapt UI changes based on sketches
 // TODO: AppManager: Method which adds service to monitor app state (namely, exit, so we can call onAppEnd)
 // TODO: Add copyright/disclaimer/license code (Luke Weber, WSU, LAR, etc.) to each code file in AIRPACT-Fire, along with authorship information in each file
 // TODO: Look into making custom image-capture activity
