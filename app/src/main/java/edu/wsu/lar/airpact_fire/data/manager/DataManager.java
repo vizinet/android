@@ -7,7 +7,10 @@ package edu.wsu.lar.airpact_fire.data.manager;
 import android.app.Activity;
 import android.graphics.Bitmap;
 
+import org.json.simple.JSONObject;
+
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
+import edu.wsu.lar.airpact_fire.data.object.PostObject;
 
 /**
  * This interface consists of variables and methods for handling this app's

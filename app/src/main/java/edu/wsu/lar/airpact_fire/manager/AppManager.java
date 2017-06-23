@@ -1,6 +1,9 @@
 package edu.wsu.lar.airpact_fire.manager;
 
+import android.content.Context;
+
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
+import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 
@@ -29,5 +32,6 @@ public interface AppManager {
     void onActivityEnd(Object... args);
     void onLogin(Object... args);
     void onLogout(Object... args);
-
+    void onAuthenticate(String username, String password, ServerManager.ServerCallback callback);
+    void onSubmit(PostObject postObject, ServerManager.ServerCallback serverCallback);
 }

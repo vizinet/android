@@ -28,6 +28,7 @@ import lar.wsu.edu.airpact_fire.R;
 
 // TODO: Address all below to-do statements
 
+// TODO: Adapt UI changes based on sketches
 // TODO: AppManager: Method which adds service to monitor app state (namely, exit, so we can call onAppEnd)
 // TODO: Add copyright/disclaimer/license code (Luke Weber, WSU, LAR, etc.) to each code file in AIRPACT-Fire, along with authorship information in each file
 // TODO: Look into making custom image-capture activity
@@ -131,27 +132,29 @@ public class SignInActivity extends AppCompatActivity {
 
                     // New guy - needs authentication
                     mAppManager.getDebugManager().printLog("Realm user does not exist");
-                    mAppManager.getServerManager().authenticate(
-                            SignInActivity.this, username, password,
+                    mAppManager.onAuthenticate(
+                            username, password,
                             new ServerManager.ServerCallback() {
 
                                 private ProgressDialog mProgress;
                                 private Context mContext;
 
                                 @Override
-                                public void onStart(Object... args) {
+                                public Object onStart(Object... args) {
 
                                     mContext = (Context) args[0];
 
                                     // Show loading display
                                     mProgress = new ProgressDialog(mContext);
                                     mProgress.setTitle("Signing In...");
-                                    mProgress.setMessage("Please wait while we authenticate");
+                                    mProgress.setMessage("Please wait while we onAuthenticate");
                                     mProgress.show();
+
+                                    return null;
                                 }
 
                                 @Override
-                                public void onFinish(Object... args) {
+                                public Object onFinish(Object... args) {
 
                                     boolean isUser = (boolean) args[0];
                                     String username = (String) args[1];
@@ -171,6 +174,8 @@ public class SignInActivity extends AppCompatActivity {
                                         Toast.makeText(mContext, R.string.authentication_failed,
                                                 Toast.LENGTH_SHORT).show();
                                     }
+
+                                    return null;
                                 }
                             });
                 }

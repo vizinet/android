@@ -15,11 +15,12 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.Post;
 import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
+import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.object.UserObject;
 
 public class HTTPServerManager implements ServerManager {
 
@@ -54,9 +55,37 @@ public class HTTPServerManager implements ServerManager {
     }
 
     @Override
-    public void authenticate(Context context, String username, String password, ServerCallback callback) {
+    public void onAuthenticate(Context context, String username, String password,
+                               ServerCallback callback) {
         AuthenticationManager authenticationManager = new AuthenticationManager(context, callback);
         authenticationManager.execute(username, password);
+    }
+
+    @Override
+    public void onSubmit(Context context, PostObject postObject, ServerCallback callback) {
+
+        // TODO: See if we'll have a problem accessing Realm from AsyncTask thread (maybe pass in hard values)
+
+        // Do some pre-authentication to get secret key (using dummy callback)
+        UserObject userObject = postObject.getUser();
+
+        // Attempt authentication, obtain secretKey for posting
+        final String[] secretKey = new String[1];
+        AuthenticationManager authenticationManager = new AuthenticationManager(context,
+                new ServerCallback() {
+            @Override
+            public Object onStart(Object... args) { return null; }
+            @Override
+            public Object onFinish(Object... args) {
+                secretKey[0] = (String) args[3];
+                return null;
+            }
+        });
+        authenticationManager.execute(userObject.getUsername(), userObject.getPassword());
+
+        // Attempt submission
+        SubmissionManager submissionManager = new SubmissionManager(context, callback);
+        submissionManager.execute(postObject, secretKey);
     }
 
     // Gets run when new credentials are found that are not in the database
@@ -64,7 +93,7 @@ public class HTTPServerManager implements ServerManager {
 
         private Context mContext;
         private ServerCallback mCallback;
-        private String mUsername, mPassword;
+        private String mUsername, mPassword, mSecretKey;
 
         public AuthenticationManager(Context context, ServerCallback callback) {
             mContext = context;
@@ -87,6 +116,7 @@ public class HTTPServerManager implements ServerManager {
             boolean isUser = false;
 
             try {
+
                 // Send package for server
                 JSONObject authenticationSendJSON = new JSONObject();
                 authenticationSendJSON.put("username", mUsername);
@@ -135,6 +165,9 @@ public class HTTPServerManager implements ServerManager {
 
                 // See if credentials were authenticated
                 isUser = Boolean.parseBoolean((String) authenticationReceiveJSON.get("isUser"));
+                if (isUser) {
+                    mSecretKey = authenticationReceiveJSON.get("secretKey").toString();
+                }
 
                 authOutputStream.flush();
                 authOutputStream.close();
@@ -148,151 +181,63 @@ public class HTTPServerManager implements ServerManager {
 
         @Override
         protected void onPostExecute(Boolean result) {
-            mCallback.onFinish(result, mUsername, mPassword);
+            mCallback.onFinish(result, mUsername, mPassword, mSecretKey);
         }
     }
 
     // TODO: Refactor this and create interface between a DataManager and ServerManager for posting
     // Takes Post object, converts this into JSON, and submits it
-    private class SubmissionManager extends AsyncTask<Post, Void, Void> {
+    private class SubmissionManager extends AsyncTask<Object, Void, Void> {
 
-        private Post post;
-        // NOTE: Trusting that this activity is non-null
-        private ProgressDialog progress = new ProgressDialog(Post.Activity);
-        private boolean didPostFail = true;
+        private Context mContext;
+        private ServerCallback mCallback;
+        private PostObject mPostObject;
+        private boolean mDidSubmit;
+        private String mSecretKey;
+        private double mServerOutput;
+        private long mImageServerId;
 
-        @Override
-        protected void onPreExecute() {
-            // Show loader
-            progress.setTitle("Posting Image");
-            progress.setMessage("Please wait while your image is being posted to server...");
-            progress.show();
-
-            // TODO: When have time, see if we can remove this
-            // Make sure it displays before doing work
-            while (!progress.isShowing()) try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            super.onPreExecute();
+        public SubmissionManager(Context context, ServerCallback callback) {
+            mContext = context;
+            mCallback = callback;
         }
 
         @Override
-        protected Void doInBackground(Post... args) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mCallback.onStart(mContext);
+        }
+
+        @Override
+        protected Void doInBackground(Object... args) {
             try {
-                // Get post  we want to submit
-                post = args[0];
 
-                // Authentication URL
-                URL authUrl = new URL(Post.SERVER_AUTH_URL);
+                // Get post to submit
+                mPostObject = (PostObject) args[0];
+                mSecretKey = (String) args[1];
 
-                // Authentication package to send
-                JSONObject authSendJSON = new JSONObject();
-                authSendJSON.put("username", AppDataManager.getRecentUser());
-                authSendJSON.put("password", AppDataManager.getUserData(AppDataManager.getRecentUser(), "password"));
-
-                // Submission-related variables
-                String sendMessage = authSendJSON.toJSONString(),
-                        serverResponse,
-                        userKey;
-                Boolean isUser;
-                JSONObject authReceiveJSON;
-
-                // Establish HTTP connection
-                HttpURLConnection authConn = (HttpURLConnection) authUrl.openConnection();
-
-                // Set connection properties
-                authConn.setReadTimeout(10000);
-                authConn.setConnectTimeout(15000);
-                authConn.setRequestMethod("POST");
-                authConn.setDoInput(true);
-                authConn.setDoOutput(true);
-                authConn.setFixedLengthStreamingMode(sendMessage.getBytes().length);
-                authConn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
-                authConn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
-
-                // Connect to server
-                authConn.connect();
-
-                // JSON package sent
-                OutputStream authOutputStream = new BufferedOutputStream(authConn.getOutputStream());
-                authOutputStream.write(sendMessage.getBytes());
-                authOutputStream.flush(); // NOTE: Had an error here before because I didn't flush
-
-                // Server reply
-                InputStream in;
-                try {
-                    in = authConn.getInputStream();
-                    int ch;
-                    StringBuffer sb = new StringBuffer();
-                    while ((ch = in.read()) != -1) {
-                        sb.append((char) ch);
-                    }
-
-                    serverResponse = sb.toString();
-                } catch (IOException e) {
-                    throw e;
-                }
-                if (in != null) {
-                    in.close();
-                }
-
-                // Parse JSON
-                authReceiveJSON = (JSONObject) new JSONParser().parse(serverResponse);
-
-                // Get fields and see if server authenticated us
-                isUser = Boolean.parseBoolean((String) authReceiveJSON.get("isUser"));
-                if (isUser) {
-                    userKey = authReceiveJSON.get("secretKey").toString();
-                    // TODO: Accompany this the below commented-out code
-                    //User.postKeys.add(userKey);
-                    Post.isUser = true;
-                } else { // Exit if not a user
-
-                    Post.isUser = false;
-                    return null;
-                }
-
-                authOutputStream.flush();
-                authOutputStream.close();
-
-
-            /* * * * */
-
-
-                // Post URL
-                URL postUrl = new URL(Post.SERVER_UPLOAD_URL);
-
-                // Upload server
-                HttpURLConnection postConn = (HttpURLConnection) postUrl.openConnection();
+                URL postUrl = new URL(Reference.SERVER_UPLOAD_URL);
+                HttpURLConnection postConnection = (HttpURLConnection) postUrl.openConnection();
 
                 // Add secret key and convert to JSON
-                post.setSecretKey(userKey);
-                JSONObject postJSON = post.toSubmissionJSON();
-
-                // Add post key and make JSON string
-                String postMessage = postJSON.toString();
-
-                Log.println(Log.DEBUG, "POSTING", postMessage);
+                mPostObject.setSecretKey(mSecretKey);
+                String postMessage = mPostObject.toJSON().toString();
 
                 // Connection properties
-                postConn.setReadTimeout(30000);
-                postConn.setConnectTimeout(15000);
-                postConn.setRequestMethod("POST");
-                postConn.setDoInput(true);
-                postConn.setDoOutput(true);
-                postConn.setFixedLengthStreamingMode(postMessage.getBytes().length);
-                postConn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
-                postConn.setRequestProperty("X-Requested-With", "XMLHttpRequest");
+                postConnection.setReadTimeout(30000);
+                postConnection.setConnectTimeout(15000);
+                postConnection.setRequestMethod("POST");
+                postConnection.setDoInput(true);
+                postConnection.setDoOutput(true);
+                postConnection.setFixedLengthStreamingMode(postMessage.getBytes().length);
+                postConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+                postConnection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
 
                 // Connect
-                postConn.connect();
+                postConnection.connect();
 
                 // JSON package send
-                OutputStream postOutputStream = new BufferedOutputStream(postConn.getOutputStream());
-                Log.println(Log.DEBUG, "POSTING", "postMessage: " + postMessage);
+                OutputStream postOutputStream = new BufferedOutputStream(postConnection.getOutputStream());
                 postOutputStream.write(postMessage.getBytes());
                 postOutputStream.flush();
 
@@ -302,7 +247,7 @@ public class HTTPServerManager implements ServerManager {
                 try {
                     int ch;
                     StringBuffer sb = new StringBuffer();
-                    postStatusInputStream = postConn.getInputStream();
+                    postStatusInputStream = postConnection.getInputStream();
                     while ((ch = postStatusInputStream.read()) != -1) {
                         sb.append((char) ch);
                     }
@@ -314,19 +259,20 @@ public class HTTPServerManager implements ServerManager {
                 if (postStatusInputStream != null) postStatusInputStream.close();
 
                 // Parse response
-                JSONObject postReceiveJSON = (JSONObject) new JSONParser().parse(serverPostResponse);
+                JSONObject postReceiveJSON = (JSONObject) new JSONParser()
+                        .parse(serverPostResponse);
 
                 // Did post succeed?
                 String postStatus = postReceiveJSON.get("status").toString();
-                didPostFail = !postStatus.equals("success");
+                mDidSubmit = postStatus.equals("success");
 
                 // Get algorithm result
-                String algorithmOutput = postReceiveJSON.get("TwoTargetContrastOutput").toString();
-                //DebugManager.printLog("algorithmOutput (from server) = " + algorithmOutput);
+                // TODO: Have this naming adapted on server side
+                mServerOutput = Double.parseDouble(
+                        postReceiveJSON.get("TwoTargetContrastOutput").toString());
 
                 // Image ID, to construct website URL
-                String imageID = postReceiveJSON.get("imageID").toString();
-                //DebugManager.printLog("imageID = " + imageID);
+                mImageServerId = Integer.parseInt(postReceiveJSON.get("imageID").toString());
 
                 // Clean up
                 postOutputStream.flush();
@@ -341,20 +287,7 @@ public class HTTPServerManager implements ServerManager {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
-            // Dismiss dialog
-            progress.dismiss();
-
-            // See how post did and act accordingly
-            if (didPostFail) {
-                Post.showPostFailure();
-                post.queue(Post.Context);
-            } else {
-                Post.showPostSuccess();
-                post.save(Post.Context);
-            }
-
-            // NOTE: RecordManager will return home for us
+            mCallback.onFinish(mDidSubmit, mServerOutput, mImageServerId);
         }
     }
 

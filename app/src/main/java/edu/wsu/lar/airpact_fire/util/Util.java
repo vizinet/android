@@ -48,8 +48,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import edu.wsu.lar.airpact_fire.activity.HomeActivity;
 import edu.wsu.lar.airpact_fire.data.Post;
@@ -161,6 +164,63 @@ public class Util {
 //        Post.ImageLocation = image.getAbsolutePath();
 
         return image;
+    }
+
+    public static float[][] splitXY(float[][] values) {
+        float[][] newValues = new float[2][values.length];
+        for (int i = 0; i < values.length; i++) {
+            newValues[0][i] = values[i][0];
+            newValues[1][i] = values[i][1];
+        }
+        return newValues;
+    }
+
+    public static Float[] toObjectList(float[] array) {
+        Float[] newArray = new Float[array.length];
+        for (int i = 0; i < array.length; i++) {
+            newArray[i] = new Float(array[i]);
+        }
+        return newArray;
+    }
+
+    public static Integer[] toObjectList(int[] array) {
+        Integer[] newArray = new Integer[array.length];
+        for (int i = 0; i < array.length; i++) {
+            newArray[i] = new Integer(array[i]);
+        }
+        return newArray;
+    }
+
+    public static Double[] toObjectList(double[] array) {
+        Double[] newArray = new Double[array.length];
+        for (int i = 0; i < array.length; i++) {
+            newArray[i] = new Double(array[i]);
+        }
+        return newArray;
+    }
+
+    public static String joinArray(double[] array, String token) {
+        ArrayList<Double> arrayList = new ArrayList<>(Arrays.asList(toObjectList(array)));
+        return joinArray(arrayList, token);
+    }
+
+    public static String joinArray(float[] array, String token) {
+        ArrayList<Float> arrayList = new ArrayList<>(Arrays.asList(toObjectList(array)));
+        return joinArray(arrayList, token);
+    }
+
+    public static String joinArray(int[] array, String token) {
+        ArrayList<Integer> arrayList = new ArrayList<>(Arrays.asList(toObjectList(array)));
+        return joinArray(arrayList, token);
+    }
+
+    public static String joinArray(List list, String token) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(list.get(0));
+        for (int i = 1; i < list.size(); i++) {
+            stringBuilder.append(token + list.get(i));
+        }
+        return stringBuilder.toString();
     }
 
     public static String bitmapToString(Bitmap bitmap) {
