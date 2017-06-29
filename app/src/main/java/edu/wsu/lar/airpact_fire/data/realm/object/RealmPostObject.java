@@ -283,23 +283,38 @@ public class RealmPostObject implements PostObject {
         int[] targetColors = getTargetsColors();
         float[][] splitTargetCoordinates = Util.splitXY(getTargetsCoordinates());
 
+        // TODO: Adapt post for many images and visual ranges and fields
+        // TODO: Dynamically change JSON for algorithm type
+
         // Post submission field vars => JSON
         JSONObject root = new JSONObject();
         root.put("user", getUser().getUsername());
         root.put("description", getDescription());
         root.put("image", Util.bitmapToString(getImage()));
         root.put("secretKey", getSecretKey());
-        root.put("algorithmType", Reference.Algorithm.values()[getAlgorithm()]
-                .toString());
         root.put("distanceMetric", getMetric());
-        root.put("targetColors", Util.joinArray(targetColors, ","));
-        root.put("targetXCoordinates", Util.joinArray(splitTargetCoordinates[0], ","));
-        root.put("targetYCoordinates", Util.joinArray(splitTargetCoordinates[1], ","));
-        root.put("estimatedDistances", Util.joinArray(getDistances(), ","));
-        root.put("estimatedVisualRange", getEstimatedVisualRange());
-        root.put("gpsCoordinates", Util.joinArray(getGPS(), ","));
         root.put("location", getLocation());
+        // TODO: Ensure this is the time the image was taken
         root.put("time", new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(getDate()));
+
+        // TODO: Send int representing algorithm; adapt my docs to
+        // algorithm #1 = two-in-one
+        // algorithm #2 = one-for-one
+        root.put("algorithmType", getAlgorithm());
+
+        // TODO: Maybe send radii for the targets
+
+        // If algorithmType == 1
+        // TODO: Adapt all fields
+        root.put("nearTargetX", Util.joinArray(splitTargetCoordinates[0], ","));
+        root.put("nearTargetY", Util.joinArray(splitTargetCoordinates[0], ","));
+        root.put("nearTargetEstimatedDistance", Util.joinArray(getDistances(), ","));
+        root.put("farTargetX", Util.joinArray(splitTargetCoordinates[0], ","));
+        root.put("farTargetY", Util.joinArray(splitTargetCoordinates[0], ","));
+        root.put("farTargetEstimatedDistance", Util.joinArray(getDistances(), ","));
+        root.put("estimatedVisualRange", getEstimatedVisualRange());
+        root.put("gpsLongitude", Util.joinArray(getGPS(), ","));
+        root.put("gpsLatitude", Util.joinArray(getGPS(), ","));
 
         return root;
     }

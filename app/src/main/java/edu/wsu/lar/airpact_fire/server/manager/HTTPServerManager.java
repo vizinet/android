@@ -14,7 +14,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.Post;
 import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
@@ -68,20 +71,30 @@ public class HTTPServerManager implements ServerManager {
 
         // Do some pre-authentication to get secret key (using dummy callback)
         UserObject userObject = postObject.getUser();
+        ArrayList<Object> authenticationObjects;
 
         // Attempt authentication, obtain secretKey for posting
-        final String[] secretKey = new String[1];
         AuthenticationManager authenticationManager = new AuthenticationManager(context,
                 new ServerCallback() {
             @Override
             public Object onStart(Object... args) { return null; }
             @Override
-            public Object onFinish(Object... args) {
-                secretKey[0] = (String) args[3];
-                return null;
-            }
+            public Object onFinish(Object... args) { return null; }
         });
         authenticationManager.execute(userObject.getUsername(), userObject.getPassword());
+
+        boolean isUser = false;
+        String secretKey = "";
+        try {
+            authenticationObjects = authenticationManager.get();
+            isUser = (Boolean) authenticationObjects.get(0);
+            if (!isUser) { return; }
+            secretKey = (String) authenticationObjects.get(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         // Attempt submission
         SubmissionManager submissionManager = new SubmissionManager(context, callback);
@@ -89,11 +102,11 @@ public class HTTPServerManager implements ServerManager {
     }
 
     // Gets run when new credentials are found that are not in the database
-    private class AuthenticationManager extends AsyncTask<String, Void, Boolean> {
+    private class AuthenticationManager extends AsyncTask<String, Void, ArrayList<Object>> {
 
         private Context mContext;
         private ServerCallback mCallback;
-        private String mUsername, mPassword, mSecretKey;
+        private String mUsername, mPassword;
 
         public AuthenticationManager(Context context, ServerCallback callback) {
             mContext = context;
@@ -107,13 +120,14 @@ public class HTTPServerManager implements ServerManager {
         }
 
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected ArrayList<Object> doInBackground(String... params) {
 
             // Retrieve passed credentials
             mUsername = params[0];
             mPassword = params[1];
 
             boolean isUser = false;
+            String secretKey = "";
 
             try {
 
@@ -166,7 +180,7 @@ public class HTTPServerManager implements ServerManager {
                 // See if credentials were authenticated
                 isUser = Boolean.parseBoolean((String) authenticationReceiveJSON.get("isUser"));
                 if (isUser) {
-                    mSecretKey = authenticationReceiveJSON.get("secretKey").toString();
+                    secretKey = authenticationReceiveJSON.get("secretKey").toString();
                 }
 
                 authOutputStream.flush();
@@ -176,12 +190,19 @@ public class HTTPServerManager implements ServerManager {
                 e.printStackTrace();
             }
 
-            return isUser;
+            // Send resultant array to onPostExecute and anyone who calls AuthenticationManager.get()
+            ArrayList resultArrayList = new ArrayList();
+            resultArrayList.add(isUser);
+            resultArrayList.add(secretKey);
+
+            return resultArrayList;
         }
 
         @Override
-        protected void onPostExecute(Boolean result) {
-            mCallback.onFinish(result, mUsername, mPassword, mSecretKey);
+        protected void onPostExecute(ArrayList result) {
+            boolean isUser = (Boolean) result.get(0);
+            String secretKey = (String) result.get(1);
+            mCallback.onFinish(isUser, mUsername, mPassword, secretKey);
         }
     }
 
@@ -269,7 +290,7 @@ public class HTTPServerManager implements ServerManager {
                 // Get algorithm result
                 // TODO: Have this naming adapted on server side
                 mServerOutput = Double.parseDouble(
-                        postReceiveJSON.get("TwoTargetContrastOutput").toString());
+                        postReceiveJSON.get("output").toString());
 
                 // Image ID, to construct website URL
                 mImageServerId = Integer.parseInt(postReceiveJSON.get("imageID").toString());

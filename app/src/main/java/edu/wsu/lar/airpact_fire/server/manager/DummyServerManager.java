@@ -2,6 +2,8 @@ package edu.wsu.lar.airpact_fire.server.manager;
 
 import android.content.Context;
 
+import edu.wsu.lar.airpact_fire.data.object.PostObject;
+
 public class DummyServerManager implements ServerManager {
 
     private static boolean sBlindAuthentication = true;
@@ -33,6 +35,11 @@ public class DummyServerManager implements ServerManager {
 
     @Override
     public void onLogout(Object... args) {
+
+    }
+
+    @Override
+    public void onSubmit(Context context, PostObject postObject, ServerCallback serverCallback) {
 
     }
 

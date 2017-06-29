@@ -127,7 +127,6 @@ public class AIRPACTFireAppManager implements AppManager {
 
     @Override
     public void onLogin(Object... args) {
-
         mDataManager.onLogin(args);
         mServerManager.onLogin(args);
     }
@@ -148,7 +147,7 @@ public class AIRPACTFireAppManager implements AppManager {
     @Override
     public void onSubmit(PostObject postObject, ServerManager.ServerCallback serverCallback) {
         // Attempt submission to server, update database with results
-        mServerManager.onSubmit(postObject, serverCallback);
+        mServerManager.onSubmit(mActivity.getApplicationContext(), postObject, serverCallback);
     }
 
     /**

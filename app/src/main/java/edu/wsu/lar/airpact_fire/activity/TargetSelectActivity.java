@@ -130,6 +130,20 @@ public class TargetSelectActivity extends AppCompatActivity {
         // Take picture
         takeAndSetPicture();
 
+        // TODO: Remove this test submission
+        mAppManager.getServerManager().onSubmit(getApplicationContext(), mPostObject,
+                new ServerManager.ServerCallback() {
+                    @Override
+                    public Object onStart(Object... args) {
+                        return null;
+                    }
+
+                    @Override
+                    public Object onFinish(Object... args) {
+                        return null;
+                    }
+                });
+
         // Navigation buttons
         mDoneButton.setOnClickListener(new View.OnClickListener() {
 
