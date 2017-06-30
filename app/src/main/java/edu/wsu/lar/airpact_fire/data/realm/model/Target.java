@@ -10,5 +10,6 @@ import io.realm.RealmObject;
 public class Target extends RealmObject {
 
     public RealmList<Coordinate> coordinates; // [x, y]
+    public float distance;
     public int color;
 }

@@ -1,3 +1,7 @@
+// Copyright © 2017,
+// Laboratory for Atmospheric Research at Washington State University,
+// All rights reserved.
+
 package edu.wsu.lar.airpact_fire.data.realm.model;
 
 import java.util.Date;
@@ -9,15 +13,12 @@ public class Post extends RealmObject {
 
     @PrimaryKey
     public int postId;
+    public String secretKey;
+    public int mode;
     public User user;
     public Date date;
-    public int mode;
-    public String imageLocation;
-    public String secretKey;
-    public RealmList<VisualRange> visualRanges;
-    public boolean isSubmitted;     // Flags post as queued or submitted
-    public RealmList<Target> targets;
-    public Coordinate geoCoordinate;
+    public RealmList<Image> images;
+    public float visualRange;
     public String description;
-    public String tags;
+    public String location;
 }

@@ -1,5 +1,6 @@
 package edu.wsu.lar.airpact_fire.server.manager;
 
+import android.app.Activity;
 import android.app.IntentService;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -24,8 +25,17 @@ import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 
 public class HTTPServerManager implements ServerManager {
+
+    private DebugManager mDebugManager;
+    private Activity mActivity;
+
+    public HTTPServerManager(DebugManager debugManager, Activity activity) {
+        mDebugManager = debugManager;
+        mActivity = activity;
+    }
 
     @Override
     public void onAppStart(Object... args) {
@@ -60,7 +70,8 @@ public class HTTPServerManager implements ServerManager {
     @Override
     public void onAuthenticate(Context context, String username, String password,
                                ServerCallback callback) {
-        AuthenticationManager authenticationManager = new AuthenticationManager(context, callback);
+        Log.d("MUCHWOW", "pre AuthenticationManager");
+        AuthenticationManager authenticationManager = new AuthenticationManager(mActivity, callback);
         authenticationManager.execute(username, password);
     }
 
@@ -73,8 +84,8 @@ public class HTTPServerManager implements ServerManager {
         UserObject userObject = postObject.getUser();
         ArrayList<Object> authenticationObjects;
 
-        // Attempt authentication, obtain secretKey for posting
-        AuthenticationManager authenticationManager = new AuthenticationManager(context,
+        // Attempt authentication
+        AuthenticationManager authenticationManager = new AuthenticationManager(mActivity,
                 new ServerCallback() {
             @Override
             public Object onStart(Object... args) { return null; }
@@ -83,40 +94,45 @@ public class HTTPServerManager implements ServerManager {
         });
         authenticationManager.execute(userObject.getUsername(), userObject.getPassword());
 
-        boolean isUser = false;
+        // Attempt to obtain secret key for posting
         String secretKey = "";
         try {
+            // Wait for authentication to occur
             authenticationObjects = authenticationManager.get();
-            isUser = (Boolean) authenticationObjects.get(0);
+            boolean isUser = (Boolean) authenticationObjects.get(0);
             if (!isUser) { return; }
             secretKey = (String) authenticationObjects.get(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
+            return;
         } catch (ExecutionException e) {
             e.printStackTrace();
+            return;
         }
 
         // Attempt submission
-        SubmissionManager submissionManager = new SubmissionManager(context, callback);
+        SubmissionManager submissionManager = new SubmissionManager(mActivity, callback);
         submissionManager.execute(postObject, secretKey);
     }
 
     // Gets run when new credentials are found that are not in the database
     private class AuthenticationManager extends AsyncTask<String, Void, ArrayList<Object>> {
 
-        private Context mContext;
+        private Activity mActivity;
         private ServerCallback mCallback;
         private String mUsername, mPassword;
 
-        public AuthenticationManager(Context context, ServerCallback callback) {
-            mContext = context;
+        public AuthenticationManager(Activity activity, ServerCallback callback) {
+            mActivity = activity;
             mCallback = callback;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mCallback.onStart(mContext);
+
+            mCallback.onStart(mActivity);
+            Log.d("MUCHWOW", "AuthenticationManager.onPreExecute()");
         }
 
         @Override
@@ -195,14 +211,16 @@ public class HTTPServerManager implements ServerManager {
             resultArrayList.add(isUser);
             resultArrayList.add(secretKey);
 
+            Log.d("MUCHWOW", "AuthenticationManager.doInBackground()");
             return resultArrayList;
         }
 
         @Override
-        protected void onPostExecute(ArrayList result) {
+        protected void onPostExecute(ArrayList<Object> result) {
             boolean isUser = (Boolean) result.get(0);
             String secretKey = (String) result.get(1);
             mCallback.onFinish(isUser, mUsername, mPassword, secretKey);
+            Log.d("MUCHWOW", "AuthenticationManager.onPostExecute()");
         }
     }
 
@@ -210,7 +228,7 @@ public class HTTPServerManager implements ServerManager {
     // Takes Post object, converts this into JSON, and submits it
     private class SubmissionManager extends AsyncTask<Object, Void, Void> {
 
-        private Context mContext;
+        private Activity mActivity;
         private ServerCallback mCallback;
         private PostObject mPostObject;
         private boolean mDidSubmit;
@@ -218,15 +236,15 @@ public class HTTPServerManager implements ServerManager {
         private double mServerOutput;
         private long mImageServerId;
 
-        public SubmissionManager(Context context, ServerCallback callback) {
-            mContext = context;
+        public SubmissionManager(Activity activity, ServerCallback callback) {
+            mActivity = activity;
             mCallback = callback;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mCallback.onStart(mContext);
+            mCallback.onStart(mActivity);
         }
 
         @Override
@@ -288,7 +306,6 @@ public class HTTPServerManager implements ServerManager {
                 mDidSubmit = postStatus.equals("success");
 
                 // Get algorithm result
-                // TODO: Have this naming adapted on server side
                 mServerOutput = Double.parseDouble(
                         postReceiveJSON.get("output").toString());
 

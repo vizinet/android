@@ -16,14 +16,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import edu.wsu.lar.airpact_fire.Reference;
+
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
+import edu.wsu.lar.airpact_fire.data.object.ImageObject;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Coordinate;
+import edu.wsu.lar.airpact_fire.data.realm.model.Image;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
-import edu.wsu.lar.airpact_fire.data.realm.model.Target;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
+import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.util.Util;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -72,6 +74,13 @@ public class RealmPostObject implements PostObject {
     }
 
     @Override
+    public void setDate(Date value) {
+        mRealm.beginTransaction();
+        mPost.date = value;
+        mRealm.commitTransaction();
+    }
+
+    @Override
     public long getImageServerId() {
         return 0;
     }
@@ -93,7 +102,7 @@ public class RealmPostObject implements PostObject {
 
     @Override
     public int getAlgorithm() {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -114,8 +123,8 @@ public class RealmPostObject implements PostObject {
     }
 
     @Override
-    public Bitmap getImage() {
-        String fileLocation = mPost.imageLocation;
+    public Bitmap getImageBitmap() {
+        String fileLocation = mPost.images.get(0).imageLocation;
         Bitmap bitmap = null;
         try {
             bitmap = MediaStore.Images.Media.getBitmap(mDataManager.getActivity()
@@ -125,6 +134,14 @@ public class RealmPostObject implements PostObject {
         }
         return bitmap;
     }
+
+    /*
+    @Override
+    public ImageObject getImage() {
+       //return new ImageObject(mPost.images.get(0));
+        return null;
+    }
+    */
 
     @Override
     public Uri createImage() {
@@ -141,7 +158,10 @@ public class RealmPostObject implements PostObject {
 
         // Save image location
         mRealm.beginTransaction();
-        mPost.imageLocation = imageUri.toString();
+        Image imageModel = mRealm.createObject(Image.class, imageUri.toString());
+        RealmList imageList = new RealmList();
+        imageList.add(imageModel);
+        mPost.images = imageList;
         mRealm.commitTransaction();
 
         return imageUri;
@@ -173,7 +193,7 @@ public class RealmPostObject implements PostObject {
 
         // Store image location in DB
         mRealm.beginTransaction();
-        mPost.imageLocation = fileLocation;
+        //mPost.imageLocation = fileLocation;
         mRealm.commitTransaction();
     }
 
@@ -183,7 +203,7 @@ public class RealmPostObject implements PostObject {
         Coordinate coordinate = mRealm.createObject(Coordinate.class);
         coordinate.x = values[0];
         coordinate.y = values[1];
-        mPost.geoCoordinate = coordinate;
+        mPost.images.get(0).gpsCoordinate = coordinate;
         mRealm.commitTransaction();
     }
 
@@ -219,7 +239,7 @@ public class RealmPostObject implements PostObject {
 
     @Override
     public double[] getGPS() {
-        Coordinate coordinate = mPost.geoCoordinate;
+        Coordinate coordinate = mPost.images.get(0).gpsCoordinate;
         return new double[] {coordinate.x, coordinate.y};
     }
 
@@ -246,17 +266,6 @@ public class RealmPostObject implements PostObject {
     }
 
     @Override
-    public int[] getTargetsColors() {
-        RealmList<Target> targets = mPost.targets;
-        return null;
-    }
-
-    @Override
-    public void setTargetsColors(int[] values) {
-
-    }
-
-    @Override
     public String getDescription() {
         return null;
     }
@@ -276,45 +285,51 @@ public class RealmPostObject implements PostObject {
 
     }
 
+    // TODO: Something cooler so that this Data object doesn't need to know any server specs!
+
     @Override
     public JSONObject toJSON() {
 
         // Intermediate objects
-        int[] targetColors = getTargetsColors();
-        float[][] splitTargetCoordinates = Util.splitXY(getTargetsCoordinates());
+        float[][] targetCoordinates = getTargetsCoordinates();
 
         // TODO: Adapt post for many images and visual ranges and fields
         // TODO: Dynamically change JSON for algorithm type
+        // TODO: Maybe send radii for the targets
 
         // Post submission field vars => JSON
         JSONObject root = new JSONObject();
         root.put("user", getUser().getUsername());
         root.put("description", getDescription());
-        root.put("image", Util.bitmapToString(getImage()));
+        root.put("image", Util.bitmapToString(getImageBitmap()));
         root.put("secretKey", getSecretKey());
         root.put("distanceMetric", getMetric());
         root.put("location", getLocation());
-        // TODO: Ensure this is the time the image was taken
-        root.put("time", new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(getDate()));
+        root.put("time", new SimpleDateFormat(ServerManager.DATE_FORMAT).format(getDate()));
 
         // TODO: Send int representing algorithm; adapt my docs to
         // algorithm #1 = two-in-one
         // algorithm #2 = one-for-one
-        root.put("algorithmType", getAlgorithm());
+        int algorithm = getAlgorithm();
+        root.put("algorithmType", algorithm);
+        switch (algorithm) {
 
-        // TODO: Maybe send radii for the targets
+            case 1: // Two-in-one
+                root.put("nearTargetX", 1.0); //getImageBitmap(). targetCoordinates[0][0]);
+                root.put("nearTargetY", 2.0); //targetCoordinates[0][1]);
+                root.put("nearTargetEstimatedDistance", 3.0);
+                root.put("farTargetX", 4.0); //targetCoordinates[1][0]);
+                root.put("farTargetY", 5.0); //targetCoordinates[1][1]);
+                root.put("farTargetEstimatedDistance", 6.0); //Util.joinArray(getDistances(), ","));
+                root.put("estimatedVisualRange", 7.0); //getEstimatedVisualRange());
+                root.put("gpsLongitude", 8.0); //Util.joinArray(getGPS(), ","));
+                root.put("gpsLatitude", 9.0); //Util.joinArray(getGPS(), ","));
+                break;
 
-        // If algorithmType == 1
-        // TODO: Adapt all fields
-        root.put("nearTargetX", Util.joinArray(splitTargetCoordinates[0], ","));
-        root.put("nearTargetY", Util.joinArray(splitTargetCoordinates[0], ","));
-        root.put("nearTargetEstimatedDistance", Util.joinArray(getDistances(), ","));
-        root.put("farTargetX", Util.joinArray(splitTargetCoordinates[0], ","));
-        root.put("farTargetY", Util.joinArray(splitTargetCoordinates[0], ","));
-        root.put("farTargetEstimatedDistance", Util.joinArray(getDistances(), ","));
-        root.put("estimatedVisualRange", getEstimatedVisualRange());
-        root.put("gpsLongitude", Util.joinArray(getGPS(), ","));
-        root.put("gpsLatitude", Util.joinArray(getGPS(), ","));
+            case 2: // One-for-one
+                // TODO
+                break;
+        }
 
         return root;
     }
