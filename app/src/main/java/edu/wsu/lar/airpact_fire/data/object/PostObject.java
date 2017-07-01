@@ -47,6 +47,7 @@ public interface PostObject {
 
     Bitmap getImageBitmap();
     Uri createImage();
+    void setImage(Bitmap value);
 
     double[] getGPS();
     void setGPS(double[] values);

@@ -12,7 +12,10 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import org.json.simple.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -128,25 +131,13 @@ public class RealmPostObject implements PostObject {
         String fileLocation = mPost.images.get(0).imageLocation;
         Bitmap bitmap = null;
         try {
+            // TODO: Store image location s.t. we don't need to get it's substring
             bitmap = BitmapFactory.decodeFile(fileLocation.substring(7));
-            if (true) return bitmap;
-            bitmap = MediaStore.Images.Media.getBitmap(mDataManager.getActivity()
-                    .getContentResolver(), Uri.parse(fileLocation));
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
         }
         return bitmap;
     }
-
-    /*
-    @Override
-    public ImageObject getImage() {
-       //return new ImageObject(mPost.images.get(0));
-        return null;
-    }
-    */
 
     @Override
     public Uri createImage() {
@@ -173,33 +164,21 @@ public class RealmPostObject implements PostObject {
     }
 
     // TODO: Possibly remove, possibly use to store image file to private dir
-    private void setImage(Bitmap value) {
-
-        ContextWrapper cw = new ContextWrapper(mDataManager.getActivity().getApplicationContext());
-
-        // Path to "/data/data/airpact_fire/app_data/imageDir"
-        File directory = cw.getDir("images", Context.MODE_PRIVATE);
-        File file = new File(directory, "post_image_" + mPost.postId + ".jpg");
-        FileOutputStream fos = null;
-
+    @Override
+    public void setImage(Bitmap value) {
+        String fileLocation = mPost.images.get(0).imageLocation;
+        File file = new File(fileLocation.substring(7));
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        value.compress(Bitmap.CompressFormat.PNG, 0, bos); // NOTE: Most time-consuming task
+        byte[] bitmapData = bos.toByteArray();
         try {
-            fos = new FileOutputStream(file);
-            value.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapData);
+        } catch (IOException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        String fileLocation = file.getAbsolutePath();
-
-        // Store image location in DB
-        mRealm.beginTransaction();
-        //mPost.imageLocation = fileLocation;
-        mRealm.commitTransaction();
     }
 
     @Override
@@ -306,7 +285,6 @@ public class RealmPostObject implements PostObject {
         JSONObject root = new JSONObject();
         root.put("user", getUser().getUsername());
         root.put("description", getDescription());
-        Bitmap bitmap = getImageBitmap();
         root.put("image", Util.bitmapToString(getImageBitmap()));
         root.put("secretKey", getSecretKey());
         root.put("distanceMetric", "kilometers"); // TODO: Change to integer, getMetric());

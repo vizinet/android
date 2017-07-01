@@ -426,23 +426,10 @@ public class TargetSelectActivity extends AppCompatActivity {
                 return;
             }
 
-            // TODO: Remove this test submission
-            mAppManager.getServerManager().onSubmit(getApplicationContext(), mPostObject,
-                new ServerManager.ServerCallback() {
-                    @Override
-                    public Object onStart(Object... args) {
-                        return null;
-                    }
-                    @Override
-                    public Object onFinish(Object... args) {
-                        return null;
-                    }
-                });
-
-
             time = System.nanoTime() - time;
             double seconds = (double) time / 1000000000.0;
             mAppManager.getDebugManager().printLog("Elapsed image storage time = " + seconds + "s");
+            time = System.nanoTime();
 
             // Resize bitmap for display (to screen proportions)
             Display display = getWindowManager().getDefaultDisplay();
@@ -453,6 +440,13 @@ public class TargetSelectActivity extends AppCompatActivity {
                     (screenWidth / (float) bitmap.getWidth()));
             int imageWidth = screenWidth;
             bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, true);
+
+            // Redo image
+            mPostObject.setImage(bitmap);
+
+            time = System.nanoTime() - time;
+            seconds = (double) time / 1000000000.0;
+            mAppManager.getDebugManager().printLog("Elapsed convergence storage time = " + seconds + "s");
 
             // Add Bitmap to post in XML
             // TODO: Find use somewhere else
@@ -484,6 +478,19 @@ public class TargetSelectActivity extends AppCompatActivity {
 
             // Set image view
             mImageView.setImageBitmap(bitmap);
+
+            // TODO: Remove this test submission
+            mAppManager.getServerManager().onSubmit(getApplicationContext(), mPostObject,
+                new ServerManager.ServerCallback() {
+                    @Override
+                    public Object onStart(Object... args) {
+                        return null;
+                    }
+                    @Override
+                    public Object onFinish(Object... args) {
+                        return null;
+                    }
+                });
 
         } else {
             // If no image take, go home
