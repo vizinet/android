@@ -47,6 +47,7 @@ import java.util.List;
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import lar.wsu.edu.airpact_fire.R;
@@ -58,6 +59,7 @@ public class TargetSelectActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO = 1;
 
     private AppManager mAppManager;
+    private UserObject mUserObject;
     private PostObject mPostObject;
 
     private FrameLayout mNavBar;
@@ -87,7 +89,8 @@ public class TargetSelectActivity extends AppCompatActivity {
         mAppManager.onActivityStart(this);
 
         // Create new post (for this image)
-        mPostObject = mAppManager.getDataManager().getApp().getLastUser().createPost();
+        mUserObject = mAppManager.getDataManager().getApp().getLastUser();
+        mPostObject = mUserObject.createPost();
 
         // Create UI elements
         mWhiteCircle = addNewIndicator(R.color.schemeWhite);
@@ -132,21 +135,6 @@ public class TargetSelectActivity extends AppCompatActivity {
         mAppManager.getDebugManager().printLog("Before takeAndSetPicture()");
         takeAndSetPicture();
         mAppManager.getDebugManager().printLog("After takeAndSetPicture()");
-
-        // TODO: Ensure we're submitting correctly as a test
-
-        // TODO: Remove this test submission
-        mAppManager.getServerManager().onSubmit(getApplicationContext(), mPostObject,
-                new ServerManager.ServerCallback() {
-                    @Override
-                    public Object onStart(Object... args) {
-                        return null;
-                    }
-                    @Override
-                    public Object onFinish(Object... args) {
-                        return null;
-                    }
-                });
 
         // Navigation buttons
         mDoneButton.setOnClickListener(new View.OnClickListener() {
@@ -437,6 +425,20 @@ public class TargetSelectActivity extends AppCompatActivity {
                 handleImageFailure();
                 return;
             }
+
+            // TODO: Remove this test submission
+            mAppManager.getServerManager().onSubmit(getApplicationContext(), mPostObject,
+                new ServerManager.ServerCallback() {
+                    @Override
+                    public Object onStart(Object... args) {
+                        return null;
+                    }
+                    @Override
+                    public Object onFinish(Object... args) {
+                        return null;
+                    }
+                });
+
 
             time = System.nanoTime() - time;
             double seconds = (double) time / 1000000000.0;

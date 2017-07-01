@@ -2,7 +2,6 @@ package edu.wsu.lar.airpact_fire.server.manager;
 
 import android.app.Activity;
 import android.app.IntentService;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -21,7 +20,6 @@ import java.util.concurrent.ExecutionException;
 
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.Post;
-import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
 import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
@@ -83,8 +81,7 @@ public class HTTPServerManager implements ServerManager {
         // Do some pre-authentication to get secret key (using dummy callback)
         UserObject userObject = postObject.getUser();
         ArrayList<Object> authenticationObjects;
-
-        // Attempt authentication
+        String secretKey = "";
         AuthenticationManager authenticationManager = new AuthenticationManager(mActivity,
                 new ServerCallback() {
             @Override
@@ -92,16 +89,14 @@ public class HTTPServerManager implements ServerManager {
             @Override
             public Object onFinish(Object... args) { return null; }
         });
-        authenticationManager.execute(userObject.getUsername(), userObject.getPassword());
-
-        // Attempt to obtain secret key for posting
-        String secretKey = "";
         try {
             // Wait for authentication to occur
-            authenticationObjects = authenticationManager.get();
+            authenticationObjects = authenticationManager.execute(
+                    userObject.getUsername(), userObject.getPassword()).get();
             boolean isUser = (Boolean) authenticationObjects.get(0);
             if (!isUser) { return; }
             secretKey = (String) authenticationObjects.get(1);
+            postObject.setSecretKey(secretKey);
         } catch (InterruptedException e) {
             e.printStackTrace();
             return;
@@ -110,9 +105,12 @@ public class HTTPServerManager implements ServerManager {
             return;
         }
 
+        // While still in UI thread, generate JSON from DB
+        JSONObject jsonObject = postObject.toJSON();
+
         // Attempt submission
         SubmissionManager submissionManager = new SubmissionManager(mActivity, callback);
-        submissionManager.execute(postObject, secretKey);
+        submissionManager.execute(jsonObject, secretKey);
     }
 
     // Gets run when new credentials are found that are not in the database
@@ -132,7 +130,6 @@ public class HTTPServerManager implements ServerManager {
             super.onPreExecute();
 
             mCallback.onStart(mActivity);
-            Log.d("MUCHWOW", "AuthenticationManager.onPreExecute()");
         }
 
         @Override
@@ -142,6 +139,8 @@ public class HTTPServerManager implements ServerManager {
             mUsername = params[0];
             mPassword = params[1];
 
+            // Send resultant array to onPostExecute and anyone who calls AuthenticationManager.get()
+            ArrayList resultArrayList = new ArrayList();
             boolean isUser = false;
             String secretKey = "";
 
@@ -206,12 +205,9 @@ public class HTTPServerManager implements ServerManager {
                 e.printStackTrace();
             }
 
-            // Send resultant array to onPostExecute and anyone who calls AuthenticationManager.get()
-            ArrayList resultArrayList = new ArrayList();
             resultArrayList.add(isUser);
             resultArrayList.add(secretKey);
 
-            Log.d("MUCHWOW", "AuthenticationManager.doInBackground()");
             return resultArrayList;
         }
 
@@ -220,21 +216,15 @@ public class HTTPServerManager implements ServerManager {
             boolean isUser = (Boolean) result.get(0);
             String secretKey = (String) result.get(1);
             mCallback.onFinish(isUser, mUsername, mPassword, secretKey);
-            Log.d("MUCHWOW", "AuthenticationManager.onPostExecute()");
         }
     }
 
     // TODO: Refactor this and create interface between a DataManager and ServerManager for posting
     // Takes Post object, converts this into JSON, and submits it
-    private class SubmissionManager extends AsyncTask<Object, Void, Void> {
+    private class SubmissionManager extends AsyncTask<Object, Void, ArrayList<Object>> {
 
         private Activity mActivity;
         private ServerCallback mCallback;
-        private PostObject mPostObject;
-        private boolean mDidSubmit;
-        private String mSecretKey;
-        private double mServerOutput;
-        private long mImageServerId;
 
         public SubmissionManager(Activity activity, ServerCallback callback) {
             mActivity = activity;
@@ -248,19 +238,24 @@ public class HTTPServerManager implements ServerManager {
         }
 
         @Override
-        protected Void doInBackground(Object... args) {
+        protected ArrayList doInBackground(Object... args) {
+
+            ArrayList resultArrayList = new ArrayList();
+            boolean didSubmit = false;
+            double serverOutput = -1;
+            int serverImageId = -1;
+
             try {
 
                 // Get post to submit
-                mPostObject = (PostObject) args[0];
-                mSecretKey = (String) args[1];
+                JSONObject jsonObject = (JSONObject) args[0];
+                String secretKey = (String) args[1];
 
                 URL postUrl = new URL(Reference.SERVER_UPLOAD_URL);
                 HttpURLConnection postConnection = (HttpURLConnection) postUrl.openConnection();
 
                 // Add secret key and convert to JSON
-                mPostObject.setSecretKey(mSecretKey);
-                String postMessage = mPostObject.toJSON().toString();
+                String postMessage = jsonObject.toString();
 
                 // Connection properties
                 postConnection.setReadTimeout(30000);
@@ -303,14 +298,14 @@ public class HTTPServerManager implements ServerManager {
 
                 // Did post succeed?
                 String postStatus = postReceiveJSON.get("status").toString();
-                mDidSubmit = postStatus.equals("success");
+                didSubmit = postStatus.equals("success");
 
                 // Get algorithm result
-                mServerOutput = Double.parseDouble(
+                serverOutput = Double.parseDouble(
                         postReceiveJSON.get("output").toString());
 
                 // Image ID, to construct website URL
-                mImageServerId = Integer.parseInt(postReceiveJSON.get("imageID").toString());
+                serverImageId = Integer.parseInt(postReceiveJSON.get("imageID").toString());
 
                 // Clean up
                 postOutputStream.flush();
@@ -320,12 +315,19 @@ public class HTTPServerManager implements ServerManager {
                 e.printStackTrace();
             }
 
-            return null;
+            resultArrayList.add(didSubmit);
+            resultArrayList.add(serverOutput);
+            resultArrayList.add(serverImageId);
+
+            return resultArrayList;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            mCallback.onFinish(mDidSubmit, mServerOutput, mImageServerId);
+        protected void onPostExecute(ArrayList arrayList) {
+            boolean didSubmit = (boolean) arrayList.get(0);
+            double serverOutput = (double) arrayList.get(1);
+            int serverImageId = (int) arrayList.get(2);
+            mCallback.onFinish(didSubmit, serverOutput, serverImageId);
         }
     }
 
