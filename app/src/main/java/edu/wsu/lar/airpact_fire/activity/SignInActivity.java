@@ -4,12 +4,14 @@
 
 package edu.wsu.lar.airpact_fire.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -132,22 +134,25 @@ public class SignInActivity extends AppCompatActivity {
 
                     // New guy - needs authentication
                     mAppManager.getDebugManager().printLog("Realm user does not exist");
+
                     mAppManager.onAuthenticate(
                             username, password,
                             new ServerManager.ServerCallback() {
 
                                 private ProgressDialog mProgress;
-                                private Context mContext;
+                                private Activity mActivity;
 
                                 @Override
                                 public Object onStart(Object... args) {
 
-                                    mContext = (Context) args[0];
+                                    mActivity = (Activity) args[0];
 
                                     // Show loading display
-                                    mProgress = new ProgressDialog(mContext);
+                                    // NOTE: Found that using context rather than activity causes
+                                    // some annoyances
+                                    mProgress = new ProgressDialog(mActivity);
                                     mProgress.setTitle("Signing In...");
-                                    mProgress.setMessage("Please wait while we onAuthenticate");
+                                    mProgress.setMessage("Please wait while we authenticate");
                                     mProgress.show();
 
                                     return null;
@@ -164,14 +169,14 @@ public class SignInActivity extends AppCompatActivity {
                                     mProgress.dismiss();
 
                                     if (isUser) {
-                                        Toast.makeText(mContext, R.string.authentication_success,
+                                        Toast.makeText(mActivity, R.string.authentication_success,
                                                 Toast.LENGTH_LONG).show();
 
                                         // Log user in
                                         login(username, password);
 
                                     } else {
-                                        Toast.makeText(mContext, R.string.authentication_failed,
+                                        Toast.makeText(mActivity, R.string.authentication_failed,
                                                 Toast.LENGTH_SHORT).show();
                                     }
 

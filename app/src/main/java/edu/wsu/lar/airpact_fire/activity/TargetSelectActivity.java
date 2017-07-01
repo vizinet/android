@@ -42,6 +42,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
@@ -128,7 +129,11 @@ public class TargetSelectActivity extends AppCompatActivity {
                 .getDrawable(R.drawable.indicator_border));
 
         // Take picture
+        mAppManager.getDebugManager().printLog("Before takeAndSetPicture()");
         takeAndSetPicture();
+        mAppManager.getDebugManager().printLog("After takeAndSetPicture()");
+
+        // TODO: Ensure we're submitting correctly as a test
 
         // TODO: Remove this test submission
         mAppManager.getServerManager().onSubmit(getApplicationContext(), mPostObject,
@@ -137,7 +142,6 @@ public class TargetSelectActivity extends AppCompatActivity {
                     public Object onStart(Object... args) {
                         return null;
                     }
-
                     @Override
                     public Object onFinish(Object... args) {
                         return null;
@@ -395,7 +399,7 @@ public class TargetSelectActivity extends AppCompatActivity {
                             Math.round(mBlackCircle.getX()),
                             Math.round(mBlackCircle.getY()))
             };
-            mPostObject.setTargetsColors(colors);
+            //mPostObject.setTargetsColors(colors);
         }
         super.onPause();
     }
@@ -427,7 +431,7 @@ public class TargetSelectActivity extends AppCompatActivity {
             long time = System.nanoTime();
 
             // Get bitmap
-            Bitmap bitmap = mPostObject.getImage();
+            Bitmap bitmap = mPostObject.getImageBitmap();
             if (bitmap == null) {
                 // Abort mission
                 handleImageFailure();
@@ -451,6 +455,11 @@ public class TargetSelectActivity extends AppCompatActivity {
             // Add Bitmap to post in XML
             // TODO: Find use somewhere else
             // String imageString = Base64.encodeToString(Util.compressBitmap(bitmap), Base64.DEFAULT);
+
+            // TODO: When user retakes image, scrap this post and make a new one!
+
+            // Set date the moment the image has been captured
+            mPostObject.setDate(new Date());
 
             // Add placeholder/default geolocation
             mPostObject.setGPS(new double[] {

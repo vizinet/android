@@ -25,6 +25,7 @@ public interface PostObject {
     UserObject getUser();
 
     Date getDate();
+    void setDate(Date value);
 
     long getImageServerId();
     void setImageServerId(long value);
@@ -44,7 +45,7 @@ public interface PostObject {
     int getMode();
     void setMode(int value);
 
-    Bitmap getImage();
+    Bitmap getImageBitmap();
     Uri createImage();
 
     double[] getGPS();
@@ -62,8 +63,6 @@ public interface PostObject {
 
     float[][] getTargetsCoordinates();
     void setTargetsCoorindates(float[][] values);
-    int[] getTargetsColors();
-    void setTargetsColors(int[] values);
 
     String getDescription();
     void setDescription(String value);

@@ -101,7 +101,7 @@ public class AIRPACTFireAppManager implements AppManager {
         // Construct managers
         mDebugManager = new DebugManager(isDebugging());
         mDataManager = new RealmDataManager(mDebugManager, mActivity);
-        mServerManager = new HTTPServerManager();
+        mServerManager = new HTTPServerManager(mDebugManager, mActivity);
 
         mDebugManager.printLog("Started activity = " + context.toString());
 

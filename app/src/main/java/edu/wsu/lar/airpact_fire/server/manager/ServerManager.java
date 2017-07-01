@@ -14,19 +14,7 @@ import edu.wsu.lar.airpact_fire.data.object.PostObject;
  */
 public interface ServerManager {
 
-    String[] SUBMISSION_FIELDS = {
-        "user",             // String
-        "description",      // String
-        "image",            // String
-        "secretKey",        // String
-        "highColor",        // int
-        "highX", "highY",   // float
-        "lowColor",         // int
-        "lowX", "lowY",     // float
-        "visualRange",      // float
-        "geoX", "geoY",     // float
-        "tags"              // String
-    };
+    String DATE_FORMAT = "yyyy.MM.dd.HH.mm.ss";
 
     /**
      * Communication interface between app and some authenticating and submission-accepting entity
