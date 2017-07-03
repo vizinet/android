@@ -7,11 +7,15 @@ package edu.wsu.lar.airpact_fire.data.realm.object;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import org.json.simple.JSONObject;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -24,6 +28,7 @@ import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Coordinate;
 import edu.wsu.lar.airpact_fire.data.realm.model.Image;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
+import edu.wsu.lar.airpact_fire.data.realm.model.User;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.util.Util;
@@ -35,32 +40,31 @@ public class RealmPostObject implements PostObject {
 
     private Realm mRealm;
     private Post mPost;
-    private int mPostId;
     private DataManager mDataManager;
     private DebugManager mDebugManager;
 
     public RealmPostObject(Realm realm, int postId, DataManager dataManager,
                            DebugManager debugManager) {
-        mRealm = realm;
-        mPost = mRealm.where(Post.class).equalTo("postId", mPostId).findFirst();
-        mPostId = postId;
-        mDataManager = dataManager;
-        mDebugManager = debugManager;
+        this(realm, realm.where(Post.class).equalTo("postId", postId).findFirst(),
+                dataManager, debugManager);
     }
 
     public RealmPostObject(Realm realm, Post post, DataManager dataManager,
                            DebugManager debugManager) {
-        this(realm, post.postId, dataManager, debugManager);
+        mRealm = realm;
+        mPost = post;
+        mDataManager = dataManager;
+        mDebugManager = debugManager;
     }
 
     @Override
     public UserObject getUser() {
-        return null;
+        return new RealmUserObject(mRealm, mPost.user, mDataManager, mDebugManager);
     }
 
     @Override
     public String getSecretKey() {
-        return null;
+        return mPost.secretKey;
     }
 
     @Override
@@ -127,21 +131,13 @@ public class RealmPostObject implements PostObject {
         String fileLocation = mPost.images.get(0).imageLocation;
         Bitmap bitmap = null;
         try {
-            bitmap = MediaStore.Images.Media.getBitmap(mDataManager.getActivity()
-                    .getContentResolver(), Uri.parse(fileLocation));
-        } catch (IOException e) {
+            // TODO: Store image location s.t. we don't need to get it's substring
+            bitmap = BitmapFactory.decodeFile(fileLocation.substring(7));
+        } catch (OutOfMemoryError e) {
             e.printStackTrace();
         }
         return bitmap;
     }
-
-    /*
-    @Override
-    public ImageObject getImage() {
-       //return new ImageObject(mPost.images.get(0));
-        return null;
-    }
-    */
 
     @Override
     public Uri createImage() {
@@ -168,33 +164,21 @@ public class RealmPostObject implements PostObject {
     }
 
     // TODO: Possibly remove, possibly use to store image file to private dir
-    private void setImage(Bitmap value) {
-
-        ContextWrapper cw = new ContextWrapper(mDataManager.getActivity().getApplicationContext());
-
-        // Path to "/data/data/airpact_fire/app_data/imageDir"
-        File directory = cw.getDir("images", Context.MODE_PRIVATE);
-        File file = new File(directory, "post_image_" + mPostId + ".jpg");
-        FileOutputStream fos = null;
-
+    @Override
+    public void setImage(Bitmap value) {
+        String fileLocation = mPost.images.get(0).imageLocation;
+        File file = new File(fileLocation.substring(7));
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        value.compress(Bitmap.CompressFormat.PNG, 0, bos); // NOTE: Most time-consuming task
+        byte[] bitmapData = bos.toByteArray();
         try {
-            fos = new FileOutputStream(file);
-            value.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapData);
+        } catch (IOException e) {
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        String fileLocation = file.getAbsolutePath();
-
-        // Store image location in DB
-        mRealm.beginTransaction();
-        //mPost.imageLocation = fileLocation;
-        mRealm.commitTransaction();
     }
 
     @Override
@@ -267,7 +251,7 @@ public class RealmPostObject implements PostObject {
 
     @Override
     public String getDescription() {
-        return null;
+        return "test description";
     }
 
     @Override
@@ -277,7 +261,7 @@ public class RealmPostObject implements PostObject {
 
     @Override
     public String getLocation() {
-        return null;
+        return "test location";
     }
 
     @Override
@@ -303,14 +287,16 @@ public class RealmPostObject implements PostObject {
         root.put("description", getDescription());
         root.put("image", Util.bitmapToString(getImageBitmap()));
         root.put("secretKey", getSecretKey());
-        root.put("distanceMetric", getMetric());
+        root.put("distanceMetric", "kilometers"); // TODO: Change to integer, getMetric());
         root.put("location", getLocation());
         root.put("time", new SimpleDateFormat(ServerManager.DATE_FORMAT).format(getDate()));
 
         // TODO: Send int representing algorithm; adapt my docs to
         // algorithm #1 = two-in-one
         // algorithm #2 = one-for-one
-        int algorithm = getAlgorithm();
+        //int algorithm = getAlgorithm();
+        int algorithm = 1;
+        // TODO: Set the algorithm in the UI
         root.put("algorithmType", algorithm);
         switch (algorithm) {
 
@@ -328,6 +314,9 @@ public class RealmPostObject implements PostObject {
 
             case 2: // One-for-one
                 // TODO
+                break;
+
+            default:
                 break;
         }
 
