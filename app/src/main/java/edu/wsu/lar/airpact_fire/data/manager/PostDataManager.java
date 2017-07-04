@@ -28,7 +28,7 @@ public class PostDataManager {
     //      postFlag, user, image, secretKey, description,
     //      highColor, highX, highY,
     //      lowColor, lowX, lowY,
-    //      visualRange, geoX, geoY, tags, date
+    //      estimatedVisualRange, geoX, geoY, tags, date
 
     // NOTE: Get database in an AsyncTask because getting it could be long-running
 
@@ -537,7 +537,7 @@ public class PostDataManager {
             public static final String COLUMN_NAME_LOW_COLOR = "lowColor";
             public static final String COLUMN_NAME_LOW_X = "lowX";
             public static final String COLUMN_NAME_LOW_Y = "lowY";
-            public static final String COLUMN_NAME_VISUAL_RANGE = "visualRange";
+            public static final String COLUMN_NAME_VISUAL_RANGE = "estimatedVisualRange";
             public static final String COLUMN_NAME_GEO_X = "geoX";
             public static final String COLUMN_NAME_GEO_Y = "geoY";
             public static final String COLUMN_NAME_TAGS = "tags";

@@ -59,7 +59,7 @@ public class Post {
             "highX", "highY",   // float
             "lowColor",         // int
             "lowX", "lowY",     // float
-            "visualRange",      // float
+            "estimatedVisualRange",      // float
             "geoX", "geoY",     // float
             "tags"              // String
     };
@@ -247,7 +247,7 @@ public class Post {
         root.put("lowColor", LowColor);
         root.put("lowX", LowX);
         root.put("lowY", LowY);
-        root.put("visualRange", VisualRange);
+        root.put("estimatedVisualRange", VisualRange);
         root.put("geoX", GeoX);
         root.put("geoY", GeoY);
         root.put("tags", Tags);
@@ -679,7 +679,7 @@ class RecordManager extends AsyncTask<Post, Void, Void> {
 //                AppDataManager.getUserData(user, "lowColor"),
 //                AppDataManager.getUserData(user, "lowX"),
 //                AppDataManager.getUserData(user, "lowY"),
-//                AppDataManager.getUserData(user, "visualRange"),
+//                AppDataManager.getUserData(user, "estimatedVisualRange"),
 //                AppDataManager.getUserData(user, "geoX"),
 //                AppDataManager.getUserData(user, "geoY"),
 //                AppDataManager.getUserData(user, "tags"),

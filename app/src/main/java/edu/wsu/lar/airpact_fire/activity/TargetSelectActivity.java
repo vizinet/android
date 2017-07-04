@@ -132,9 +132,7 @@ public class TargetSelectActivity extends AppCompatActivity {
                 .getDrawable(R.drawable.indicator_border));
 
         // Take picture
-        mAppManager.getDebugManager().printLog("Before takeAndSetPicture()");
         takeAndSetPicture();
-        mAppManager.getDebugManager().printLog("After takeAndSetPicture()");
 
         // Navigation buttons
         mDoneButton.setOnClickListener(new View.OnClickListener() {

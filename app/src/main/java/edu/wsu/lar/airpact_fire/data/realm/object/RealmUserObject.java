@@ -91,6 +91,7 @@ public class RealmUserObject implements UserObject {
 
     @Override
     public Date getFirstLoginDate() {
+
         return null;
     }
 

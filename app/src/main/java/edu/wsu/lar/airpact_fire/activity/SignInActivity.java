@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,7 +28,6 @@ import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import lar.wsu.edu.airpact_fire.R;
 
 // TODO: Address all below to-do statements
-
 // TODO: Adapt UI changes based on sketches
 // TODO: AppManager: Method which adds service to monitor app state (namely, exit, so we can call onAppEnd)
 // TODO: Add copyright/disclaimer/license code (Luke Weber, WSU, LAR, etc.) to each code file in AIRPACT-Fire, along with authorship information in each file
@@ -40,7 +38,6 @@ import lar.wsu.edu.airpact_fire.R;
 // TODO: Add "alpha" print to logo
 // TODO: Have auto-fill for login page and post page
 // TODO: Better image storage - perhaps Make separate files for the image, linked to by the <image /> tag by the user (e.g. "test_image.jpg")
-
 // TODO: Internet status (color-coded) on home, view gallery option (web browser), as well as last login time and other stats
 // TODO: Custom Toast display, to make it more obvious to user
 // TODO: More responsive buttons
@@ -59,7 +56,6 @@ import lar.wsu.edu.airpact_fire.R;
 // TODO: Have loading icon for SignInActivity on first-time install (because it takes a little while).
 // TODO: Be able to handle null inputs on PictureDetailsActivity
 // TODO: Be able to check for valid inputs on same activity.
-
 // TODO: If a post has been queued, allow users to edit a limited amount of fields, like description, VR, and location
 // TODO: Know if post is uncompleted -> notify user it has been drafted in toast and on home screen (this means we might
 //  want to use SQL for everything and populate each SQL post gradually. Also, it means we'll have the following identifiers
@@ -171,8 +167,6 @@ public class SignInActivity extends AppCompatActivity {
                                     if (isUser) {
                                         Toast.makeText(mActivity, R.string.authentication_success,
                                                 Toast.LENGTH_LONG).show();
-
-                                        // Log user in
                                         login(username, password);
 
                                     } else {

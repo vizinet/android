@@ -125,7 +125,7 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
     private void collectFormData() {
         String lastUser = AppDataManager.getRecentUser();
         AppDataManager.setUserData(lastUser, "description", mDescriptionInput.getText().toString());
-//        AppDataManager.setUserData(lastUser, "visualRange", mVisualRangeInput.getText().toString());
+//        AppDataManager.setUserData(lastUser, "estimatedVisualRange", mVisualRangeInput.getText().toString());
         AppDataManager.setUserData(lastUser, "tags", mAddTagInput.getText().toString());
     }
 
@@ -136,7 +136,7 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         mImageLocationTextView.setText("(" + AppDataManager.getUserData(lastUser, "geoX")
                 + ", " + AppDataManager.getUserData(lastUser, "geoY") + ")");
         mAddTagInput.setText(AppDataManager.getUserData(lastUser, "tags"));
-        mVisualRangeInput.setText(AppDataManager.getUserData(lastUser, "visualRange"));
+        mVisualRangeInput.setText(AppDataManager.getUserData(lastUser, "estimatedVisualRange"));
         mDescriptionInput.setText(AppDataManager.getUserData(lastUser, "description"));
         // Spinner stuff
         List<String> metricOptions = new ArrayList<>();
