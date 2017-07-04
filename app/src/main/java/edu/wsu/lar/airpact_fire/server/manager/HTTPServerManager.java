@@ -1,3 +1,7 @@
+// Copyright © 2017,
+// Laboratory for Atmospheric Research at Washington State University,
+// All rights reserved.
+
 package edu.wsu.lar.airpact_fire.server.manager;
 
 import android.app.Activity;
@@ -5,7 +9,6 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import java.io.BufferedOutputStream;
@@ -17,7 +20,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
 import edu.wsu.lar.airpact_fire.Reference;
 import edu.wsu.lar.airpact_fire.data.Post;
 import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
@@ -37,12 +39,10 @@ public class HTTPServerManager implements ServerManager {
 
     @Override
     public void onAppStart(Object... args) {
-
     }
 
     @Override
     public void onAppEnd(Object... args) {
-
     }
 
     @Override
@@ -62,13 +62,11 @@ public class HTTPServerManager implements ServerManager {
 
     @Override
     public void onLogout(Object... args) {
-
     }
 
     @Override
     public void onAuthenticate(Context context, String username, String password,
                                ServerCallback callback) {
-        Log.d("MUCHWOW", "pre AuthenticationManager");
         AuthenticationManager authenticationManager = new AuthenticationManager(mActivity, callback);
         authenticationManager.execute(username, password);
     }
@@ -76,12 +74,11 @@ public class HTTPServerManager implements ServerManager {
     @Override
     public void onSubmit(Context context, PostObject postObject, ServerCallback callback) {
 
-        // TODO: See if we'll have a problem accessing Realm from AsyncTask thread (maybe pass in hard values)
-
         // Do some pre-authentication to get secret key (using dummy callback)
         UserObject userObject = postObject.getUser();
         ArrayList<Object> authenticationObjects;
         String secretKey = "";
+        boolean isUser = false;
         AuthenticationManager authenticationManager = new AuthenticationManager(mActivity,
                 new ServerCallback() {
             @Override
@@ -93,10 +90,7 @@ public class HTTPServerManager implements ServerManager {
             // Wait for authentication to occur
             authenticationObjects = authenticationManager.execute(
                     userObject.getUsername(), userObject.getPassword()).get();
-            boolean isUser = (Boolean) authenticationObjects.get(0);
-            if (!isUser) { return; }
-            secretKey = (String) authenticationObjects.get(1);
-            postObject.setSecretKey(secretKey);
+            isUser = (Boolean) authenticationObjects.get(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
             return;
@@ -104,8 +98,9 @@ public class HTTPServerManager implements ServerManager {
             e.printStackTrace();
             return;
         }
-
-        // While still in UI thread, generate JSON from DB
+        if (!isUser) { return; }
+        secretKey = (String) authenticationObjects.get(1);
+        postObject.setSecretKey(secretKey);
         JSONObject jsonObject = postObject.toJSON();
 
         // Attempt submission
@@ -128,7 +123,6 @@ public class HTTPServerManager implements ServerManager {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
             mCallback.onStart(mActivity);
         }
 
@@ -219,7 +213,6 @@ public class HTTPServerManager implements ServerManager {
         }
     }
 
-    // TODO: Refactor this and create interface between a DataManager and ServerManager for posting
     // Takes Post object, converts this into JSON, and submits it
     private class SubmissionManager extends AsyncTask<Object, Void, ArrayList<Object>> {
 

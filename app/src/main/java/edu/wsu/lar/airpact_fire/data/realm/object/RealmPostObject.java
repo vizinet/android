@@ -4,31 +4,23 @@
 
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import org.json.simple.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.ImageObject;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Coordinate;
 import edu.wsu.lar.airpact_fire.data.realm.model.Image;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
-import edu.wsu.lar.airpact_fire.data.realm.model.User;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.util.Util;
@@ -69,7 +61,9 @@ public class RealmPostObject implements PostObject {
 
     @Override
     public void setSecretKey(String value) {
-
+        mRealm.beginTransaction();
+        mPost.secretKey = value;
+        mRealm.commitTransaction();
     }
 
     @Override
@@ -85,33 +79,39 @@ public class RealmPostObject implements PostObject {
     }
 
     @Override
-    public long getImageServerId() {
-        return 0;
+    public String getImageServerId() {
+        return mPost.serverId;
     }
 
     @Override
-    public void setImageServerId(long value) {
-
+    public void setImageServerId(String value) {
+        mRealm.beginTransaction();
+        mPost.serverId = value;
+        mRealm.commitTransaction();
     }
 
     @Override
     public int getMetric() {
-        return 0;
+        return mPost.metric;
     }
 
     @Override
     public void setMetric(int value) {
-
+        mRealm.beginTransaction();
+        mPost.metric = value;
+        mRealm.commitTransaction();
     }
 
     @Override
     public int getAlgorithm() {
-        return 1;
+        return mPost.algorithm;
     }
 
     @Override
     public void setAlgorithm(int value) {
-
+        mRealm.beginTransaction();
+        mPost.algorithm = value;
+        mRealm.commitTransaction();
     }
 
     @Override
@@ -196,6 +196,8 @@ public class RealmPostObject implements PostObject {
         return new float[0];
     }
 
+    // TODO: Refactor for new image objects
+
     @Override
     public void setDistances(float[] values) {
 
@@ -203,22 +205,26 @@ public class RealmPostObject implements PostObject {
 
     @Override
     public float getEstimatedVisualRange() {
-        return 0;
+        return mPost.estimatedVisualRange;
     }
 
     @Override
     public void setEstimatedVisualRange(float value) {
-
+        mRealm.beginTransaction();
+        mPost.estimatedVisualRange = value;
+        mRealm.commitTransaction();
     }
 
     @Override
     public float getComputedVisualRange() {
-        return 0;
+        return mPost.computedVisualRange;
     }
 
     @Override
     public void setComputedVisualRange(float value) {
-
+        mRealm.beginTransaction();
+        mPost.computedVisualRange = value;
+        mRealm.commitTransaction();
     }
 
     @Override
@@ -247,26 +253,31 @@ public class RealmPostObject implements PostObject {
     @Override
     public void setTargetsCoorindates(float[][] values) {
         // TODO
+
     }
 
     @Override
     public String getDescription() {
-        return "test description";
+        return mPost.description;
     }
 
     @Override
     public void setDescription(String value) {
-
+        mRealm.beginTransaction();
+        mPost.description = value;
+        mRealm.commitTransaction();
     }
 
     @Override
     public String getLocation() {
-        return "test location";
+        return mPost.location;
     }
 
     @Override
     public void setLocation(String value) {
-
+        mRealm.beginTransaction();
+        mPost.location = value;
+        mRealm.commitTransaction();
     }
 
     // TODO: Something cooler so that this Data object doesn't need to know any server specs!
@@ -280,6 +291,7 @@ public class RealmPostObject implements PostObject {
         // TODO: Adapt post for many images and visual ranges and fields
         // TODO: Dynamically change JSON for algorithm type
         // TODO: Maybe send radii for the targets
+        // TODO: Set the algorithm in the UI
 
         // Post submission field vars => JSON
         JSONObject root = new JSONObject();
@@ -291,16 +303,12 @@ public class RealmPostObject implements PostObject {
         root.put("location", getLocation());
         root.put("time", new SimpleDateFormat(ServerManager.DATE_FORMAT).format(getDate()));
 
-        // TODO: Send int representing algorithm; adapt my docs to
-        // algorithm #1 = two-in-one
-        // algorithm #2 = one-for-one
-        //int algorithm = getAlgorithm();
-        int algorithm = 1;
-        // TODO: Set the algorithm in the UI
+        int algorithm = getAlgorithm();
         root.put("algorithmType", algorithm);
         switch (algorithm) {
 
-            case 1: // Two-in-one
+            // Two-in-one
+            case 1:
                 root.put("nearTargetX", 1.0); //getImageBitmap(). targetCoordinates[0][0]);
                 root.put("nearTargetY", 2.0); //targetCoordinates[0][1]);
                 root.put("nearTargetEstimatedDistance", 3.0);
@@ -312,8 +320,8 @@ public class RealmPostObject implements PostObject {
                 root.put("gpsLatitude", 9.0); //Util.joinArray(getGPS(), ","));
                 break;
 
-            case 2: // One-for-one
-                // TODO
+            // One-for-one
+            case 2:
                 break;
 
             default:

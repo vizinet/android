@@ -27,8 +27,8 @@ public interface PostObject {
     Date getDate();
     void setDate(Date value);
 
-    long getImageServerId();
-    void setImageServerId(long value);
+    String getImageServerId();
+    void setImageServerId(String value);
 
     /** @see edu.wsu.lar.airpact_fire.Reference.DistanceMetric */
     int getMetric();

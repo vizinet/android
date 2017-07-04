@@ -14,12 +14,15 @@ public class Post extends RealmObject {
     @PrimaryKey
     public int postId;
     public String secretKey;
+    public String serverId;
+    public int metric;
     public int mode;
     public User user;
     public Date date;
     public int algorithm;
     public RealmList<Image> images;
-    public float visualRange;
+    public float estimatedVisualRange;
+    public float computedVisualRange;
     public String description;
     public String location;
 }
