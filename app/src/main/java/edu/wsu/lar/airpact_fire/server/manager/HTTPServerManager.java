@@ -18,11 +18,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import edu.wsu.lar.airpact_fire.Reference;
-import edu.wsu.lar.airpact_fire.data.Post;
-import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
@@ -361,6 +358,7 @@ public class HTTPServerManager implements ServerManager {
 
             // TODO check un-posted posts and act on the that
             // Get posts
+            /*
             List<Post> posts = PostDataManager.getPosts(this.getApplicationContext());
             //Queue<Post> unposted = <Post>();
             for (Post p : posts) {
@@ -374,6 +372,7 @@ public class HTTPServerManager implements ServerManager {
                 // Wait in queue
 
             }
+            */
         }
     }
 }

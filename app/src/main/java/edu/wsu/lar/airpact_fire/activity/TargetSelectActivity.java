@@ -491,7 +491,7 @@ public class TargetSelectActivity extends AppCompatActivity {
                 });
 
         } else {
-            // If no image take, go home
+            // If no image taken, go home
             Util.goHome(this);
         }
     }

@@ -29,9 +29,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.util.Calendar;
 import java.util.List;
 
-import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
-import edu.wsu.lar.airpact_fire.data.Post;
-import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import lar.wsu.edu.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.util.Util;
 
@@ -44,7 +41,7 @@ public class GalleryActivity extends AppCompatActivity {
 
     // TODO: Find custom font(s) for whole app
 
-    private List<Post> mPostList;
+    //private List<Post> mPostList;
 
     private LinearLayout mPage;
     private TableLayout mUserPostTable;
@@ -84,11 +81,13 @@ public class GalleryActivity extends AppCompatActivity {
 //        mPage.setBackgroundDrawable(gd);
 
         // Stats
+        /*
         String username = AppDataManager.getRecentUser();
         int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), username);
         int numQueued = PostDataManager.getNumQueued(getApplicationContext(), username);
         mPostText.setText(numPosted + " Posted\n" + numQueued + " Queued\n" + "0 Drafted");
         //mPostText.setAllCaps(true);
+        */
 
         // Get user's posts
         PostReadManager postReadManager = new PostReadManager();
@@ -108,6 +107,7 @@ public class GalleryActivity extends AppCompatActivity {
     private void generateTable() {
 
         // No posts status
+        /*
         if (mPostList == null) return;
         if (mPostList.size() == 0) {
             mPostText.setText("No posts to display");
@@ -115,6 +115,7 @@ public class GalleryActivity extends AppCompatActivity {
 
             return;
         }
+        */
 
         // Add background as last post image
         // Forgo cool background
@@ -179,6 +180,7 @@ public class GalleryActivity extends AppCompatActivity {
                         TableRow.LayoutParams.WRAP_CONTENT
                 )
         );
+        /*
         for (int i = (mPostList.size() - 1); i >= 0; i--) {
             // Get post
             final Post post = mPostList.get(i);
@@ -258,9 +260,11 @@ public class GalleryActivity extends AppCompatActivity {
                 );
             }
         }
+        */
 
 
         // Post with most recent at the top
+        /*
         for (int i = (mPostList.size() - 1); i >= 0; i--) {
             // Get post
             final Post post = mPostList.get(i);
@@ -359,6 +363,7 @@ public class GalleryActivity extends AppCompatActivity {
                 }
             });
         }
+        */
     }
 
     @Override
@@ -423,7 +428,7 @@ public class GalleryActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            mPostList = PostDataManager.getPosts(getApplicationContext(), AppDataManager.getRecentUser());
+            // mPostList = PostDataManager.getPosts(getApplicationContext(), AppDataManager.getRecentUser());
 
             return null;
         }

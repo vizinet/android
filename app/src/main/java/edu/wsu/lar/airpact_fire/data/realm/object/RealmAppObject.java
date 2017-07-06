@@ -32,16 +32,16 @@ public class RealmAppObject implements AppObject {
     }
 
     @Override
-    public boolean getRememberPassword() {
+    public boolean getRememberUser() {
         final App app = mRealm.where(App.class).findFirst();
-        return app.rememberPassword;
+        return app.rememberUser;
     }
 
     @Override
-    public void setRememberPassword(boolean value) {
+    public void setRememberUser(boolean value) {
         final App app = mRealm.where(App.class).findFirst();
         mRealm.beginTransaction();
-        app.rememberPassword = value;
+        app.rememberUser = value;
         mRealm.commitTransaction();
     }
 

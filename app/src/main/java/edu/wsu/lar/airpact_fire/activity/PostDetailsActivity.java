@@ -11,9 +11,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import edu.wsu.lar.airpact_fire.data.Post;
-import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import lar.wsu.edu.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.util.Util;
 
@@ -26,7 +23,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     private ImageView mLowColorImage, mHighColorImage;
 
     private String mPostId;
-    private Post mPost;
+    //private Post mPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +47,11 @@ public class PostDetailsActivity extends AppCompatActivity {
         Util.setupSecondaryNavBar(this, GalleryActivity.class, "POST #" + mPostId);
 
         // Get post from post id
+        /*
         mPost = PostDataManager.getPost(this, Long.parseLong(mPostId));
         Post.Activity = PostDetailsActivity.this;
         Post.Context = getApplicationContext();
+        */
 
         // UI
         mPageLayout = (RelativeLayout) findViewById(R.id.page);
@@ -69,6 +68,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         mHighColorImage = (ImageView) findViewById(R.id.high_color_image);
 
         // Set background
+        /*
         Bitmap image = Util.stringToBitMap(mPost.Image);
         BitmapDrawable background = new BitmapDrawable(image);
         background.setAlpha(95);
@@ -95,6 +95,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         // Colors
         mLowColorImage.setBackgroundColor(Integer.parseInt(mPost.LowColor));
         mHighColorImage.setBackgroundColor(Integer.parseInt(mPost.HighColor));
+        */
 
         // UI Buttons
         mViewImageButton.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +103,7 @@ public class PostDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // Store image for next activity to read
-                Util.storeTransactionImage(getApplicationContext(), Util.stringToBitMap(mPost.Image));
+                //Util.storeTransactionImage(getApplicationContext(), Util.stringToBitMap(mPost.Image));
                 //Toast.makeText(PostDetailsActivity.this, "Stored image of size " + mPost.Image.length(), Toast.LENGTH_SHORT).show();
 
                 // View image
@@ -115,14 +116,14 @@ public class PostDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Delete post
-                mPost.delete(getApplicationContext());
+                //mPost.delete(getApplicationContext());
             }
         });
         mSubmitPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Submit queued post
-                mPost.submit(getApplicationContext());
+                //mPost.submit(getApplicationContext());
             }
         });
     }
@@ -130,7 +131,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         // Get post again
-        if (mPost == null) mPost = PostDataManager.getPost(this, Long.parseLong(mPostId));
+        //if (mPost == null) mPost = PostDataManager.getPost(this, Long.parseLong(mPostId));
         super.onResume();
     }
 }

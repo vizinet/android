@@ -3,8 +3,6 @@ package edu.wsu.lar.airpact_fire.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-
-import edu.wsu.lar.airpact_fire.data.Post;
 import lar.wsu.edu.airpact_fire.R;
 
 public class ViewUserXMLActivity extends AppCompatActivity {
@@ -22,10 +20,12 @@ public class ViewUserXMLActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        /*
         Post.Activity = this;
         Post post = new Post();
         // XML JSON
         XMLTextView.setText(post.toSubmissionJSON().toJSONString());
+        */
 
         // XML itself
         //XMLTextView.append("\n\n" + AppDataManager.getXML());

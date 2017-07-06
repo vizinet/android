@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import edu.wsu.lar.airpact_fire.Reference;
-import edu.wsu.lar.airpact_fire.data.manager.PostDataManager;
 import edu.wsu.lar.airpact_fire.manager.AppManager;
 import lar.wsu.edu.airpact_fire.R;
 
@@ -126,8 +125,8 @@ public class HomeActivity extends AppCompatActivity {
         mUsernameText.setText(String.format("[ %s ]", displayName));
 
         // Post numbers
-        int numPosted = PostDataManager.getNumSubmitted(getApplicationContext(), mUsername);
-        int numQueued = PostDataManager.getNumQueued(getApplicationContext(), mUsername);
+        int numPosted = 0; //PostDataManager.getNumSubmitted(getApplicationContext(), mUsername);
+        int numQueued = 0; //PostDataManager.getNumQueued(getApplicationContext(), mUsername);
         mNumberPostedText.setAllCaps(true);
         mNumberPostedText.setText(numPosted + "");
         mNumberQueuedText.setAllCaps(true);

@@ -10,11 +10,11 @@ import io.realm.RealmObject;
 public class App extends RealmObject {
 
     public User lastUser;            // TODO: Trigger-update
-    public boolean rememberPassword; // Default: false
+    public boolean rememberUser; // Default: false
 
     @Override
     public String toString() {
         String userString = (lastUser == null) ? "[No last user]" : lastUser.toString();
-        return userString + " - " + rememberPassword;
+        return userString + " - " + rememberUser;
     }
 }

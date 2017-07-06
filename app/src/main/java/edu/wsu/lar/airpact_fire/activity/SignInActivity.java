@@ -6,7 +6,7 @@ package edu.wsu.lar.airpact_fire.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -78,7 +78,7 @@ public class SignInActivity extends AppCompatActivity {
     private EditText mPasswordView, mUsernameView;
     private Button mSignInButton;
     private TextView mRegisterLink, mInfoLink;
-    private CheckBox mRememberPasswordCheckBox;
+    private CheckBox mRememberMeCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,16 +97,18 @@ public class SignInActivity extends AppCompatActivity {
         mSignInButton = (Button) findViewById(R.id.sign_in_button);
         mRegisterLink = (TextView) findViewById(R.id.register_text);
         mInfoLink = (TextView) findViewById(R.id.info_text);
-        mRememberPasswordCheckBox = (CheckBox) findViewById(R.id.remember_password_checkbox);
+        mRememberMeCheckBox = (CheckBox) findViewById(R.id.remember_password_checkbox);
 
         // Set up the login form
         populateLoginFields();
 
+        // TODO: set rememberUser = false when user goes back from home
+
         // Listen for changes in user preference
-        mRememberPasswordCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mRememberMeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mAppManager.getDataManager().getApp().setRememberPassword(b);
+                mAppManager.getDataManager().getApp().setRememberUser(b);
             }
         });
 
@@ -202,22 +204,23 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ComponentName previousActivity = this.getCallingActivity();
+        if (previousActivity.getClassName() == HomeActivity.class.getName()) {
+            // User came back, stop remembering them
+            mAppManager.getDataManager().getApp().setRememberUser(false);
+            mRememberMeCheckBox.setChecked(false);
+        }
+    }
+
     // Set credentials of last user
     private void populateLoginFields() {
-
-        mAppManager.getDebugManager().printLog("Populating login fields");
         AppObject appObject = mAppManager.getDataManager().getApp();
         UserObject lastUser = appObject.getLastUser();
-        mAppManager.getDebugManager().printLog("lastUser = " + lastUser);
-
-        if (lastUser != null) {
+        if (lastUser != null && appObject.getRememberUser()) {
             mUsernameView.setText(lastUser.getUsername());
-        }
-        if (appObject.getRememberPassword()) {
-            mRememberPasswordCheckBox.setChecked(true);
-            if (mUsernameView.getText().toString().length() > 0) {
-                mPasswordView.setText(lastUser.getPassword());
-            }
         }
     }
 

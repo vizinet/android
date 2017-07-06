@@ -9,12 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.wsu.lar.airpact_fire.data.manager.AppDataManager;
-import edu.wsu.lar.airpact_fire.data.Post;
 import edu.wsu.lar.airpact_fire.util.Util;
 import lar.wsu.edu.airpact_fire.R;
 
@@ -35,8 +31,8 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         Util.setupSecondaryNavBar(this, TargetSelectActivity.class, "ENTER PICTURE DETAILS");
 
         // Set post context and activity
-        Post.Context = getApplicationContext();
-        Post.Activity = this;
+        //Post.Context = getApplicationContext();
+        //Post.Activity = this;
 
         // Get UI elements
         mLocationHeaderText = (TextView) findViewById(R.id.location_header_text);
@@ -53,7 +49,7 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         mMetricSelectSpinner = (Spinner) findViewById(R.id.metric_select_spinner);
 
         // Pre-loaded information
-        populateFormData();
+        //populateFormData();
 
         // Event listeners
         mRetakeButton.setOnClickListener(new View.OnClickListener() {
@@ -67,10 +63,12 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         mViewImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
                 Util.storeTransactionImage(getApplicationContext(),
                         Util.stringToBitMap(
                                 String.valueOf(AppDataManager.getUserData(AppDataManager.getRecentUser(), "image")
                                 )));
+                */
                 Intent intent = new Intent(getApplicationContext(), GalleryImageActivity.class);
                 // Pass in image to new activity
                 //intent.putExtra("IMAGE_STRING", String.valueOf(AppDataManager.getUserData(AppDataManager.getLastUser(), "image")));
@@ -83,10 +81,6 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
                 if (!isFormDataValid()) return;
 
                 collectFormData();
-
-                // Queue post
-                Post post = new Post();
-                post.queue(getApplicationContext());
             }
         });
         mSubmitButton.setOnClickListener(new View.OnClickListener() {
@@ -98,8 +92,6 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
                 collectFormData();
 
                 // Submit post
-                Post post = new Post();
-                post.submit(getApplicationContext());
             }
         });
     }
@@ -123,14 +115,17 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
 
     // Collect user values for post
     private void collectFormData() {
+        /*
         String lastUser = AppDataManager.getRecentUser();
         AppDataManager.setUserData(lastUser, "description", mDescriptionInput.getText().toString());
 //        AppDataManager.setUserData(lastUser, "estimatedVisualRange", mVisualRangeInput.getText().toString());
         AppDataManager.setUserData(lastUser, "tags", mAddTagInput.getText().toString());
+        /*
     }
 
     // Add past user values to form
     private void populateFormData() {
+        /*
         String lastUser = AppDataManager.getRecentUser();
         mImageDateTextView.setText(AppDataManager.getUserData(lastUser, "loginTime"));
         mImageLocationTextView.setText("(" + AppDataManager.getUserData(lastUser, "geoX")
@@ -138,6 +133,7 @@ public class AddPictureDetailsActivity extends AppCompatActivity {
         mAddTagInput.setText(AppDataManager.getUserData(lastUser, "tags"));
         mVisualRangeInput.setText(AppDataManager.getUserData(lastUser, "estimatedVisualRange"));
         mDescriptionInput.setText(AppDataManager.getUserData(lastUser, "description"));
+        */
         // Spinner stuff
         List<String> metricOptions = new ArrayList<>();
         metricOptions.add("Feet");

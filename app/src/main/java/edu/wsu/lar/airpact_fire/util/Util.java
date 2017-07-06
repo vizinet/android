@@ -53,9 +53,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import edu.wsu.lar.airpact_fire.activity.HomeActivity;
-import edu.wsu.lar.airpact_fire.data.Post;
 import lar.wsu.edu.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.activity.SignInActivity;
 
@@ -86,10 +84,12 @@ public class Util {
         if (!isNetworkAvailable(activity)) return false;
         // Now attempt to connect with server
         try {
+            /*
             URL myUrl = new URL(Post.SERVER_BASE_URL);
             URLConnection connection = myUrl.openConnection();
             connection.setConnectTimeout(10000);
             connection.connect();
+            */
             return true;
         } catch (Exception e) {
             Toast.makeText(activity.getApplicationContext(), "Cannot connect to server.", Toast.LENGTH_SHORT).show();
