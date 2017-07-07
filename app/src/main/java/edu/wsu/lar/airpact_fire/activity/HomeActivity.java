@@ -101,10 +101,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-        // Go to sign in page
-        Intent intent = new Intent(this, SignInActivity.class);
-        startActivity(intent);
+        logout();
     }
 
     private void setupHome() {
@@ -158,14 +155,14 @@ public class HomeActivity extends AppCompatActivity {
 
         // More
         mBackButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                // Go to sign-in page
-                Toast.makeText(getApplicationContext(), "Signed out.", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getApplicationContext(), SignInActivity.class));
+                logout();
             }
         });
     }
+
     // Setup event listeners for give frame layout
     private void setupListeners(FrameLayout frameLayout) {
 
@@ -197,5 +194,15 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // TODO: Deal with this problem of not setting an onclicklistener
+    }
+
+    private void logout() {
+
+        // User logged out, stop remembering them
+        mAppManager.getDataManager().getApp().setRememberUser(false);
+
+        // Go to sign-in page
+        Toast.makeText(getApplicationContext(), "Signed out.", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getApplicationContext(), SignInActivity.class));
     }
 }

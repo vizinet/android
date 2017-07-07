@@ -56,7 +56,7 @@ public class RealmDataManager implements DataManager {
             public void execute(Realm realm) {
                 App app = mRealm.createObject(App.class);
                 app.lastUser = null;
-                app.rememberPassword = false;
+                app.rememberUser = false;
             }
         });
 

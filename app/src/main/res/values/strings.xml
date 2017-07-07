@@ -20,7 +20,8 @@
     </string>
     <string name="authentication_success">Authentication successful.\nWelcome!</string>
     <string name="authentication_failed">Invalid username or password.\nPlease try again.</string>
-    <string name="login_success">Login successful - welcome back.</string>
+    <string name="login_success">Login successful! Welcome.</string>
+    <string name="expedited_login_success">Welcome back.</string>
     <string name="submission_success">Submission successful!</string>
     <string name="submission_failed">Submission failed - please wait a bit and try again.</string>
     <string name="post_queued">Post queued - check the gallery for more information.</string>

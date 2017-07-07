@@ -11,6 +11,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -91,26 +94,21 @@ public class SignInActivity extends AppCompatActivity {
         mAppManager.onActivityStart(this);
         mAppManager.onAppStart(this);
 
+        // Sign last user in if that box was previously checked
+        if (mAppManager.getDataManager().getApp().getRememberUser()) {
+            UserObject userObject = mAppManager.getDataManager().getApp().getLastUser();
+            login(userObject.getUsername(), userObject.getPassword());
+        }
+
         // Attach objects to UI
         mUsernameView = (EditText) findViewById(R.id.username);
         mPasswordView = (EditText) findViewById(R.id.password);
         mSignInButton = (Button) findViewById(R.id.sign_in_button);
         mRegisterLink = (TextView) findViewById(R.id.register_text);
-        mInfoLink = (TextView) findViewById(R.id.info_text);
         mRememberMeCheckBox = (CheckBox) findViewById(R.id.remember_password_checkbox);
 
         // Set up the login form
         populateLoginFields();
-
-        // TODO: set rememberUser = false when user goes back from home
-
-        // Listen for changes in user preference
-        mRememberMeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mAppManager.getDataManager().getApp().setRememberUser(b);
-            }
-        });
 
         // Checks credentials before proceeding to home
         mSignInButton.setOnClickListener(new OnClickListener() {
@@ -183,6 +181,8 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
+        /*
+
         // Allow user to register on website
         mRegisterLink.setOnClickListener(new OnClickListener() {
             @Override
@@ -202,21 +202,21 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ComponentName previousActivity = this.getCallingActivity();
-        if (previousActivity.getClassName() == HomeActivity.class.getName()) {
-            // User came back, stop remembering them
-            mAppManager.getDataManager().getApp().setRememberUser(false);
-            mRememberMeCheckBox.setChecked(false);
-        }
+        */
     }
 
     // Set credentials of last user
     private void populateLoginFields() {
+
+        // Setup registration link
+        Spanned registerText = Html.fromHtml(
+                String.format(
+                        "<a href = '%s'>Sign Up for AIRPACT-Fire</a>",
+                        Reference.SERVER_REGISTER_URL));
+        mRegisterLink.setText(registerText);
+        mRegisterLink.setMovementMethod(LinkMovementMethod.getInstance());
+
+        // Update login fields
         AppObject appObject = mAppManager.getDataManager().getApp();
         UserObject lastUser = appObject.getLastUser();
         if (lastUser != null && appObject.getRememberUser()) {
@@ -230,7 +230,14 @@ public class SignInActivity extends AppCompatActivity {
         // Let DB know we're logging in with this user
         mAppManager.onLogin(username, password);
 
-        Toast.makeText(getApplicationContext(), R.string.login_success, Toast.LENGTH_LONG).show();
+        if (mRememberMeCheckBox != null) {
+            // Regular login: remember legit user upon request
+            mAppManager.getDataManager().getApp().setRememberUser(mRememberMeCheckBox.isChecked());
+            Toast.makeText(getApplicationContext(), R.string.login_success, Toast.LENGTH_LONG).show();
+        } else {
+            // Expedited login
+            Toast.makeText(getApplicationContext(), R.string.expedited_login_success, Toast.LENGTH_LONG).show();
+        }
 
         // Open home screen
         Intent intent = new Intent(this, HomeActivity.class);
