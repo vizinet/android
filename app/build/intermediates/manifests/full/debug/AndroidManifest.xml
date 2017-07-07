@@ -26,15 +26,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
-        <activity android:name="edu.wsu.lar.airpact_fire.activity.SplashScreenActivity" />
+        <activity android:name="edu.wsu.lar.airpact_fire.ui.activity.SplashScreenActivity" />
         <activity
-            android:name="edu.wsu.lar.airpact_fire.activity.SignInActivity"
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.SignInActivity"
             android:label="@string/app_name"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.activity.SplashScreenActivity"
+            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.SplashScreenActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.activity.SplashScreenActivity" />
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.SplashScreenActivity" />
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,60 +44,59 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.activity.HomeActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.activity.SignInActivity"
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
+            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.SignInActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.activity.SignInActivity" />
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.SignInActivity" />
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.activity.GalleryActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.activity.HomeActivity"
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity"
+            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.activity.HomeActivity" />
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.activity.TargetSelectActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.activity.HomeActivity"
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.TargetSelectActivity"
+            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.activity.HomeActivity" />
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.activity.AddPictureDetailsActivity"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.AddPictureDetailsActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:name="edu.wsu.lar.airpact_fire.activity.GalleryImageActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.activity.GalleryActivity"
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.GalleryImageActivity"
+            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.activity.GalleryActivity" />
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity" />
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.activity.PostDetailsActivity"
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.PostDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="edu.wsu.lar.airpact_fire.activity.UserDataActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.activity.HomeActivity"
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.UserDataActivity"
+            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.activity.HomeActivity" />
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.activity.SettingsActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.activity.HomeActivity"
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.SettingsActivity"
+            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.activity.HomeActivity" />
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
         </activity>
 
         <!--
@@ -107,6 +106,11 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity"
+            android:label="@string/title_activity_image_lab"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

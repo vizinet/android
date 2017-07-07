@@ -19,7 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
-import edu.wsu.lar.airpact_fire.Reference;
+import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;

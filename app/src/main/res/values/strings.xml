@@ -7,7 +7,7 @@
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Username</string>
+    <string name="prompt_email">Username or email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Proceed with credentials</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -30,4 +30,8 @@
     <string name="location_hint"><i>e.g. Mount Baker, Yakima River, etc.</i></string>
     <string name="visual_range_hint"><i>e.g. 3.1415926</i></string>
     <string name="description_hint"><i>e.g. Morning fog seems to be coming through. Nothing out of the ordinary; same scene as yesterday, I think.</i></string>
+    <string name="title_activity_image_lab">ImageLabActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

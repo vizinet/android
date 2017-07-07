@@ -11,6 +11,8 @@ import org.json.simple.JSONObject;
 
 import java.util.Date;
 
+import edu.wsu.lar.airpact_fire.app.Reference;
+
 /**
  * Image post interface for UI to use and change.
  *
@@ -30,18 +32,18 @@ public interface PostObject {
     String getImageServerId();
     void setImageServerId(String value);
 
-    /** @see edu.wsu.lar.airpact_fire.Reference.DistanceMetric */
+    /** @see Reference.DistanceMetric */
     int getMetric();
     void setMetric(int value);
 
-    /** @see edu.wsu.lar.airpact_fire.Reference.Algorithm */
+    /** @see Reference.Algorithm */
     int getAlgorithm();
     void setAlgorithm(int value);
 
     String getSecretKey();
     void setSecretKey(String value);
 
-    /** @see edu.wsu.lar.airpact_fire.Reference.PostMode */
+    /** @see Reference.PostMode */
     int getMode();
     void setMode(int value);
 

@@ -4,6 +4,10 @@
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\layout\\abc_screen_simple.xml"
     },
     {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\content_image_lab.xml",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\content_image_lab.xml"
+    },
+    {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_layout_tab_text.xml",
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\f00a89e94422063926d25284b83aea99411bf407\\output\\res\\layout\\design_layout_tab_text.xml"
     },
@@ -20,20 +24,20 @@
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\layout\\abc_screen_simple_overlay_action_mode.xml"
     },
     {
-        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_home.xml",
-        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\activity_home.xml"
-    },
-    {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_select_target.xml",
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\activity_select_target.xml"
     },
     {
-        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\spinner_item_text.xml",
-        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\spinner_item_text.xml"
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_home.xml",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\activity_home.xml"
     },
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_bar_title_item.xml",
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\layout\\abc_action_bar_title_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\spinner_item_text.xml",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\spinner_item_text.xml"
     },
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_multichoice_material.xml",
@@ -52,12 +56,12 @@
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\app_bar.xml"
     },
     {
-        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_media_action.xml",
-        "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\layout\\notification_media_action.xml"
-    },
-    {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_menu.xml",
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\f00a89e94422063926d25284b83aea99411bf407\\output\\res\\layout\\design_navigation_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_media_action.xml",
+        "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\layout\\notification_media_action.xml"
     },
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_menu_item_layout.xml",
@@ -98,6 +102,10 @@
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\select_dialog_singlechoice_material.xml",
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\layout\\select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_algorithm_select.xml",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\fragment_algorithm_select.xml"
     },
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\design_navigation_item_separator.xml",
@@ -164,6 +172,10 @@
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\layout\\support_simple_spinner_dropdown_item.xml"
     },
     {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_image_lab.xml",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\activity_image_lab.xml"
+    },
+    {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_bar.xml",
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\layout\\abc_action_mode_bar.xml"
     },
@@ -178,6 +190,10 @@
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_big_media.xml",
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\layout\\notification_template_big_media.xml"
+    },
+    {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_image_lab.xml",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\fragment_image_lab.xml"
     },
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_settings.xml",

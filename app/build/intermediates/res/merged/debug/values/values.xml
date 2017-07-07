@@ -479,23 +479,26 @@
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="expedited_login_success">Welcome back.</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="location_hint"><i>e.g. Mount Baker, Yakima River, etc.</i></string>
     <string name="login_success">Login successful! Welcome.</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
     <string name="post_queued">Post queued - check the gallery for more information.</string>
-    <string name="prompt_email">Username</string>
+    <string name="prompt_email">Username or email</string>
     <string name="prompt_password">Password</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="submission_failed">Submission failed - please wait a bit and try again.</string>
     <string name="submission_success">Submission successful!</string>
+    <string name="title_activity_image_lab">ImageLabActivity</string>
     <string name="title_activity_login">Sign in</string>
     <string name="visual_range_hint"><i>e.g. 3.1415926</i></string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>
     <style name="Animation.AppCompat.DropDownUp" parent="Base.Animation.AppCompat.DropDownUp"/>
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/schemeRed</item>
@@ -1560,6 +1563,7 @@
         <item name="android:dropDownItemStyle">@style/Widget.AppCompat.DropDownItem.Spinner</item>
     </style>
     <style name="Platform.Widget.AppCompat.Spinner" parent="android:Widget.Spinner"/>
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
     <style name="RtlOverlay.DialogWindowTitle.AppCompat" parent="Base.DialogWindowTitle.AppCompat">
     </style>
     <style name="RtlOverlay.Widget.AppCompat.ActionBar.TitleItem" parent="android:Widget">

@@ -5,7 +5,7 @@
 package edu.wsu.lar.airpact_fire.data.object;
 
 import java.util.Date;
-import edu.wsu.lar.airpact_fire.Reference;
+import edu.wsu.lar.airpact_fire.app.Reference;
 
 /**
  * Usage session object interface for UI to deal handle.
