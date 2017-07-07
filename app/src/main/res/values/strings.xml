@@ -7,7 +7,7 @@
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_email">Username</string>
+    <string name="prompt_email">Username or email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Proceed with credentials</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -20,7 +20,8 @@
     </string>
     <string name="authentication_success">Authentication successful.\nWelcome!</string>
     <string name="authentication_failed">Invalid username or password.\nPlease try again.</string>
-    <string name="login_success">Login successful - welcome back.</string>
+    <string name="login_success">Login successful! Welcome.</string>
+    <string name="expedited_login_success">Welcome back.</string>
     <string name="submission_success">Submission successful!</string>
     <string name="submission_failed">Submission failed - please wait a bit and try again.</string>
     <string name="post_queued">Post queued - check the gallery for more information.</string>
@@ -29,4 +30,8 @@
     <string name="location_hint"><i>e.g. Mount Baker, Yakima River, etc.</i></string>
     <string name="visual_range_hint"><i>e.g. 3.1415926</i></string>
     <string name="description_hint"><i>e.g. Morning fog seems to be coming through. Nothing out of the ordinary; same scene as yesterday, I think.</i></string>
+    <string name="title_activity_image_lab">ImageLabActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,7 +1,7 @@
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
 import java.util.Date;
-import edu.wsu.lar.airpact_fire.Reference;
+import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;

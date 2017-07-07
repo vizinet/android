@@ -17,8 +17,8 @@ public interface AppObject {
 
     /* Field accessors and modifiers */
 
-    boolean getRememberPassword();
-    void setRememberPassword(boolean value);
+    boolean getRememberUser();
+    void setRememberUser(boolean value);
 
     UserObject getLastUser();
     UserObject getUser(String username, String password);

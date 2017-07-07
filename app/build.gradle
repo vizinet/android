@@ -10,13 +10,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "0.9"
-        // Gives Java 8 support
-        /*
-        jackOptions {
-            enabled true
-        }
-        */
+        versionName "0.9" // App version
     }
     buildTypes {
         release {
@@ -32,10 +26,12 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile rootProject.files("libs/json-simple-1.1.1.jar")
+    compile rootProject.files("libs/json-simple-1.1.1.jar")     // JSON Simple
+    compile rootProject.files("libs/reflections-0.9.11.jar")    // Reflections
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
-    compile 'com.android.support.constraint:constraint-layout:+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:support-v4:23.4.0'
     testCompile 'junit:junit:4.12'
 }

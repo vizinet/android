@@ -4,7 +4,6 @@
 
 package edu.wsu.lar.airpact_fire.util;
 
-import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -25,7 +24,6 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
-import android.support.v4.app.ActivityCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
@@ -44,8 +42,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,11 +49,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import edu.wsu.lar.airpact_fire.activity.HomeActivity;
-import edu.wsu.lar.airpact_fire.data.Post;
+import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
 import lar.wsu.edu.airpact_fire.R;
-import edu.wsu.lar.airpact_fire.activity.SignInActivity;
+import edu.wsu.lar.airpact_fire.ui.activity.SignInActivity;
 
 // TODO: Create classes for each category of functions and put under tools/
 
@@ -86,10 +80,12 @@ public class Util {
         if (!isNetworkAvailable(activity)) return false;
         // Now attempt to connect with server
         try {
+            /*
             URL myUrl = new URL(Post.SERVER_BASE_URL);
             URLConnection connection = myUrl.openConnection();
             connection.setConnectTimeout(10000);
             connection.connect();
+            */
             return true;
         } catch (Exception e) {
             Toast.makeText(activity.getApplicationContext(), "Cannot connect to server.", Toast.LENGTH_SHORT).show();
