@@ -297,7 +297,6 @@ public class RealmPostObject implements PostObject {
         JSONObject root = new JSONObject();
         root.put("user", getUser().getUsername());
         root.put("description", getDescription());
-        root.put("image", "");//Util.bitmapToString(getImageBitmap()));
         root.put("secretKey", getSecretKey());
         root.put("distanceMetric", "kilometers"); // TODO: Change to integer, getMetric());
         root.put("location", getLocation());
@@ -309,6 +308,8 @@ public class RealmPostObject implements PostObject {
 
             // Two-in-one
             case 1:
+                root.put("image", Util.bitmapToString(getImageBitmap()));
+                //root.put("image", "");
                 root.put("nearTargetX", 1.0); //getImageBitmap(). targetCoordinates[0][0]);
                 root.put("nearTargetY", 2.0); //targetCoordinates[0][1]);
                 root.put("nearTargetEstimatedDistance", 3.0);

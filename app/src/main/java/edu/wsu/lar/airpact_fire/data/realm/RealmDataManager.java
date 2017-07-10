@@ -9,6 +9,7 @@ import android.content.Context;
 
 import java.util.Date;
 
+import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
@@ -114,6 +115,7 @@ public class RealmDataManager implements DataManager {
             mRealm.beginTransaction();
             userModel = mRealm.createObject(User.class, username); // Primary key
             userModel.password = password;
+            userModel.distanceMetric = Reference.DEFAULT_DISTANCE_METRIC;
             mRealm.commitTransaction();
             mDebugManager.printLog("User created!");
         }

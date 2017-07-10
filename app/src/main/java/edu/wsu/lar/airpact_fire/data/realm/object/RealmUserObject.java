@@ -69,8 +69,9 @@ public class RealmUserObject implements UserObject {
     public PostObject createPost() {
         mRealm.beginTransaction();
         Post postModel = mRealm.createObject(Post.class, mDataManager.generatePostId());
-        postModel.user = mUser; // TODO: This seems to not be working
-        postModel.mode = Reference.PostMode.DRAFTED.ordinal();
+        postModel.user = mUser;
+        postModel.mode = Reference.DEFAULT_POST_MODE;
+        postModel.algorithm = Reference.DEFAULT_ALGORITHM;
         mRealm.copyToRealmOrUpdate(mUser);
         mRealm.commitTransaction();
 

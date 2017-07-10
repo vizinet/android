@@ -27,6 +27,11 @@ public final class Reference {
     // Determines how much keyboard tends to occupy on screen
     public static final double KEYPAD_OCCUPATION_RATIO = 0.15;
 
+    // Defaults
+    public static final int DEFAULT_ALGORITHM = Algorithm.TWO_IN_ONE.ordinal() + 1;
+    public static final int DEFAULT_DISTANCE_METRIC = DistanceMetric.KILOMETERS.ordinal() + 1;
+    public static final int DEFAULT_POST_MODE = PostMode.DRAFTED.ordinal() + 1;
+
     // App-wide enums
     public enum Algorithm { TWO_IN_ONE, ONE_IN_ONE };
     public enum DistanceMetric { MILES, KILOMETERS };

@@ -102,7 +102,7 @@ public class HTTPServerManager implements ServerManager {
 
         // Attempt submission
         SubmissionManager submissionManager = new SubmissionManager(mActivity, callback);
-        submissionManager.execute(jsonObject, secretKey);
+        submissionManager.execute(jsonObject);
     }
 
     // Gets run when new credentials are found that are not in the database
@@ -239,13 +239,15 @@ public class HTTPServerManager implements ServerManager {
 
                 // Get post to submit
                 JSONObject jsonObject = (JSONObject) args[0];
-                String secretKey = (String) args[1];
 
                 URL postUrl = new URL(Reference.SERVER_UPLOAD_URL);
                 HttpURLConnection postConnection = (HttpURLConnection) postUrl.openConnection();
 
                 // Add secret key and convert to JSON
                 String postMessage = jsonObject.toString();
+                byte[] postBytes = postMessage.getBytes("UTF-8");
+
+                mDebugManager.printLog("postBytes.length = " + postBytes.length);
 
                 // Connection properties
                 postConnection.setReadTimeout(30000);
@@ -253,7 +255,7 @@ public class HTTPServerManager implements ServerManager {
                 postConnection.setRequestMethod("POST");
                 postConnection.setDoInput(true);
                 postConnection.setDoOutput(true);
-                postConnection.setFixedLengthStreamingMode(postMessage.getBytes().length);
+                postConnection.setFixedLengthStreamingMode(postBytes.length);
                 postConnection.setRequestProperty("User-Agent","Mozilla/5.0 ( compatible ) ");
                 postConnection.setRequestProperty("Accept","*/*");
                 postConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
@@ -263,12 +265,13 @@ public class HTTPServerManager implements ServerManager {
                 postConnection.connect();
 
                 // JSON package send
-                OutputStream postOutputStream = new BufferedOutputStream(postConnection.getOutputStream());
-                postOutputStream.write(postMessage.getBytes());
-                postOutputStream.flush();
+                OutputStream postOutputStream = new BufferedOutputStream(
+                        postConnection.getOutputStream());
+                postOutputStream.write(postBytes);
+                postOutputStream.close(); // TODO: See if it works
 
-                int status = postConnection.getResponseCode();
-                mDebugManager.printLog("Response code = " + status);
+                //int status = postConnection.getResponseCode();
+                //mDebugManager.printLog("Response code = " + status);
 
                 // Read if post succeeded or failed
                 InputStream postStatusInputStream;
@@ -294,17 +297,16 @@ public class HTTPServerManager implements ServerManager {
                 // Did post succeed?
                 String postStatus = postReceiveJSON.get("status").toString();
                 didSubmit = postStatus.equals("success");
+                mDebugManager.printLog("postStatus = " + postStatus);
 
                 // Get algorithm result
                 serverOutput = Double.parseDouble(
                         postReceiveJSON.get("output").toString());
+                mDebugManager.printLog("output = " + serverOutput);
 
                 // Image ID, to construct website URL
                 serverImageId = Integer.parseInt(postReceiveJSON.get("imageID").toString());
-
-                // Clean up
-                postOutputStream.flush();
-                postOutputStream.close();
+                mDebugManager.printLog("serverImageId = " + serverImageId);
 
             } catch (Exception e) {
                 e.printStackTrace();
