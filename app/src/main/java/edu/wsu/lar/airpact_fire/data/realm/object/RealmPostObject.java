@@ -297,7 +297,7 @@ public class RealmPostObject implements PostObject {
         JSONObject root = new JSONObject();
         root.put("user", getUser().getUsername());
         root.put("description", getDescription());
-        root.put("image", Util.bitmapToString(getImageBitmap()));
+        root.put("image", "");//Util.bitmapToString(getImageBitmap()));
         root.put("secretKey", getSecretKey());
         root.put("distanceMetric", "kilometers"); // TODO: Change to integer, getMetric());
         root.put("location", getLocation());

@@ -254,6 +254,8 @@ public class HTTPServerManager implements ServerManager {
                 postConnection.setDoInput(true);
                 postConnection.setDoOutput(true);
                 postConnection.setFixedLengthStreamingMode(postMessage.getBytes().length);
+                postConnection.setRequestProperty("User-Agent","Mozilla/5.0 ( compatible ) ");
+                postConnection.setRequestProperty("Accept","*/*");
                 postConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
                 postConnection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
 
@@ -264,6 +266,9 @@ public class HTTPServerManager implements ServerManager {
                 OutputStream postOutputStream = new BufferedOutputStream(postConnection.getOutputStream());
                 postOutputStream.write(postMessage.getBytes());
                 postOutputStream.flush();
+
+                int status = postConnection.getResponseCode();
+                mDebugManager.printLog("Response code = " + status);
 
                 // Read if post succeeded or failed
                 InputStream postStatusInputStream;

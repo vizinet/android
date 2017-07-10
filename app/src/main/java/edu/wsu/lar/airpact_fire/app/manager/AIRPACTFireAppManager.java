@@ -175,6 +175,8 @@ public class AIRPACTFireAppManager implements AppManager {
     public List<String> getAlgorithms() {
 
         // TODO: Look at the signature of the below constructor, see violations
+        // NOTE: Remember this is so we can automatically display algorithms once we add their
+        // algorithm extension and the corresponding fragments
         Reflections reflections = new Reflections(mActivity.getPackageName());
         Set<Class<? extends Algorithm>> allClasses = reflections.getSubTypesOf(Algorithm.class);
         List algorithmList = new ArrayList<String>();
