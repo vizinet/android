@@ -5,7 +5,8 @@
 package edu.wsu.lar.airpact_fire.data.algorithm;
 
 /** @see Algorithm */
-public class TwoInOneAlgorithm extends Algorithm {
+public class TwoInOneAlgorithm implements Algorithm {
+
     @Override
     public int getId() {
         return 1;

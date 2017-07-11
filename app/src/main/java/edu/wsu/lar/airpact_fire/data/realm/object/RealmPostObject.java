@@ -299,7 +299,7 @@ public class RealmPostObject implements PostObject {
         root.put("description", getDescription());
         root.put("secretKey", getSecretKey());
         root.put("distanceMetric", "kilometers"); // TODO: Change to integer, getMetric());
-        root.put("location", getLocation());
+        root.put("location", "luke_tests");//getLocation());
         root.put("time", new SimpleDateFormat(ServerManager.DATE_FORMAT).format(getDate()));
 
         int algorithm = getAlgorithm();

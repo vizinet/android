@@ -6,15 +6,23 @@ package edu.wsu.lar.airpact_fire.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.ui.fragment.AlgorithmSelectFragment;
 import lar.wsu.edu.airpact_fire.R;
 
 public class ImageLabActivity extends AppCompatActivity {
 
+    private AppManager mAppManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_lab);
+
+        mAppManager = Reference.getAppManager();
+        mAppManager.onActivityStart(this);
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -40,5 +48,8 @@ public class ImageLabActivity extends AppCompatActivity {
         }
     }
 
-
+    // For fragments to access app manager
+    public AppManager getAppManager() {
+        return mAppManager;
+    }
 }

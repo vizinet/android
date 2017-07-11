@@ -5,26 +5,32 @@
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
 import java.util.Date;
-
-import edu.wsu.lar.airpact_fire.app.Reference;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.SessionObject;
+import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.realm.model.Session;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import io.realm.Realm;
 
-/**
- * @see PostObject
- */
+/** @see SessionObject */
 public class RealmSessionObject implements SessionObject {
 
     private Realm mRealm;
-    private String mUsername;
+    private Session mSession;
+    private DataManager mDataManager;
     private DebugManager mDebugManager;
 
-    public RealmSessionObject(Realm realm, String username, DebugManager debugManager) {
+    public RealmSessionObject(Realm realm, Session session, DataManager dataManager,
+                              DebugManager debugManager) {
         mRealm = realm;
-        mUsername = username;
+        mSession = session;
+        mDataManager = dataManager;
         mDebugManager = debugManager;
+    }
+
+    @Override
+    public UserObject getUser() {
+        return new RealmUserObject(mRealm, mSession.user, mDataManager, mDebugManager);
     }
 
     @Override
@@ -58,12 +64,14 @@ public class RealmSessionObject implements SessionObject {
     }
 
     @Override
-    public Reference.Algorithm getSelectedAlgorithm() {
-        return null;
+    public int getSelectedAlgorithm() {
+        return mSession.selectedAlgorithm;
     }
 
     @Override
-    public void setSelectedAlgorithm(Reference.Algorithm value) {
-
+    public void setSelectedAlgorithm(int value) {
+        mRealm.beginTransaction();
+        mSession.selectedAlgorithm = value;
+        mRealm.commitTransaction();
     }
 }

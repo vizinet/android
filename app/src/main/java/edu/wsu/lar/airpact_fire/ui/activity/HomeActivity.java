@@ -138,7 +138,7 @@ public class HomeActivity extends AppCompatActivity {
         frameToIconMap.put(mSettingsPane, mSettingsButton);
         // ---
         frameToActivityMap = new HashMap<>();
-        frameToActivityMap.put(mNewPicturePane, TargetSelectActivity.class); //ImageLabActivity.class);
+        frameToActivityMap.put(mNewPicturePane, ImageLabActivity.class);
         frameToActivityMap.put(mInformationPane, UserDataActivity.class);
         frameToActivityMap.put(mPictureGalleryPane, GalleryActivity.class);
         frameToActivityMap.put(mSettingsPane, SettingsActivity.class);

@@ -2,6 +2,7 @@ package edu.wsu.lar.airpact_fire.app.manager;
 
 import java.util.List;
 
+import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
@@ -25,7 +26,6 @@ public interface AppManager {
     DataManager getDataManager(Object... args);
     ServerManager getServerManager(Object... args);
     DebugManager getDebugManager(Object... args);
-    List<String> getAlgorithms();
 
     void onAppStart(Object... args);
     void onAppEnd(Object... args);

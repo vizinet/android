@@ -293,6 +293,7 @@ public class HTTPServerManager implements ServerManager {
                 // Parse response
                 JSONObject postReceiveJSON = (JSONObject) new JSONParser()
                         .parse(serverPostResponse);
+                mDebugManager.printLog("postReceiveJSON = " + postReceiveJSON);
 
                 // Did post succeed?
                 String postStatus = postReceiveJSON.get("status").toString();

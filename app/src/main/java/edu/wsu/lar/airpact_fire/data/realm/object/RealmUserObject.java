@@ -43,6 +43,18 @@ public class RealmUserObject implements UserObject {
     }
 
     @Override
+    public boolean getRememberAlgorithmChoice() {
+        return mUser.rememberAlgorithmChoice;
+    }
+
+    @Override
+    public void setRememberAlgorithmChoice(boolean value) {
+        mRealm.beginTransaction();
+        mUser.rememberAlgorithmChoice = value;
+        mRealm.commitTransaction();
+    }
+
+    @Override
     // TODO: Forward to target selection activity when there is an active draft post
     public boolean getHasDraftPost() {
         return false;

@@ -7,7 +7,7 @@ package edu.wsu.lar.airpact_fire.data.algorithm;
 import edu.wsu.lar.airpact_fire.ui.fragment.algorithm_procedure.OneForOneStartFragment;
 
 /** @see Algorithm */
-public class OneForOneAlgorithm extends Algorithm {
+public class OneForOneAlgorithm implements Algorithm {
 
     @Override
     public int getId() {

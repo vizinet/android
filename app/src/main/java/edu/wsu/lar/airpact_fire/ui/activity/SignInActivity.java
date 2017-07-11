@@ -102,9 +102,6 @@ public class SignInActivity extends AppCompatActivity {
         mAppManager.onActivityStart(this);
         mAppManager.onAppStart(this);
 
-        // TODO: Remove
-        //mAppManager.getDebugManager().printLog(mAppManager.getAlgorithms().toString());
-
         // Sign last user in if that box was previously checked
         if (mAppManager.getDataManager().getApp().getRememberUser()) {
             UserObject userObject = mAppManager.getDataManager().getApp().getLastUser();

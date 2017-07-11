@@ -48,14 +48,9 @@ public class RealmAppObject implements AppObject {
     @Override
     public UserObject getLastUser() {
 
-        // Get sessions ordered by date
-        RealmResults<Session> orderedSessions = mRealm.where(Session.class).findAllSorted(
-                "startDate", Sort.DESCENDING);
-        if (orderedSessions.isEmpty()) { return null; }
-
-        // Get user of most recent session
-        Session lastSession = orderedSessions.first();
-        return new RealmUserObject(mRealm, lastSession.user, mDataManager, mDebugManager);
+        SessionObject lastSession = getLastSession();
+        return new RealmUserObject(mRealm, lastSession.getUser().getUsername(),
+                mDataManager, mDebugManager);
     }
 
     @Override
@@ -73,7 +68,15 @@ public class RealmAppObject implements AppObject {
 
     @Override
     public SessionObject getLastSession() {
-        return null;
+
+        // Get sessions ordered by date
+        RealmResults<Session> orderedSessions = mRealm.where(Session.class).findAllSorted(
+                "startDate", Sort.DESCENDING);
+        if (orderedSessions.isEmpty()) { return null; }
+
+        // Get user of most recent session
+        Session lastSession = orderedSessions.first();
+        return new RealmSessionObject(mRealm, lastSession, mDataManager, mDebugManager);
     }
 
     @Override

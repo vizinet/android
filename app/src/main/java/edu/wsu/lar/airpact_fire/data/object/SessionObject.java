@@ -18,6 +18,8 @@ import edu.wsu.lar.airpact_fire.app.Reference;
  */
 public interface SessionObject {
 
+    UserObject getUser();
+
     Date getStartDate();
     void getEndDate();
 
@@ -27,6 +29,6 @@ public interface SessionObject {
     float getEstimatedDistance();
     void setEstimatedDistance(float value);
 
-    Reference.Algorithm getSelectedAlgorithm();
-    void setSelectedAlgorithm(Reference.Algorithm value);
+    int getSelectedAlgorithm();
+    void setSelectedAlgorithm(int value);
 }

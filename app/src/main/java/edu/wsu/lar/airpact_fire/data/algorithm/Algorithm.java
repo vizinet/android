@@ -4,9 +4,6 @@
 
 package edu.wsu.lar.airpact_fire.data.algorithm;
 
-import android.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-
 /**
  * Interface for all algorithms known to AIRPACT-Fire to implement with their
  * corresponding user-driven procedures.
@@ -19,17 +16,17 @@ import android.support.v4.app.FragmentActivity;
  * @author Luke Weber
  * @since 0.9
  */
-public abstract class Algorithm {
+public interface Algorithm {
 
     /** @return algorithm identifier as integer. */
-    abstract int getId();
+    int getId();
 
     /** @return name of algorithm. */
-    abstract String getName();
+    String getName();
 
     /** @return abbreviation of name. */
-    abstract String getAbbreviation();
+    String getAbbreviation();
 
     /** @return fragment with predefined collection behavior for this algorithm. */
-    abstract Object getFragment();
+    Object getFragment();
 }

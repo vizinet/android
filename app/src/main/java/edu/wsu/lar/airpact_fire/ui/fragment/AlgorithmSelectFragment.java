@@ -3,10 +3,26 @@ package edu.wsu.lar.airpact_fire.ui.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+import java.util.List;
+
+import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.manager.AppManager;
+import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
+import edu.wsu.lar.airpact_fire.data.object.SessionObject;
+import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import lar.wsu.edu.airpact_fire.R;
 
 /**
@@ -18,19 +34,32 @@ import lar.wsu.edu.airpact_fire.R;
  * create an instance of this fragment.
  */
 public class AlgorithmSelectFragment extends Fragment {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private AppManager mAppManager;
+    private List<Algorithm> mAlgorithms;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+    private RadioGroup mAlgorithmRadioGroup;
+    private CheckBox mRememberAlgorithmCheckBox;
+    private Button mContinueButton;
+
     private OnFragmentInteractionListener mListener;
 
-    public AlgorithmSelectFragment() {
-        // Required empty public constructor
+    public AlgorithmSelectFragment() { }
+
+    @Override
+    public void setArguments(Bundle args) {
+        super.setArguments(args);
+        //args.get
+        ///mAppManager = appManager;
     }
 
     /**
@@ -63,8 +92,61 @@ public class AlgorithmSelectFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // Grab app manager from parent activity
+        mAppManager = ((ImageLabActivity) getActivity()).getAppManager();
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_algorithm_select, container, false);
+        View view = inflater.inflate(R.layout.fragment_algorithm_select, container, false);
+        mAlgorithmRadioGroup = (RadioGroup) view.findViewById(R.id.algorithm_radio);
+        mRememberAlgorithmCheckBox = (CheckBox) view.findViewById(R.id.remember_algorithm_check_box);
+        mContinueButton = (Button) view.findViewById(R.id.continue_button);
+
+        // Dynamically add choices for algorithms
+        Class[] algorithmClasses = Reference.ALGORITHMS;
+        for (Class c : algorithmClasses) {
+            try {
+                Algorithm algorithm = (Algorithm) c.newInstance();
+                RadioButton radioButton = new RadioButton(getActivity());
+                radioButton.setPadding(20, 0, 0, 0);
+                radioButton.setTextSize(20);
+                radioButton.setLayoutParams(new RadioGroup.LayoutParams(
+                        RadioGroup.LayoutParams.MATCH_PARENT,
+                        RadioGroup.LayoutParams.MATCH_PARENT));
+                String radioButtonText = String.format("[%s] %s",
+                        algorithm.getAbbreviation(),
+                        algorithm.getName());
+                radioButton.setText(radioButtonText);
+                mAlgorithmRadioGroup.addView(radioButton);
+                mAlgorithms.add(algorithm);
+            } catch (java.lang.InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Listen for "continue"
+        mContinueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                UserObject userObject = mAppManager.getDataManager().getApp().getLastUser();
+                SessionObject sessionObject = mAppManager.getDataManager().getApp()
+                        .getLastSession();
+
+                // Update database with selections
+                int radioButtonId = mAlgorithmRadioGroup.getCheckedRadioButtonId();
+                userObject.setRememberAlgorithmChoice(mRememberAlgorithmCheckBox.isChecked());
+                sessionObject.setSelectedAlgorithm(radioButtonId);
+
+                // Create next fragment based on selected algorithm
+                Algorithm selectedAlgorithm = mAlgorithms.get(radioButtonId - 1);
+                selectedAlgorithm.getFragment();
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -79,6 +161,9 @@ public class AlgorithmSelectFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+
+
         /*
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
