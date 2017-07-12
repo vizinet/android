@@ -11,7 +11,7 @@ import edu.wsu.lar.airpact_fire.data.algorithm.OneForOneAlgorithm;
 import edu.wsu.lar.airpact_fire.data.algorithm.TwoInOneAlgorithm;
 
 /**
- * Single point of reference regarding constants for whole app
+ * Single point of reference regarding constants for whole app.
  *
  * @author  Luke Weber
  * @since   0.9
@@ -27,6 +27,9 @@ public final class Reference {
     public static final String SERVER_REGISTER_URL = SERVER_BASE_URL + "/user/register";
     public static final String SERVER_INFORMATION_URL = SERVER_BASE_URL + "/";
 
+    // AIRPACT-Fire agreed date-time format between server and app
+    public static final String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
+
     // Determines how much keyboard tends to occupy on screen
     public static final double KEYPAD_OCCUPATION_RATIO = 0.15;
 
@@ -34,6 +37,7 @@ public final class Reference {
     public static final int DEFAULT_ALGORITHM = 1;
     public static final int DEFAULT_DISTANCE_METRIC = 1;
     public static final int DEFAULT_POST_MODE = 1;
+    public static final double[] DEFAULT_GPS_LOCATION = { 46.73267, -117.163454 }; // Pullman, WA
 
     /**
      * Array of algorithms agreed upon by server and app.

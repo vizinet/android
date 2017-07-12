@@ -36,4 +36,6 @@ public interface UserObject {
 
     Date getFirstLoginDate();
     void getFirstLoginDate(Date value);
+
+    Object getRaw();
 }

@@ -27,6 +27,12 @@ public interface Algorithm {
     /** @return abbreviation of name. */
     String getAbbreviation();
 
+    /** @return description of algorithm and how it works. */
+    String getDescription();
+
+    /** @return standard usage procedure for laymen to understand. */
+    String getProcedure();
+
     /** @return fragment with predefined collection behavior for this algorithm. */
     Object getFragment();
 }

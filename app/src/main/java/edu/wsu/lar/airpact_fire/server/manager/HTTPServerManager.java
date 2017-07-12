@@ -298,16 +298,12 @@ public class HTTPServerManager implements ServerManager {
                 // Did post succeed?
                 String postStatus = postReceiveJSON.get("status").toString();
                 didSubmit = postStatus.equals("success");
-                mDebugManager.printLog("postStatus = " + postStatus);
 
                 // Get algorithm result
-                serverOutput = Double.parseDouble(
-                        postReceiveJSON.get("output").toString());
-                mDebugManager.printLog("output = " + serverOutput);
+                serverOutput = Double.parseDouble(postReceiveJSON.get("output").toString());
 
                 // Image ID, to construct website URL
                 serverImageId = Integer.parseInt(postReceiveJSON.get("imageID").toString());
-                mDebugManager.printLog("serverImageId = " + serverImageId);
 
             } catch (Exception e) {
                 e.printStackTrace();

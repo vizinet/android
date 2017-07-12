@@ -6,15 +6,25 @@ package edu.wsu.lar.airpact_fire.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
+import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
+import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.realm.model.User;
 import edu.wsu.lar.airpact_fire.ui.fragment.AlgorithmSelectFragment;
 import lar.wsu.edu.airpact_fire.R;
 
 public class ImageLabActivity extends AppCompatActivity {
 
     private AppManager mAppManager;
+    private UserObject mUserObject;
+    private PostObject mPostObject;
+    private Algorithm mAlgorithm;
+
+    private int[] mPadding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +33,10 @@ public class ImageLabActivity extends AppCompatActivity {
 
         mAppManager = Reference.getAppManager();
         mAppManager.onActivityStart(this);
+
+        // Create new post (for this image)
+        mUserObject = mAppManager.getDataManager().getApp().getLastUser();
+        mPostObject = mUserObject.createPost();
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -48,8 +62,43 @@ public class ImageLabActivity extends AppCompatActivity {
         }
     }
 
-    // For fragments to access app manager
+    /* Methods for fragments to control UI */
+
+    public void clearPadding() {
+        View containerView = findViewById(R.id.image_lab_container);
+        mPadding = new int[] {
+                containerView.getPaddingLeft(),
+                containerView.getPaddingTop(),
+                containerView.getPaddingRight(),
+                containerView.getPaddingBottom()
+        };
+        containerView.setPadding(0, 0, 0, 0);
+    }
+
+    public void restorePadding() {
+        View containerView = findViewById(R.id.image_lab_container);
+        containerView.setPadding(mPadding[0], mPadding[1], mPadding[2], mPadding[3]);
+    }
+
+    /* Methods for fragments to access activity fields */
+
     public AppManager getAppManager() {
         return mAppManager;
+    }
+
+    public UserObject getUserObject() {
+        return mUserObject;
+    }
+
+    public PostObject getPostObject() {
+        return mPostObject;
+    }
+
+    public Algorithm getAlgorithm() {
+        return mAlgorithm;
+    }
+
+    public void setAlgorithm(Algorithm algorithm) {
+        mAlgorithm = algorithm;
     }
 }

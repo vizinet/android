@@ -16,9 +16,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-/**
- * @see AppObject
- */
+/** @see AppObject */
 public class RealmAppObject implements AppObject {
 
     private Realm mRealm;
@@ -81,6 +79,11 @@ public class RealmAppObject implements AppObject {
 
     @Override
     public SessionObject getSession() {
+        return null;
+    }
+
+    @Override
+    public Object getRaw() {
         return null;
     }
 }

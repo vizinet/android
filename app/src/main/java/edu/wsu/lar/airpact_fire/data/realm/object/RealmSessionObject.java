@@ -74,4 +74,9 @@ public class RealmSessionObject implements SessionObject {
         mSession.selectedAlgorithm = value;
         mRealm.commitTransaction();
     }
+
+    @Override
+    public Object getRaw() {
+        return mSession;
+    }
 }

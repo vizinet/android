@@ -457,8 +457,9 @@ public class TargetSelectActivity extends AppCompatActivity {
 
             // Add placeholder/default geolocation
             mPostObject.setGPS(new double[] {
-                DataManager.GPS_DEFAULT_LOCATION[0],
-                DataManager.GPS_DEFAULT_LOCATION[1]});
+                Reference.DEFAULT_GPS_LOCATION[0],
+                Reference.DEFAULT_GPS_LOCATION[1]
+            });
 
             // Check for real deal
             LocationManager locationManager = (LocationManager) getSystemService(

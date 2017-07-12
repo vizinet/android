@@ -331,4 +331,9 @@ public class RealmPostObject implements PostObject {
 
         return root;
     }
+
+    @Override
+    public Object getRaw() {
+        return mPost;
+    }
 }

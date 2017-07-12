@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="edu.wsu.lar.airpact_fire.ui.fragment.AlgorithmSelectFragment">
+
+
+        <TextView
+            android:id="@+id/algorithm_title_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="[ enter algorithm name here ]"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/algorithm_description_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="[ enter algorithm description here ] "
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/algorithm_procedure_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="[ enter algorithm description here ] "
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/proceed_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Proceed" />
+</LinearLayout>

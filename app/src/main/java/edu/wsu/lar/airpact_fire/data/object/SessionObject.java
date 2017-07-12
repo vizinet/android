@@ -31,4 +31,6 @@ public interface SessionObject {
 
     int getSelectedAlgorithm();
     void setSelectedAlgorithm(int value);
+
+    Object getRaw();
 }

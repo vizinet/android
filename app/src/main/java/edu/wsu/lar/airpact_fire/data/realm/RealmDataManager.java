@@ -27,9 +27,7 @@ import io.realm.RealmObjectChangeListener;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-/**
- * @see DataManager
- */
+/** @see DataManager */
 public class RealmDataManager implements DataManager {
 
     private Realm mRealm;
@@ -143,8 +141,8 @@ public class RealmDataManager implements DataManager {
     // End current session
     private void endSession() {
         mRealm.beginTransaction();
-        Session session = getLastSession();
-        session.endDate = new Date(DATE_FORMAT);
+        Session session = (Session) getApp().getLastSession().getRaw();
+        session.endDate = new Date(Reference.DATE_FORMAT);
         mRealm.commitTransaction();
 
         mDebugManager.printLog("Ended the session");
@@ -156,11 +154,6 @@ public class RealmDataManager implements DataManager {
                 .findAll();
         if (results.isEmpty()) { return null; }
         return results.first();
-    }
-
-    private Session getLastSession() {
-        // TODO: See if right order
-        return mRealm.where(Session.class).findAllSorted("startDate", Sort.DESCENDING).first();
     }
 
     private void setupRealmObjectNotifications() {
