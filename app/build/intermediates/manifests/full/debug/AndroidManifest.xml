@@ -111,6 +111,7 @@
             android:name="edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity"
             android:label="@string/title_activity_image_lab"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name="edu.wsu.lar.airpact_fire.ui.fragment.algorithm_procedure.OneForOneAlphaActivity" />
     </application>
 
 </manifest>

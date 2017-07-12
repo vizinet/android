@@ -43,6 +43,18 @@ public class RealmUserObject implements UserObject {
     }
 
     @Override
+    public boolean getRememberAlgorithmChoice() {
+        return mUser.rememberAlgorithmChoice;
+    }
+
+    @Override
+    public void setRememberAlgorithmChoice(boolean value) {
+        mRealm.beginTransaction();
+        mUser.rememberAlgorithmChoice = value;
+        mRealm.commitTransaction();
+    }
+
+    @Override
     // TODO: Forward to target selection activity when there is an active draft post
     public boolean getHasDraftPost() {
         return false;
@@ -69,8 +81,9 @@ public class RealmUserObject implements UserObject {
     public PostObject createPost() {
         mRealm.beginTransaction();
         Post postModel = mRealm.createObject(Post.class, mDataManager.generatePostId());
-        postModel.user = mUser; // TODO: This seems to not be working
-        postModel.mode = Reference.PostMode.DRAFTED.ordinal();
+        postModel.user = mUser;
+        postModel.mode = Reference.DEFAULT_POST_MODE;
+        postModel.algorithm = Reference.DEFAULT_ALGORITHM;
         mRealm.copyToRealmOrUpdate(mUser);
         mRealm.commitTransaction();
 
@@ -91,12 +104,16 @@ public class RealmUserObject implements UserObject {
 
     @Override
     public Date getFirstLoginDate() {
-
         return null;
     }
 
     @Override
     public void getFirstLoginDate(Date value) {
 
+    }
+
+    @Override
+    public Object getRaw() {
+        return mUser;
     }
 }

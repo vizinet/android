@@ -9,6 +9,7 @@ import android.content.Context;
 
 import java.util.Date;
 
+import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
@@ -26,9 +27,7 @@ import io.realm.RealmObjectChangeListener;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-/**
- * @see DataManager
- */
+/** @see DataManager */
 public class RealmDataManager implements DataManager {
 
     private Realm mRealm;
@@ -114,6 +113,7 @@ public class RealmDataManager implements DataManager {
             mRealm.beginTransaction();
             userModel = mRealm.createObject(User.class, username); // Primary key
             userModel.password = password;
+            userModel.distanceMetric = Reference.DEFAULT_DISTANCE_METRIC;
             mRealm.commitTransaction();
             mDebugManager.printLog("User created!");
         }
@@ -141,8 +141,8 @@ public class RealmDataManager implements DataManager {
     // End current session
     private void endSession() {
         mRealm.beginTransaction();
-        Session session = getLastSession();
-        session.endDate = new Date(DATE_FORMAT);
+        Session session = (Session) getApp().getLastSession().getRaw();
+        session.endDate = new Date(Reference.DATE_FORMAT);
         mRealm.commitTransaction();
 
         mDebugManager.printLog("Ended the session");
@@ -154,11 +154,6 @@ public class RealmDataManager implements DataManager {
                 .findAll();
         if (results.isEmpty()) { return null; }
         return results.first();
-    }
-
-    private Session getLastSession() {
-        // TODO: See if right order
-        return mRealm.where(Session.class).findAllSorted("startDate", Sort.DESCENDING).first();
     }
 
     private void setupRealmObjectNotifications() {

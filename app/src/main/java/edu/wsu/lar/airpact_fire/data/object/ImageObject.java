@@ -13,4 +13,6 @@ public interface ImageObject {
 
     SessionObject getLastSession();
     SessionObject getSession(); // Current session
+
+    Object getRaw();
 }

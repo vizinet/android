@@ -170,17 +170,4 @@ public class AIRPACTFireAppManager implements AppManager {
         }
         mDebugManager.printLog("Verified storage permissions");
     }
-
-    @Override
-    public List<String> getAlgorithms() {
-
-        // TODO: Look at the signature of the below constructor, see violations
-        Reflections reflections = new Reflections(mActivity.getPackageName());
-        Set<Class<? extends Algorithm>> allClasses = reflections.getSubTypesOf(Algorithm.class);
-        List algorithmList = new ArrayList<String>();
-        for (Class c : allClasses) {
-            algorithmList.add(c.getName());
-        }
-        return algorithmList;
-    }
 }

@@ -31,10 +31,6 @@ import edu.wsu.lar.airpact_fire.data.object.PostObject;
  */
 public interface DataManager {
 
-    // Data standards
-    String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
-    double[] GPS_DEFAULT_LOCATION = {46.73267, -117.163454}; // Pullman, WA
-
     // Give app object - key to all of database access for UI
     AppObject getApp();
     Activity getActivity();

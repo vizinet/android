@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:2:1-110:12
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:2:1-111:12
 	package
 		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:3:5-39
 		INJECTED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml
@@ -40,7 +40,7 @@ ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\mai
 	android:name
 		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:14:9-47
 application
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:17:5-108:19
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:17:5-109:19
 MERGED from [com.android.support:design:23.1.1] C:\Users\lukedottec\.android\build-cache\f00a89e94422063926d25284b83aea99411bf407\output\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:appcompat-v7:23.1.1] C:\Users\lukedottec\.android\build-cache\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\output\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-appindexing:8.1.0] C:\Users\lukedottec\.android\build-cache\53132df03e910a431c8a5c4b3d772cdadf87d400\output\AndroidManifest.xml:19:5-20
@@ -161,13 +161,17 @@ MERGED from [com.google.android.gms:play-services-basement:8.1.0] C:\Users\luked
 	android:name
 		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:101:13-58
 activity#edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:104:9-107:81
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:104:9-107:72
 	android:label
 		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:106:13-61
 	android:theme
 		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:107:13-69
 	android:name
 		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:105:13-81
+activity#edu.wsu.lar.airpact_fire.ui.fragment.algorithm_procedure.OneForOneAlphaActivity
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:108:9-125
+	android:name
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:108:19-113
 uses-sdk
 INJECTED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [io.realm:realm-android-library:3.1.4] C:\Users\lukedottec\.android\build-cache\c321c47d7a7f910e86f873dface3303cb4ebb151\output\AndroidManifest.xml:7:5-9:41

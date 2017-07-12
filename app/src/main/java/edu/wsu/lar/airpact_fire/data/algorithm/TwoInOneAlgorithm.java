@@ -5,7 +5,8 @@
 package edu.wsu.lar.airpact_fire.data.algorithm;
 
 /** @see Algorithm */
-public class TwoInOneAlgorithm extends Algorithm {
+public class TwoInOneAlgorithm implements Algorithm {
+
     @Override
     public int getId() {
         return 1;
@@ -19,6 +20,18 @@ public class TwoInOneAlgorithm extends Algorithm {
     @Override
     public String getAbbreviation() {
         return "TIO";
+    }
+
+    @Override
+    public String getDescription() {
+        return "One image capture with two targets placed.";
+    }
+
+    @Override
+    public String getProcedure() {
+        return "Keep your place as you take a picture of a Point of Interest. From there, place " +
+                "on target on the Point of Interest, and the other on the sky or clouds in the " +
+                "background.";
     }
 
     @Override

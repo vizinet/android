@@ -117,8 +117,8 @@ public class TargetSelectActivity extends AppCompatActivity {
         int selectedMetric = mAppManager.getDataManager().getApp().getLastUser()
                 .getDistanceMetric();
         final List<String> metricOptions = new ArrayList<>();
-        for (Reference.DistanceMetric distanceMetric : Reference.DistanceMetric.values()) {
-            metricOptions.add(distanceMetric.name().toLowerCase());
+        for (String distanceMetric : Reference.DISTANCE_METRICS) {
+            metricOptions.add(distanceMetric);
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinner_item_text,
                 metricOptions);
@@ -217,15 +217,15 @@ public class TargetSelectActivity extends AppCompatActivity {
 
                                 if (didSubmit) {
 
-                                    // Mark post as queued
-                                    mPostObject.setMode(Reference.PostMode.QUEUED.ordinal());
+                                    // Mark post as submitted
+                                    mPostObject.setMode(3);
                                     Toast.makeText(mContext, R.string.submission_success,
                                             Toast.LENGTH_LONG).show();
 
                                 } else {
 
-                                    // Mark as submitted
-                                    mPostObject.setMode(Reference.PostMode.SUBMITTED.ordinal());
+                                    // Mark as queued
+                                    mPostObject.setMode(2);
                                     Toast.makeText(mContext, R.string.submission_failed,
                                             Toast.LENGTH_SHORT).show();
                                     Toast.makeText(mContext, R.string.post_queued,
@@ -457,8 +457,9 @@ public class TargetSelectActivity extends AppCompatActivity {
 
             // Add placeholder/default geolocation
             mPostObject.setGPS(new double[] {
-                DataManager.GPS_DEFAULT_LOCATION[0],
-                DataManager.GPS_DEFAULT_LOCATION[1]});
+                Reference.DEFAULT_GPS_LOCATION[0],
+                Reference.DEFAULT_GPS_LOCATION[1]
+            });
 
             // Check for real deal
             LocationManager locationManager = (LocationManager) getSystemService(

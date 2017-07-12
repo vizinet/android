@@ -21,6 +21,9 @@ public interface UserObject {
     String getUsername();
     String getPassword();
 
+    boolean getRememberAlgorithmChoice();
+    void setRememberAlgorithmChoice(boolean value);
+
     boolean getHasDraftPost();
     void setHasDraftPost(boolean value);
 
@@ -33,4 +36,6 @@ public interface UserObject {
 
     Date getFirstLoginDate();
     void getFirstLoginDate(Date value);
+
+    Object getRaw();
 }

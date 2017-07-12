@@ -26,25 +26,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal">
 
-                        <RadioButton
-                            android:id="@+id/radioButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingLeft="10dp"
-                            android:text="two-in-one (TIO)"
-                            android:textSize="20sp" />
-
-                        <RadioButton
-                            android:id="@+id/radioButton2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingLeft="10dp"
-                            android:selectAllOnFocus="false"
-                            android:text="one-for-one (OFO)"
-                            android:textSize="20sp" />
-
                 </RadioGroup>
         </FrameLayout>
 
@@ -54,7 +35,7 @@
             android:layout_weight="1">
 
                 <CheckBox
-                    android:id="@+id/checkBox"
+                    android:id="@+id/remember_algorithm_check_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal"
@@ -62,7 +43,7 @@
         </FrameLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/continue_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Continue" />

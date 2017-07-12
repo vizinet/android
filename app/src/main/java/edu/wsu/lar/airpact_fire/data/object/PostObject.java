@@ -74,4 +74,6 @@ public interface PostObject {
     void setLocation(String value);
 
     JSONObject toJSON();
+
+    Object getRaw();
 }

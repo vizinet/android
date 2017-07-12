@@ -25,4 +25,6 @@ public interface AppObject {
 
     SessionObject getLastSession();
     SessionObject getSession(); // Current session
+
+    Object getRaw();
 }

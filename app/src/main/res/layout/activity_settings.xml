@@ -19,10 +19,61 @@
         tools:context="lar.wsu.edu.airpact_fire.edu.wsu.edu.airpact_fire.activity.InformationActivity"
         android:id="@+id/activity_content">
 
-        <TextView
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Page under construction.\nPlease check again soon." />
+            android:text="Enable GPS location" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Note: Helps in pinpointing image post locations. Very important! Please consider keeping this on." />
+
+        <Switch
+            android:id="@+id/switch2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable background posting" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Occupies background processing power at the expense of convenience." />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="Distance metric"
+            android:textColor="#000" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Preferred unit for all distances provided and computed, i.e. visual range and target distance." />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:id="@+id/asdf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Remember algorithm choice" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Speedup image capture process with defaulting on algorithm choice." />
 
     </LinearLayout>
 </LinearLayout>
