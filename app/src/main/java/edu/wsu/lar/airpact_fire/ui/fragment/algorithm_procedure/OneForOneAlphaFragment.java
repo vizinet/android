@@ -36,6 +36,7 @@ import lar.wsu.edu.airpact_fire.R;
 import static android.app.Activity.RESULT_OK;
 
 // TODO: When user retakes image, scrap this post and make a new one!
+// TODO: Look into building a target API so we don't keep rewriting code and the fragments are elegant and simple
 
 public class OneForOneAlphaFragment extends Fragment {
 
@@ -47,7 +48,6 @@ public class OneForOneAlphaFragment extends Fragment {
     private PostObject mPostObject;
 
     private ImageView mImageView;
-    private ViewGroup.LayoutParams mWindowLayoutParams;
 
     public OneForOneAlphaFragment() { }
 
@@ -56,6 +56,7 @@ public class OneForOneAlphaFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         ((ImageLabActivity) getActivity()).clearPadding();
+        //((ImageLabActivity) getActivity()).restorePadding();
 
         // Get fields from activity
         mAppManager = ((ImageLabActivity) getActivity()).getAppManager();
