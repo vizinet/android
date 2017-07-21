@@ -45,8 +45,8 @@ public class RealmAppObject implements AppObject {
 
     @Override
     public UserObject getLastUser() {
-
         SessionObject lastSession = getLastSession();
+        if (lastSession == null) { return null; }
         return new RealmUserObject(mRealm, lastSession.getUser().getUsername(),
                 mDataManager, mDebugManager);
     }

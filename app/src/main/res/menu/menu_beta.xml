@@ -1,0 +1,17 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_help"
+        android:icon="@mipmap/ic_help_black_24dp"
+        android:title="Help"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_home"
+        android:icon="@mipmap/ic_home_black_24dp"
+        android:title="Home"
+        app:showAsAction="always"/>
+
+</menu>

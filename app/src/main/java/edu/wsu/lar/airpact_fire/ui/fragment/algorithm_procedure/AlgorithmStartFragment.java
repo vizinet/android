@@ -24,6 +24,8 @@ import lar.wsu.edu.airpact_fire.R;
  */
 public class AlgorithmStartFragment extends Fragment {
 
+    private static final String sActionBarTitle = "Algorithm Details";
+
     private Algorithm mAlgorithm;
 
     private TextView mAlgorithmTitleTextView;
@@ -36,6 +38,9 @@ public class AlgorithmStartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // Set action bar title
+       ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
         // Get algorithm from activity
         mAlgorithm = ((ImageLabActivity) getActivity()).getAlgorithm();
@@ -50,7 +55,6 @@ public class AlgorithmStartFragment extends Fragment {
         mProceedButton = (Button) view.findViewById(R.id.proceed_button);
 
         // Present algorithm details
-        mAlgorithmTitleTextView.setText("shit");
         mAlgorithmTitleTextView.setText(String.format(
                 "[%s] %s",
                 mAlgorithm.getAbbreviation(),

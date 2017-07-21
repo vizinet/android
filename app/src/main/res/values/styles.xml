@@ -6,6 +6,10 @@
         <item name="colorPrimary">@color/schemeRed</item>
         <item name="colorPrimaryDark">@color/schemeGray</item>
         <item name="colorAccent">@color/schemeWhite</item>
+
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
+        <!--<item name="android:windowContentOverlay">@null</item>-->
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,27 +17,22 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.ActionBarStyle" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <!--<item name="android:background">@drawable/actionbar_background</item>-->
-        <!--<item name="android:titleTextStyle">@style/AppTheme.ActionBar.TitleTextStyle</item>-->
-        <item name="android:textColor">#fff</item>
-        <!--<itme name="android:back"-->
-        <item name="android:background">@color/schemeRed</item>
-        <item name="android:icon">@drawable/logo</item>
-        <!--<item name="android:indeterminateProgressStyle">@style/IndeterminateProgress</item>-->
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <!--AddPictureDetailsActivity spinner-->
+    <!-- AddPictureDetailsActivity spinner -->
     <style name="SpinnerTextViewItem" parent="@android:style/Widget.TextView">
         <item name="android:textSize">20dp</item>
-        <!--<item name="android:textStyle" >italic</item>-->
     </style>
 
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- Transparent action bar style -->
+    <style name="AppTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/schemeBlue</item>
+        <!-- Support library compatibility -->
+        <item name="background">@color/schemeBlue</item>
+    </style>
+
 </resources>

@@ -53,9 +53,6 @@ public class RealmDataManager implements DataManager {
                 app.rememberUser = false;
             }
         });
-
-        // Setup Realm object notifications
-        setupRealmObjectNotifications();
     }
 
     @Override
@@ -154,23 +151,6 @@ public class RealmDataManager implements DataManager {
                 .findAll();
         if (results.isEmpty()) { return null; }
         return results.first();
-    }
-
-    private void setupRealmObjectNotifications() {
-
-        RealmObjectChangeListener<Session> listener = new RealmObjectChangeListener<Session>() {
-            @Override
-            public void onChange(Session dog, ObjectChangeSet changeSet) {
-                if (changeSet.isDeleted()) {
-                    mDebugManager.printLog("The dog was deleted");
-                    return;
-                }
-
-                for (String fieldName : changeSet.getChangedFields()) {
-                    mDebugManager.printLog("Field " + fieldName + " was changed.");
-                }
-            }
-        };
     }
 
     @Override
