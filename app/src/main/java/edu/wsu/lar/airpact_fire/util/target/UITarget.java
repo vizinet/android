@@ -5,48 +5,58 @@
 package edu.wsu.lar.airpact_fire.util.target;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.ContentFrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import edu.wsu.lar.airpact_fire.util.Util;
 import lar.wsu.edu.airpact_fire.R;
 
 public class UITarget {
 
-    private int mId;
-    private ImageView mImageView;
+    private final int mId;
+    private ImageView mContainerImageView;
+    private ImageView mTargetImageView;
 
-    public UITarget(Activity activity, int id, int targetRadius, int x, int y) {
+    public UITarget(Activity activity, ImageView imageView, int id, int targetRadius, int x, int y) {
 
-        // Target identifier
+        mContainerImageView = imageView;
         mId = id;
 
         // Create image view
-        mImageView = new ImageView(activity);
-        mImageView.setLayoutParams(new LinearLayout.LayoutParams(
+        mTargetImageView = new ImageView(activity);
+        mTargetImageView.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
-        mImageView.setImageResource(R.drawable.indicator_point);
+        mTargetImageView.setImageResource(R.drawable.indicator_point);
 
         // Add to activity
         ContentFrameLayout parent = (ContentFrameLayout)
                 activity.findViewById(android.R.id.content);
-        parent.addView(mImageView);
+        parent.addView(mTargetImageView);
 
         // Width, height, and position
-        mImageView.getLayoutParams().width = targetRadius * 2;
-        mImageView.getLayoutParams().height = targetRadius * 2;
-        mImageView.setX(x);
-        mImageView.setY(y);
+        mTargetImageView.getLayoutParams().width = targetRadius * 2;
+        mTargetImageView.getLayoutParams().height = targetRadius * 2;
+        mTargetImageView.setX(x);
+        mTargetImageView.setY(y);
     }
 
     public void setPosition(int x, int y) {
-        mImageView.setX(x);
-        mImageView.setY(y);
+        mTargetImageView.setX(x);
+        mTargetImageView.setY(y);
     }
 
     public int[] getPosition() {
-        return new int[] { (int) mImageView.getX(), (int) mImageView.getY() };
+        return new int[] { (int) mTargetImageView.getX(), (int) mTargetImageView.getY() };
     }
 
-    void getColor() {}
+    public int getColor() {
+        Drawable imageDrawable = mContainerImageView.getDrawable();
+        Bitmap image = Util.drawableToBitmap(imageDrawable);
+        int pixel = image.getPixel((int) mTargetImageView.getX(), (int) mTargetImageView.getY());
+        return pixel;
+    }
 }

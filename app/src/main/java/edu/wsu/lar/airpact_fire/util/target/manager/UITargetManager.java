@@ -5,6 +5,7 @@
 package edu.wsu.lar.airpact_fire.util.target.manager;
 
 import android.app.Activity;
+import android.widget.ImageView;
 import edu.wsu.lar.airpact_fire.util.target.UITarget;
 
 // TODO: Initially place targets in pattern
@@ -15,14 +16,20 @@ public class UITargetManager {
     private static final int sTargetRadius = 30;
 
     private UITarget[] mUITargets;
+    private ImageView mImageView;
 
-    public UITargetManager(Activity activity, int targetCount) {
+    public UITargetManager(Activity activity, ImageView imageView, int targetCount) {
 
+        mImageView = imageView;
         mUITargets = new UITarget[targetCount];
         for (int i = 0; i < targetCount; i++) {
             int x = 0, y = 0;
-            mUITargets[i] = new UITarget(activity, i, sTargetRadius, x, y);
+            mUITargets[i] = new UITarget(activity, mImageView, i, sTargetRadius, x, y);
         }
+    }
+
+    public int getTargetColor(int targetId) {
+        return mUITargets[targetId].getColor();
     }
 
     public void setTargetPosition(int targetId, int x, int y) {
