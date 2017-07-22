@@ -26,6 +26,8 @@ import lar.wsu.edu.airpact_fire.R;
 
 public class AlgorithmSelectFragment extends Fragment {
 
+    private static final String sActionBarTitle = "Select Algorithm";
+
     private AppManager mAppManager;
     private List<Algorithm> mAlgorithms;
 
@@ -38,6 +40,9 @@ public class AlgorithmSelectFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        // Set action bar title
+        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
         // Grab app manager from parent activity
         mAppManager = ((ImageLabActivity) getActivity()).getAppManager();
@@ -84,7 +89,10 @@ public class AlgorithmSelectFragment extends Fragment {
                         .getLastSession();
 
                 // Update database with selections
-                int radioButtonId = mAlgorithmRadioGroup.getCheckedRadioButtonId();
+                // NOTE: Modulus because radio button ID's are not reallocated once this fragment
+                // is repopulated
+                int radioButtonId = ((mAlgorithmRadioGroup.getCheckedRadioButtonId() - 1)
+                        % mAlgorithmRadioGroup.getChildCount()) + 1;
                 userObject.setRememberAlgorithmChoice(mRememberAlgorithmCheckBox.isChecked());
                 sessionObject.setSelectedAlgorithm(radioButtonId);
 

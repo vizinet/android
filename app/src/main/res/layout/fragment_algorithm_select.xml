@@ -3,17 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize"
     tools:context="edu.wsu.lar.airpact_fire.ui.fragment.AlgorithmSelectFragment">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center_vertical"
-            android:text="Select algorithm"
-            android:textAlignment="center"
-            android:textSize="30sp" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="bottom|center_horizontal"
+        android:text="Pick your data collection method"
+        android:textAlignment="center"
+        android:textSize="15sp" />
 
         <FrameLayout
             android:layout_width="match_parent"

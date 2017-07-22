@@ -5,15 +5,17 @@
 package edu.wsu.lar.airpact_fire.ui.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
-
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
-import edu.wsu.lar.airpact_fire.data.realm.model.User;
 import edu.wsu.lar.airpact_fire.ui.fragment.AlgorithmSelectFragment;
 import lar.wsu.edu.airpact_fire.R;
 
@@ -24,12 +26,20 @@ public class ImageLabActivity extends AppCompatActivity {
     private PostObject mPostObject;
     private Algorithm mAlgorithm;
 
+    private ActionBar mActionBar;
+
     private int[] mPadding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_lab);
+
+        // Set action bar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        mActionBar = getSupportActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
 
         mAppManager = Reference.getAppManager();
         mAppManager.onActivityStart(this);
@@ -62,6 +72,13 @@ public class ImageLabActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_beta, menu);
+        return true;
+    }
+
     /* Methods for fragments to control UI */
 
     public void clearPadding() {
@@ -78,6 +95,10 @@ public class ImageLabActivity extends AppCompatActivity {
     public void restorePadding() {
         View containerView = findViewById(R.id.image_lab_container);
         containerView.setPadding(mPadding[0], mPadding[1], mPadding[2], mPadding[3]);
+    }
+
+    public void setActionBarTitle(String title) {
+       mActionBar.setTitle(title);
     }
 
     /* Methods for fragments to access activity fields */

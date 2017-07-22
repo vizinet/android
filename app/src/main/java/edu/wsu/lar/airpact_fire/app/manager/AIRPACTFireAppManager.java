@@ -10,14 +10,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
-
-import org.reflections.Reflections;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.realm.RealmDataManager;

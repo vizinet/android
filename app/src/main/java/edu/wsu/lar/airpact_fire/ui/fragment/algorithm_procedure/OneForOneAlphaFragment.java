@@ -20,21 +20,23 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.Display;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
+import android.widget.LinearLayout;
 import java.util.Date;
-
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
+import edu.wsu.lar.airpact_fire.util.target.manager.UITargetManager;
 import lar.wsu.edu.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
 
+// TODO: Address the offset on the target
 // TODO: When user retakes image, scrap this post and make a new one!
 // TODO: Look into building a target API so we don't keep rewriting code and the fragments are elegant and simple
 
@@ -42,21 +44,28 @@ public class OneForOneAlphaFragment extends Fragment {
 
     private static final int sRequestImageCapture = 1;
     private static final int sRequestTakePhoto = 1;
+    private static final int sTargetCount = 1;
 
     private AppManager mAppManager;
     private UserObject mUserObject;
     private PostObject mPostObject;
 
-    private ImageView mImageView;
+    private ImageView mMainImageView;
+    private ImageView mTargetColorImageView;
+    private LinearLayout mDistanceLinearLayout;
+    private LinearLayout mNavigationLinearLayout;
+
+    private UITargetManager mUITargetManager;
+    private int mCurrentTargetId;
 
     public OneForOneAlphaFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
 
         ((ImageLabActivity) getActivity()).clearPadding();
-        //((ImageLabActivity) getActivity()).restorePadding();
 
         // Get fields from activity
         mAppManager = ((ImageLabActivity) getActivity()).getAppManager();
@@ -65,10 +74,51 @@ public class OneForOneAlphaFragment extends Fragment {
 
         // Get views
         View view = inflater.inflate(R.layout.fragment_one_for_one_alpha, container, false);
-        mImageView = (ImageView) view.findViewById(R.id.capture_image_view);
+        mMainImageView = (ImageView) view.findViewById(R.id.main_image_view);
+        mTargetColorImageView = (ImageView) view.findViewById(R.id.target_color_image_view);
+        mDistanceLinearLayout = (LinearLayout) view.findViewById(R.id.distance_linear_layout);
+        mNavigationLinearLayout = (LinearLayout) view.findViewById(R.id.navigation_linear_layout);
+
+        // Target manager creation
+        mUITargetManager = new UITargetManager(getActivity(), mMainImageView, sTargetCount);
 
         // Take pic
         takePicture();
+
+        // Target movement
+        mMainImageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                // Handle displays
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    mDistanceLinearLayout.setVisibility(View.VISIBLE);
+                    mNavigationLinearLayout.setVisibility(View.VISIBLE);
+                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    mDistanceLinearLayout.setVisibility(View.GONE);
+                    mNavigationLinearLayout.setVisibility(View.GONE);
+                }
+
+                // Get touch coordinates
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+
+                // Handle displays
+                //if (event.getAction() == MotionEvent.ACTION_UP) showDisplays();
+                //else if (event.getAction() == MotionEvent.ACTION_DOWN) hideDisplays();
+
+                // No target allowed outside image area
+                if (y >= (v.getY() + v.getHeight())) return false;
+
+                // Move the right target
+                // TODO: Get color of target here
+                mUITargetManager.setTargetPosition(mCurrentTargetId, x, y);
+                int targetColor = mUITargetManager.getTargetColor(mCurrentTargetId);
+                mTargetColorImageView.setBackgroundColor(targetColor);
+
+                return true;
+            }
+        });
 
         return view;
     }
@@ -94,7 +144,6 @@ public class OneForOneAlphaFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
 
         // Call garbage collection
@@ -146,7 +195,7 @@ public class OneForOneAlphaFragment extends Fragment {
             }
 
             // Set image view
-            mImageView.setImageBitmap(bitmap);
+            mMainImageView.setImageBitmap(bitmap);
 
 
         } else {

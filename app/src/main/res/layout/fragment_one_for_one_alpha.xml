@@ -7,7 +7,7 @@
     tools:context="edu.wsu.lar.airpact_fire.ui.fragment.AlgorithmSelectFragment">
 
         <ImageView
-            android:id="@+id/capture_image_view"
+            android:id="@+id/main_image_view"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="2"
@@ -18,54 +18,45 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/activity_vertical_margin">
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/target_color_image_view"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_margin="5dp"
-                    android:layout_weight="0.5"
-                    android:src="@color/indicatorColor" />
+                    android:layout_weight="0.5" />
 
                 <LinearLayout
+                    android:id="@+id/distance_linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/metric_abbr"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:layout_weight="1"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:text="Distance"
-                            android:textSize="20sp"
-                            android:textStyle="bold" />
-
                         <EditText
                             android:id="@+id/editText"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_margin="5dp"
                             android:layout_weight="2"
                             android:ems="10"
                             android:inputType="numberDecimal" />
 
                         <TextView
-                            android:id="@+id/textView27"
+                            android:id="@+id/metric_abbr"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
+                            android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:text="[ greple ]"
-                            android:textSize="15sp" />
+                            android:gravity="bottom|center_horizontal"
+                            android:paddingBottom="5dp"
+                            android:text="KM"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/navigation_linear_layout"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -76,7 +67,6 @@
                             android:id="@+id/button"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:text="Retake" />
 
@@ -84,7 +74,6 @@
                             android:id="@+id/button2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
                             android:layout_weight="1"
                             android:text="Proceed" />
                 </LinearLayout>

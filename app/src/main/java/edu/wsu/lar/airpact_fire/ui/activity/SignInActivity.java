@@ -4,12 +4,15 @@
 
 package edu.wsu.lar.airpact_fire.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spanned;
@@ -135,32 +138,18 @@ public class SignInActivity extends AppCompatActivity {
                         int keypadHeight = screenHeight - rect.bottom;
                         if (keypadHeight > (screenHeight * Reference.KEYPAD_OCCUPATION_RATIO)) {
                             // Keyboard is opened
+                            mAppBanner.setVisibility(View.GONE);
+                            mRegisterLink.setVisibility(View.GONE);
+                            mHelpImageButton.setVisibility(View.GONE);
                         }
                         else {
                             // Keyboard is closed
-                            mUsernameView.clearFocus();
-                            mPasswordView.clearFocus();
+                            mAppBanner.setVisibility(View.VISIBLE);
+                            mRegisterLink.setVisibility(View.VISIBLE);
+                            mHelpImageButton.setVisibility(View.VISIBLE);
                         }
                     }
         });
-
-        // Make space for writing when keyboard in use
-        View.OnFocusChangeListener keyBoardFocusListener = new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    mAppBanner.setVisibility(View.GONE);
-                    mRegisterLink.setVisibility(View.GONE);
-                    mHelpImageButton.setVisibility(View.GONE);
-                } else {
-                    mAppBanner.setVisibility(View.VISIBLE);
-                    mRegisterLink.setVisibility(View.VISIBLE);
-                    mHelpImageButton.setVisibility(View.VISIBLE);
-                }
-            }
-        };
-        mUsernameView.setOnFocusChangeListener(keyBoardFocusListener);
-        mPasswordView.setOnFocusChangeListener(keyBoardFocusListener);
 
         // Checks credentials before proceeding to home
         mSignInButton.setOnClickListener(new OnClickListener() {
@@ -232,6 +221,20 @@ public class SignInActivity extends AppCompatActivity {
                 }
             }
         });
+
+        /*
+        final int sRequestExternalStorage = 1;
+        final String[] sPermissionsStorage = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+        int permission = ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(this, sPermissionsStorage, sRequestExternalStorage);
+        }
+        /* */
 
         /*
         // Redirect user to info on website

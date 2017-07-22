@@ -137,7 +137,6 @@ public class Util {
 
     // TODO Get analysis of circular area around x and y point
     public static int getPixelAtPos(ImageView imageView, int x, int y) {
-        //Bitmap bitmap = ((BitmapDrawable) imageView.getBackground()).getBitmap();
         Drawable imageDrawable = imageView.getDrawable();
         Bitmap image = Util.drawableToBitmap(imageDrawable);
         int pixel = image.getPixel(x, y);
