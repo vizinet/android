@@ -507,12 +507,12 @@
 
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
-        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <item name="android:windowContentOverlay">@null</item>
     </style>
-    <style name="AppTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/schemeBlue</item>
+    <style name="AppTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:background">@drawable/action_bar_background</item>
         <!-- Support library compatibility -->
-        <item name="background">@color/schemeBlue</item>
+        <item name="background">@drawable/action_bar_background</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.NoActionBar">

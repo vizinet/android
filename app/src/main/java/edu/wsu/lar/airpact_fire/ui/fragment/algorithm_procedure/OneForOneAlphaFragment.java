@@ -30,6 +30,7 @@ import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import edu.wsu.lar.airpact_fire.util.target.manager.UITargetManager;
 import lar.wsu.edu.airpact_fire.R;
@@ -197,6 +198,19 @@ public class OneForOneAlphaFragment extends Fragment {
             // Set image view
             mMainImageView.setImageBitmap(bitmap);
 
+            mAppManager.getServerManager().onSubmit(
+                    getActivity().getApplicationContext(),
+                    mPostObject,
+                new ServerManager.ServerCallback() {
+                    @Override
+                    public Object onStart(Object... args) {
+                        return null;
+                    }
+                    @Override
+                    public Object onFinish(Object... args) {
+                        return null;
+                    }
+                });
 
         } else {
             // If no image taken, go home

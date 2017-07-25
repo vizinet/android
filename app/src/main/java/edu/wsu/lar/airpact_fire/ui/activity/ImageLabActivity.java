@@ -121,5 +121,6 @@ public class ImageLabActivity extends AppCompatActivity {
 
     public void setAlgorithm(Algorithm algorithm) {
         mAlgorithm = algorithm;
+        mPostObject.setAlgorithm(mAlgorithm.getId());
     }
 }
