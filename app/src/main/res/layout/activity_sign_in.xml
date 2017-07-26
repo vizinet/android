@@ -99,8 +99,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@android:color/transparent"
+                    android:drawableRight="@mipmap/ic_vpn_key_black_24dp"
                     android:text="Sign In"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" />
 
                 <CheckBox
                     android:id="@+id/remember_password_checkbox"

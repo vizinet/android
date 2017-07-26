@@ -327,10 +327,10 @@ public class TargetSelectActivity extends AppCompatActivity {
             // Update indicator and selection panels
             if (indicator == mBlackCircle) {
                 mBlackIndicatorButton.setColorFilter(selectedPixel);
-                mSelectionPanelText.setText("Selecting low target...");
+                mSelectionPanelText.setText("Selecting low target_background...");
             } else {
                 mWhiteIndicatorButton.setColorFilter(selectedPixel);
-                mSelectionPanelText.setText("Selecting high target...");
+                mSelectionPanelText.setText("Selecting high target_background...");
             }
             mSelectionPanel.setBackgroundColor(selectedPixel);
 

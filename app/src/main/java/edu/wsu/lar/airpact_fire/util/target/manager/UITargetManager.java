@@ -13,7 +13,7 @@ import edu.wsu.lar.airpact_fire.util.target.UITarget;
 
 public class UITargetManager {
 
-    // Standard 100-pixel target diameter
+    // Standard 100-pixel target_background diameter
     private static final int sTargetRadius = 50;
 
     private UITarget[] mUITargets;

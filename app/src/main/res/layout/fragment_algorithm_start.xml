@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="?attr/actionBarSize"
-    tools:context="edu.wsu.lar.airpact_fire.ui.fragment.AlgorithmSelectFragment">
+    tools:context="edu.wsu.lar.airpact_fire.ui.fragment.algorithm.AlgorithmSelectFragment">
 
 
         <TextView
