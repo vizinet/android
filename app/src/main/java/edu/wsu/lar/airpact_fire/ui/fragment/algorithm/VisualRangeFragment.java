@@ -50,7 +50,7 @@ public class VisualRangeFragment extends Fragment {
         mAlgorithms = new ArrayList<>();
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_algorithm_select, container, false);
+        View view = inflater.inflate(R.layout.fragment_visual_range, container, false);
         mAlgorithmRadioGroup = (RadioGroup) view.findViewById(R.id.algorithm_radio);
         mRememberAlgorithmCheckBox = (CheckBox) view.findViewById(
                 R.id.remember_algorithm_check_box);

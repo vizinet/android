@@ -36,8 +36,8 @@ import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
-import edu.wsu.lar.airpact_fire.ui.fragment.algorithm.AlgorithmStartFragment;
-import edu.wsu.lar.airpact_fire.util.target.manager.UITargetManager;
+import edu.wsu.lar.airpact_fire.ui.fragment.algorithm.VisualRangeFragment;
+import edu.wsu.lar.airpact_fire.ui.target.manager.UITargetManager;
 import lar.wsu.edu.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -48,14 +48,16 @@ import static android.app.Activity.RESULT_OK;
 
 public class OneForOneBetaFragment extends Fragment {
 
-    private static final String sActionBarTitle = "Target Selection";
+    private static final String sActionBarTitle = "Target Selection 2/2";
     private static final int sRequestImageCapture = 1;
     private static final int sRequestTakePhoto = 1;
     private static final int sTargetCount = 1;
+    private static final int sFragmentId = 1;
 
     private AppManager mAppManager;
     private UserObject mUserObject;
     private PostObject mPostObject;
+    private UITargetManager mUITargetManager;
 
     private EditText mTargetDistanceEditText;
     private ImageView mMainImageView;
@@ -63,8 +65,7 @@ public class OneForOneBetaFragment extends Fragment {
     private LinearLayout mControlLinearLayout;
     private Button mProceedButton;
 
-    private UITargetManager mUITargetManager;
-    private int mCurrentTargetId;
+    private int mSelectedTargetId;
 
     public OneForOneBetaFragment() { }
 
@@ -80,6 +81,7 @@ public class OneForOneBetaFragment extends Fragment {
         mAppManager = ((ImageLabActivity) getActivity()).getAppManager();
         mUserObject = ((ImageLabActivity) getActivity()).getUserObject();
         mPostObject = ((ImageLabActivity) getActivity()).getPostObject();
+        mUITargetManager = ((ImageLabActivity) getActivity()).getUITargetManager();
 
         // Get views
         View view = inflater.inflate(R.layout.fragment_one_for_one_beta, container, false);
@@ -88,9 +90,6 @@ public class OneForOneBetaFragment extends Fragment {
         mTargetColorImageView = (ImageView) view.findViewById(R.id.target_color_image_view);
         mControlLinearLayout = (LinearLayout) view.findViewById(R.id.control_linear_layout);
         mProceedButton = (Button) view.findViewById(R.id.proceed_button);
-
-        // Target manager creation
-        mUITargetManager = new UITargetManager(getActivity(), mMainImageView, sTargetCount);
 
         // Take pic
         takePicture();
@@ -111,17 +110,13 @@ public class OneForOneBetaFragment extends Fragment {
                 int x = (int) event.getX();
                 int y = (int) event.getY();
 
-                // Handle displays
-                //if (event.getAction() == MotionEvent.ACTION_UP) showDisplays();
-                //else if (event.getAction() == MotionEvent.ACTION_DOWN) hideDisplays();
-
                 // No target_background allowed outside image area
                 if (y >= (v.getY() + v.getHeight())) return false;
 
                 // Move the right target_background
                 // TODO: Get color of target_background here
-                mUITargetManager.setTargetPosition(mCurrentTargetId, x, y);
-                int targetColor = mUITargetManager.getTargetColor(mCurrentTargetId);
+                mUITargetManager.setTargetPosition(mSelectedTargetId, x, y);
+                int targetColor = mUITargetManager.getTargetColor(mSelectedTargetId);
                 mTargetColorImageView.setBackgroundColor(targetColor);
 
                 return true;
@@ -133,10 +128,11 @@ public class OneForOneBetaFragment extends Fragment {
             public void onClick(View view) {
 
                 // Save target distance
-                // TODO
+                mUITargetManager.hideAll();
+                ((ImageLabActivity) getActivity()).restorePadding();
 
-                // Proceed
-                Fragment startFragment = new AlgorithmStartFragment();
+                // Proceed to enter visual range
+                Fragment startFragment = new VisualRangeFragment();
                 getFragmentManager().beginTransaction()
                         .replace(R.id.image_lab_container, startFragment).addToBackStack(null)
                         .commit();
@@ -217,8 +213,9 @@ public class OneForOneBetaFragment extends Fragment {
                 mPostObject.setGPS(new double[] { loc.getLatitude(), loc.getLatitude() });
             }
 
-            // Set image view
+            // Set image view and targets
             mMainImageView.setImageBitmap(bitmap);
+            mUITargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
 
             mAppManager.getServerManager().onSubmit(
                     getActivity().getApplicationContext(),

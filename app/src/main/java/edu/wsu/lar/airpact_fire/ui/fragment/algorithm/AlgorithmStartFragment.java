@@ -13,11 +13,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
+import edu.wsu.lar.airpact_fire.data.algorithm.ofo.OneForOneAlgorithm;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import lar.wsu.edu.airpact_fire.R;
 
 /**
- * Starting activity for the {@link edu.wsu.lar.airpact_fire.data.algorithm.OneForOneAlgorithm}
+ * Starting activity for the {@link OneForOneAlgorithm}
  * which gives the description of what the user must do for this algorithm before proceeding.
  *
  * @since 0.9

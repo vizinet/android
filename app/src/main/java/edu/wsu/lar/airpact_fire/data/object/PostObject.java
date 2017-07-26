@@ -29,8 +29,8 @@ public interface PostObject {
     Date getDate();
     void setDate(Date value);
 
-    String getImageServerId();
-    void setImageServerId(String value);
+    String getServerId();
+    void setServerId(String value);
 
     /** @see Reference.DistanceMetric */
     int getMetric();
@@ -47,15 +47,7 @@ public interface PostObject {
     int getMode();
     void setMode(int value);
 
-    Bitmap getImageBitmap();
-    Uri createImage();
-    void setImage(Bitmap value);
-
-    double[] getGPS();
-    void setGPS(double[] values);
-
-    float[] getDistances();
-    void setDistances(float[] values);
+    ImageObject createImageObject();
 
     float getEstimatedVisualRange();
     void setEstimatedVisualRange(float value);
@@ -63,9 +55,6 @@ public interface PostObject {
     /** Computed visual range returned from server */
     float getComputedVisualRange();
     void setComputedVisualRange(float value);
-
-    float[][] getTargetsCoordinates();
-    void setTargetsCoorindates(float[][] values);
 
     String getDescription();
     void setDescription(String value);

@@ -4,15 +4,23 @@
 
 package edu.wsu.lar.airpact_fire.data.object;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+
 public interface ImageObject {
 
-    void setRememberPassword(boolean value);
+    double[] getGPS();
+    void setGPS(double[] values);
 
-    UserObject getLastUser();
-    UserObject getUser(String username, String password);
+    float[] getDistances();
+    void setDistances(float[] values);
 
-    SessionObject getLastSession();
-    SessionObject getSession(); // Current session
+    float[][] getTargetsCoordinates();
+    void setTargetsCoordinates(float[][] values);
+
+    Bitmap getImageBitmap();
+    Uri createImage();
+    void setImage(Bitmap value);
 
     Object getRaw();
 }
