@@ -4,6 +4,8 @@
 
 package edu.wsu.lar.airpact_fire.ui.activity;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +18,7 @@ import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
-import edu.wsu.lar.airpact_fire.ui.fragment.AlgorithmSelectFragment;
+import edu.wsu.lar.airpact_fire.ui.fragment.algorithm.AlgorithmSelectFragment;
 import lar.wsu.edu.airpact_fire.R;
 
 public class ImageLabActivity extends AppCompatActivity {
@@ -40,6 +42,13 @@ public class ImageLabActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
+        GradientDrawable gd = new GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[] {
+                        Color.WHITE,
+                        Color.TRANSPARENT
+                });
+        mActionBar.setBackgroundDrawable(gd);
 
         mAppManager = Reference.getAppManager();
         mAppManager.onActivityStart(this);
@@ -121,5 +130,6 @@ public class ImageLabActivity extends AppCompatActivity {
 
     public void setAlgorithm(Algorithm algorithm) {
         mAlgorithm = algorithm;
+        mPostObject.setAlgorithm(mAlgorithm.getId());
     }
 }

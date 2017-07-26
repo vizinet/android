@@ -288,10 +288,10 @@ public class RealmPostObject implements PostObject {
         // Intermediate objects
         float[][] targetCoordinates = getTargetsCoordinates();
 
-        // TODO: Adapt post for many images and visual ranges and fields
-        // TODO: Dynamically change JSON for algorithm type
         // TODO: Maybe send radii for the targets
-        // TODO: Set the algorithm in the UI
+        // TODO: Put this server post data in a ServerContract class which is mapped to the right
+        // algorithm
+
 
         // Post submission field vars => JSON
         JSONObject root = new JSONObject();
@@ -299,8 +299,10 @@ public class RealmPostObject implements PostObject {
         root.put("description", getDescription());
         root.put("secretKey", getSecretKey());
         root.put("distanceMetric", "kilometers"); // TODO: Change to integer, getMetric());
-        root.put("location", "luke_tests");//getLocation());
+        root.put("location", "luke_tests"); //getLocation());
         root.put("time", new SimpleDateFormat(ServerManager.DATE_FORMAT).format(getDate()));
+        root.put("estimatedVisualRange", 7.0); //getEstimatedVisualRange());
+        root.put("image", Util.bitmapToString(getImageBitmap()));
 
         int algorithm = getAlgorithm();
         root.put("algorithmType", algorithm);
@@ -308,21 +310,27 @@ public class RealmPostObject implements PostObject {
 
             // Two-in-one
             case 1:
-                root.put("image", Util.bitmapToString(getImageBitmap()));
-                //root.put("image", "");
                 root.put("nearTargetX", 1.0); //getImageBitmap(). targetCoordinates[0][0]);
                 root.put("nearTargetY", 2.0); //targetCoordinates[0][1]);
                 root.put("nearTargetEstimatedDistance", 3.0);
                 root.put("farTargetX", 4.0); //targetCoordinates[1][0]);
                 root.put("farTargetY", 5.0); //targetCoordinates[1][1]);
                 root.put("farTargetEstimatedDistance", 6.0); //Util.joinArray(getDistances(), ","));
-                root.put("estimatedVisualRange", 7.0); //getEstimatedVisualRange());
                 root.put("gpsLongitude", 8.0); //Util.joinArray(getGPS(), ","));
                 root.put("gpsLatitude", 9.0); //Util.joinArray(getGPS(), ","));
                 break;
 
             // One-for-one
             case 2:
+                root.put("imageTwo", Util.bitmapToString(getImageBitmap()));
+                root.put("nearTargetX", 1.0); //getImageBitmap(). targetCoordinates[0][0]);
+                root.put("nearTargetY", 2.0); //targetCoordinates[0][1]);
+                root.put("nearTargetEstimatedDistance", 3.0);
+                root.put("farTargetX", 4.0); //targetCoordinates[1][0]);
+                root.put("farTargetY", 5.0); //targetCoordinates[1][1]);
+                root.put("farTargetEstimatedDistance", 6.0); //Util.joinArray(getDistances(), ","));
+                root.put("gpsLongitude", 8.0); //Util.joinArray(getGPS(), ","));
+                root.put("gpsLatitude", 9.0); //Util.joinArray(getGPS(), ","));
                 break;
 
             default:

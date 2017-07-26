@@ -152,6 +152,10 @@
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\activity_view_user_xml.xml"
     },
     {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_one_for_one_beta.xml",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\fragment_one_for_one_beta.xml"
+    },
+    {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_part_time.xml",
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\layout\\notification_template_part_time.xml"
     },
@@ -270,6 +274,10 @@
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_view_image.xml",
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\activity_view_image.xml"
+    },
+    {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_visual_range.xml",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\layout\\fragment_visual_range.xml"
     },
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notification_template_big_media_narrow.xml",

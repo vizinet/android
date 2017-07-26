@@ -168,10 +168,10 @@ ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\mai
 		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:107:13-69
 	android:name
 		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:105:13-81
-activity#edu.wsu.lar.airpact_fire.ui.fragment.algorithm_procedure.OneForOneAlphaActivity
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:108:9-125
+activity#edu.wsu.lar.airpact_fire.ui.fragment.algorithm.OneForOneAlphaActivity
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:108:9-115
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:108:19-113
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:108:19-103
 uses-sdk
 INJECTED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [io.realm:realm-android-library:3.1.4] C:\Users\lukedottec\.android\build-cache\c321c47d7a7f910e86f873dface3303cb4ebb151\output\AndroidManifest.xml:7:5-9:41

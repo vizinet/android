@@ -4,8 +4,7 @@
 
 package edu.wsu.lar.airpact_fire.data.algorithm;
 
-import edu.wsu.lar.airpact_fire.ui.fragment.algorithm_procedure.AlgorithmStartFragment;
-import edu.wsu.lar.airpact_fire.ui.fragment.algorithm_procedure.OneForOneAlphaFragment;
+import edu.wsu.lar.airpact_fire.ui.fragment.algorithm.ofo.OneForOneAlphaFragment;
 
 /** @see Algorithm */
 public class OneForOneAlgorithm implements Algorithm {
@@ -27,7 +26,7 @@ public class OneForOneAlgorithm implements Algorithm {
 
     @Override
     public String getDescription() {
-        return "Two image captures, one target placed on each.";
+        return "Two image captures, one target_background placed on each.";
     }
 
     @Override
