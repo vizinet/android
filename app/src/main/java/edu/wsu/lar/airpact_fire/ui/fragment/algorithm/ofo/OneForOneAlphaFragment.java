@@ -30,11 +30,11 @@ import android.widget.LinearLayout;
 import java.util.Date;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
+import edu.wsu.lar.airpact_fire.data.object.ImageObject;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
-import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
-import edu.wsu.lar.airpact_fire.util.target.manager.UITargetManager;
+import edu.wsu.lar.airpact_fire.ui.target.manager.UITargetManager;
 import lar.wsu.edu.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -46,14 +46,17 @@ import static android.app.Activity.RESULT_OK;
 
 public class OneForOneAlphaFragment extends Fragment {
 
-    private static final String sActionBarTitle = "Target Selection";
+    private static final String sActionBarTitle = "Target Selection 1/2";
     private static final int sRequestImageCapture = 1;
     private static final int sRequestTakePhoto = 1;
     private static final int sTargetCount = 1;
+    private static final int sFragmentId = 0;
 
     private AppManager mAppManager;
     private UserObject mUserObject;
     private PostObject mPostObject;
+    private ImageObject mImageObject;
+    private UITargetManager mUITargetManager;
 
     private EditText mTargetDistanceEditText;
     private ImageView mMainImageView;
@@ -61,8 +64,9 @@ public class OneForOneAlphaFragment extends Fragment {
     private LinearLayout mControlLinearLayout;
     private Button mProceedButton;
 
-    private UITargetManager mUITargetManager;
-    private int mCurrentTargetId;
+    private int mSelectedTargetId;
+
+    // TODO: Adapt for image object
 
     public OneForOneAlphaFragment() { }
 
@@ -78,6 +82,8 @@ public class OneForOneAlphaFragment extends Fragment {
         mAppManager = ((ImageLabActivity) getActivity()).getAppManager();
         mUserObject = ((ImageLabActivity) getActivity()).getUserObject();
         mPostObject = ((ImageLabActivity) getActivity()).getPostObject();
+        mUITargetManager = ((ImageLabActivity) getActivity()).getUITargetManager();
+        mImageObject = mPostObject.createImageObject();
 
         // Get views
         View view = inflater.inflate(R.layout.fragment_one_for_one_alpha, container, false);
@@ -86,9 +92,6 @@ public class OneForOneAlphaFragment extends Fragment {
         mTargetColorImageView = (ImageView) view.findViewById(R.id.target_color_image_view);
         mControlLinearLayout = (LinearLayout) view.findViewById(R.id.control_linear_layout);
         mProceedButton = (Button) view.findViewById(R.id.proceed_button);
-
-        // Target manager creation
-        mUITargetManager = new UITargetManager(getActivity(), mMainImageView, sTargetCount);
 
         // Take pic
         takePicture();
@@ -109,18 +112,13 @@ public class OneForOneAlphaFragment extends Fragment {
                 int x = (int) event.getX();
                 int y = (int) event.getY();
 
-                // Handle displays
-                //if (event.getAction() == MotionEvent.ACTION_UP) showDisplays();
-                //else if (event.getAction() == MotionEvent.ACTION_DOWN) hideDisplays();
-
                 // No target_background allowed outside image area
                 if (y >= (v.getY() + v.getHeight())) return false;
 
-                // Move the right target_background
-                // TODO: Get color of target_background here
+                // Move the right target
                 // TODO: Get target region average, not just one point
-                mUITargetManager.setTargetPosition(mCurrentTargetId, x, y);
-                int targetColor = mUITargetManager.getTargetColor(mCurrentTargetId);
+                mUITargetManager.setTargetPosition(mSelectedTargetId, x, y);
+                int targetColor = mUITargetManager.getTargetColor(mSelectedTargetId);
                 mTargetColorImageView.setBackgroundColor(targetColor);
 
                 return true;
@@ -133,6 +131,8 @@ public class OneForOneAlphaFragment extends Fragment {
 
                 // TODO: Some target to post method
                 //mPostObject.setTargetDistance();
+
+                mUITargetManager.hideAll();
 
                 Fragment startFragment = new OneForOneBetaFragment();
                 getFragmentManager().beginTransaction()
@@ -150,7 +150,7 @@ public class OneForOneAlphaFragment extends Fragment {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
 
-            Uri imageUri = mPostObject.createImage();
+            Uri imageUri = mImageObject.createImage();
 
             // Make sure we get file back, and enforce PORTRAIT camera mode
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
@@ -174,7 +174,7 @@ public class OneForOneAlphaFragment extends Fragment {
         if (requestCode == sRequestImageCapture && resultCode == RESULT_OK) {
 
             // Get bitmap
-            Bitmap bitmap = mPostObject.getImageBitmap();
+            Bitmap bitmap = mImageObject.getImageBitmap();
             if (bitmap == null) {
                 // Abort mission
                 //handleImageFailure();
@@ -190,13 +190,14 @@ public class OneForOneAlphaFragment extends Fragment {
                     (screenWidth / (float) bitmap.getWidth()));
             int imageWidth = screenWidth;
             bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, true);
-            mPostObject.setImage(bitmap);
+            mImageObject.setImage(bitmap);
 
             // Set date the moment the image has been captured
+            // TODO: Make the date in the image object
             mPostObject.setDate(new Date());
 
             // Add placeholder geolocation
-            mPostObject.setGPS(new double[] {
+            mImageObject.setGPS(new double[] {
                     Reference.DEFAULT_GPS_LOCATION[0],
                     Reference.DEFAULT_GPS_LOCATION[1]
             });
@@ -212,25 +213,11 @@ public class OneForOneAlphaFragment extends Fragment {
                     == PackageManager.PERMISSION_GRANTED;
             if (canAccessFineLocation || canAccessCourseLocation) {
                 Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                mPostObject.setGPS(new double[] { loc.getLatitude(), loc.getLatitude() });
+                mImageObject.setGPS(new double[] { loc.getLatitude(), loc.getLatitude() });
             }
 
-            // Set image view
             mMainImageView.setImageBitmap(bitmap);
-
-            mAppManager.getServerManager().onSubmit(
-                    getActivity().getApplicationContext(),
-                    mPostObject,
-                new ServerManager.ServerCallback() {
-                    @Override
-                    public Object onStart(Object... args) {
-                        return null;
-                    }
-                    @Override
-                    public Object onFinish(Object... args) {
-                        return null;
-                    }
-                });
+            mUITargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
 
         } else {
             // If no image taken, go home

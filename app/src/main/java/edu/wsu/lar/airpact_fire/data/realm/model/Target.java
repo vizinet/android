@@ -6,6 +6,7 @@ package edu.wsu.lar.airpact_fire.data.realm.model;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Target extends RealmObject {
 
