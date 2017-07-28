@@ -19,7 +19,7 @@ import android.widget.TextView;
 import edu.wsu.lar.airpact_fire.util.Util;
 import lar.wsu.edu.airpact_fire.R;
 
-public class UITarget {
+public class UiTarget {
 
     private final int mId;
     private final int mRadius;
@@ -27,7 +27,7 @@ public class UITarget {
     private ImageView mContainerImageView;
     private TextView mTargetTextView;
 
-    public UITarget(Activity activity, ImageView imageView, int id, int targetRadius, int x, int y) {
+    public UiTarget(Activity activity, ImageView imageView, int id, int targetRadius, int x, int y) {
 
         mContainerImageView = imageView;
         mId = id;
@@ -57,6 +57,23 @@ public class UITarget {
     }
 
     public void setPosition(int x, int y) {
+
+        // Keep target in bounds: check bottom, up, right, and left bounds (respectively)
+        if ((y + mRadius) >= (mContainerImageView.getY() + mContainerImageView.getHeight())) {
+            mTargetTextView.setX(x - mRadius);
+            return;
+        } else if ((y - mRadius) <= mContainerImageView.getY())  {
+            mTargetTextView.setX(x - mRadius);
+            return;
+        } else if ((x + mRadius) >= (mContainerImageView.getX() + mContainerImageView.getWidth())) {
+            mTargetTextView.setY(y - mRadius);
+            return;
+        } else if ((x - mRadius) <= (mContainerImageView.getX())) {
+            mTargetTextView.setY(y - mRadius);
+            return;
+        }
+
+        // Ok: set position
         mTargetTextView.setX(x - mRadius);
         mTargetTextView.setY(y - mRadius);
     }
@@ -68,21 +85,34 @@ public class UITarget {
         };
     }
 
-    public int getColor() {
+    public float[] getImagePosition() {
+        int[] position = getPosition();
+        return new float[] {
+                position[0],
+                position[1] + getZoomOffset()
+        };
+    }
 
+    /** Get height offset from center zoom on y-axis */
+    public int getZoomOffset() {
         Drawable imageDrawable = mContainerImageView.getDrawable();
         Bitmap image = Util.drawableToBitmap(imageDrawable);
-
-        // Get height offset from center zoom on y-axis
         int imageViewHeight = mContainerImageView.getHeight();
         int bitmapHeight = image.getHeight();
         int heightTouchOffset = (bitmapHeight - imageViewHeight) / 2;
+        return heightTouchOffset;
+    }
+
+    public int getColor() {
+
+        Bitmap image = Util.drawableToBitmap(mContainerImageView.getDrawable());
+        int offset = getZoomOffset();
 
         // Get pixel color at real position
         int[] position = getPosition();
         int pixel = image.getPixel(
                 position[0],
-                position[1] + heightTouchOffset
+                position[1] + offset
         );
         return pixel;
     }
