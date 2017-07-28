@@ -55,6 +55,7 @@ import edu.wsu.lar.airpact_fire.util.Util;
 
 public class TargetSelectActivity extends AppCompatActivity {
 
+    /*
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_TAKE_PHOTO = 1;
 
@@ -648,4 +649,5 @@ public class TargetSelectActivity extends AppCompatActivity {
         Toast.makeText(TargetSelectActivity.this, "Failure retrieving image.", Toast.LENGTH_SHORT).show();
         Util.goHome(this);
     }
+    */
 }

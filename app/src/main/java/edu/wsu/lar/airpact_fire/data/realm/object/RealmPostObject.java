@@ -4,29 +4,24 @@
 
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Environment;
+import android.os.Message;
+
 import org.json.simple.JSONObject;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.ImageObject;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
-import edu.wsu.lar.airpact_fire.data.realm.model.Coordinate;
 import edu.wsu.lar.airpact_fire.data.realm.model.Image;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.util.Util;
 import io.realm.Realm;
-import io.realm.RealmList;
+import io.realm.RealmResults;
 
 /** @see PostObject */
 public class RealmPostObject implements PostObject {
@@ -35,12 +30,6 @@ public class RealmPostObject implements PostObject {
     private Post mPost;
     private DataManager mDataManager;
     private DebugManager mDebugManager;
-
-    public RealmPostObject(Realm realm, int postId, DataManager dataManager,
-                           DebugManager debugManager) {
-        this(realm, realm.where(Post.class).equalTo("postId", postId).findFirst(),
-                dataManager, debugManager);
-    }
 
     public RealmPostObject(Realm realm, Post post, DataManager dataManager,
                            DebugManager debugManager) {
@@ -129,8 +118,25 @@ public class RealmPostObject implements PostObject {
 
     @Override
     public ImageObject createImageObject() {
-        // TODO
-        return null;
+        mRealm.beginTransaction();
+        Image imageModel = mRealm.createObject(Image.class, mDataManager.generateImageId());
+        imageModel.postId = mPost.postId;
+        mRealm.commitTransaction();
+        return new RealmImageObject(mRealm, imageModel, mDataManager, mDebugManager);
+    }
+
+    @Override
+    public List<ImageObject> getImageObjects() {
+        RealmResults realmResults = mRealm.where(Image.class)
+                .equalTo("postId", mPost.postId)
+                .findAllSorted("imageId");
+        List imageObjects = new ArrayList<ImageObject>();
+        for (Object image : realmResults) {
+            ImageObject imageObject =
+                    new RealmImageObject(mRealm, (Image) image, mDataManager, mDebugManager);
+            imageObjects.add(imageObject);
+        }
+        return imageObjects;
     }
 
     @Override
@@ -181,18 +187,22 @@ public class RealmPostObject implements PostObject {
         mRealm.commitTransaction();
     }
 
-    // TODO: Something cooler so that this Data object doesn't need to know any server specs!
+    @Override
+    public void delete() {
+        mRealm.beginTransaction();
+        RealmResults<Post> result = mRealm.where(Post.class)
+                .equalTo("postId", mPost.postId).findAll();
+        result.deleteAllFromRealm();
+        mRealm.commitTransaction();
+    }
 
     @Override
     public JSONObject toJSON() {
 
-        // Intermediate objects
-        float[][] targetCoordinates = getTargetsCoordinates();
-
         // TODO: Maybe send radii for the targets
-        // TODO: Put this server post data in a ServerContract class which is mapped to the right
-        // algorithm
+        // TODO: Put this server post data in a ServerContract class which is mapped to the right algorithm
 
+        List<ImageObject> imageObjectList = getImageObjects();
 
         // Post submission field vars => JSON
         JSONObject root = new JSONObject();
@@ -203,7 +213,7 @@ public class RealmPostObject implements PostObject {
         root.put("location", "luke_tests"); //getLocation());
         root.put("time", new SimpleDateFormat(ServerManager.DATE_FORMAT).format(getDate()));
         root.put("estimatedVisualRange", 7.0); //getEstimatedVisualRange());
-        root.put("image", Util.bitmapToString(getImageBitmap()));
+        root.put("image", Util.bitmapToString(imageObjectList.get(0).getImageBitmap()));
 
         int algorithm = getAlgorithm();
         root.put("algorithmType", algorithm);
@@ -223,7 +233,7 @@ public class RealmPostObject implements PostObject {
 
             // One-for-one
             case 2:
-                root.put("imageTwo", Util.bitmapToString(getImageBitmap()));
+                root.put("imageTwo", Util.bitmapToString(imageObjectList.get(1).getImageBitmap()));
                 root.put("nearTargetX", 1.0); //getImageBitmap(). targetCoordinates[0][0]);
                 root.put("nearTargetY", 2.0); //targetCoordinates[0][1]);
                 root.put("nearTargetEstimatedDistance", 3.0);
@@ -247,4 +257,5 @@ public class RealmPostObject implements PostObject {
     public Object getRaw() {
         return mPost;
     }
+
 }

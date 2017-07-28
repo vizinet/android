@@ -220,8 +220,8 @@ public class Util {
 
     public static String bitmapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        // Compression format is loss less with PNG
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        // Compression format is lossless with PNG
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] b = baos.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;

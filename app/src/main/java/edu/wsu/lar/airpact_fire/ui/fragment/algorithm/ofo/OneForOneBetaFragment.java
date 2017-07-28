@@ -27,24 +27,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import java.util.Date;
-
 import edu.wsu.lar.airpact_fire.app.Reference;
-import edu.wsu.lar.airpact_fire.app.manager.AppManager;
+import edu.wsu.lar.airpact_fire.data.object.ImageObject;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
-import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
+import edu.wsu.lar.airpact_fire.data.object.TargetObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import edu.wsu.lar.airpact_fire.ui.fragment.algorithm.VisualRangeFragment;
-import edu.wsu.lar.airpact_fire.ui.target.manager.UITargetManager;
+import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
 import lar.wsu.edu.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
-
-// TODO: Address the offset on the target_background
-// TODO: When user retakes image, scrap this post and make a new one!
-// TODO: Look into building a target_background API so we don't keep rewriting code and the fragments are elegant and simple
 
 public class OneForOneBetaFragment extends Fragment {
 
@@ -54,10 +47,12 @@ public class OneForOneBetaFragment extends Fragment {
     private static final int sTargetCount = 1;
     private static final int sFragmentId = 1;
 
-    private AppManager mAppManager;
-    private UserObject mUserObject;
     private PostObject mPostObject;
-    private UITargetManager mUITargetManager;
+    private ImageObject mImageObject;
+    private TargetObject mTargetObject;
+
+    private UiTargetManager mUiTargetManager;
+    private int mSelectedTargetId;
 
     private EditText mTargetDistanceEditText;
     private ImageView mMainImageView;
@@ -65,23 +60,20 @@ public class OneForOneBetaFragment extends Fragment {
     private LinearLayout mControlLinearLayout;
     private Button mProceedButton;
 
-    private int mSelectedTargetId;
-
     public OneForOneBetaFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
 
+        super.onCreateView(inflater, container, savedInstanceState);
         ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
-        ((ImageLabActivity) getActivity()).clearPadding();
 
         // Get fields from activity
-        mAppManager = ((ImageLabActivity) getActivity()).getAppManager();
-        mUserObject = ((ImageLabActivity) getActivity()).getUserObject();
         mPostObject = ((ImageLabActivity) getActivity()).getPostObject();
-        mUITargetManager = ((ImageLabActivity) getActivity()).getUITargetManager();
+        mUiTargetManager = ((ImageLabActivity) getActivity()).getUITargetManager();
+        mImageObject = mPostObject.createImageObject();
+        mTargetObject = mImageObject.createTargetObject();
 
         // Get views
         View view = inflater.inflate(R.layout.fragment_one_for_one_beta, container, false);
@@ -115,8 +107,8 @@ public class OneForOneBetaFragment extends Fragment {
 
                 // Move the right target_background
                 // TODO: Get color of target_background here
-                mUITargetManager.setTargetPosition(mSelectedTargetId, x, y);
-                int targetColor = mUITargetManager.getTargetColor(mSelectedTargetId);
+                mUiTargetManager.setTargetPosition(mSelectedTargetId, x, y);
+                int targetColor = mUiTargetManager.getTargetColor(mSelectedTargetId);
                 mTargetColorImageView.setBackgroundColor(targetColor);
 
                 return true;
@@ -127,14 +119,19 @@ public class OneForOneBetaFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                // Save target distance
-                mUITargetManager.hideAll();
-                ((ImageLabActivity) getActivity()).restorePadding();
+                float targetDistance = Float.parseFloat(
+                        mTargetDistanceEditText.getText().toString());
+                float[] targetCoordinates = mUiTargetManager
+                        .getTargetImagePosition(mSelectedTargetId);
+
+                mTargetObject.setDistance(targetDistance);
+                mTargetObject.setCoordinates(targetCoordinates);
+                mUiTargetManager.hideAll();
 
                 // Proceed to enter visual range
-                Fragment startFragment = new VisualRangeFragment();
+                Fragment nextFragment = new VisualRangeFragment();
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.image_lab_container, startFragment).addToBackStack(null)
+                        .replace(R.id.image_lab_container, nextFragment).addToBackStack(null)
                         .commit();
             }
         });
@@ -148,7 +145,7 @@ public class OneForOneBetaFragment extends Fragment {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
 
-            Uri imageUri = mPostObject.createImage();
+            Uri imageUri = mImageObject.createImage();
 
             // Make sure we get file back, and enforce PORTRAIT camera mode
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
@@ -172,7 +169,7 @@ public class OneForOneBetaFragment extends Fragment {
         if (requestCode == sRequestImageCapture && resultCode == RESULT_OK) {
 
             // Get bitmap
-            Bitmap bitmap = mPostObject.getImageBitmap();
+            Bitmap bitmap = mImageObject.getImageBitmap();
             if (bitmap == null) {
                 // Abort mission
                 //handleImageFailure();
@@ -188,13 +185,13 @@ public class OneForOneBetaFragment extends Fragment {
                     (screenWidth / (float) bitmap.getWidth()));
             int imageWidth = screenWidth;
             bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, true);
-            mPostObject.setImage(bitmap);
+            mImageObject.setImage(bitmap);
 
             // Set date the moment the image has been captured
             mPostObject.setDate(new Date());
 
             // Add placeholder geolocation
-            mPostObject.setGPS(new double[] {
+            mImageObject.setGPS(new double[] {
                     Reference.DEFAULT_GPS_LOCATION[0],
                     Reference.DEFAULT_GPS_LOCATION[1]
             });
@@ -210,13 +207,14 @@ public class OneForOneBetaFragment extends Fragment {
                     == PackageManager.PERMISSION_GRANTED;
             if (canAccessFineLocation || canAccessCourseLocation) {
                 Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                mPostObject.setGPS(new double[] { loc.getLatitude(), loc.getLatitude() });
+                mImageObject.setGPS(new double[] { loc.getLatitude(), loc.getLatitude() });
             }
 
             // Set image view and targets
             mMainImageView.setImageBitmap(bitmap);
-            mUITargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
+            mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
 
+            /*
             mAppManager.getServerManager().onSubmit(
                     getActivity().getApplicationContext(),
                     mPostObject,
@@ -230,6 +228,7 @@ public class OneForOneBetaFragment extends Fragment {
                         return null;
                     }
                 });
+            */
 
         } else {
             // If no image taken, go home

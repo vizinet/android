@@ -10,18 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.wsu.lar.airpact_fire.app.Reference;
-import edu.wsu.lar.airpact_fire.app.manager.AppManager;
-import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
-import edu.wsu.lar.airpact_fire.data.object.SessionObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import android.widget.EditText;
+import android.widget.ImageView;
+import edu.wsu.lar.airpact_fire.data.object.ImageObject;
+import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import lar.wsu.edu.airpact_fire.R;
 
@@ -29,12 +21,11 @@ public class VisualRangeFragment extends Fragment {
 
     private static final String sActionBarTitle = "Visual Range";
 
-    private AppManager mAppManager;
-    private List<Algorithm> mAlgorithms;
+    private PostObject mPostObject;
 
-    private RadioGroup mAlgorithmRadioGroup;
-    private CheckBox mRememberAlgorithmCheckBox;
-    private Button mContinueButton;
+    private ImageView mMainImageView;
+    private EditText mVisualRangeDistanceEditText;
+    private Button mProceedButton;
 
     public VisualRangeFragment() { }
 
@@ -42,69 +33,34 @@ public class VisualRangeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Set action bar title
+        super.onCreateView(inflater, container, savedInstanceState);
         ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
-        // Grab app manager from parent activity
-        mAppManager = ((ImageLabActivity) getActivity()).getAppManager();
-        mAlgorithms = new ArrayList<>();
+        mPostObject = ((ImageLabActivity) getActivity()).getPostObject();
 
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_visual_range, container, false);
-        mAlgorithmRadioGroup = (RadioGroup) view.findViewById(R.id.algorithm_radio);
-        mRememberAlgorithmCheckBox = (CheckBox) view.findViewById(
-                R.id.remember_algorithm_check_box);
-        mContinueButton = (Button) view.findViewById(R.id.continue_button);
+        mMainImageView = (ImageView) view.findViewById(R.id.main_image_view);
+        mVisualRangeDistanceEditText = (EditText) view.findViewById(
+                R.id.visual_range_distance_edit_text);
+        mProceedButton = (Button) view.findViewById(R.id.proceed_button);
 
-        // Dynamically add choices for algorithms
-        Class[] algorithmClasses = Reference.ALGORITHMS;
-        for (Class c : algorithmClasses) {
-            try {
-                Algorithm algorithm = (Algorithm) c.newInstance();
-                RadioButton radioButton = new RadioButton(getActivity());
-                radioButton.setPadding(20, 0, 0, 0);
-                radioButton.setTextSize(20);
-                radioButton.setLayoutParams(new RadioGroup.LayoutParams(
-                        RadioGroup.LayoutParams.MATCH_PARENT,
-                        RadioGroup.LayoutParams.MATCH_PARENT));
-                String radioButtonText = String.format("[%s] %s",
-                        algorithm.getAbbreviation(),
-                        algorithm.getName());
-                radioButton.setText(radioButtonText);
-                mAlgorithmRadioGroup.addView(radioButton);
-                mAlgorithms.add(algorithm);
-            } catch (java.lang.InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
+        ImageObject imageObject = mPostObject.getImageObjects().get(0);
+        mMainImageView.setImageBitmap(imageObject.getImageBitmap());
 
-        // Listen for "continue"
-        mContinueButton.setOnClickListener(new View.OnClickListener() {
+        mProceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                UserObject userObject = mAppManager.getDataManager().getApp().getLastUser();
-                SessionObject sessionObject = mAppManager.getDataManager().getApp()
-                        .getLastSession();
+                float estimatedVisualRange = Float.parseFloat(
+                        mVisualRangeDistanceEditText.getText().toString());
+                mPostObject.setEstimatedVisualRange(estimatedVisualRange);
 
-                // Update database with selections
-                // NOTE: Modulus because radio button ID's are not reallocated once this fragment
-                // is repopulated
-                int radioButtonId = ((mAlgorithmRadioGroup.getCheckedRadioButtonId() - 1)
-                        % mAlgorithmRadioGroup.getChildCount()) + 1;
-                userObject.setRememberAlgorithmChoice(mRememberAlgorithmCheckBox.isChecked());
-                sessionObject.setSelectedAlgorithm(radioButtonId);
+                ((ImageLabActivity) getActivity()).restorePadding();
 
-                // Grab algorithm of choice & notify parent activity
-                Algorithm selectedAlgorithm = mAlgorithms.get(radioButtonId - 1);
-                ((ImageLabActivity) getActivity()).setAlgorithm(selectedAlgorithm);
-
-                // Give description of algorithm before real action happens
-                Fragment startFragment = new AlgorithmStartFragment();
+                // Proceed to enter visual range
+                Fragment nextFragment = new DescriptionFragment();
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.image_lab_container, startFragment).addToBackStack(null)
+                        .replace(R.id.image_lab_container, nextFragment).addToBackStack(null)
                         .commit();
             }
         });

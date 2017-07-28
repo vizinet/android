@@ -36,6 +36,8 @@ public interface DataManager {
     Activity getActivity();
     int generateSessionId();
     int generatePostId();
+    int generateImageId();
+    int generateTargetId();
 
     // Activity lifecycle methods
     /** TODO: Adapt the below doc

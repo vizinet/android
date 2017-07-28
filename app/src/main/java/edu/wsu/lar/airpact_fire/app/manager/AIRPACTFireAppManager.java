@@ -12,7 +12,7 @@ import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.realm.RealmDataManager;
+import edu.wsu.lar.airpact_fire.data.realm.manager.RealmDataManager;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.server.manager.HTTPServerManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;

@@ -16,12 +16,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.ImageObject;
+import edu.wsu.lar.airpact_fire.data.object.TargetObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Coordinate;
 import edu.wsu.lar.airpact_fire.data.realm.model.Image;
-import edu.wsu.lar.airpact_fire.data.realm.model.Post;
+import edu.wsu.lar.airpact_fire.data.realm.model.Target;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
+import edu.wsu.lar.airpact_fire.ui.target.UiTarget;
 import io.realm.Realm;
-import io.realm.RealmList;
 
 /** @see ImageObject */
 public class RealmImageObject implements ImageObject {
@@ -30,18 +31,6 @@ public class RealmImageObject implements ImageObject {
     private Image mImage;
     private DataManager mDataManager;
     private DebugManager mDebugManager;
-
-    public RealmImageObject(Realm realm, int postId, int imageId, DataManager dataManager,
-                            DebugManager debugManager) {
-        this(
-                realm,
-                realm.where(Image.class)
-                        .equalTo("postId", postId)
-                        .equalTo("imageId", imageId)
-                        .findFirst(),
-                dataManager,
-                debugManager);
-    }
 
     public RealmImageObject(Realm realm, Image image, DataManager dataManager,
                             DebugManager debugManager) {
@@ -53,10 +42,9 @@ public class RealmImageObject implements ImageObject {
 
     @Override
     public Bitmap getImageBitmap() {
-        String fileLocation = mPost.images.get(0).imageLocation;
+        String fileLocation = mImage.imageLocation;
         Bitmap bitmap = null;
         try {
-            // TODO: Store image location s.t. we don't need to get it's substring
             bitmap = BitmapFactory.decodeFile(fileLocation.substring(7));
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
@@ -69,7 +57,6 @@ public class RealmImageObject implements ImageObject {
 
         // Create an image file in public "Pictures/" directory to be populated by
         // picture capturing activity
-        // TODO: Possibly store in private directory
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_.jpg";
         File storageDir = Environment.getExternalStoragePublicDirectory(
@@ -79,10 +66,7 @@ public class RealmImageObject implements ImageObject {
 
         // Save image location
         mRealm.beginTransaction();
-        Image imageModel = mRealm.createObject(Image.class, imageUri.toString());
-        RealmList imageList = new RealmList();
-        imageList.add(imageModel);
-        mPost.images = imageList;
+        mImage.imageLocation = imageUri.toString();
         mRealm.commitTransaction();
 
         return imageUri;
@@ -91,10 +75,13 @@ public class RealmImageObject implements ImageObject {
     // TODO: Possibly remove, possibly use to store image file to private dir
     @Override
     public void setImage(Bitmap value) {
-        String fileLocation = mPost.images.get(0).imageLocation;
+        String fileLocation = mImage.imageLocation;
         File file = new File(fileLocation.substring(7));
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        value.compress(Bitmap.CompressFormat.PNG, 0, bos); // NOTE: Most time-consuming task
+
+        // JPEG compression; time-consuming
+        value.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+
         byte[] bitmapData = bos.toByteArray();
         try {
             FileOutputStream fos = new FileOutputStream(file);
@@ -112,51 +99,28 @@ public class RealmImageObject implements ImageObject {
         Coordinate coordinate = mRealm.createObject(Coordinate.class);
         coordinate.x = values[0];
         coordinate.y = values[1];
-        mPost.images.get(0).gpsCoordinate = coordinate;
+        mImage.gpsCoordinate = coordinate;
         mRealm.commitTransaction();
     }
 
     @Override
-    public float[] getDistances() {
-        return new float[0];
-    }
-
-    @Override
-    public void setDistances(float[] values) {
-
-    }
-
-    @Override
     public double[] getGPS() {
-        Coordinate coordinate = mPost.images.get(0).gpsCoordinate;
-        return new double[] {coordinate.x, coordinate.y};
+        Coordinate coordinate = mImage.gpsCoordinate;
+        return new double[] { coordinate.x, coordinate.y };
     }
 
     @Override
-    public float[][] getTargetsCoordinates() {
-
-        return null;
-
-        /*
-        RealmList<VisualRange> realmList = mRealm.where(Post.class).equalTo("postId", mPostId)
-                .findFirst().visualRanges;
-        float[] values = new float[realmList.size()];
-        int i = 0;
-        for (VisualRange v : realmList) {
-            values[i++] = v.value;
-        }
-        return values;
-        */
-    }
-
-    @Override
-    public void setTargetsCoordinates(float[][] values) {
-        // TODO
-
+    public TargetObject createTargetObject() {
+        mRealm.beginTransaction();
+        Target targetModel = mRealm.createObject(Target.class, mDataManager.generateTargetId());
+        targetModel.postId = mImage.postId;
+        targetModel.imageId = mImage.imageId;
+        mRealm.commitTransaction();
+        return new RealmTargetObject(mRealm, targetModel, mDataManager, mDebugManager);
     }
 
     @Override
     public Object getRaw() {
-        return mPost;
+        return mImage;
     }
 }
