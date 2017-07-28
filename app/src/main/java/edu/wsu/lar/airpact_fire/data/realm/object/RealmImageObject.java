@@ -13,7 +13,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.ImageObject;
 import edu.wsu.lar.airpact_fire.data.object.TargetObject;
@@ -23,6 +26,7 @@ import edu.wsu.lar.airpact_fire.data.realm.model.Target;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.ui.target.UiTarget;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /** @see ImageObject */
 public class RealmImageObject implements ImageObject {
@@ -94,7 +98,7 @@ public class RealmImageObject implements ImageObject {
     }
 
     @Override
-    public void setGPS(double[] values) {
+    public void setGps(double[] values) {
         mRealm.beginTransaction();
         Coordinate coordinate = mRealm.createObject(Coordinate.class);
         coordinate.x = values[0];
@@ -104,7 +108,7 @@ public class RealmImageObject implements ImageObject {
     }
 
     @Override
-    public double[] getGPS() {
+    public double[] getGps() {
         Coordinate coordinate = mImage.gpsCoordinate;
         return new double[] { coordinate.x, coordinate.y };
     }
@@ -117,6 +121,37 @@ public class RealmImageObject implements ImageObject {
         targetModel.imageId = mImage.imageId;
         mRealm.commitTransaction();
         return new RealmTargetObject(mRealm, targetModel, mDataManager, mDebugManager);
+    }
+
+    @Override
+    public List<TargetObject> getTargetObjects() {
+        RealmResults<Target> targetResults = mRealm.where(Target.class)
+                .equalTo("imageId", mImage.imageId).findAllSorted("targetId");
+        List targetList = new ArrayList<TargetObject>();
+        for (Target target : targetResults) {
+            targetList.add(new RealmTargetObject(mRealm, target, mDataManager, mDebugManager));
+        }
+        return targetList;
+    }
+
+    @Override
+    public void delete() {
+
+        mRealm.beginTransaction();
+
+        // Delete image
+        RealmResults<Image> imageResults = mRealm.where(Image.class)
+                .equalTo("imageId", mImage.imageId).findAll();
+        imageResults.deleteAllFromRealm();
+
+        // Delete associated targets
+        RealmResults<Target> targetResults = mRealm.where(Target.class)
+                .equalTo("imageId", mImage.imageId).findAll();
+        for (Target target : targetResults) {
+            (new RealmTargetObject(mRealm, target, mDataManager, mDebugManager)).delete();
+        }
+
+        mRealm.commitTransaction();
     }
 
     @Override

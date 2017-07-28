@@ -5,6 +5,7 @@
 package edu.wsu.lar.airpact_fire.data.algorithm.ofo;
 
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
+import edu.wsu.lar.airpact_fire.server.contract.ServerContract;
 import edu.wsu.lar.airpact_fire.ui.fragment.algorithm.ofo.OneForOneAlphaFragment;
 
 /** @see Algorithm */
@@ -38,7 +39,12 @@ public class OneForOneAlgorithm implements Algorithm {
     }
 
     @Override
-    public Object getFragment() {
+    public Object getStartFragment() {
         return new OneForOneAlphaFragment();
+    }
+
+    @Override
+    public ServerContract getServerContract() {
+        return new OneForOneServerContract();
     }
 }

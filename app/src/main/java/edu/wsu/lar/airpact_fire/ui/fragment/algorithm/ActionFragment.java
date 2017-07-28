@@ -4,6 +4,7 @@
 
 package edu.wsu.lar.airpact_fire.ui.fragment.algorithm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,12 +18,13 @@ import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
+import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import lar.wsu.edu.airpact_fire.R;
 
 public class ActionFragment extends Fragment {
 
-    private static final String sActionBarTitle = "Action";
+    private static final String sActionBarTitle = "Post Action";
 
     private AppManager mAppManager;
     private PostObject mPostObject;
@@ -51,7 +53,6 @@ public class ActionFragment extends Fragment {
         mDiscardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Delete post
                 mPostObject.delete();
                 goHome();
             }
@@ -78,11 +79,11 @@ public class ActionFragment extends Fragment {
 
                     @Override
                     public Object onFinish(Object... args) {
+                        goHome();
                         return null;
                     }
                 });
 
-                goHome();
             }
         });
 
@@ -90,6 +91,7 @@ public class ActionFragment extends Fragment {
     }
 
     private void goHome() {
-        // TODO: Open HomeActivity
+        Intent intent = new Intent(getActivity(), HomeActivity.class);
+        startActivity(intent);
     }
 }

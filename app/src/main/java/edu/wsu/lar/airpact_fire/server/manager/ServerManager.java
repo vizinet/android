@@ -14,8 +14,6 @@ import edu.wsu.lar.airpact_fire.data.object.PostObject;
  */
 public interface ServerManager {
 
-    String DATE_FORMAT = "yyyy.MM.dd.HH.mm.ss";
-
     /**
      * Communication interface between app and some authenticating and submission-accepting entity
      *

@@ -69,7 +69,7 @@ public class AlgorithmStartFragment extends Fragment {
             public void onClick(View view) {
 
                 // Create next fragment based on selected algorithm
-                Fragment procedureFragment = (Fragment) mAlgorithm.getFragment();
+                Fragment procedureFragment = (Fragment) mAlgorithm.getStartFragment();
                 getFragmentManager().beginTransaction()
                         .replace(R.id.image_lab_container, procedureFragment).addToBackStack(null)
                             .commit();

@@ -4,16 +4,18 @@
 
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
-import android.os.Message;
-
 import org.json.simple.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.ImageObject;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.object.TargetObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Image;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
@@ -189,10 +191,21 @@ public class RealmPostObject implements PostObject {
 
     @Override
     public void delete() {
+
         mRealm.beginTransaction();
-        RealmResults<Post> result = mRealm.where(Post.class)
+
+        // Delete post object
+        RealmResults<Post> postResults = mRealm.where(Post.class)
                 .equalTo("postId", mPost.postId).findAll();
-        result.deleteAllFromRealm();
+        postResults.deleteAllFromRealm();
+
+        // Delete associated images
+        RealmResults<Image> imageResults = mRealm.where(Image.class)
+                .equalTo("postId", mPost.postId).findAll();
+        for (Image image : imageResults) {
+            (new RealmImageObject(mRealm, image, mDataManager, mDebugManager)).delete();
+        }
+
         mRealm.commitTransaction();
     }
 
@@ -202,60 +215,23 @@ public class RealmPostObject implements PostObject {
         // TODO: Maybe send radii for the targets
         // TODO: Put this server post data in a ServerContract class which is mapped to the right algorithm
 
-        List<ImageObject> imageObjectList = getImageObjects();
-
-        // Post submission field vars => JSON
-        JSONObject root = new JSONObject();
-        root.put("user", getUser().getUsername());
-        root.put("description", getDescription());
-        root.put("secretKey", getSecretKey());
-        root.put("distanceMetric", "kilometers"); // TODO: Change to integer, getMetric());
-        root.put("location", "luke_tests"); //getLocation());
-        root.put("time", new SimpleDateFormat(ServerManager.DATE_FORMAT).format(getDate()));
-        root.put("estimatedVisualRange", 7.0); //getEstimatedVisualRange());
-        root.put("image", Util.bitmapToString(imageObjectList.get(0).getImageBitmap()));
-
-        int algorithm = getAlgorithm();
-        root.put("algorithmType", algorithm);
-        switch (algorithm) {
-
-            // Two-in-one
-            case 1:
-                root.put("nearTargetX", 1.0); //getImageBitmap(). targetCoordinates[0][0]);
-                root.put("nearTargetY", 2.0); //targetCoordinates[0][1]);
-                root.put("nearTargetEstimatedDistance", 3.0);
-                root.put("farTargetX", 4.0); //targetCoordinates[1][0]);
-                root.put("farTargetY", 5.0); //targetCoordinates[1][1]);
-                root.put("farTargetEstimatedDistance", 6.0); //Util.joinArray(getDistances(), ","));
-                root.put("gpsLongitude", 8.0); //Util.joinArray(getGPS(), ","));
-                root.put("gpsLatitude", 9.0); //Util.joinArray(getGPS(), ","));
-                break;
-
-            // One-for-one
-            case 2:
-                root.put("imageTwo", Util.bitmapToString(imageObjectList.get(1).getImageBitmap()));
-                root.put("nearTargetX", 1.0); //getImageBitmap(). targetCoordinates[0][0]);
-                root.put("nearTargetY", 2.0); //targetCoordinates[0][1]);
-                root.put("nearTargetEstimatedDistance", 3.0);
-                root.put("farTargetX", 4.0); //targetCoordinates[1][0]);
-                root.put("farTargetY", 5.0); //targetCoordinates[1][1]);
-                root.put("farTargetEstimatedDistance", 6.0); //Util.joinArray(getDistances(), ","));
-                root.put("nearGpsLongitude", 8.0); //Util.joinArray(getGPS(), ","));
-                root.put("nearGpsLatitude", 9.0); //Util.joinArray(getGPS(), ","));
-                root.put("farGpsLongitude", 8.0); //Util.joinArray(getGPS(), ","));
-                root.put("farGpsLatitude", 9.0); //Util.joinArray(getGPS(), ","));
-                break;
-
-            default:
-                break;
+        // Get algorithm for this post
+        Algorithm algorithm = null;
+        try {
+            // TODO: Improve our methods for retrieving both enums and lists from Reference...
+            algorithm = Reference.ALGORITHMS[getAlgorithm() - 1].newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
+        JSONObject postJSON = algorithm.getServerContract().toJSON(this);
 
-        return root;
+        return postJSON;
     }
 
     @Override
     public Object getRaw() {
         return mPost;
     }
-
 }

@@ -10,6 +10,7 @@ import edu.wsu.lar.airpact_fire.data.realm.model.Coordinate;
 import edu.wsu.lar.airpact_fire.data.realm.model.Target;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /** @see TargetObject */
 public class RealmTargetObject implements TargetObject {
@@ -51,6 +52,18 @@ public class RealmTargetObject implements TargetObject {
         mTarget.coordinate = mRealm.createObject(Coordinate.class);
         mTarget.coordinate.x = values[0];
         mTarget.coordinate.y = values[1];
+        mRealm.commitTransaction();
+    }
+
+    @Override
+    public void delete() {
+        mRealm.beginTransaction();
+
+        // Delete target
+        RealmResults<Target> targetResults = mRealm.where(Target.class)
+                .equalTo("targetId", mTarget.targetId).findAll();
+        targetResults.deleteAllFromRealm();
+
         mRealm.commitTransaction();
     }
 

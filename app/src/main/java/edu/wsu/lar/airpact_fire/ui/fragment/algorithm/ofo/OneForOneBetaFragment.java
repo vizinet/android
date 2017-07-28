@@ -191,7 +191,7 @@ public class OneForOneBetaFragment extends Fragment {
             mPostObject.setDate(new Date());
 
             // Add placeholder geolocation
-            mImageObject.setGPS(new double[] {
+            mImageObject.setGps(new double[] {
                     Reference.DEFAULT_GPS_LOCATION[0],
                     Reference.DEFAULT_GPS_LOCATION[1]
             });
@@ -207,7 +207,7 @@ public class OneForOneBetaFragment extends Fragment {
                     == PackageManager.PERMISSION_GRANTED;
             if (canAccessFineLocation || canAccessCourseLocation) {
                 Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                mImageObject.setGPS(new double[] { loc.getLatitude(), loc.getLatitude() });
+                mImageObject.setGps(new double[] { loc.getLatitude(), loc.getLatitude() });
             }
 
             // Set image view and targets
