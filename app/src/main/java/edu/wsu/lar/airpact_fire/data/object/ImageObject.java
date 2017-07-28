@@ -12,15 +12,13 @@ public interface ImageObject {
     double[] getGPS();
     void setGPS(double[] values);
 
-    float[] getDistances();
-    void setDistances(float[] values);
-
-    float[][] getTargetsCoordinates();
-    void setTargetsCoordinates(float[][] values);
+    TargetObject createTargetObject();
 
     Bitmap getImageBitmap();
     Uri createImage();
     void setImage(Bitmap value);
+
+    void delete();
 
     Object getRaw();
 }

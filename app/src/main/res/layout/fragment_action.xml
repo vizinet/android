@@ -1,9 +1,11 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize"
     tools:context="edu.wsu.lar.airpact_fire.ui.fragment.algorithm.AlgorithmSelectFragment">
 
         <TextView
@@ -14,7 +16,14 @@
             android:gravity="center_vertical|center_horizontal"
             android:text="What are we doing with this post?"
             android:textAlignment="center"
-            android:textSize="20sp" />
+            android:textSize="40sp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="70dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            app:srcCompat="@mipmap/ic_call_split_black_24dp" />
 
         <LinearLayout
             android:id="@+id/navigation_linear_layout"
@@ -23,6 +32,16 @@
             android:layout_weight="0"
             android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/discard_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:drawableRight="@mipmap/ic_delete_black_24dp"
+                    android:text="Discard"
+                    android:textSize="20sp" />
 
                 <Button
                     android:id="@+id/queue_button"

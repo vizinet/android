@@ -20,7 +20,6 @@ public class Post extends RealmObject {
     public User user;
     public Date date;
     public int algorithm;
-    public RealmList<Image> images;
     public float estimatedVisualRange;
     public float computedVisualRange;
     public String description;

@@ -10,6 +10,7 @@ import android.net.Uri;
 import org.json.simple.JSONObject;
 
 import java.util.Date;
+import java.util.List;
 
 import edu.wsu.lar.airpact_fire.app.Reference;
 
@@ -23,6 +24,12 @@ import edu.wsu.lar.airpact_fire.app.Reference;
  * @since   0.9
  */
 public interface PostObject {
+
+    enum PostMode {
+        DRAFTED,
+        QUEUED,
+        SUBMITTED
+    }
 
     UserObject getUser();
 
@@ -48,6 +55,7 @@ public interface PostObject {
     void setMode(int value);
 
     ImageObject createImageObject();
+    List<ImageObject> getImageObjects();
 
     float getEstimatedVisualRange();
     void setEstimatedVisualRange(float value);
@@ -61,6 +69,8 @@ public interface PostObject {
 
     String getLocation();
     void setLocation(String value);
+
+    void delete();
 
     JSONObject toJSON();
 

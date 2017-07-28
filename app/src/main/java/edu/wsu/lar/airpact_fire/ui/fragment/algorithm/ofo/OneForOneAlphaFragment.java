@@ -32,17 +32,15 @@ import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.object.ImageObject;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.object.TargetObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
-import edu.wsu.lar.airpact_fire.ui.target.manager.UITargetManager;
+import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
 import lar.wsu.edu.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
 
-// TODO: Move target manager to ImageLabActivity
-// TODO: Address the offset on the target_background
-// TODO: When user retakes image, scrap this post and make a new one!
-// TODO: Look into building a target_background API so we don't keep rewriting code and the fragments are elegant and simple
+// TODO: When user retakes image, scrap this imageObject and make a new one!
 
 public class OneForOneAlphaFragment extends Fragment {
 
@@ -52,21 +50,18 @@ public class OneForOneAlphaFragment extends Fragment {
     private static final int sTargetCount = 1;
     private static final int sFragmentId = 0;
 
-    private AppManager mAppManager;
-    private UserObject mUserObject;
     private PostObject mPostObject;
     private ImageObject mImageObject;
-    private UITargetManager mUITargetManager;
+    private TargetObject mTargetObject;
+
+    private UiTargetManager mUiTargetManager;
+    private int mSelectedTargetId;
 
     private EditText mTargetDistanceEditText;
     private ImageView mMainImageView;
     private ImageView mTargetColorImageView;
     private LinearLayout mControlLinearLayout;
     private Button mProceedButton;
-
-    private int mSelectedTargetId;
-
-    // TODO: Adapt for image object
 
     public OneForOneAlphaFragment() { }
 
@@ -79,11 +74,10 @@ public class OneForOneAlphaFragment extends Fragment {
         ((ImageLabActivity) getActivity()).clearPadding();
 
         // Get fields from activity
-        mAppManager = ((ImageLabActivity) getActivity()).getAppManager();
-        mUserObject = ((ImageLabActivity) getActivity()).getUserObject();
         mPostObject = ((ImageLabActivity) getActivity()).getPostObject();
-        mUITargetManager = ((ImageLabActivity) getActivity()).getUITargetManager();
+        mUiTargetManager = ((ImageLabActivity) getActivity()).getUITargetManager();
         mImageObject = mPostObject.createImageObject();
+        mTargetObject = mImageObject.createTargetObject();
 
         // Get views
         View view = inflater.inflate(R.layout.fragment_one_for_one_alpha, container, false);
@@ -112,13 +106,10 @@ public class OneForOneAlphaFragment extends Fragment {
                 int x = (int) event.getX();
                 int y = (int) event.getY();
 
-                // No target_background allowed outside image area
-                if (y >= (v.getY() + v.getHeight())) return false;
-
                 // Move the right target
                 // TODO: Get target region average, not just one point
-                mUITargetManager.setTargetPosition(mSelectedTargetId, x, y);
-                int targetColor = mUITargetManager.getTargetColor(mSelectedTargetId);
+                mUiTargetManager.setTargetPosition(mSelectedTargetId, x, y);
+                int targetColor = mUiTargetManager.getTargetColor(mSelectedTargetId);
                 mTargetColorImageView.setBackgroundColor(targetColor);
 
                 return true;
@@ -129,10 +120,14 @@ public class OneForOneAlphaFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                // TODO: Some target to post method
-                //mPostObject.setTargetDistance();
+                float targetDistance = Float.parseFloat(
+                        mTargetDistanceEditText.getText().toString());
+                float[] targetCoordinates = mUiTargetManager
+                        .getTargetImagePosition(mSelectedTargetId);
 
-                mUITargetManager.hideAll();
+                mTargetObject.setDistance(targetDistance);
+                mTargetObject.setCoordinates(targetCoordinates);
+                mUiTargetManager.hideAll();
 
                 Fragment startFragment = new OneForOneBetaFragment();
                 getFragmentManager().beginTransaction()
@@ -217,7 +212,7 @@ public class OneForOneAlphaFragment extends Fragment {
             }
 
             mMainImageView.setImageBitmap(bitmap);
-            mUITargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
+            mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
 
         } else {
             // If no image taken, go home

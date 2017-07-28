@@ -19,7 +19,7 @@ import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.ui.fragment.algorithm.AlgorithmSelectFragment;
-import edu.wsu.lar.airpact_fire.ui.target.manager.UITargetManager;
+import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
 import lar.wsu.edu.airpact_fire.R;
 
 public class ImageLabActivity extends AppCompatActivity {
@@ -28,7 +28,7 @@ public class ImageLabActivity extends AppCompatActivity {
     private UserObject mUserObject;
     private PostObject mPostObject;
     private Algorithm mAlgorithm;
-    private UITargetManager mUITargetManager;
+    private UiTargetManager mUiTargetManager;
 
     private ActionBar mActionBar;
 
@@ -60,7 +60,7 @@ public class ImageLabActivity extends AppCompatActivity {
         mPostObject = mUserObject.createPost();
 
         // Target manager creation
-        mUITargetManager = new UITargetManager(this);
+        mUiTargetManager = new UiTargetManager(this);
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -138,7 +138,7 @@ public class ImageLabActivity extends AppCompatActivity {
         mPostObject.setAlgorithm(mAlgorithm.getId());
     }
 
-    public UITargetManager getUITargetManager() {
-        return mUITargetManager;
+    public UiTargetManager getUITargetManager() {
+        return mUiTargetManager;
     }
 }

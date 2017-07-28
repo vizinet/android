@@ -4,13 +4,16 @@
 
 package edu.wsu.lar.airpact_fire.data.realm.model;
 
-import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class Target extends RealmObject {
 
-    public RealmList<Coordinate> coordinates; // [x, y]
+    @PrimaryKey
+    public int targetId;
+    public int imageId;
+    public int postId;
+    public Coordinate coordinate;
     public float distance;
     public int color;
 }
