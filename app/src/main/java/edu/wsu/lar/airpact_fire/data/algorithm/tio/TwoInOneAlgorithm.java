@@ -6,6 +6,7 @@ package edu.wsu.lar.airpact_fire.data.algorithm.tio;
 
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.server.contract.ServerContract;
+import edu.wsu.lar.airpact_fire.ui.fragment.algorithm.tio.TwoInOneFragment;
 
 /** @see Algorithm */
 public class TwoInOneAlgorithm implements Algorithm {
@@ -39,7 +40,7 @@ public class TwoInOneAlgorithm implements Algorithm {
 
     @Override
     public Object getStartFragment() {
-        return null;
+        return new TwoInOneFragment();
     }
 
     @Override

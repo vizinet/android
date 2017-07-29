@@ -5,15 +5,12 @@
 package edu.wsu.lar.airpact_fire.data.algorithm.tio;
 
 import org.json.simple.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.List;
-
 import edu.wsu.lar.airpact_fire.data.object.ImageObject;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.TargetObject;
 import edu.wsu.lar.airpact_fire.server.contract.ServerContract;
-import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.util.Util;
 
 public class TwoInOneServerContract implements ServerContract {
@@ -29,7 +26,7 @@ public class TwoInOneServerContract implements ServerContract {
         root.put("user", postObject.getUser().getUsername());
         root.put("description", postObject.getDescription());
         root.put("secretKey", postObject.getSecretKey());
-        root.put("distanceMetric", "kilometers"); // TODO: Change to integer, getMetric());
+        root.put("distanceMetric", "kilometers"); // TODO: Change to integer on server, getMetric());
         root.put("location", postObject.getLocation());
         root.put("time", new SimpleDateFormat(ServerContract.DATE_FORMAT)
                 .format(postObject.getDate()));

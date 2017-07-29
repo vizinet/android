@@ -42,14 +42,16 @@ public class OneForOneServerContract implements ServerContract {
         root.put("nearTargetY", imageObjectOneTargetObjects.get(0).getCoordinates()[1]);
         root.put("nearTargetEstimatedDistance",
                 imageObjectOneTargetObjects.get(0).getDistance());
-        root.put("nearGpsLongitude", imageObjectOne.getGps()[0]);
-        root.put("nearGpsLatitude", imageObjectOne.getGps()[1]);
+        root.put("gpsLongitude", imageObjectOne.getGps()[0]);
+        root.put("gpsLatitude", imageObjectOne.getGps()[1]);
+        //root.put("nearGpsLongitude", imageObjectOne.getGps()[0]);
+        //root.put("nearGpsLatitude", imageObjectOne.getGps()[1]);
         root.put("farTargetX", imageObjectTwoTargetObjects.get(0).getCoordinates()[0]);
         root.put("farTargetY", imageObjectTwoTargetObjects.get(0).getCoordinates()[1]);
         root.put("farTargetEstimatedDistance",
                 imageObjectTwoTargetObjects.get(0).getDistance());
-        root.put("farGpsLongitude", imageObjectTwo.getGps()[0]);
-        root.put("farGpsLatitude", imageObjectTwo.getGps()[1]);
+        //root.put("farGpsLongitude", imageObjectTwo.getGps()[0]);
+        //root.put("farGpsLatitude", imageObjectTwo.getGps()[1]);
 
         return root;
     }
