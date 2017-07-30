@@ -457,7 +457,7 @@ public class TargetSelectActivity extends AppCompatActivity {
             mPostObject.setDate(new Date());
 
             // Add placeholder/default geolocation
-            mPostObject.setGPS(new double[] {
+            mPostObject.setGps(new double[] {
                 Reference.DEFAULT_GPS_LOCATION[0],
                 Reference.DEFAULT_GPS_LOCATION[1]
             });
@@ -473,7 +473,7 @@ public class TargetSelectActivity extends AppCompatActivity {
 
                 // Get and store last location
                 Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                mPostObject.setGPS(new double[] {loc.getLatitude(), loc.getLatitude()});
+                mPostObject.setGps(new double[] {loc.getLatitude(), loc.getLatitude()});
             }
 
             // Set image view

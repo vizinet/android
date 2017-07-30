@@ -4,6 +4,8 @@
 
 package edu.wsu.lar.airpact_fire.data.algorithm;
 
+import edu.wsu.lar.airpact_fire.server.contract.ServerContract;
+
 /**
  * Interface for all algorithms known to AIRPACT-Fire to implement with their
  * corresponding user-driven procedures.
@@ -34,5 +36,8 @@ public interface Algorithm {
     String getProcedure();
 
     /** @return fragment with predefined collection behavior for this algorithm. */
-    Object getFragment();
+    Object getStartFragment();
+
+    /** @return server submission contract for this particular algorithm. */
+    ServerContract getServerContract();
 }

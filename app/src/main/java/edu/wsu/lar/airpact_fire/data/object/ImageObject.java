@@ -6,13 +6,15 @@ package edu.wsu.lar.airpact_fire.data.object;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import java.util.List;
 
 public interface ImageObject {
 
-    double[] getGPS();
-    void setGPS(double[] values);
+    double[] getGps();
+    void setGps(double[] values);
 
     TargetObject createTargetObject();
+    List<TargetObject> getTargetObjects();
 
     Bitmap getImageBitmap();
     Uri createImage();

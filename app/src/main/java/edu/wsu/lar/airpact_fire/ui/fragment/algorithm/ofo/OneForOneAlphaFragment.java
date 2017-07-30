@@ -29,11 +29,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import java.util.Date;
 import edu.wsu.lar.airpact_fire.app.Reference;
-import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.object.ImageObject;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.TargetObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
 import lar.wsu.edu.airpact_fire.R;
@@ -192,7 +190,7 @@ public class OneForOneAlphaFragment extends Fragment {
             mPostObject.setDate(new Date());
 
             // Add placeholder geolocation
-            mImageObject.setGPS(new double[] {
+            mImageObject.setGps(new double[] {
                     Reference.DEFAULT_GPS_LOCATION[0],
                     Reference.DEFAULT_GPS_LOCATION[1]
             });
@@ -208,7 +206,7 @@ public class OneForOneAlphaFragment extends Fragment {
                     == PackageManager.PERMISSION_GRANTED;
             if (canAccessFineLocation || canAccessCourseLocation) {
                 Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                mImageObject.setGPS(new double[] { loc.getLatitude(), loc.getLatitude() });
+                mImageObject.setGps(new double[] { loc.getLatitude(), loc.getLatitude() });
             }
 
             mMainImageView.setImageBitmap(bitmap);
