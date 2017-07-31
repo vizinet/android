@@ -41,7 +41,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         }
 
         // Set appbar title
-        Util.setupSecondaryNavBar(this, GalleryActivity.class, "POST #" + mPostId);
+        Util.setupSecondaryNavBar(this, OldGalleryActivity.class, "POST #" + mPostId);
 
         // Get post from post id
         /*

@@ -28,6 +28,7 @@ public interface UserObject {
     void setHasDraftPost(boolean value);
 
     PostObject[] getPosts();
+    PostObject[] getPosts(int start, int end);
     PostObject getLastPost();
     PostObject createPost();
 

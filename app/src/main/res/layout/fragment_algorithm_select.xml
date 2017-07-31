@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="?attr/actionBarSize"
-    tools:context="edu.wsu.lar.airpact_fire.ui.fragment.algorithm.AlgorithmSelectFragment">
+    tools:context="edu.wsu.lar.airpact_fire.ui.fragment.image_lab.AlgorithmSelectFragment">
 
     <TextView
         android:id="@+id/textView"
@@ -16,37 +16,38 @@
         android:textAlignment="center"
         android:textSize="15sp" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5">
+
+        <RadioGroup
+            android:id="@+id/algorithm_radio"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="5">
+            android:layout_gravity="center_vertical|center_horizontal">
 
-                <RadioGroup
-                    android:id="@+id/algorithm_radio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal">
+        </RadioGroup>
+    </FrameLayout>
 
-                </RadioGroup>
-        </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
-        <FrameLayout
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/remember_algorithm_check_box"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="Remember my choice" />
+    </FrameLayout>
 
-                <CheckBox
-                    android:id="@+id/remember_algorithm_check_box"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:text="Remember my choice" />
-        </FrameLayout>
-
-        <Button
-            android:id="@+id/continue_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Continue" />
+    <Button
+        android:id="@+id/continue_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Continue"
+        android:drawableRight="@mipmap/ic_trending_flat_black_24dp"/>
 
 </LinearLayout>

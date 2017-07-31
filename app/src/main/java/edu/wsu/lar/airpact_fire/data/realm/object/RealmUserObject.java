@@ -65,8 +65,15 @@ public class RealmUserObject implements UserObject {
         // TODO
     }
 
+    // TODO
+
     @Override
     public PostObject[] getPosts() {
+        return new PostObject[0];
+    }
+
+    @Override
+    public PostObject[] getPosts(int start, int end) {
         return new PostObject[0];
     }
 
