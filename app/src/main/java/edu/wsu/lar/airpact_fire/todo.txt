@@ -1,3 +1,4 @@
+// TODO: Make sure posts get destroyed if someone exits without completing it.
 // TODO: Button feedback for our custom buttons
 // TODO: Allow user to add tags to post like "fog," "rainy," "smokey," etc. This will give us good metadeta.
 // TODO: Adapt UI changes based on sketches

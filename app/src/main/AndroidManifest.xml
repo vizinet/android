@@ -46,7 +46,7 @@
                 android:value="edu.wsu.lar.airpact_fire.ui.activity.SignInActivity" />
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity"
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.OldGalleryActivity"
             android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
             android:screenOrientation="portrait">
             <meta-data
@@ -64,15 +64,6 @@
         <activity
             android:name="edu.wsu.lar.airpact_fire.ui.activity.AddPictureDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.GalleryImageActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity" />
-        </activity>
         <activity
             android:name="edu.wsu.lar.airpact_fire.ui.activity.PostDetailsActivity"
             android:screenOrientation="portrait" />
@@ -94,8 +85,8 @@
         </activity>
 
         <!--
-     ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+         ATTENTION: This was auto-generated to add Google Play services to your project for
+         App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
         <meta-data
             android:name="com.google.android.gms.version"
@@ -105,7 +96,11 @@
             android:name="edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity"
             android:label="@string/title_activity_image_lab"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name="edu.wsu.lar.airpact_fire.ui.fragment.algorithm.OneForOneAlphaActivity"></activity>
+
+        <activity
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity"
+            android:label="@string/title_activity_gallery"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

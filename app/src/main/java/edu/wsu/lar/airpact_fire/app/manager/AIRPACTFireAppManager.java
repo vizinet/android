@@ -7,6 +7,7 @@ package edu.wsu.lar.airpact_fire.app.manager;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +17,7 @@ import edu.wsu.lar.airpact_fire.data.realm.manager.RealmDataManager;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.server.manager.HTTPServerManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
+import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -52,6 +54,12 @@ public class AIRPACTFireAppManager implements AppManager {
     @Override
     public DebugManager getDebugManager(Object...args) {
         return mDebugManager;
+    }
+
+    @Override
+    public void goHome() {
+        Intent intent = new Intent(mActivity.getApplicationContext(), HomeActivity.class);
+        mActivity.startActivity(intent);
     }
 
     @Override

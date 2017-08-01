@@ -1,6 +1,9 @@
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
@@ -9,6 +12,7 @@ import edu.wsu.lar.airpact_fire.data.realm.model.Post;
 import edu.wsu.lar.airpact_fire.data.realm.model.User;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /** @see UserObject */
 public class RealmUserObject implements UserObject {
@@ -65,9 +69,22 @@ public class RealmUserObject implements UserObject {
         // TODO
     }
 
+
     @Override
-    public PostObject[] getPosts() {
-        return new PostObject[0];
+    public List<PostObject> getPosts() {
+        RealmResults results = mRealm.where(Post.class).equalTo("user.username", mUser.username)
+                .findAllSorted("postId");
+        if (results == null || results.size() == 0) { return null; }
+        List<PostObject> posts = new ArrayList<>();
+        for (Object post : results) {
+           posts.add(new RealmPostObject(mRealm, (Post) post, mDataManager, mDebugManager));
+        }
+        return posts;
+    }
+
+    @Override
+    public List<PostObject> getPosts(int start, int end) {
+        return null;
     }
 
     @Override

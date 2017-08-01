@@ -12,13 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
-import edu.wsu.lar.airpact_fire.ui.fragment.algorithm.AlgorithmSelectFragment;
+import edu.wsu.lar.airpact_fire.ui.fragment.image_lab.AlgorithmSelectFragment;
 import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
 import lar.wsu.edu.airpact_fire.R;
 
@@ -91,6 +92,24 @@ public class ImageLabActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_beta, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_help:
+                // TODO: Open help fragment
+                return true;
+
+            case R.id.action_home:
+                mAppManager.goHome();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     /* Methods for fragments to control UI */

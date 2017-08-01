@@ -27,6 +27,8 @@ public interface AppManager {
     ServerManager getServerManager(Object... args);
     DebugManager getDebugManager(Object... args);
 
+    void goHome();
+
     void onAppStart(Object... args);
     void onAppEnd(Object... args);
     void onActivityStart(Object... args);
