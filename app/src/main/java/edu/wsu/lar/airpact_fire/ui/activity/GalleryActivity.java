@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
-import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.ui.fragment.gallery.MainGalleryFragment;
 import lar.wsu.edu.airpact_fire.R;

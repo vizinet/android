@@ -5,6 +5,7 @@
 package edu.wsu.lar.airpact_fire.data.object;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * User object interface for UI to deal with.
@@ -27,8 +28,8 @@ public interface UserObject {
     boolean getHasDraftPost();
     void setHasDraftPost(boolean value);
 
-    PostObject[] getPosts();
-    PostObject[] getPosts(int start, int end);
+    List<PostObject> getPosts();
+    List<PostObject> getPosts(int start, int end);
     PostObject getLastPost();
     PostObject createPost();
 
