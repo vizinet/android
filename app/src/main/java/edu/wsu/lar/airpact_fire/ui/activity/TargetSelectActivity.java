@@ -418,7 +418,7 @@ public class TargetSelectActivity extends AppCompatActivity {
             long time = System.nanoTime();
 
             // Get bitmap
-            Bitmap bitmap = mPostObject.getImageBitmap();
+            Bitmap bitmap = mPostObject.getBitmap();
             if (bitmap == null) {
                 // Abort mission
                 handleImageFailure();

@@ -4,8 +4,10 @@
 
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
+import android.graphics.Bitmap;
+
 import org.json.simple.JSONObject;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,13 +17,10 @@ import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.ImageObject;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.TargetObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Image;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
-import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
-import edu.wsu.lar.airpact_fire.util.Util;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -139,6 +138,13 @@ public class RealmPostObject implements PostObject {
             imageObjects.add(imageObject);
         }
         return imageObjects;
+    }
+
+    @Override
+    public Bitmap getThumbnail() {
+        if (getAlgorithm() == 1) return getImageObjects().get(0).getBitmap();
+        else if (getAlgorithm() == 2) return getImageObjects().get(1).getBitmap();
+        return null;
     }
 
     @Override

@@ -76,6 +76,7 @@ public class ActionFragment extends Fragment {
 
                     @Override
                     public Object onFinish(Object... args) {
+                        mPostObject.setMode(3);
                         goHome();
                         return null;
                     }

@@ -1,0 +1,111 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="?android:attr/actionBarSize"
+    tools:context="edu.wsu.lar.airpact_fire.ui.fragment.image_lab.AlgorithmSelectFragment">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/post_image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@color/schemeTransparent" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/post_status_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Status: Queued"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/algorithm_type_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Algorithm: TIO"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/location_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Location: Mount Ranier"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/estimated_visual_range_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Estimated Visual Range: 20 KM"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/computed_visual_range_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Calculated Visual Range: 24 KM"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/description_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Description: Hey there are some fucking clouds over here, yeah?"
+                            android:textSize="25sp" />
+
+                        <TextView
+                            android:id="@+id/datetime_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Time taken: 07/05/17 @ 12:00 pm"
+                            android:textSize="25sp" />
+                </LinearLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/navigation_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/visit_web_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:drawableRight="@mipmap/ic_cloud_black_24dp"
+                    android:text="Visit on web"
+                    android:textSize="20sp" />
+
+                <FrameLayout
+                    android:layout_width="@dimen/activity_vertical_margin"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"></FrameLayout>
+
+                <Button
+                    android:id="@+id/view_maps_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:drawableRight="@mipmap/ic_map_black_24dp"
+                    android:text="View on Maps"
+                    android:textSize="20sp" />
+        </LinearLayout>
+
+</LinearLayout>

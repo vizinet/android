@@ -228,7 +228,7 @@ public class TwoInOneFragment extends Fragment {
         if (requestCode == sRequestImageCapture && resultCode == RESULT_OK) {
 
             // Get bitmap
-            Bitmap bitmap = mImageObject.getImageBitmap();
+            Bitmap bitmap = mImageObject.getBitmap();
             if (bitmap == null) {
                 // Abort mission
                 //handleImageFailure();

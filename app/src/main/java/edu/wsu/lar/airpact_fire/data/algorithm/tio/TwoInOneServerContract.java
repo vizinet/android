@@ -31,7 +31,7 @@ public class TwoInOneServerContract implements ServerContract {
         root.put("time", new SimpleDateFormat(ServerContract.DATE_FORMAT)
                 .format(postObject.getDate()));
         root.put("estimatedVisualRange", postObject.getEstimatedVisualRange());
-        root.put("image", Util.bitmapToString(imageObjectOne.getImageBitmap()));
+        root.put("image", Util.bitmapToString(imageObjectOne.getBitmap()));
         root.put("algorithmType", postObject.getAlgorithm());
         root.put("nearTargetX", imageObjectOneTargetObjects.get(0).getCoordinates()[0]);
         root.put("nearTargetY", imageObjectOneTargetObjects.get(0).getCoordinates()[1]);
