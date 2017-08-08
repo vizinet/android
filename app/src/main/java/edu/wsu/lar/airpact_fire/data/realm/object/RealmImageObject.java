@@ -45,7 +45,7 @@ public class RealmImageObject implements ImageObject {
     }
 
     @Override
-    public Bitmap getImageBitmap() {
+    public Bitmap getBitmap() {
         String fileLocation = mImage.imageLocation;
         Bitmap bitmap = null;
         try {

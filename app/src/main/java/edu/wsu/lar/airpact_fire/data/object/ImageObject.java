@@ -16,7 +16,7 @@ public interface ImageObject {
     TargetObject createTargetObject();
     List<TargetObject> getTargetObjects();
 
-    Bitmap getImageBitmap();
+    Bitmap getBitmap();
     Uri createImage();
     void setImage(Bitmap value);
 

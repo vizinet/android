@@ -15,29 +15,29 @@
         android:paddingTop="10dp">
 
         <TextView
-            android:id="@+id/textView37"
+            android:id="@+id/post_count_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="[ Insert text ]"
+            android:text="0 POSTS"
             android:textAlignment="center"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView39"
+            android:id="@+id/submission_count_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="[ Insert text ]"
+            android:text="0 SUBMITTED"
             android:textAlignment="center"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView38"
+            android:id="@+id/queue_count_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="[ Insert text ]"
+            android:text="0 QUEUED"
             android:textAlignment="center"
             android:textStyle="bold" />
 

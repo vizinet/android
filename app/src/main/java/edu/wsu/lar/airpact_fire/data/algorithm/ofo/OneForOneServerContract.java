@@ -36,8 +36,8 @@ public class OneForOneServerContract implements ServerContract {
                 .format(postObject.getDate()));
         root.put("estimatedVisualRange", postObject.getEstimatedVisualRange());
         root.put("algorithmType", postObject.getAlgorithm());
-        root.put("image", Util.bitmapToString(imageObjectOne.getImageBitmap()));
-        root.put("imageTwo", Util.bitmapToString(imageObjectTwo.getImageBitmap()));
+        root.put("image", Util.bitmapToString(imageObjectOne.getBitmap()));
+        root.put("imageTwo", Util.bitmapToString(imageObjectTwo.getBitmap()));
         root.put("nearTargetX", imageObjectOneTargetObjects.get(0).getCoordinates()[0]);
         root.put("nearTargetY", imageObjectOneTargetObjects.get(0).getCoordinates()[1]);
         root.put("nearTargetEstimatedDistance",
