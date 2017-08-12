@@ -7,13 +7,16 @@ package edu.wsu.lar.airpact_fire.ui.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,16 +27,28 @@ import java.util.Iterator;
 import java.util.Map;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
+import edu.wsu.lar.airpact_fire.data.manager.DataManager;
+import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import lar.wsu.edu.airpact_fire.R;
 
 public class HomeActivity extends AppCompatActivity {
 
     private AppManager mAppManager;
+    private DataManager mDataManager;
+    private UserObject mUserObject;
+
     private String mUsername;
+
+    private Button mCaptureButton;
+    private Button mGalleryButton;
+
+    // -- OLDIES
+
 
     private Map<FrameLayout, ImageView> frameToIconMap;    // Map frames to their icons
     private Map<FrameLayout, Class<?>> frameToActivityMap; // Map frames to their following activities
 
+    private ActionBar mActionBar;
     private Toolbar mToolbar;
     private FrameLayout mNewPicturePane, mInformationPane, mPictureGalleryPane, mSettingsPane;
     private FrameLayout mBackButton;
@@ -49,11 +64,42 @@ public class HomeActivity extends AppCompatActivity {
 
         mAppManager = Reference.getAppManager();
         mAppManager.onActivityStart(this);
+        mDataManager = mAppManager.getDataManager();
+        mUserObject = mDataManager.getApp().getLastUser();
 
-        // Action bar
-        mToolbar = (Toolbar) findViewById(R.id.home_toolbar);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().hide();
+        // Set action bar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+        mActionBar = getSupportActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        GradientDrawable gd = new GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[] {
+                        Color.WHITE,
+                        Color.TRANSPARENT
+                });
+        mActionBar.setBackgroundDrawable(gd);
+        mActionBar.setTitle(mUserObject.getUsername());
+
+        mCaptureButton = (Button) findViewById(R.id.capture_button);
+        mGalleryButton = (Button) findViewById(R.id.gallery_button);
+
+        mCaptureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent captureIntent = new Intent(HomeActivity.this, ImageLabActivity.class);
+                startActivity(captureIntent);
+            }
+        });
+        mGalleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent galleryIntent = new Intent(HomeActivity.this, GalleryActivity.class);
+                startActivity(galleryIntent);
+            }
+        });
+
+        // ---
 
         // Panes
         mNewPicturePane = (FrameLayout) findViewById(R.id.new_picture_pane);
@@ -75,12 +121,12 @@ public class HomeActivity extends AppCompatActivity {
         mNumberQueuedText = (TextView) findViewById(R.id.number_queued_text);
         mRegisterDateText = (TextView) findViewById(R.id.member_register_date_text);
 
+
         // Give home a spankin'
-        setupHome();
-        updateHome();
+        //updateHome();
 
         // Give each pane an event listener; respond to user events
-        setupUIEventListeners();
+        //setupUIEventListeners();
     }
 
     @Override
@@ -93,7 +139,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateHome();
+        //updateHome();
     }
 
     @Override
@@ -103,7 +149,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setupHome() {
-        mUsernameText.setAllCaps(true);
     }
 
     private void updateHome() {
@@ -198,6 +243,8 @@ public class HomeActivity extends AppCompatActivity {
 
         // User logged out, stop remembering them
         mAppManager.getDataManager().getApp().setRememberUser(false);
+
+        // TODO: End session (possibly in LoginActivity, checking if a session is running and ending it)
 
         // Go to sign-in page
         Toast.makeText(getApplicationContext(), "Signed out.", Toast.LENGTH_SHORT).show();

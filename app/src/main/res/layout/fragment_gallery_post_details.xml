@@ -1,5 +1,6 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,105 +8,353 @@
     android:layout_marginTop="?android:attr/actionBarSize"
     tools:context="edu.wsu.lar.airpact_fire.ui.fragment.image_lab.AlgorithmSelectFragment">
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/post_image_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@color/schemeTransparent" />
+                    android:src="@color/schemeTransparent"
+                    android:tint="#55FFFFFF"
+                    android:tintMode="src_atop" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-                        <TextView
-                            android:id="@+id/post_status_text_view"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Status: Queued"
-                            android:textSize="25sp" />
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="0"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/algorithm_type_text_view"
+                                <ImageView
+                                    android:id="@+id/imageView13"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center_vertical|center_horizontal"
+                                    android:layout_weight="1"
+                                    android:src="@mipmap/ic_check_black_24dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/textView2134"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="STATUS"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="10sp"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/post_status_text_view"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="Submitted"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="20sp" />
+                                </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Algorithm: TIO"
-                            android:textSize="25sp" />
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="0"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/location_text_view"
+                                <ImageView
+                                    android:id="@+id/imageView14"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center_vertical|center_horizontal"
+                                    android:layout_weight="1"
+                                    android:src="@mipmap/ic_access_time_black_24dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/textView11"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="TIME TAKEN"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="10sp"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/datetime_text_view"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="07/05/17 @ 12:00 pm"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="20sp" />
+
+                                </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Location: Mount Ranier"
-                            android:textSize="25sp" />
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="0"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/estimated_visual_range_text_view"
+                                <ImageView
+                                    android:id="@+id/imageView15"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center_vertical|center_horizontal"
+                                    android:layout_weight="1"
+                                    android:src="@mipmap/ic_location_on_black_24dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/textView111"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="LOCATION"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="10sp"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/location_text_view"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="Mount Ranier (East)"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="20sp" />
+
+                                </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Estimated Visual Range: 20 KM"
-                            android:textSize="25sp" />
+                            android:layout_marginBottom="10dp"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/computed_visual_range_text_view"
+                                <ImageView
+                                    android:id="@+id/imageView166"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center_vertical|center_horizontal"
+                                    android:layout_weight="1"
+                                    android:src="@mipmap/ic_remove_red_eye_black_24dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/textView1111"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="VISUAL RANGE"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="10sp"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/estimated_visual_range_text_view"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="20 KM (Estimated)"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="20sp" />
+
+                                        <TextView
+                                            android:id="@+id/computed_visual_range_text_view"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="24 KM (Computed)"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="20sp" />
+
+                                </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Calculated Visual Range: 24 KM"
-                            android:textSize="25sp" />
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="0"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/description_text_view"
+                                <ImageView
+                                    android:id="@+id/imageView132"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center_vertical|center_horizontal"
+                                    android:layout_weight="1"
+                                    android:src="@mipmap/ic_code_black_24dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/textView1111"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="ALGORITHM"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="10sp"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/algorithm_type_text_view"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="TIO"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="20sp" />
+
+                                </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Description: Hey there are some fucking clouds over here, yeah?"
-                            android:textSize="25sp" />
+                            android:layout_marginBottom="10dp"
+                            android:layout_weight="0"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/datetime_text_view"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Time taken: 07/05/17 @ 12:00 pm"
-                            android:textSize="25sp" />
+                                <ImageView
+                                    android:id="@+id/imageView132"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center_vertical|center_horizontal"
+                                    android:layout_weight="1"
+                                    android:src="@mipmap/ic_description_black_24dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"
+                                    android:paddingLeft="20dp">
+
+                                        <TextView
+                                            android:id="@+id/textView1111"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="DESCRIPTION"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="10sp"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/description_text_view"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="Hey there are some fucking clouds over here, yeah?"
+                                            android:textColor="@android:color/black"
+                                            android:textSize="20sp" />
+
+                                </LinearLayout>
+
+                        </LinearLayout>
+
                 </LinearLayout>
 
-        </FrameLayout>
-
-        <LinearLayout
-            android:id="@+id/navigation_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal"
-            android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/visit_web_button"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/navigation_linear_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:drawableRight="@mipmap/ic_cloud_black_24dp"
-                    android:text="Visit on web"
-                    android:textSize="20sp" />
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal">
 
-                <FrameLayout
-                    android:layout_width="@dimen/activity_vertical_margin"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0"></FrameLayout>
+                        <Button
+                            android:id="@+id/visit_web_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:drawableRight="@mipmap/ic_cloud_black_24dp"
+                            android:padding="10dp"
+                            android:text="Visit web"
+                            android:textSize="20sp" />
 
-                <Button
-                    android:id="@+id/view_maps_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:drawableRight="@mipmap/ic_map_black_24dp"
-                    android:text="View on Maps"
-                    android:textSize="20sp" />
-        </LinearLayout>
+                        <Button
+                            android:id="@+id/submit_post_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:drawableRight="@mipmap/ic_send_black_24dp"
+                            android:padding="10dp"
+                            android:text="Submit post"
+                            android:textSize="20sp"
+                            android:visibility="gone" />
+
+                        <Button
+                            android:id="@+id/view_maps_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:drawableRight="@mipmap/ic_map_black_24dp"
+                            android:padding="10dp"
+                            android:text="View Map"
+                            android:textSize="20sp" />
+                </LinearLayout>
+
+        </RelativeLayout>
 
 </LinearLayout>

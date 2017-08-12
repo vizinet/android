@@ -5,13 +5,10 @@
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
 import android.graphics.Bitmap;
-
 import org.json.simple.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
