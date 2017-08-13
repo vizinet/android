@@ -75,9 +75,9 @@ public class MainGalleryFragment extends Fragment {
 
         if (mPostObjects == null) { return; }
 
-        int postCount = 0;
         int submissionCount = 0;
         int queueCount = 0;
+        int postCount = 0;
 
         int postWidth = Math.round(mPostTableLayout.getWidth() / (float) sColumnCount); // dp
 
@@ -90,9 +90,10 @@ public class MainGalleryFragment extends Fragment {
 
         for (final PostObject postObject : mPostObjects) {
 
-            postCount++;
-            if (postObject.getMode() == 2) queueCount++;
+            if (postObject.getMode() == 1) continue; // Skip drafts
+            else if (postObject.getMode() == 2) queueCount++;
             else if (postObject.getMode() == 3) submissionCount++;
+            postCount++;
 
             // Add row if full
             if ((postCount - 1) % sColumnCount == 0) {

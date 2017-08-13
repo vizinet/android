@@ -26,6 +26,7 @@ public final class Reference {
     public static final String SERVER_AUTHENTICATION_URL = SERVER_BASE_URL + "/user/appauth";
     public static final String SERVER_REGISTER_URL = SERVER_BASE_URL + "/user/register";
     public static final String SERVER_INFORMATION_URL = SERVER_BASE_URL + "/";
+    public static final String SERVER_IMAGE_BASE_URL = SERVER_BASE_URL + "/picture/view/";
 
     // AIRPACT-Fire agreed date-time format between server and app
     public static final String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
@@ -40,22 +41,6 @@ public final class Reference {
     public static final double[] DEFAULT_GPS_LOCATION = { 46.73267, -117.163454 }; // Pullman, WA
 
     /**
-     * Array of algorithms agreed upon by server and app.
-     *
-     * <p>We refer to these algorithms on a 1-based index.</p>
-     *
-     * <p>Must be updated once a new {@link Algorithm} is added to the
-     * {@link edu.wsu.lar.airpact_fire.data.algorithm} package.</p>
-     *
-     * <p>Note: was attempting to use the Reflections library, but
-     * it kept crashing and I didn't have time to debug.</p>
-     */
-    public static final Class<Algorithm>[] ALGORITHMS = new Class[]{
-            TwoInOneAlgorithm.class,    // 1
-            OneForOneAlgorithm.class    // 2
-    };
-
-    /**
      * Array of distance metrics agreed upon by server and app.
      *
      * <p>We refer to these metrics on a 1-based index.</p>
@@ -64,18 +49,6 @@ public final class Reference {
     public static final String[] DISTANCE_METRICS = {
             "kilometers",               // 1
             "miles"                     // 2
-    };
-
-    /**
-     * Array of post modes internal to app, designating how we treat particular posts.
-     *
-     * <p>We refer to these metrics on a 1-based index.</p>
-     *
-     */
-    public static final String[] POST_MODES = {
-            "drafted",                  // 1
-            "queued",                   // 2
-            "submitted"                 // 3
     };
 
     public static AppManager getAppManager() {

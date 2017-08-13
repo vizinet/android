@@ -30,7 +30,7 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 
 /** @see DataManager */
-public class RealmDataManager implements DataManager {
+public class RealmDataManager extends DataManager {
 
     private Realm mRealm;
     private DebugManager mDebugManager;

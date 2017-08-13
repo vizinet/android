@@ -9,7 +9,6 @@ import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.ImageObject;
@@ -219,15 +218,7 @@ public class RealmPostObject implements PostObject {
         // TODO: Put this server post data in a ServerContract class which is mapped to the right algorithm
 
         // Get algorithm for this post
-        Algorithm algorithm = null;
-        try {
-            // TODO: Improve our methods for retrieving both enums and lists from Reference...
-            algorithm = Reference.ALGORITHMS[getAlgorithm() - 1].newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        Algorithm algorithm = DataManager.getAlgorithm(getAlgorithm()).getInstance();
         JSONObject postJSON = algorithm.getServerContract().toJSON(this);
 
         return postJSON;

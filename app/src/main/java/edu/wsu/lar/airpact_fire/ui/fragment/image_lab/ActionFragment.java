@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
+import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
@@ -58,7 +58,7 @@ public class ActionFragment extends Fragment {
         mQueueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPostObject.setMode(PostObject.PostMode.QUEUED.ordinal() + 1);
+                mPostObject.setMode(DataManager.PostMode.QUEUED.getId());
                 goHome();
             }
         });
@@ -76,7 +76,18 @@ public class ActionFragment extends Fragment {
 
                     @Override
                     public Object onFinish(Object... args) {
-                        mPostObject.setMode(3);
+
+                        boolean didSubmit = (boolean) args[0];
+                        double serverOutput = (double) args[1];
+                        int serverImageId = (int) args[2];
+
+                        if (didSubmit) {
+                            mPostObject.setMode(DataManager.PostMode.SUBMITTED.getId());
+                            mPostObject.setComputedVisualRange((float) serverOutput);
+                            mPostObject.setServerId("" + serverImageId);
+                        }
+                        else mPostObject.setMode(DataManager.PostMode.QUEUED.getId());
+
                         goHome();
                         return null;
                     }

@@ -5,10 +5,7 @@
 package edu.wsu.lar.airpact_fire.data.object;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
-
 import org.json.simple.JSONObject;
-
 import java.util.Date;
 import java.util.List;
 
@@ -24,12 +21,6 @@ import edu.wsu.lar.airpact_fire.app.Reference;
  * @since   0.9
  */
 public interface PostObject {
-
-    enum PostMode {
-        DRAFTED,
-        QUEUED,
-        SUBMITTED
-    }
 
     UserObject getUser();
 

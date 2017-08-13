@@ -4,15 +4,22 @@
 
 package edu.wsu.lar.airpact_fire.ui.fragment.gallery;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity;
 import lar.wsu.edu.airpact_fire.R;
 
@@ -23,6 +30,8 @@ public class GalleryPostDetailsFragment extends Fragment {
     private PostObject mPostObject;
 
     private ImageView mPostImageView;
+    private ImageView mSubmittedImageView;
+    private ImageView mQueuedImageView;
     private TextView mPostStatusTextView;
     private TextView mAlgorithmTypeTextView;
     private TextView mLocationTextView;
@@ -30,6 +39,9 @@ public class GalleryPostDetailsFragment extends Fragment {
     private TextView mComputedVisualRangeTextView;
     private TextView mDescriptionTextView;
     private TextView mDatetimeTextView;
+    private Button mWebButton;
+    private Button mSubmitButton;
+    private Button mMapsButton;
 
     public GalleryPostDetailsFragment() { }
 
@@ -42,6 +54,8 @@ public class GalleryPostDetailsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_gallery_post_details, container, false);
         mPostImageView = (ImageView) view.findViewById(R.id.post_image_view);
+        mSubmittedImageView = (ImageView) view.findViewById(R.id.submitted_image_view);
+        mQueuedImageView = (ImageView) view.findViewById(R.id.queued_image_view);
         mPostStatusTextView = (TextView) view.findViewById(R.id.post_status_text_view);
         mAlgorithmTypeTextView = (TextView) view.findViewById(R.id.algorithm_type_text_view);
         mLocationTextView = (TextView) view.findViewById(R.id.location_text_view);
@@ -51,17 +65,56 @@ public class GalleryPostDetailsFragment extends Fragment {
                 R.id.computed_visual_range_text_view);
         mDescriptionTextView = (TextView) view.findViewById(R.id.description_text_view);
         mDatetimeTextView = (TextView) view.findViewById(R.id.datetime_text_view);
+        mWebButton = (Button) view.findViewById(R.id.web_button);
+        mSubmitButton = (Button) view.findViewById(R.id.submit_button);
+        mMapsButton = (Button) view.findViewById(R.id.maps_button);
+
+        // Get post mode & algorithm (two distinguishing features)
+        DataManager.PostMode postMode = DataManager.getPostMode(mPostObject.getMode());
+        DataManager.PostAlgorithm postAlgorithm =
+                DataManager.getAlgorithm(mPostObject.getAlgorithm());
+
+        // Display differently for queued images
+        if (postMode == DataManager.PostMode.QUEUED) {
+            mSubmittedImageView.setVisibility(View.GONE);
+            mWebButton.setVisibility(View.GONE);
+            mSubmitButton.setVisibility(View.VISIBLE);
+            mQueuedImageView.setVisibility(View.VISIBLE);
+            mPostStatusTextView.setText(String.format("%s (submit below)", postMode.getName()));
+        } else {
+            mPostStatusTextView.setText(postMode.getName());
+        }
 
         // Populate views with post details
         mPostImageView.setImageBitmap(mPostObject.getThumbnail());
-        mPostStatusTextView.setText(Reference.POST_MODES[mPostObject.getMode() - 1]);
-        mAlgorithmTypeTextView.setText(Reference.ALGORITHMS[mPostObject.getAlgorithm() - 1]
-                .getName());
         mLocationTextView.setText(mPostObject.getLocation());
-        mEstimatedVisualRangeTextView.setText("" + mPostObject.getEstimatedVisualRange());
-        mComputedVisualRangeTextView.setText("" + mPostObject.getComputedVisualRange());
+        mEstimatedVisualRangeTextView.setText(
+                String.format("%s (estimated)", mPostObject.getEstimatedVisualRange()));
+        mComputedVisualRangeTextView.setText(
+                String.format("%s (computed)", mPostObject.getComputedVisualRange()));
+        mAlgorithmTypeTextView.setText(postAlgorithm.getInstance().getAbbreviation());
         mDescriptionTextView.setText(mPostObject.getDescription());
         mDatetimeTextView.setText(mPostObject.getDate().toString());
+
+        mWebButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(
+                        Reference.SERVER_IMAGE_BASE_URL + mPostObject.getServerId()));
+                startActivity(intent);
+            }
+        });
+        mMapsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double[] gps = mPostObject.getImageObjects().get(0).getGps();
+                Intent intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(String.format("geo:%s,%s?q=%s,%s(%s+%s)",
+                                gps[0], gps[1], gps[0], gps[1], mPostObject.getLocation(), "")));
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
