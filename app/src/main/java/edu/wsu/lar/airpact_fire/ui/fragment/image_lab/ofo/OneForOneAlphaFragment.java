@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import java.util.Date;
 import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.object.ImageObject;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.TargetObject;
@@ -185,30 +186,8 @@ public class OneForOneAlphaFragment extends Fragment {
             bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, true);
             mImageObject.setImage(bitmap);
 
-            // Set date the moment the image has been captured
-            // TODO: Make the date in the image object
             mPostObject.setDate(new Date());
-
-            // Add placeholder geolocation
-            mImageObject.setGps(new double[] {
-                    Reference.DEFAULT_GPS_LOCATION[0],
-                    Reference.DEFAULT_GPS_LOCATION[1]
-            });
-
-            // Attempt to get real geolocation
-            LocationManager locationManager = (LocationManager) getActivity().getSystemService(
-                    Context.LOCATION_SERVICE);
-            boolean canAccessFineLocation = ActivityCompat.checkSelfPermission(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED;
-            boolean canAccessCourseLocation = ActivityCompat.checkSelfPermission(getActivity(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED;
-            if (canAccessFineLocation || canAccessCourseLocation) {
-                Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                mImageObject.setGps(new double[] { loc.getLatitude(), loc.getLatitude() });
-            }
-
+            mImageObject.setGps(AppManager.getGps(getActivity()));
             mMainImageView.setImageBitmap(bitmap);
             mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
 

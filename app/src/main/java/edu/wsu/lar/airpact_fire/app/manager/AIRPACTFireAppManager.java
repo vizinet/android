@@ -21,7 +21,7 @@ import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class AIRPACTFireAppManager implements AppManager {
+public class AIRPACTFireAppManager extends AppManager {
 
     private static final boolean sIsDebugging = true;
     private static final int sRequestExternalStorage = 1;
@@ -81,8 +81,8 @@ public class AIRPACTFireAppManager implements AppManager {
         }
 
         // Ensure we can store images
-        // TODO: More convenient place for this to ask
         verifyStoragePermissions(mActivity);
+        verifyGpsPermissions(mActivity);
 
         mDataManager.onAppStart();
         mServerManager.onAppStart();
@@ -169,5 +169,10 @@ public class AIRPACTFireAppManager implements AppManager {
             ActivityCompat.requestPermissions(activity, sPermissionsStorage, sRequestExternalStorage);
         }
         mDebugManager.printLog("Verified storage permissions");
+    }
+
+    private void verifyGpsPermissions(Activity activity) {
+        ActivityCompat.requestPermissions(activity,
+                new String[]{ Manifest.permission.ACCESS_FINE_LOCATION }, 200);
     }
 }

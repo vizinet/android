@@ -15,9 +15,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import java.util.ArrayList;
 import java.util.List;
-import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
+import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.SessionObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
@@ -55,27 +55,21 @@ public class AlgorithmSelectFragment extends Fragment {
         mContinueButton = (Button) view.findViewById(R.id.continue_button);
 
         // Dynamically add choices for algorithms
-        Class[] algorithmClasses = Reference.ALGORITHMS;
-        for (Class c : algorithmClasses) {
-            try {
-                Algorithm algorithm = (Algorithm) c.newInstance();
-                RadioButton radioButton = new RadioButton(getActivity());
-                radioButton.setPadding(20, 0, 0, 0);
-                radioButton.setTextSize(20);
-                radioButton.setLayoutParams(new RadioGroup.LayoutParams(
-                        RadioGroup.LayoutParams.MATCH_PARENT,
-                        RadioGroup.LayoutParams.MATCH_PARENT));
-                String radioButtonText = String.format("[%s] %s",
-                        algorithm.getAbbreviation(),
-                        algorithm.getName());
-                radioButton.setText(radioButtonText);
-                mAlgorithmRadioGroup.addView(radioButton);
-                mAlgorithms.add(algorithm);
-            } catch (java.lang.InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+        DataManager.PostAlgorithm[] postAlgorithms = DataManager.PostAlgorithm.values();
+        for (DataManager.PostAlgorithm postAlgorithm : postAlgorithms) {
+            Algorithm algorithm = postAlgorithm.getInstance();
+            RadioButton radioButton = new RadioButton(getActivity());
+            radioButton.setPadding(20, 0, 0, 0);
+            radioButton.setTextSize(20);
+            radioButton.setLayoutParams(new RadioGroup.LayoutParams(
+                    RadioGroup.LayoutParams.MATCH_PARENT,
+                    RadioGroup.LayoutParams.MATCH_PARENT));
+            String radioButtonText = String.format("[%s] %s",
+                    algorithm.getAbbreviation(),
+                    algorithm.getName());
+            radioButton.setText(radioButtonText);
+            mAlgorithmRadioGroup.addView(radioButton);
+            mAlgorithms.add(algorithm);
         }
 
         // Listen for "continue"
