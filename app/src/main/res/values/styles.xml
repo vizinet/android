@@ -28,7 +28,7 @@
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <!-- Transparent action bar style -->
+    <!-- Transparent action menu_alpha style -->
     <style name="AppTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
         <item name="android:background">@drawable/action_bar_background</item>
         <!-- Support library compatibility -->

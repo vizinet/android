@@ -4,6 +4,8 @@
 
 package edu.wsu.lar.airpact_fire.ui.fragment.image_lab;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.server.callback.SubmissionServerCallback;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
@@ -67,32 +70,18 @@ public class ActionFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                mAppManager.getServerManager().onSubmit(
-                        getActivity(), mPostObject, new ServerManager.ServerCallback() {
-                    @Override
-                    public Object onStart(Object... args) {
-                        return null;
-                    }
-
+                SubmissionServerCallback submissionServerCallback = new SubmissionServerCallback(
+                        getActivity(), mPostObject) {
                     @Override
                     public Object onFinish(Object... args) {
-
-                        boolean didSubmit = (boolean) args[0];
-                        double serverOutput = (double) args[1];
-                        int serverImageId = (int) args[2];
-
-                        if (didSubmit) {
-                            mPostObject.setMode(DataManager.PostMode.SUBMITTED.getId());
-                            mPostObject.setComputedVisualRange((float) serverOutput);
-                            mPostObject.setServerId("" + serverImageId);
-                        }
-                        else mPostObject.setMode(DataManager.PostMode.QUEUED.getId());
-
+                        super.onFinish(args);
                         goHome();
                         return null;
                     }
-                });
+                };
 
+                mAppManager.getServerManager().onSubmit(
+                        getActivity(), mPostObject, submissionServerCallback);
             }
         });
 

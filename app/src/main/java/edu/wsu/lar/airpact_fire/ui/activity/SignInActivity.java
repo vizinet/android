@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
@@ -32,6 +33,7 @@ import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.AppObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
+import edu.wsu.lar.airpact_fire.server.callback.AuthenticationServerCallback;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import lar.wsu.edu.airpact_fire.R;
 
@@ -135,74 +137,14 @@ public class SignInActivity extends AppCompatActivity {
 
                     // New guy - needs authentication
                     mAppManager.getDebugManager().printLog("Realm user does not exist");
-
-                    mAppManager.onAuthenticate(
-                            username, password,
-                            new ServerManager.ServerCallback() {
-
-                                private ProgressDialog mProgress;
-                                private Activity mActivity;
-
-                                @Override
-                                public Object onStart(Object... args) {
-
-                                    mActivity = (Activity) args[0];
-
-                                    // Show loading display
-                                    // NOTE: Found that using context rather than activity causes
-                                    // some annoyances
-                                    mProgress = new ProgressDialog(mActivity);
-                                    mProgress.setTitle("Signing In...");
-                                    mProgress.setMessage("Please wait while we authenticate");
-                                    mProgress.show();
-
-                                    return null;
-                                }
-
-                                @Override
-                                public Object onFinish(Object... args) {
-
-                                    boolean isUser = (boolean) args[0];
-                                    String username = (String) args[1];
-                                    String password = (String) args[2];
-
-                                    // Dismiss loading dialog
-                                    mProgress.dismiss();
-
-                                    if (isUser) {
-                                        Toast.makeText(mActivity, R.string.authentication_success,
-                                                Toast.LENGTH_LONG).show();
-                                        login(username, password);
-
-                                    } else {
-                                        Toast.makeText(mActivity, R.string.authentication_failed,
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-
-                                    return null;
-                                }
-                            });
+                    mAppManager.onAuthenticate(username, password,
+                            new AuthenticationServerCallback(getParent()));
                 }
             }
         });
 
-        /*
-        final int sRequestExternalStorage = 1;
-        final String[] sPermissionsStorage = {
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        };
-        int permission = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(this, sPermissionsStorage, sRequestExternalStorage);
-        }
-        /* */
-
-        /*
         // Redirect user to info on website
-        mInfoLink.setOnClickListener(new OnClickListener() {
+        mHelpImageButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Uri uri = Uri.parse(Reference.SERVER_INFORMATION_URL);
@@ -210,7 +152,6 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        */
     }
 
     @Override
@@ -236,10 +177,9 @@ public class SignInActivity extends AppCompatActivity {
     private void populateLoginFields() {
 
         // Setup registration link
-        Spanned registerText = Html.fromHtml(
-                String.format(
-                        "<a href = '%s'>Sign Up for AIRPACT-Fire</a>",
-                        Reference.SERVER_REGISTER_URL));
+        Spanned registerText = Html.fromHtml(String.format(
+            "<a href = '%s'>Sign Up for AIRPACT-Fire</a>",
+            Reference.SERVER_REGISTER_URL));
         mRegisterLink.setText(registerText);
         mRegisterLink.setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -252,7 +192,7 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     // Open home page
-    private void login(String username, String password) {
+    public void login(String username, String password) {
 
         // Let DB know we're logging in with this user
         mAppManager.onLogin(username, password);
@@ -260,10 +200,12 @@ public class SignInActivity extends AppCompatActivity {
         if (mRememberMeCheckBox != null) {
             // Regular login: remember legit user upon request
             mAppManager.getDataManager().getApp().setRememberUser(mRememberMeCheckBox.isChecked());
-            Toast.makeText(getApplicationContext(), R.string.login_success, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.login_success,
+                    Toast.LENGTH_LONG).show();
         } else {
             // Expedited login
-            Toast.makeText(getApplicationContext(), R.string.expedited_login_success, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.expedited_login_success,
+                    Toast.LENGTH_LONG).show();
         }
 
         // Open home screen

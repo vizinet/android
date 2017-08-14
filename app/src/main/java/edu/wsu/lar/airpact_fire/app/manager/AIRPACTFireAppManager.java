@@ -15,6 +15,7 @@ import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.realm.manager.RealmDataManager;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
+import edu.wsu.lar.airpact_fire.server.callback.ServerCallback;
 import edu.wsu.lar.airpact_fire.server.manager.HTTPServerManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
@@ -140,14 +141,23 @@ public class AIRPACTFireAppManager extends AppManager {
     }
 
     @Override
-    public void onAuthenticate(String username, String password,
-                               ServerManager.ServerCallback callback) {
-        mServerManager.onAuthenticate(mActivity.getApplicationContext(), username, password,
-                callback);
+    public void onPostCreated(Object... args) {
+        // Listen for GPS service
     }
 
     @Override
-    public void onSubmit(PostObject postObject, ServerManager.ServerCallback serverCallback) {
+    public void onPostFinished(Object... args) {
+        // Stop GPS end GPS service
+    }
+
+    @Override
+    public void onAuthenticate(String username, String password, ServerCallback callback) {
+        mServerManager.onAuthenticate(
+                mActivity.getApplicationContext(), username, password, callback);
+    }
+
+    @Override
+    public void onSubmit(PostObject postObject, ServerCallback serverCallback) {
         // Attempt submission to server, update database with results
         mServerManager.onSubmit(mActivity.getApplicationContext(), postObject, serverCallback);
     }

@@ -96,12 +96,20 @@
         <activity
             android:name="edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity"
             android:label="@string/title_activity_image_lab"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
+        </activity>
 
         <activity
             android:name="edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity"
             android:label="@string/title_activity_gallery"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

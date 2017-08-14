@@ -8,18 +8,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
+import edu.wsu.lar.airpact_fire.server.callback.SubmissionServerCallback;
 import edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity;
 import lar.wsu.edu.airpact_fire.R;
 
@@ -27,6 +26,7 @@ public class GalleryPostDetailsFragment extends Fragment {
 
     private static final String sActionBarTitle = "Post Details";
 
+    private AppManager mAppManager;
     private PostObject mPostObject;
 
     private ImageView mPostImageView;
@@ -52,6 +52,8 @@ public class GalleryPostDetailsFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         ((GalleryActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
+        mAppManager = ((GalleryActivity) getActivity()).getAppManager();
+
         View view = inflater.inflate(R.layout.fragment_gallery_post_details, container, false);
         mPostImageView = (ImageView) view.findViewById(R.id.post_image_view);
         mSubmittedImageView = (ImageView) view.findViewById(R.id.submitted_image_view);
@@ -69,33 +71,24 @@ public class GalleryPostDetailsFragment extends Fragment {
         mSubmitButton = (Button) view.findViewById(R.id.submit_button);
         mMapsButton = (Button) view.findViewById(R.id.maps_button);
 
-        // Get post mode & algorithm (two distinguishing features)
-        DataManager.PostMode postMode = DataManager.getPostMode(mPostObject.getMode());
-        DataManager.PostAlgorithm postAlgorithm =
-                DataManager.getAlgorithm(mPostObject.getAlgorithm());
+        populateDetails();
 
-        // Display differently for queued images
-        if (postMode == DataManager.PostMode.QUEUED) {
-            mSubmittedImageView.setVisibility(View.GONE);
-            mWebButton.setVisibility(View.GONE);
-            mSubmitButton.setVisibility(View.VISIBLE);
-            mQueuedImageView.setVisibility(View.VISIBLE);
-            mPostStatusTextView.setText(String.format("%s (submit below)", postMode.getName()));
-        } else {
-            mPostStatusTextView.setText(postMode.getName());
-        }
-
-        // Populate views with post details
-        mPostImageView.setImageBitmap(mPostObject.getThumbnail());
-        mLocationTextView.setText(mPostObject.getLocation());
-        mEstimatedVisualRangeTextView.setText(
-                String.format("%s (estimated)", mPostObject.getEstimatedVisualRange()));
-        mComputedVisualRangeTextView.setText(
-                String.format("%s (computed)", mPostObject.getComputedVisualRange()));
-        mAlgorithmTypeTextView.setText(postAlgorithm.getInstance().getAbbreviation());
-        mDescriptionTextView.setText(mPostObject.getDescription());
-        mDatetimeTextView.setText(mPostObject.getDate().toString());
-
+        mSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SubmissionServerCallback submissionServerCallback =
+                        new SubmissionServerCallback(getActivity(), mPostObject) {
+                            @Override
+                            public Object onFinish(Object... args) {
+                                super.onFinish(args);
+                                populateDetails();
+                                return null;
+                            }
+                        };
+                mAppManager.getServerManager().onSubmit(getActivity(), mPostObject,
+                        submissionServerCallback);
+            }
+        });
         mWebButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,7 +112,45 @@ public class GalleryPostDetailsFragment extends Fragment {
         return view;
     }
 
-    public void setPostObject(PostObject postObject) {
+    public void setArguments(PostObject postObject) {
         mPostObject = postObject;
+    }
+
+    private void populateDetails() {
+
+        // Get post mode & algorithm (two distinguishing features)
+        DataManager.PostMode postMode = DataManager.getPostMode(mPostObject.getMode());
+        DataManager.PostAlgorithm postAlgorithm =
+                DataManager.getAlgorithm(mPostObject.getAlgorithm());
+
+        // Display differently for queued images
+        if (postMode == DataManager.PostMode.QUEUED) {
+            // Post is queued
+            mSubmittedImageView.setVisibility(View.GONE);
+            mWebButton.setVisibility(View.GONE);
+            mComputedVisualRangeTextView.setVisibility(View.GONE);
+            mSubmitButton.setVisibility(View.VISIBLE);
+            mQueuedImageView.setVisibility(View.VISIBLE);
+            mPostStatusTextView.setText(String.format("%s (submit below)", postMode.getName()));
+        } else {
+            // Post has been submitted
+            mSubmittedImageView.setVisibility(View.VISIBLE);
+            mWebButton.setVisibility(View.VISIBLE);
+            mComputedVisualRangeTextView.setVisibility(View.VISIBLE);
+            mSubmitButton.setVisibility(View.GONE);
+            mQueuedImageView.setVisibility(View.GONE);
+            mPostStatusTextView.setText(postMode.getName());
+        }
+
+        // Populate views with post details
+        mPostImageView.setImageBitmap(mPostObject.getThumbnail());
+        mLocationTextView.setText(mPostObject.getLocation());
+        mEstimatedVisualRangeTextView.setText(
+                String.format("%s (estimated)", mPostObject.getEstimatedVisualRange()));
+        mComputedVisualRangeTextView.setText(
+                String.format("%s (computed)", mPostObject.getComputedVisualRange()));
+        mAlgorithmTypeTextView.setText(postAlgorithm.getInstance().getAbbreviation());
+        mDescriptionTextView.setText(mPostObject.getDescription());
+        mDatetimeTextView.setText(mPostObject.getDate().toString());
     }
 }

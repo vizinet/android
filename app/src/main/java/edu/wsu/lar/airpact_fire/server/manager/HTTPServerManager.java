@@ -23,6 +23,8 @@ import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
+import edu.wsu.lar.airpact_fire.server.callback.EmptyServerCallback;
+import edu.wsu.lar.airpact_fire.server.callback.ServerCallback;
 
 public class HTTPServerManager implements ServerManager {
 
@@ -34,37 +36,28 @@ public class HTTPServerManager implements ServerManager {
         mActivity = activity;
     }
 
-    @Override
-    public void onAppStart(Object... args) {
-    }
+    /* Here lies Luke's hopes and dreams... */
 
     @Override
-    public void onAppEnd(Object... args) {
-    }
-
+    public void onAppStart(Object... args) { }
     @Override
-    public void onActivityStart(Object... args) {
-
-    }
-
+    public void onAppEnd(Object... args) { }
     @Override
-    public void onActivityEnd(Object... args) {
-
-    }
-
+    public void onActivityStart(Object... args) { }
     @Override
-    public void onLogin(Object... args) {
-
-    }
-
+    public void onActivityEnd(Object... args) { }
     @Override
-    public void onLogout(Object... args) {
-    }
+    public void onLogin(Object... args) { }
+    @Override
+    public void onLogout(Object... args) { }
+
+    /* What a baby. */
 
     @Override
     public void onAuthenticate(Context context, String username, String password,
                                ServerCallback callback) {
-        AuthenticationManager authenticationManager = new AuthenticationManager(mActivity, callback);
+        AuthenticationManager authenticationManager = new AuthenticationManager(
+                mActivity, callback);
         authenticationManager.execute(username, password);
     }
 
@@ -75,14 +68,9 @@ public class HTTPServerManager implements ServerManager {
         UserObject userObject = postObject.getUser();
         ArrayList<Object> authenticationObjects;
         String secretKey = "";
-        boolean isUser = false;
+        boolean isUser;
         AuthenticationManager authenticationManager = new AuthenticationManager(mActivity,
-                new ServerCallback() {
-            @Override
-            public Object onStart(Object... args) { return null; }
-            @Override
-            public Object onFinish(Object... args) { return null; }
-        });
+                new EmptyServerCallback());
         try {
             // Wait for authentication to occur
             authenticationObjects = authenticationManager.execute(
@@ -108,19 +96,17 @@ public class HTTPServerManager implements ServerManager {
     // Gets run when new credentials are found that are not in the database
     private class AuthenticationManager extends AsyncTask<String, Void, ArrayList<Object>> {
 
-        private Activity mActivity;
         private ServerCallback mCallback;
         private String mUsername, mPassword;
 
         public AuthenticationManager(Activity activity, ServerCallback callback) {
-            mActivity = activity;
             mCallback = callback;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mCallback.onStart(mActivity);
+            mCallback.onStart();
         }
 
         @Override
@@ -224,7 +210,7 @@ public class HTTPServerManager implements ServerManager {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mCallback.onStart(mActivity);
+            mCallback.onStart();
         }
 
         @Override
@@ -322,61 +308,6 @@ public class HTTPServerManager implements ServerManager {
             double serverOutput = (double) arrayList.get(1);
             int serverImageId = (int) arrayList.get(2);
             mCallback.onFinish(didSubmit, serverOutput, serverImageId);
-        }
-    }
-
-    // Does background posting
-    // TODO: Actually implement this
-    // Note:
-    //      - doInBackground(...) runs even if app is destroyed, but pre and post are on UI thread
-    //      - Never wait around within a service, as it uses lots of system resources
-    //      - Using AlarmManager to kickoff this class periodically
-    class BackgroundPostService extends IntentService {
-
-        private boolean isBackgroundPostingEnabled;
-
-        private void checkIfBackgroundPostsEnabled() {
-            // TODO
-            isBackgroundPostingEnabled = true;
-        }
-
-        /**
-         * Creates an IntentService.  Invoked by your subclass's constructor.
-         *
-         * @param name Used to name the worker thread, important only for debugging.
-         */
-        public BackgroundPostService(String name) {
-            super(name);
-        }
-
-        // Where the work gets done
-        @Override
-        protected void onHandleIntent(Intent intent) {
-            // Run check/posts every hour
-
-            // Check xml if user allows background posting
-            checkIfBackgroundPostsEnabled();
-
-            // Only continue if enabled
-            if (!isBackgroundPostingEnabled) return;
-
-            // TODO check un-posted posts and act on the that
-            // Get posts
-            /*
-            List<Post> posts = PostDataManager.getPosts(this.getApplicationContext());
-            //Queue<Post> unposted = <Post>();
-            for (Post p : posts) {
-                // If Post.Status is unposted
-                if (!Boolean.getBoolean(p.IsPosted)) {
-
-                }
-                // If post not current in process
-                // Attempt to post
-                // Else
-                // Wait in queue
-
-            }
-            */
         }
     }
 }

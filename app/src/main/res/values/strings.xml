@@ -2,7 +2,7 @@
     <string name="app_name">AIRPACT-Fire</string>
     <string name="app_motto">Visual Range Air-Quality Analytics</string>
 
-    <!-- For action bar -->
+    <!-- For action menu_alpha -->
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
 

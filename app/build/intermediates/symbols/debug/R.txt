@@ -1172,7 +1172,7 @@ int layout select_dialog_multichoice_material 0x7f040049
 int layout select_dialog_singlechoice_material 0x7f04004a
 int layout spinner_item_text 0x7f04004b
 int layout support_simple_spinner_dropdown_item 0x7f04004c
-int menu bar 0x7f0e0000
+int menu menu_alpha 0x7f0e0000
 int menu menu_beta 0x7f0e0001
 int mipmap ic_access_time_black_24dp 0x7f030000
 int mipmap ic_archive_black_24dp 0x7f030001

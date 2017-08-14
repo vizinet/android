@@ -4,7 +4,9 @@
 
 package edu.wsu.lar.airpact_fire.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -66,8 +68,18 @@ public class GalleryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+
+            case R.id.action_user_data:
+                Intent userDataIntent = new Intent(GalleryActivity.this, UserDataActivity.class);
+                startActivity(userDataIntent);
+                return true;
+
             case R.id.action_help:
-                // TODO: Open help fragment
+                // TODO: Open help dialog
                 return true;
 
             case R.id.action_home:

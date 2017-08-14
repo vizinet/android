@@ -2,6 +2,7 @@ package edu.wsu.lar.airpact_fire.server.manager;
 
 import android.content.Context;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.server.callback.ServerCallback;
 
 public class DummyServerManager implements ServerManager {
 

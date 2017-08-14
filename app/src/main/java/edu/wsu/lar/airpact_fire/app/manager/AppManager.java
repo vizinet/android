@@ -10,6 +10,7 @@ import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
+import edu.wsu.lar.airpact_fire.server.callback.ServerCallback;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 
 /**
@@ -58,6 +59,8 @@ public abstract class AppManager {
     public abstract void onActivityEnd(Object... args);
     public abstract void onLogin(Object... args);
     public abstract void onLogout(Object... args);
-    public abstract void onAuthenticate(String username, String password, ServerManager.ServerCallback callback);
-    public abstract void onSubmit(PostObject postObject, ServerManager.ServerCallback serverCallback);
+    public abstract void onPostCreated(Object... args);
+    public abstract void onPostFinished(Object... args);
+    public abstract void onAuthenticate(String username, String password, ServerCallback callback);
+    public abstract void onSubmit(PostObject postObject, ServerCallback serverCallback);
 }

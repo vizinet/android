@@ -67,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         mDataManager = mAppManager.getDataManager();
         mUserObject = mDataManager.getApp().getLastUser();
 
-        // Set action bar
+        // Set action menu_alpha
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         mActionBar = getSupportActionBar();
@@ -114,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
         mPictureGalleryButton = (ImageView) findViewById(R.id.picture_gallery_button);
         mSettingsButton = (ImageView) findViewById(R.id.settings_button);
 
-        // Nav-bar
+        // Nav-menu_alpha
         mBackButton = (FrameLayout) findViewById(R.id.back_button);
         mUsernameText = (TextView) findViewById(R.id.username_text);
         mNumberPostedText = (TextView) findViewById(R.id.number_posted_text);
@@ -132,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.bar, menu);
+        inflater.inflate(R.menu.menu_alpha, menu);
         return true;
     }
 
