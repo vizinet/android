@@ -24,6 +24,10 @@
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\color\\abc_secondary_text_material_dark.xml"
     },
     {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\color\\common_google_signin_btn_text_light.xml",
+        "source": "C:\\Users\\lukedottec\\.android\\build-cache\\d12385acaba5b5fae0f39a44edb4410b53bcbccd\\output\\res\\color\\common_google_signin_btn_text_light.xml"
+    },
+    {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\color\\common_signin_btn_text_dark.xml",
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\963f9d6fa2e67a0a13c94e41e76ecec91b43c490\\output\\res\\color\\common_signin_btn_text_dark.xml"
     },
@@ -36,8 +40,16 @@
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\color\\abc_search_url_text.xml"
     },
     {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\color\\common_google_signin_btn_text_dark.xml",
+        "source": "C:\\Users\\lukedottec\\.android\\build-cache\\d12385acaba5b5fae0f39a44edb4410b53bcbccd\\output\\res\\color\\common_google_signin_btn_text_dark.xml"
+    },
+    {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_primary_text_material_dark.xml",
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\color\\abc_primary_text_material_dark.xml"
+    },
+    {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\color\\common_google_signin_btn_tint.xml",
+        "source": "C:\\Users\\lukedottec\\.android\\build-cache\\d12385acaba5b5fae0f39a44edb4410b53bcbccd\\output\\res\\color\\common_google_signin_btn_tint.xml"
     },
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_primary_text_disable_only_material_dark.xml",

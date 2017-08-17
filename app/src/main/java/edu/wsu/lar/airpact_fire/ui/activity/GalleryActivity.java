@@ -73,11 +73,6 @@ public class GalleryActivity extends AppCompatActivity {
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
 
-            case R.id.action_user_data:
-                Intent userDataIntent = new Intent(GalleryActivity.this, UserDataActivity.class);
-                startActivity(userDataIntent);
-                return true;
-
             case R.id.action_help:
                 // TODO: Open help dialog
                 return true;

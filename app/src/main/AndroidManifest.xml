@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="lar.wsu.edu.airpact_fire">
-
-    <!-- NOTE: Beware android:screenOrientation="portrait" -->
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -47,29 +46,7 @@
                 android:value="edu.wsu.lar.airpact_fire.ui.activity.SignInActivity" />
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.OldGalleryActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
-        </activity>
-        <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.TargetSelectActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
-        </activity>
-        <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.AddPictureDetailsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.PostDetailsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.UserDataActivity"
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.ProfileActivity"
             android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
             android:screenOrientation="portrait">
             <meta-data
@@ -84,6 +61,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
         </activity>
+        <activity
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity"
+            android:label="@string/title_activity_image_lab"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
+        </activity>
+        <activity
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity"
+            android:label="@string/title_activity_gallery"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
+        </activity>
 
         <!--
          ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -93,23 +86,21 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity"
-            android:label="@string/title_activity_image_lab"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
-        </activity>
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
         <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity"
-            android:label="@string/title_activity_gallery"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
-        </activity>
+            android:name="edu.wsu.lar.airpact_fire.ui.fragment.home.MapsFragment"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>

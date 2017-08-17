@@ -33,5 +33,6 @@
 
     <string name="title_activity_image_lab">ImageLabActivity</string>
     <string name="title_activity_gallery">GalleryActivity</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

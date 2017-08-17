@@ -5,6 +5,8 @@
 package edu.wsu.lar.airpact_fire.data.realm.object;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
@@ -140,7 +142,23 @@ public class RealmPostObject implements PostObject {
     public Bitmap getThumbnail() {
         if (getAlgorithm() == 1) return getImageObjects().get(0).getBitmap();
         else if (getAlgorithm() == 2) return getImageObjects().get(1).getBitmap();
-        return null;
+        else return null;
+    }
+
+    @Override
+    public Bitmap getThumbnail(int width) {
+
+        // TODO: Compression
+
+        Bitmap bitmap;
+        if (getAlgorithm() == 1) bitmap = getImageObjects().get(0).getBitmap();
+        else if (getAlgorithm() == 2) bitmap = getImageObjects().get(1).getBitmap();
+        else return null;
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, width,
+                (int) ((width / (float) bitmap.getWidth()) * bitmap.getHeight()), false);
+
+        return bitmap;
     }
 
     @Override
