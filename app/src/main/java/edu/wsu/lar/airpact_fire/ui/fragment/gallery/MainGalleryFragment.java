@@ -159,7 +159,7 @@ public class MainGalleryFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Fragment postDetailsFragment = new GalleryPostDetailsFragment();
-                    ((GalleryPostDetailsFragment) postDetailsFragment).setPostObject(postObject);
+                    ((GalleryPostDetailsFragment) postDetailsFragment).setArguments(postObject);
                     getFragmentManager().beginTransaction()
                             .replace(R.id.gallery_container, postDetailsFragment)
                             .addToBackStack(null)

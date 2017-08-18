@@ -28,6 +28,8 @@ public interface UserObject {
     boolean getHasDraftPost();
     void setHasDraftPost(boolean value);
 
+    List<SessionObject> getSessions();
+
     List<PostObject> getPosts();
     List<PostObject> getPosts(int start, int end);
     PostObject getLastPost();

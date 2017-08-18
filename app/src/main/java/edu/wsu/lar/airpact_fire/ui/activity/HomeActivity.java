@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,16 +23,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
+import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import lar.wsu.edu.airpact_fire.R;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private AppManager mAppManager;
     private DataManager mDataManager;
@@ -39,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private String mUsername;
 
+    private GoogleMap mGoogleMap;
     private Button mCaptureButton;
     private Button mGalleryButton;
 
@@ -67,7 +78,7 @@ public class HomeActivity extends AppCompatActivity {
         mDataManager = mAppManager.getDataManager();
         mUserObject = mDataManager.getApp().getLastUser();
 
-        // Set action bar
+        // Set action menu_alpha
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         mActionBar = getSupportActionBar();
@@ -80,6 +91,10 @@ public class HomeActivity extends AppCompatActivity {
                 });
         mActionBar.setBackgroundDrawable(gd);
         mActionBar.setTitle(mUserObject.getUsername());
+
+        // Map fragment loading
+        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         mCaptureButton = (Button) findViewById(R.id.capture_button);
         mGalleryButton = (Button) findViewById(R.id.gallery_button);
@@ -114,7 +129,7 @@ public class HomeActivity extends AppCompatActivity {
         mPictureGalleryButton = (ImageView) findViewById(R.id.picture_gallery_button);
         mSettingsButton = (ImageView) findViewById(R.id.settings_button);
 
-        // Nav-bar
+        // Nav-menu_alpha
         mBackButton = (FrameLayout) findViewById(R.id.back_button);
         mUsernameText = (TextView) findViewById(R.id.username_text);
         mNumberPostedText = (TextView) findViewById(R.id.number_posted_text);
@@ -132,8 +147,40 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.bar, menu);
+        inflater.inflate(R.menu.menu_alpha, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                // Go to Android home (not app home)
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(startMain);
+                return true;
+
+            case R.id.action_profile:
+                Intent userDataIntent = new Intent(HomeActivity.this, ProfileActivity.class);
+                startActivity(userDataIntent);
+                return true;
+
+            case R.id.action_tutorial:
+                // TODO: Open tutorial PDF
+                return true;
+
+            case R.id.action_settings:
+                Intent settingsIntent = new Intent(HomeActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     @Override
@@ -184,7 +231,7 @@ public class HomeActivity extends AppCompatActivity {
         // ---
         frameToActivityMap = new HashMap<>();
         frameToActivityMap.put(mNewPicturePane, ImageLabActivity.class);
-        frameToActivityMap.put(mInformationPane, UserDataActivity.class);
+        frameToActivityMap.put(mInformationPane, ProfileActivity.class);
         frameToActivityMap.put(mPictureGalleryPane, GalleryActivity.class);
         frameToActivityMap.put(mSettingsPane, SettingsActivity.class);
 
@@ -249,5 +296,39 @@ public class HomeActivity extends AppCompatActivity {
         // Go to sign-in page
         Toast.makeText(getApplicationContext(), "Signed out.", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(getApplicationContext(), SignInActivity.class));
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+
+        mGoogleMap = map;
+
+        // Add post locations to map
+        List<PostObject> postObjects = mUserObject.getPosts();
+        for (PostObject postObject : postObjects) {
+
+            // Skip un-submitted posts
+            if (DataManager.getPostMode(postObject.getMode()) != DataManager.PostMode.SUBMITTED) {
+                continue;
+            }
+
+            double[] postGps = postObject.getImageObjects().get(0).getGps();
+            mGoogleMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(postGps[0], postGps[1]))
+                    .title(postObject.getLocation())
+                    .snippet(postObject.getDate().toString())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        }
+
+        // Position the map's camera near current location
+        double[] currentGps = mAppManager.getGps(HomeActivity.this);
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(
+                new LatLng(currentGps[0], currentGps[1])));
+
+        // Set a preference for minimum and maximum zoom.
+        mGoogleMap.setMinZoomPreference(7.0f);
+        mGoogleMap.setMaxZoomPreference(14.0f);
+
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
     }
 }

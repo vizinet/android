@@ -1,8 +1,12 @@
+// Copyright © 2017,
+// Laboratory for Atmospheric Research at Washington State University,
+// All rights reserved.
+
 package edu.wsu.lar.airpact_fire.server.manager;
 
 import android.content.Context;
-
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.server.callback.ServerCallback;
 
 /**
  * Communication interface between app and some authenticating and submission-accepting entity
@@ -13,19 +17,6 @@ import edu.wsu.lar.airpact_fire.data.object.PostObject;
  * @since   0.9
  */
 public interface ServerManager {
-
-    /**
-     * Communication interface between app and some authenticating and submission-accepting entity
-     *
-     * <p>This manager should never touch a bit of user interface or database code</p>
-     *
-     * @author  Luke Weber
-     * @since   0.9
-     */
-    interface ServerCallback {
-        Object onStart(Object... args);
-        Object onFinish(Object... args);
-    }
 
     /**
      * Async method for initializing authentication of user credentials with server

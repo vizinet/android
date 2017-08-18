@@ -48,6 +48,7 @@ public interface PostObject {
     ImageObject createImageObject();
     List<ImageObject> getImageObjects();
     Bitmap getThumbnail();
+    Bitmap getThumbnail(int width);
 
     float getEstimatedVisualRange();
     void setEstimatedVisualRange(float value);

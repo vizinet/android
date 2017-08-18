@@ -1,7 +1,9 @@
+// TODO: Background service for requesting more accurate and current GPS coordinates (as per https://developer.android.com/guide/topics/location/strategies.html)
+// TODO: Enable dynamic loading and caching system for gallery
 // TODO: Make sure posts get destroyed if someone exits without completing it.
 // TODO: Button feedback for our custom buttons
+
 // TODO: Allow user to add tags to post like "fog," "rainy," "smokey," etc. This will give us good metadeta.
-// TODO: Adapt UI changes based on sketches
 // TODO: AppManager: Method which adds service to monitor app state (namely, exit, so we can call onAppEnd)
 // TODO: Add copyright to every source file
 // TODO: Add LICENCE.TXT
@@ -15,8 +17,6 @@
 // TODO: Custom Toast display, to make it more obvious to user
 // TODO: More responsive buttons
 // TODO: "Last logged in X days ago" on home screen
-// TODO: Figure out why picture details activity doesn't repopulate estimated visual range and description.
-//  This way we'll only deal with the image when we take a new one, view it, or post it.
 // TODO: Add notification when we have connection to server, and not just internet access. Although,
 //  we still want to know about internet access so we can know when to queue posts? We could just check
 //  to see if
