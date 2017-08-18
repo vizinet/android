@@ -21,16 +21,8 @@ public interface SessionObject {
     UserObject getUser();
 
     Date getStartDate();
-    void getEndDate();
-
-    Date getLastLoginDate();
-    void setLastLoginDate(Date value);
-
-    float getEstimatedDistance();
-    void setEstimatedDistance(float value);
-
-    int getSelectedAlgorithm();
-    void setSelectedAlgorithm(int value);
+    Date getEndDate();
+    void setEndDate(Date value);
 
     Object getRaw();
 }

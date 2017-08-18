@@ -5,17 +5,20 @@
         android:id="@+id/action_profile"
         android:icon="@mipmap/ic_person_black_24dp"
         android:title="User Data"
-        app:showAsAction="always" />
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_tutorial"
-        android:icon="@mipmap/ic_info_outline_black_24dp"
         android:title="Tutorial"
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_settings"
-        android:icon="@mipmap/ic_settings_black_24dp"
         android:title="Settings"
         app:showAsAction="never"/>
+
+    <item android:id="@+id/action_sign_out"
+        android:title="Sign Out"
+        app:showAsAction="never"/>
+
 
 </menu>

@@ -27,6 +27,7 @@ public final class Reference {
     public static final String SERVER_REGISTER_URL = SERVER_BASE_URL + "/user/register";
     public static final String SERVER_INFORMATION_URL = SERVER_BASE_URL + "/";
     public static final String SERVER_IMAGE_BASE_URL = SERVER_BASE_URL + "/picture/view/";
+    public static final String SERVER_PROFILE_BASE_URL = SERVER_BASE_URL + "/user/profile/";
 
     // AIRPACT-Fire agreed date-time format between server and app
     public static final String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";

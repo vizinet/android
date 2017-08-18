@@ -3,16 +3,18 @@ package edu.wsu.lar.airpact_fire.data.realm.object;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.object.SessionObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
+import edu.wsu.lar.airpact_fire.data.realm.model.Session;
 import edu.wsu.lar.airpact_fire.data.realm.model.User;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /** @see UserObject */
 public class RealmUserObject implements UserObject {
@@ -69,6 +71,18 @@ public class RealmUserObject implements UserObject {
         // TODO
     }
 
+    @Override
+    public List<SessionObject> getSessions() {
+        RealmResults results = mRealm.where(Session.class).equalTo("user.username", mUser.username)
+                .findAllSorted("sessionId", Sort.ASCENDING);
+        if (results == null || results.size() == 0) { return null; }
+        List<SessionObject> sessions = new ArrayList<>();
+        for (Object post : results) {
+           sessions.add(new RealmSessionObject(mRealm, (Session) post, mDataManager, mDebugManager));
+        }
+        return sessions;
+    }
+
 
     @Override
     public List<PostObject> getPosts() {
@@ -121,7 +135,7 @@ public class RealmUserObject implements UserObject {
 
     @Override
     public Date getFirstLoginDate() {
-        return null;
+        return getSessions().get(0).getStartDate();
     }
 
     @Override

@@ -87,7 +87,7 @@ public class AlgorithmSelectFragment extends Fragment {
                 int radioButtonId = ((mAlgorithmRadioGroup.getCheckedRadioButtonId() - 1)
                         % mAlgorithmRadioGroup.getChildCount()) + 1;
                 userObject.setRememberAlgorithmChoice(mRememberAlgorithmCheckBox.isChecked());
-                sessionObject.setSelectedAlgorithm(radioButtonId);
+                //sessionObject.setSelectedAlgorithm(radioButtonId);
 
                 // Grab algorithm of choice & notify parent activity
                 Algorithm selectedAlgorithm = mAlgorithms.get(radioButtonId - 1);

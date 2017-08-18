@@ -35,45 +35,21 @@ public class RealmSessionObject implements SessionObject {
 
     @Override
     public Date getStartDate() {
-        return null;
+        return mSession.startDate;
     }
 
     @Override
-    public void getEndDate() {
-
+    public Date getEndDate() {
+        return mSession.endDate;
     }
 
     @Override
-    public Date getLastLoginDate() {
-        return null;
-    }
-
-    @Override
-    public void setLastLoginDate(Date value) {
-
-    }
-
-    @Override
-    public float getEstimatedDistance() {
-        return 0;
-    }
-
-    @Override
-    public void setEstimatedDistance(float value) {
-
-    }
-
-    @Override
-    public int getSelectedAlgorithm() {
-        return mSession.selectedAlgorithm;
-    }
-
-    @Override
-    public void setSelectedAlgorithm(int value) {
+    public void setEndDate(Date value) {
         mRealm.beginTransaction();
-        mSession.selectedAlgorithm = value;
+        mSession.endDate = value;
         mRealm.commitTransaction();
     }
+
 
     @Override
     public Object getRaw() {
