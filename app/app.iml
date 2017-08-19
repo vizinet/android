@@ -122,6 +122,7 @@
     <orderEntry type="library" exported="" name="play-services-maps-10.2.4" level="project" />
     <orderEntry type="library" exported="" name="realm-android-library-3.1.4" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
+    <orderEntry type="library" exported="" name="support-vector-drawable-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.1.1" level="project" />
     <orderEntry type="library" exported="" name="android-android-23" level="project" />
   </component>

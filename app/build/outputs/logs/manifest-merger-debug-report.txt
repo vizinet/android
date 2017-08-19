@@ -1,52 +1,52 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:2:1-106:12
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:2:1-108:12
 	package
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:4:5-39
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:3:5-39
 		INJECTED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:3:5-63
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:2:11-69
 	android:versionCode
 		INJECTED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:6:5-81
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:5:5-81
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:6:22-78
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:5:22-78
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:7:5-80
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:6:5-80
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:7:22-77
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:6:22-77
 uses-permission#android.permission.INTERNET
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:8:5-67
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:7:5-67
 MERGED from [com.google.android.gms:play-services-maps:10.2.4] C:\Users\lukedottec\.android\build-cache\13a5da6c9907e57226fcd98b31fb12094ef18a09\output\AndroidManifest.xml:20:5-66
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:8:22-64
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:7:22-64
 uses-permission#android.permission.ACCESS_FINE_LOCATION
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:9:5-79
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:8:5-79
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:9:22-76
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:8:22-76
 uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:10:5-81
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:9:5-81
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:10:22-78
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:9:22-78
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:11:5-79
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:10:5-79
 MERGED from [com.google.android.gms:play-services-maps:10.2.4] C:\Users\lukedottec\.android\build-cache\13a5da6c9907e57226fcd98b31fb12094ef18a09\output\AndroidManifest.xml:19:5-78
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:11:22-76
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:10:22-76
 uses-feature#android.hardware.camera
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:13:5-15:35
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:12:5-14:35
 	android:required
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:15:9-32
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:14:9-32
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:14:9-47
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:13:9-47
 application
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:17:5-104:19
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:16:5-106:19
 MERGED from [com.android.support:design:23.1.1] C:\Users\lukedottec\.android\build-cache\f00a89e94422063926d25284b83aea99411bf407\output\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:appcompat-v7:23.1.1] C:\Users\lukedottec\.android\build-cache\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\output\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.gms:play-services-appindexing:8.1.0] C:\Users\lukedottec\.android\build-cache\53132df03e910a431c8a5c4b3d772cdadf87d400\output\AndroidManifest.xml:19:5-20
@@ -55,110 +55,117 @@ MERGED from [com.google.android.gms:play-services-maps:10.2.4] C:\Users\lukedott
 MERGED from [com.google.android.gms:play-services-base:10.2.4] C:\Users\lukedottec\.android\build-cache\d12385acaba5b5fae0f39a44edb4410b53bcbccd\output\AndroidManifest.xml:18:5-20:19
 MERGED from [com.google.android.gms:play-services-tasks:10.2.4] C:\Users\lukedottec\.android\build-cache\f4192bffb654760557be2d09b1f8e85a4d09eb01\output\AndroidManifest.xml:4:5-19
 MERGED from [com.google.android.gms:play-services-basement:10.2.4] C:\Users\lukedottec\.android\build-cache\a86c2d39a31d8acedc1e794264b84ad03c5b610e\output\AndroidManifest.xml:19:5-21:19
+MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\lukedottec\.android\build-cache\0fd5585d0f22c1afb576f81ea46ae6787ce0989b\output\AndroidManifest.xml:7:5-20
 MERGED from [com.android.support:support-v4:24.0.0] C:\Users\lukedottec\.android\build-cache\2b0b8b8792ee4b18a4390ff1029ec613fa067e68\output\AndroidManifest.xml:25:5-20
 	android:label
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:20:9-41
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:19:9-41
 	android:supportsRtl
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:21:9-35
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:20:9-35
 	android:allowBackup
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:18:9-35
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:17:9-35
 	android:icon
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:19:9-38
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:18:9-38
 	android:theme
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:22:9-65
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:21:9-65
 activity#edu.wsu.lar.airpact_fire.ui.activity.SplashScreenActivity
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:23:9-94
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:22:9-94
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:23:19-91
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:22:19-91
 activity#edu.wsu.lar.airpact_fire.ui.activity.SignInActivity
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:24:9-39:20
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:23:9-38:20
 	android:screenOrientation
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:28:13-49
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:27:13-49
 	android:label
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:26:13-45
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:25:13-45
 	android:parentActivityName
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:27:13-99
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:26:13-99
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:25:13-79
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:24:13-79
 meta-data#android.support.PARENT_ACTIVITY
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:29:13-31:93
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:28:13-30:93
 	android:value
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:31:17-90
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:30:17-90
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:30:17-63
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:29:17-63
 intent-filter#android.intent.action.MAIN+android.intent.category.DEFAULT+android.intent.category.LAUNCHER
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:33:13-38:29
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:32:13-37:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:34:17-69
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:33:17-69
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:34:25-66
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:33:25-66
 category#android.intent.category.DEFAULT
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:36:17-76
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:35:17-76
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:36:27-73
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:35:27-73
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:37:17-77
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:36:17-77
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:37:27-74
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:36:27-74
 activity#edu.wsu.lar.airpact_fire.ui.activity.HomeActivity
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:40:9-47:20
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:39:9-46:20
 	android:screenOrientation
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:43:13-49
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:42:13-49
 	android:parentActivityName
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:42:13-93
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:41:13-93
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:41:13-77
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:40:13-77
 activity#edu.wsu.lar.airpact_fire.ui.activity.ProfileActivity
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:48:9-55:20
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:47:9-54:20
 	android:screenOrientation
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:51:13-49
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:50:13-49
 	android:parentActivityName
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:50:13-91
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:49:13-91
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:49:13-80
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:48:13-80
 activity#edu.wsu.lar.airpact_fire.ui.activity.SettingsActivity
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:56:9-63:20
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:55:9-62:20
 	android:screenOrientation
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:59:13-49
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:58:13-49
 	android:parentActivityName
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:58:13-91
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:57:13-91
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:57:13-81
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:56:13-81
 activity#edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:64:9-71:20
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:63:9-70:20
 	android:label
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:66:13-61
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:65:13-61
 	android:theme
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:67:13-69
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:66:13-69
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:65:13-81
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:64:13-81
 activity#edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:72:9-79:20
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:71:9-78:20
 	android:label
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:74:13-59
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:73:13-59
 	android:theme
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:75:13-69
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:74:13-69
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:73:13-80
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:72:13-80
 meta-data#com.google.android.gms.version
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:85:9-87:69
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:84:9-86:69
 MERGED from [com.google.android.gms:play-services-basement:10.2.4] C:\Users\lukedottec\.android\build-cache\a86c2d39a31d8acedc1e794264b84ad03c5b610e\output\AndroidManifest.xml:20:9-121
 	android:value
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:87:13-66
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:86:13-66
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:86:13-58
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:85:13-58
 meta-data#com.google.android.geo.API_KEY
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:97:9-99:55
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:96:9-98:55
 	android:value
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:99:13-52
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:98:13-52
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:98:13-58
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:97:13-58
 activity#edu.wsu.lar.airpact_fire.ui.fragment.home.MapsFragment
-ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:101:9-103:68
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:100:9-102:59
 	android:label
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:103:13-56
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:102:13-56
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:102:13-82
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:101:13-82
+activity#edu.wsu.lar.airpact_fire.ui.activity.SettingsTestActivity
+ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:103:9-105:77
+	android:label
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:105:13-65
+	android:name
+		ADDED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml:104:13-85
 uses-sdk
 INJECTED from C:\Users\lukedottec\Documents\Groups\AIRPACT-Fire\Android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [io.realm:realm-android-library:3.1.4] C:\Users\lukedottec\.android\build-cache\c321c47d7a7f910e86f873dface3303cb4ebb151\output\AndroidManifest.xml:7:5-9:41
@@ -172,6 +179,7 @@ MERGED from [com.google.android.gms:play-services-maps:10.2.4] C:\Users\lukedott
 MERGED from [com.google.android.gms:play-services-base:10.2.4] C:\Users\lukedottec\.android\build-cache\d12385acaba5b5fae0f39a44edb4410b53bcbccd\output\AndroidManifest.xml:17:5-43
 MERGED from [com.google.android.gms:play-services-tasks:10.2.4] C:\Users\lukedottec\.android\build-cache\f4192bffb654760557be2d09b1f8e85a4d09eb01\output\AndroidManifest.xml:3:5-43
 MERGED from [com.google.android.gms:play-services-basement:10.2.4] C:\Users\lukedottec\.android\build-cache\a86c2d39a31d8acedc1e794264b84ad03c5b610e\output\AndroidManifest.xml:17:5-43
+MERGED from [com.android.support:support-vector-drawable:23.4.0] C:\Users\lukedottec\.android\build-cache\0fd5585d0f22c1afb576f81ea46ae6787ce0989b\output\AndroidManifest.xml:5:5-43
 MERGED from [com.android.support:support-v4:24.0.0] C:\Users\lukedottec\.android\build-cache\2b0b8b8792ee4b18a4390ff1029ec613fa067e68\output\AndroidManifest.xml:21:5-23:54
 	tools:overrideLibrary
 		ADDED from [com.android.support:support-v4:24.0.0] C:\Users\lukedottec\.android\build-cache\2b0b8b8792ee4b18a4390ff1029ec613fa067e68\output\AndroidManifest.xml:23:9-51
