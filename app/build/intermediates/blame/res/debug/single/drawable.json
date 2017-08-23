@@ -48,12 +48,12 @@
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\border.xml"
     },
     {
-        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\home_icon.xml",
-        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\home_icon.xml"
-    },
-    {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\black_dot.png",
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\black_dot.png"
+    },
+    {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\home_icon.xml",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\home_icon.xml"
     },
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\common_google_signin_btn_icon_dark_normal.xml",
@@ -96,12 +96,12 @@
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\retake_small.png"
     },
     {
-        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\mountains.png",
-        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\mountains.png"
-    },
-    {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\settings.png",
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\settings.png"
+    },
+    {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\mountains.png",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\mountains.png"
     },
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\washington_lake.jpg",
@@ -284,6 +284,10 @@
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\home_bubble.xml"
     },
     {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_notifications_black_24dp.xml",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\ic_notifications_black_24dp.xml"
+    },
+    {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\redo_arrow.png",
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\redo_arrow.png"
     },
@@ -404,6 +408,10 @@
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\mount_rainer_forest.jpg"
     },
     {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_sync_black_24dp.xml",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\ic_sync_black_24dp.xml"
+    },
+    {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_seekbar_track_material.xml",
         "source": "C:\\Users\\lukedottec\\.android\\build-cache\\ce31e26daf9cc87e2b1bc7cf4f9dd7f3a1f1209a\\output\\res\\drawable\\abc_seekbar_track_material.xml"
     },
@@ -474,6 +482,10 @@
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\settings_icon.xml",
         "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\settings_icon.xml"
+    },
+    {
+        "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\ic_info_black_24dp.xml",
+        "source": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\src\\main\\res\\drawable\\ic_info_black_24dp.xml"
     },
     {
         "merged": "C:\\Users\\lukedottec\\Documents\\Groups\\AIRPACT-Fire\\Android\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\moon_evening_mountains.jpg",
