@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import org.json.simple.JSONObject;
 import java.util.Date;
 import java.util.List;
-
 import edu.wsu.lar.airpact_fire.app.Reference;
 
 /**
@@ -67,5 +66,6 @@ public interface PostObject {
 
     JSONObject toJSON();
 
+    int getId();
     Object getRaw();
 }

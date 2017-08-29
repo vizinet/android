@@ -137,12 +137,7 @@ public class RealmImageObject implements ImageObject {
     @Override
     public void delete() {
 
-        mRealm.beginTransaction();
-
-        // Delete image
-        RealmResults<Image> imageResults = mRealm.where(Image.class)
-                .equalTo("imageId", mImage.imageId).findAll();
-        imageResults.deleteAllFromRealm();
+        if (!mRealm.isInTransaction()) mRealm.beginTransaction();
 
         // Delete associated targets
         RealmResults<Target> targetResults = mRealm.where(Target.class)
@@ -151,7 +146,12 @@ public class RealmImageObject implements ImageObject {
             (new RealmTargetObject(mRealm, target, mDataManager, mDebugManager)).delete();
         }
 
-        mRealm.commitTransaction();
+        // Delete image
+        RealmResults<Image> imageResults = mRealm.where(Image.class)
+                .equalTo("imageId", mImage.imageId).findAll();
+        imageResults.deleteAllFromRealm();
+
+        if (!mRealm.isInTransaction()) mRealm.commitTransaction();
     }
 
     @Override

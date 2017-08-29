@@ -4,8 +4,8 @@
 
 package edu.wsu.lar.airpact_fire.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
+import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.realm.object.RealmPostObject;
+import edu.wsu.lar.airpact_fire.ui.fragment.gallery.GalleryPostDetailsFragment;
 import edu.wsu.lar.airpact_fire.ui.fragment.gallery.MainGalleryFragment;
 import lar.wsu.edu.airpact_fire.R;
 
@@ -50,10 +53,24 @@ public class GalleryActivity extends AppCompatActivity {
                 return;
             }
 
-            MainGalleryFragment mainFragment = new MainGalleryFragment();
-            mainFragment.setArguments(getIntent().getExtras());
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.gallery_container, mainFragment).commit();
+            Integer postId = getIntent().getIntExtra("TARGETED_POST_DETAILS", -1);
+            if (postId > 0) {
+                // Specific post details requested from outside activity
+                // TODO: Get specific realm object via id
+                PostObject postObject = new RealmPostObject();
+                Fragment postDetailsFragment = new GalleryPostDetailsFragment();
+                ((GalleryPostDetailsFragment) postDetailsFragment).setArguments(postObject);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.gallery_container, postDetailsFragment)
+                        .addToBackStack(null)
+                        .commit();
+            } else {
+                // Default gallery
+                MainGalleryFragment mainFragment = new MainGalleryFragment();
+                mainFragment.setArguments(getIntent().getExtras());
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.gallery_container, mainFragment).commit();
+            }
         }
     }
 

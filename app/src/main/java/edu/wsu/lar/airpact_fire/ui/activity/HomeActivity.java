@@ -8,8 +8,8 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
@@ -18,28 +18,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.Gallery;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
@@ -47,31 +47,22 @@ import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import lar.wsu.edu.airpact_fire.R;
 
-public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener {
 
     private AppManager mAppManager;
     private DataManager mDataManager;
     private UserObject mUserObject;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private LocationCallback mLocationCallback;
 
     private String mUsername;
+    private HashMap<Marker, PostObject> mMarkerMap = new HashMap<>();
 
+    private ActionBar mActionBar;
     private GoogleMap mGoogleMap;
     private Button mCaptureButton;
     private Button mGalleryButton;
-
-    // -- OLDIES
-
-
-    private Map<FrameLayout, ImageView> frameToIconMap;    // Map frames to their icons
-    private Map<FrameLayout, Class<?>> frameToActivityMap; // Map frames to their following activities
-
-    private ActionBar mActionBar;
-    private Toolbar mToolbar;
-    private FrameLayout mNewPicturePane, mInformationPane, mPictureGalleryPane, mSettingsPane;
-    private FrameLayout mBackButton;
-    private LinearLayout mButtonPage;
-    private TextView mUsernameText, mNumberPostedText, mNumberQueuedText, mRegisterDateText;
-    private ImageView mNewPictureButton, mPictureGalleryButton, mInformationButton, mSettingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +93,17 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                for (Location location : locationResult.getLocations()) {
+                    // Update UI with location data
+                    // ...
+                }
+            };
+        };
+
         mCaptureButton = (Button) findViewById(R.id.capture_button);
         mGalleryButton = (Button) findViewById(R.id.gallery_button);
 
@@ -119,35 +121,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(galleryIntent);
             }
         });
-
-        // ---
-
-        // Panes
-        mNewPicturePane = (FrameLayout) findViewById(R.id.new_picture_pane);
-        mInformationPane = (FrameLayout) findViewById(R.id.information_pane);
-        mPictureGalleryPane = (FrameLayout) findViewById(R.id.picture_gallery_pane);
-        mSettingsPane = (FrameLayout) findViewById(R.id.settings_pane);
-        mButtonPage = (LinearLayout) findViewById(R.id.button_page);
-
-        // Icons of panes
-        mNewPictureButton = (ImageView) findViewById(R.id.new_picture_button);
-        mInformationButton = (ImageView) findViewById(R.id.information_button);
-        mPictureGalleryButton = (ImageView) findViewById(R.id.picture_gallery_button);
-        mSettingsButton = (ImageView) findViewById(R.id.settings_button);
-
-        // Nav-menu_alpha
-        mBackButton = (FrameLayout) findViewById(R.id.back_button);
-        mUsernameText = (TextView) findViewById(R.id.username_text);
-        mNumberPostedText = (TextView) findViewById(R.id.number_posted_text);
-        mNumberQueuedText = (TextView) findViewById(R.id.number_queued_text);
-        mRegisterDateText = (TextView) findViewById(R.id.member_register_date_text);
-
-
-        // Give home a spankin'
-        //updateHome();
-
-        // Give each pane an event listener; respond to user events
-        //setupUIEventListeners();
     }
 
     @Override
@@ -192,7 +165,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onResume() {
         super.onResume();
-        //updateHome();
+        startLocationUpdates();
     }
 
     @Override
@@ -201,95 +174,21 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         logout();
     }
 
-    private void setupHome() {
-    }
-
-    private void updateHome() {
-
-        // Username
-        mUsername = mAppManager.getDataManager().getApp().getLastUser().getUsername();
-        mToolbar.setTitle(String.format("[ %s ]", mUsername.toUpperCase()));
-
-        // Limit length for cutoff reasons
-        int cutoffLength = 10;
-        String displayName = (mUsername.length() >= cutoffLength)
-                ? mUsername.substring(0, cutoffLength) + "..."
-                : mUsername;
-        mUsernameText.setText(String.format("[ %s ]", displayName));
-
-        // Post numbers
-        int numPosted = 0; //PostDataManager.getNumSubmitted(getApplicationContext(), mUsername);
-        int numQueued = 0; //PostDataManager.getNumQueued(getApplicationContext(), mUsername);
-        mNumberPostedText.setAllCaps(true);
-        mNumberPostedText.setText(numPosted + "");
-        mNumberQueuedText.setAllCaps(true);
-        mNumberQueuedText.setText(numQueued + "");
-    }
-
-    private void setupUIEventListeners() {
-
-        // Draw maps
-        frameToIconMap = new HashMap<>();
-        frameToIconMap.put(mNewPicturePane, mNewPictureButton);
-        frameToIconMap.put(mInformationPane, mInformationButton);
-        frameToIconMap.put(mPictureGalleryPane, mPictureGalleryButton);
-        frameToIconMap.put(mSettingsPane, mSettingsButton);
-        // ---
-        frameToActivityMap = new HashMap<>();
-        frameToActivityMap.put(mNewPicturePane, ImageLabActivity.class);
-        frameToActivityMap.put(mInformationPane, ProfileActivity.class);
-        frameToActivityMap.put(mPictureGalleryPane, GalleryActivity.class);
-        frameToActivityMap.put(mSettingsPane, SettingsActivity.class);
-
-        // Run through frames and add event listeners
-        Iterator it = frameToIconMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            setupListeners((FrameLayout) pair.getKey());
-            it.remove(); // avoids a ConcurrentModificationException
+    private void startLocationUpdates() {
+        LocationRequest mLocationRequest = null;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
-
-        // More
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
-    }
-
-    // Setup event listeners for give frame layout
-    private void setupListeners(FrameLayout frameLayout) {
-
-        // Get frame's icon & activity
-        final ImageView frameIcon = frameToIconMap.get(frameLayout);
-        final Class frameActivity = frameToActivityMap.get(frameLayout);
-
-        // Setup touch animation
-        frameLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-
-                    case MotionEvent.ACTION_DOWN:
-
-                        frameIcon.setColorFilter(Color.argb(50, 0, 0, 0), PorterDuff.Mode.MULTIPLY);
-                        return true;
-
-                    case MotionEvent.ACTION_UP:
-
-                        // Start it's activity
-                        Intent intent = new Intent(getApplicationContext(), frameActivity);
-                        startActivity(intent);
-                        frameIcon.clearColorFilter();
-                        return true;
-                }
-                return false;
-            }
-        });
-
-        // TODO: Deal with this problem of not setting an onclicklistener
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest,
+                mLocationCallback,
+                null);
     }
 
     private void logout() {
@@ -313,17 +212,38 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         List<PostObject> postObjects = mUserObject.getPosts();
         for (PostObject postObject : postObjects) {
 
-            // Skip un-submitted posts
-            if (DataManager.getPostMode(postObject.getMode()) != DataManager.PostMode.SUBMITTED) {
+            DataManager.PostMode postMode = DataManager.getPostMode(postObject.getMode());
+            if (postMode == DataManager.PostMode.DRAFTED) {
+                // Catch those stray incomplete posts and delete them
+                postObject.delete();
                 continue;
             }
 
+            String postSnippet = postObject.getDate().toString();
             double[] postGps = postObject.getImageObjects().get(0).getGps();
-            mGoogleMap.addMarker(new MarkerOptions()
+
+            // Display queued and submitted posts differently
+            String postTitle;
+            float postMarkerColor;
+            if (postMode == DataManager.PostMode.SUBMITTED) {
+                postTitle = postObject.getLocation() + " [submitted]";
+                postMarkerColor = BitmapDescriptorFactory.HUE_RED;
+            } else if (postMode == DataManager.PostMode.QUEUED) {
+                postTitle = postObject.getLocation() + " [queued]";
+                postMarkerColor = BitmapDescriptorFactory.HUE_YELLOW;
+            } else {
+                // ERROR: some other kind of post we don't support
+                postObject.delete();
+                continue;
+            }
+
+            // Add marker and remember it
+            Marker marker = mGoogleMap.addMarker(new MarkerOptions()
                     .position(new LatLng(postGps[0], postGps[1]))
-                    .title(postObject.getLocation())
-                    .snippet(postObject.getDate().toString())
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                    .title(postTitle)
+                    .snippet(postSnippet)
+                    .icon(BitmapDescriptorFactory.defaultMarker(postMarkerColor)));
+            mMarkerMap.put(marker, postObject);
         }
 
         // Position the map's camera near current location
@@ -331,11 +251,65 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(
                 new LatLng(currentGps[0], currentGps[1])));
 
-        // Set a preference for minimum and maximum zoom.
+        // Map display details and preferences
         mGoogleMap.setMinZoomPreference(7.0f);
         mGoogleMap.setMaxZoomPreference(14.0f);
-
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         mGoogleMap.setMyLocationEnabled(true);
+
+        // Info window
+        mGoogleMap.setOnInfoWindowClickListener(this);
+        mGoogleMap.setInfoWindowAdapter(new PostInfoWindowAdapter());
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+
+        // Open up the post details in gallery
+        PostObject postObject = mMarkerMap.get(marker);
+        Intent intent = new Intent(getBaseContext(), GalleryActivity.class);
+        intent.putExtra("TARGETED_POST_DETAILS", postObject.getId());
+        startActivity(intent);
+    }
+
+    /**
+     * Class for creating a custom {@link com.google.android.gms.maps.GoogleMap.InfoWindowAdapter}
+     * which displays a particular post title, status, thumbnail, computed VR, and date.
+     */
+    class PostInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            return null;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+
+            PostObject postObject = mMarkerMap.get(marker);
+            View infoWindowView = getLayoutInflater().inflate(R.layout.layout_map_info_window, null);
+
+            ImageView postImageView = (ImageView)
+                    infoWindowView.findViewById(R.id.post_image_view);
+            TextView postLocationTextView = (TextView)
+                    infoWindowView.findViewById(R.id.post_location_text_view);
+            TextView postStatusTextView = (TextView)
+                    infoWindowView.findViewById(R.id.post_status_text_view);
+            TextView postVisualRangeTextView = (TextView)
+                    infoWindowView.findViewById(R.id.post_visual_range_text_view);
+            TextView postDateTextView = (TextView)
+                    infoWindowView.findViewById(R.id.post_date_text_view);
+
+            postImageView.setImageBitmap(postObject.getThumbnail(250));
+            postLocationTextView.setText(String.format("%s",
+                    postObject.getLocation().toUpperCase()));
+            postStatusTextView.setText(String.format(" [%s]",
+                    DataManager.getPostMode(postObject.getMode()).getName()).toLowerCase());
+            postVisualRangeTextView.setText(String.format("VR: %s km",
+                    Math.round(postObject.getComputedVisualRange())));
+            postDateTextView.setText(postObject.getDate().toString());
+
+            return infoWindowView;
+        }
     }
 }

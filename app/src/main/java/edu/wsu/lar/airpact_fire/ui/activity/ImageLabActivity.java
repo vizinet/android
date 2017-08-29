@@ -98,6 +98,11 @@ public class ImageLabActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
+            case android.R.id.home:
+                mPostObject.delete();
+                mAppManager.goHome();
+                return true;
+
             case R.id.action_help:
                 // TODO: Open help fragment
                 return true;
@@ -108,7 +113,6 @@ public class ImageLabActivity extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
 
