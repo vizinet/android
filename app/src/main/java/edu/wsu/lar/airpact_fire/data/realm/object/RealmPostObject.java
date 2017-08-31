@@ -214,17 +214,17 @@ public class RealmPostObject implements PostObject {
 
         mRealm.beginTransaction();
 
-        // Delete post object
-        RealmResults<Post> postResults = mRealm.where(Post.class)
-                .equalTo("postId", mPost.postId).findAll();
-        postResults.deleteAllFromRealm();
-
         // Delete associated images
         RealmResults<Image> imageResults = mRealm.where(Image.class)
                 .equalTo("postId", mPost.postId).findAll();
         for (Image image : imageResults) {
             (new RealmImageObject(mRealm, image, mDataManager, mDebugManager)).delete();
         }
+
+        // Delete post object
+        RealmResults<Post> postResults = mRealm.where(Post.class)
+                .equalTo("postId", mPost.postId).findAll();
+        postResults.deleteAllFromRealm();
 
         mRealm.commitTransaction();
     }
@@ -233,13 +233,17 @@ public class RealmPostObject implements PostObject {
     public JSONObject toJSON() {
 
         // TODO: Maybe send radii for the targets
-        // TODO: Put this server post data in a ServerContract class which is mapped to the right algorithm
 
         // Get algorithm for this post
         Algorithm algorithm = DataManager.getAlgorithm(getAlgorithm()).getInstance();
         JSONObject postJSON = algorithm.getServerContract().toJSON(this);
 
         return postJSON;
+    }
+
+    @Override
+    public int getId() {
+        return mPost.postId;
     }
 
     @Override

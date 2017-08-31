@@ -2,7 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 
 android {
-    compileSdkVersion 23
+    // NOTE: Changed to the compileSdkVersion from 23 to 25. But buildToolsVersion is 25!
+    compileSdkVersion 25
     buildToolsVersion '25.0.0'
 
     defaultConfig {
@@ -25,16 +26,42 @@ android {
     }
 }
 
+
+// TODO: Address the incompatible dependencies
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    /*
+        // Custom dependencies
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        compile rootProject.files("libs/json-simple-1.1.1.jar")     // JSON Simple
+        compile rootProject.files("libs/reflections-0.9.11.jar")    // Reflections
+
+        // Support
+        compile 'com.android.support:appcompat-v7:23.1.1'
+        compile 'com.android.support:design:23.1.1'
+        compile 'com.android.support.constraint:constraint-layout:1.0.2'
+        compile 'com.android.support:support-vector-drawable:23.4.0'
+        compile 'com.android.support:support-v4:23.4.0'
+
+        // Google Play
+        compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+        compile 'com.google.android.gms:play-services-maps:10.2.4'
+        //compile 'com.google.android.gms:play-services:11.0.1'
+
+        testCompile 'junit:junit:4.12'
+        */
+
+    // Custom dependencies
     compile rootProject.files("libs/json-simple-1.1.1.jar")     // JSON Simple
-    compile rootProject.files("libs/reflections-0.9.11.jar")    // Reflections
+
+    // Support
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
-    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.google.android.gms:play-services-maps:10.2.4'
     compile 'com.android.support:support-vector-drawable:23.4.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    // Google Play
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile 'com.google.android.gms:play-services-maps:10.2.4'
+    compile 'com.google.android.gms:play-services:11.0.1'
     testCompile 'junit:junit:4.12'
 }

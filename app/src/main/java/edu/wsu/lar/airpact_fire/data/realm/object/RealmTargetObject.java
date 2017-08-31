@@ -57,14 +57,15 @@ public class RealmTargetObject implements TargetObject {
 
     @Override
     public void delete() {
-        mRealm.beginTransaction();
+
+        if (!mRealm.isInTransaction()) mRealm.beginTransaction();
 
         // Delete target
         RealmResults<Target> targetResults = mRealm.where(Target.class)
                 .equalTo("targetId", mTarget.targetId).findAll();
         targetResults.deleteAllFromRealm();
 
-        mRealm.commitTransaction();
+        if (!mRealm.isInTransaction()) mRealm.commitTransaction();
     }
 
     @Override
