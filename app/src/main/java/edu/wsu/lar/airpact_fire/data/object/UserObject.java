@@ -32,6 +32,7 @@ public interface UserObject {
 
     List<PostObject> getPosts();
     List<PostObject> getPosts(int start, int end);
+    PostObject getPost(int id);
     PostObject getLastPost();
     PostObject createPost();
 

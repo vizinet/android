@@ -103,6 +103,12 @@
         <activity
             android:name="edu.wsu.lar.airpact_fire.ui.activity.SettingsTestActivity"
             android:label="@string/title_activity_settings_test"></activity>
+
+        <service
+            android:name="edu.wsu.lar.airpact_fire.app.service.GpsService"
+            android:exported="false"
+            />
+
     </application>
 
 </manifest>

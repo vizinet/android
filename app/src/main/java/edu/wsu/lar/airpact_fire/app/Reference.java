@@ -4,11 +4,8 @@
 
 package edu.wsu.lar.airpact_fire.app;
 
-import edu.wsu.lar.airpact_fire.app.manager.AIRPACTFireAppManager;
+import edu.wsu.lar.airpact_fire.app.manager.MainAppManager;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
-import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
-import edu.wsu.lar.airpact_fire.data.algorithm.ofo.OneForOneAlgorithm;
-import edu.wsu.lar.airpact_fire.data.algorithm.tio.TwoInOneAlgorithm;
 
 /**
  * Single point of reference regarding constants for whole app.
@@ -53,6 +50,6 @@ public final class Reference {
     };
 
     public static AppManager getAppManager() {
-        return new AIRPACTFireAppManager();
+        return new MainAppManager();
     }
 }

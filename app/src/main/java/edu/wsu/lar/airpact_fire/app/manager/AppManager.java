@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.service.GpsService;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
@@ -28,6 +29,7 @@ public abstract class AppManager {
 
     public abstract boolean isDebugging();
 
+    /*
     public static double[] getGps(Activity activity) {
 
         // Attempt to get real geolocation
@@ -46,6 +48,11 @@ public abstract class AppManager {
 
         return Reference.DEFAULT_GPS_LOCATION;
     }
+    */
+
+    public interface GpsAvailableCallback {
+        void change();
+    }
 
     public abstract DataManager getDataManager(Object... args);
     public abstract ServerManager getServerManager(Object... args);
@@ -53,14 +60,21 @@ public abstract class AppManager {
 
     public abstract void goHome();
 
+    public abstract double[] getGps();
+    public abstract void startGpsService();
+    public abstract void rebindGpsService();
+    public abstract void endGpsService();
+    public abstract void subscribeGpsAvailable(GpsAvailableCallback callback);
+    public abstract void notifyGpsAvailable();
+    public abstract void subscribeGpsLocationChanges(
+            GpsService.GpsLocationChangedCallback callback);
+
     public abstract void onAppStart(Object... args);
     public abstract void onAppEnd(Object... args);
     public abstract void onActivityStart(Object... args);
     public abstract void onActivityEnd(Object... args);
     public abstract void onLogin(Object... args);
     public abstract void onLogout(Object... args);
-    public abstract void onPostCreated(Object... args);
-    public abstract void onPostFinished(Object... args);
     public abstract void onAuthenticate(String username, String password, ServerCallback callback);
     public abstract void onSubmit(PostObject postObject, ServerCallback serverCallback);
 }

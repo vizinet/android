@@ -18,7 +18,6 @@ import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
-import edu.wsu.lar.airpact_fire.data.realm.object.RealmPostObject;
 import edu.wsu.lar.airpact_fire.ui.fragment.gallery.GalleryPostDetailsFragment;
 import edu.wsu.lar.airpact_fire.ui.fragment.gallery.MainGalleryFragment;
 import lar.wsu.edu.airpact_fire.R;
@@ -56,14 +55,11 @@ public class GalleryActivity extends AppCompatActivity {
             Integer postId = getIntent().getIntExtra("TARGETED_POST_DETAILS", -1);
             if (postId > 0) {
                 // Specific post details requested from outside activity
-                // TODO: Get specific realm object via id
-                PostObject postObject = new RealmPostObject();
+                PostObject postObject = mUserObject.getPost(postId);
                 Fragment postDetailsFragment = new GalleryPostDetailsFragment();
                 ((GalleryPostDetailsFragment) postDetailsFragment).setArguments(postObject);
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.gallery_container, postDetailsFragment)
-                        .addToBackStack(null)
-                        .commit();
+                        .replace(R.id.gallery_container, postDetailsFragment).commit();
             } else {
                 // Default gallery
                 MainGalleryFragment mainFragment = new MainGalleryFragment();

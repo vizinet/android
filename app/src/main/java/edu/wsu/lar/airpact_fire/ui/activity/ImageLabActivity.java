@@ -55,6 +55,7 @@ public class ImageLabActivity extends AppCompatActivity {
 
         mAppManager = Reference.getAppManager();
         mAppManager.onActivityStart(this);
+        mAppManager.rebindGpsService();
 
         // Create new post (for this image)
         mUserObject = mAppManager.getDataManager().getApp().getLastUser();
