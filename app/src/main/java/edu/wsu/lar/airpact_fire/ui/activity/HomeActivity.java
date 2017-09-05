@@ -37,6 +37,18 @@ import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Main activity of app, home to Google Map full of post markers and
+ * the gateway to all main functionality, namely image captures and
+ * the gallery.
+ *
+ * <p>Each color-coated post marker represents a post and it's state
+ * (e.g. submitted or queued) and each post can be previewed through
+ * an `InfoWindow` once clicked.</p>
+ *
+ * @see     OnMapReadyCallback
+ * @see     com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
+ */
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener {
 
@@ -44,13 +56,12 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private DataManager mDataManager;
     private UserObject mUserObject;
 
-    private String mUsername;
-    private HashMap<Marker, PostObject> mMarkerMap = new HashMap<>();
-
     private ActionBar mActionBar;
     private GoogleMap mGoogleMap;
     private Button mCaptureButton;
     private Button mGalleryButton;
+
+    private HashMap<Marker, PostObject> mMarkerMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +74,14 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDataManager = mAppManager.getDataManager();
         mUserObject = mDataManager.getApp().getLastUser();
 
+        // Listen for when GPS is available
+        mAppManager.subscribeGpsAvailable(new AppManager.GpsAvailableCallback() {
+            @Override
+            public void change() {
+                listenGpsUpdates();
+            }
+        });
+
         // Start background GPS service
         mAppManager.startGpsService();
 
@@ -73,10 +92,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mActionBar.setDisplayHomeAsUpEnabled(true);
         GradientDrawable gd = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{
-                        Color.WHITE,
-                        Color.TRANSPARENT
-                });
+                new int[]{ Color.WHITE, Color.TRANSPARENT });
         mActionBar.setBackgroundDrawable(gd);
         mActionBar.setTitle(mUserObject.getUsername());
 
@@ -136,9 +152,12 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(settingsIntent);
                 return true;
 
+            case R.id.action_sign_out:
+                logout();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
 
@@ -213,14 +232,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Info window
         mGoogleMap.setOnInfoWindowClickListener(this);
         mGoogleMap.setInfoWindowAdapter(new PostInfoWindowAdapter());
-
-        // Listen for when GPS is available
-        mAppManager.subscribeGpsAvailable(new AppManager.GpsAvailableCallback() {
-            @Override
-            public void change() {
-                listenGpsUpdates();
-            }
-        });
     }
 
     @Override
@@ -279,6 +290,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mAppManager.subscribeGpsLocationChanges(new GpsService.GpsLocationChangedCallback() {
             @Override
             public void change(double[] gps) {
+                if (mGoogleMap == null) return;
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(gps[0], gps[1])));
             }
         });

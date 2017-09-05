@@ -22,6 +22,10 @@ import edu.wsu.lar.airpact_fire.ui.fragment.gallery.GalleryPostDetailsFragment;
 import edu.wsu.lar.airpact_fire.ui.fragment.gallery.MainGalleryFragment;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Place for users to view posts that they've made throughout time,
+ * as well as analyze their details.
+ */
 public class GalleryActivity extends AppCompatActivity {
 
     private AppManager mAppManager;
@@ -31,6 +35,11 @@ public class GalleryActivity extends AppCompatActivity {
 
     private int[] mPadding;
 
+    /**
+     * Either shows gallery (default) or shows targeted post
+     * details, given that we've been passed the targeted
+     * post's ID in a Bundle.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

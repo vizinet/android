@@ -4,8 +4,6 @@
 
 package edu.wsu.lar.airpact_fire.ui.activity;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -34,18 +32,20 @@ import edu.wsu.lar.airpact_fire.data.object.AppObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.server.callback.AuthenticationServerCallback;
-import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import lar.wsu.edu.airpact_fire.R;
 
 /**
- * Activity for users to sign-in and proceed to main activity or sign-up for
- * AIRPACT-Fire account
+ * Activity for users to sign-in and proceed to app or sign-up for
+ * an AIRPACT-Fire account.
  *
- * @author  Luke Weber
+ * <p>Authentication with the server works on a one-time basis, meaning
+ * an internet connection is required to successfully validate the user
+ * in the app. Once successfully authenticated, that specific user will
+ * be permitted to use the app offline.</p>
+ *
  * @see     Reference
  * @see     AppManager
  * @see     DataManager
- * @since   0.1
  */
 public class SignInActivity extends AppCompatActivity {
 
@@ -56,10 +56,14 @@ public class SignInActivity extends AppCompatActivity {
     private ImageView mAppBanner;
     private EditText mPasswordView, mUsernameView;
     private Button mSignInButton;
-    private TextView mRegisterLink, mInfoLink;
+    private TextView mRegisterLink;
     private CheckBox mRememberMeCheckBox;
     private ImageButton mHelpImageButton;
 
+    /**
+     * Start {@link AppManager} up and move to home activity if this
+     * user has been saved from the prior session.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -154,8 +158,10 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Remove keyboard when user "clicks out" of it.
+     */
     @Override
-    /** @description Remove keyboard when user "clicks out" of it */
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View view = getCurrentFocus();
@@ -173,7 +179,9 @@ public class SignInActivity extends AppCompatActivity {
         return super.dispatchTouchEvent( event );
     }
 
-    // Set credentials of last user
+    /**
+     * Setup the page and show last user logged in.
+     */
     private void populateLoginFields() {
 
         // Setup registration link
@@ -191,7 +199,10 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-    // Open home page
+    /**
+     * Open {@link HomeActivity} and begin a new
+     * {@link edu.wsu.lar.airpact_fire.data.realm.model.Session}.
+     */
     public void login(String username, String password) {
 
         // Let DB know we're logging in with this user

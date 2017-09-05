@@ -20,6 +20,12 @@ import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Activity for user to view their profile stats and visit
+ * their online profile.
+ *
+ * @see UserObject
+ */
 public class ProfileActivity extends AppCompatActivity {
 
     private static final String sActionBarTitle = "Profile";
