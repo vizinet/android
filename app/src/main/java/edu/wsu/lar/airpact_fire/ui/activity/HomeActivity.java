@@ -4,14 +4,10 @@
 
 package edu.wsu.lar.airpact_fire.ui.activity;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,15 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -37,32 +27,41 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.HashMap;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
+import edu.wsu.lar.airpact_fire.app.service.GpsService;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.object.UserObject;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Main activity of app, home to Google Map full of post markers and
+ * the gateway to all main functionality, namely image captures and
+ * the gallery.
+ *
+ * <p>Each color-coated post marker represents a post and it's state
+ * (e.g. submitted or queued) and each post can be previewed through
+ * an `InfoWindow` once clicked.</p>
+ *
+ * @see     OnMapReadyCallback
+ * @see     com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
+ */
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener {
 
     private AppManager mAppManager;
     private DataManager mDataManager;
     private UserObject mUserObject;
-    private FusedLocationProviderClient mFusedLocationClient;
-    private LocationCallback mLocationCallback;
-
-    private String mUsername;
-    private HashMap<Marker, PostObject> mMarkerMap = new HashMap<>();
 
     private ActionBar mActionBar;
     private GoogleMap mGoogleMap;
     private Button mCaptureButton;
     private Button mGalleryButton;
+
+    private HashMap<Marker, PostObject> mMarkerMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +74,17 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDataManager = mAppManager.getDataManager();
         mUserObject = mDataManager.getApp().getLastUser();
 
+        // Listen for when GPS is available
+        mAppManager.subscribeGpsAvailable(new AppManager.GpsAvailableCallback() {
+            @Override
+            public void change() {
+                listenGpsUpdates();
+            }
+        });
+
+        // Start background GPS service
+        mAppManager.startGpsService();
+
         // Set action menu_alpha
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -82,27 +92,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mActionBar.setDisplayHomeAsUpEnabled(true);
         GradientDrawable gd = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[]{
-                        Color.WHITE,
-                        Color.TRANSPARENT
-                });
+                new int[]{ Color.WHITE, Color.TRANSPARENT });
         mActionBar.setBackgroundDrawable(gd);
         mActionBar.setTitle(mUserObject.getUsername());
 
         // Map fragment loading
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                for (Location location : locationResult.getLocations()) {
-                    // Update UI with location data
-                    // ...
-                }
-            };
-        };
 
         mCaptureButton = (Button) findViewById(R.id.capture_button);
         mGalleryButton = (Button) findViewById(R.id.gallery_button);
@@ -156,39 +152,20 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(settingsIntent);
                 return true;
 
+            case R.id.action_sign_out:
+                logout();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
-
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        startLocationUpdates();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        mAppManager.endGpsService();
         logout();
-    }
-
-    private void startLocationUpdates() {
-        LocationRequest mLocationRequest = null;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mFusedLocationClient.requestLocationUpdates(mLocationRequest,
-                mLocationCallback,
-                null);
     }
 
     private void logout() {
@@ -246,11 +223,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMarkerMap.put(marker, postObject);
         }
 
-        // Position the map's camera near current location
-        double[] currentGps = mAppManager.getGps(HomeActivity.this);
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(
-                new LatLng(currentGps[0], currentGps[1])));
-
         // Map display details and preferences
         mGoogleMap.setMinZoomPreference(7.0f);
         mGoogleMap.setMaxZoomPreference(14.0f);
@@ -303,7 +275,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             postImageView.setImageBitmap(postObject.getThumbnail(250));
             postLocationTextView.setText(String.format("%s",
                     postObject.getLocation().toUpperCase()));
-            postStatusTextView.setText(String.format(" [%s]",
+            postStatusTextView.setText(String.format("[%s]",
                     DataManager.getPostMode(postObject.getMode()).getName()).toLowerCase());
             postVisualRangeTextView.setText(String.format("VR: %s km",
                     Math.round(postObject.getComputedVisualRange())));
@@ -311,5 +283,16 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             return infoWindowView;
         }
+    }
+
+    private void listenGpsUpdates() {
+        // Position the map's camera near current location as they move
+        mAppManager.subscribeGpsLocationChanges(new GpsService.GpsLocationChangedCallback() {
+            @Override
+            public void change(double[] gps) {
+                if (mGoogleMap == null) return;
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(gps[0], gps[1])));
+            }
+        });
     }
 }

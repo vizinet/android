@@ -190,7 +190,7 @@ public class OneForOneBetaFragment extends Fragment {
 
             // Set date the moment the image has been captured
             mPostObject.setDate(new Date());
-            mImageObject.setGps(AppManager.getGps(getActivity()));
+            mImageObject.setGps(((ImageLabActivity) getActivity()).getAppManager().getGps());
             mMainImageView.setImageBitmap(bitmap);
             mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
 

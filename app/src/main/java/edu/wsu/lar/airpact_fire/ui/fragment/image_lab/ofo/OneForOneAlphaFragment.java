@@ -187,7 +187,7 @@ public class OneForOneAlphaFragment extends Fragment {
             mImageObject.setImage(bitmap);
 
             mPostObject.setDate(new Date());
-            mImageObject.setGps(AppManager.getGps(getActivity()));
+            mImageObject.setGps(((ImageLabActivity) getActivity()).getAppManager().getGps());
             mMainImageView.setImageBitmap(bitmap);
             mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
 

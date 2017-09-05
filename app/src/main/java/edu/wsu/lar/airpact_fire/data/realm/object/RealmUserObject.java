@@ -102,6 +102,12 @@ public class RealmUserObject implements UserObject {
     }
 
     @Override
+    public PostObject getPost(int id) {
+        Post post = mRealm.where(Post.class).equalTo("postId", id).findFirst();
+        return new RealmPostObject(mRealm, post, mDataManager, mDebugManager);
+    }
+
+    @Override
     public PostObject getLastPost() {
         Post post = mRealm.where(Post.class).equalTo("user.username", mUser.username)
                 .findAllSorted("date").first();

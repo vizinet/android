@@ -23,6 +23,12 @@ import edu.wsu.lar.airpact_fire.ui.fragment.image_lab.AlgorithmSelectFragment;
 import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Activity to manage the collection of data for each known algorithm.
+ *
+ * @see Algorithm
+ * @see UiTargetManager
+ */
 public class ImageLabActivity extends AppCompatActivity {
 
     private AppManager mAppManager;
@@ -35,6 +41,10 @@ public class ImageLabActivity extends AppCompatActivity {
 
     private int[] mPadding;
 
+    /**
+     * Create a post and open Fragment for user to select algorithm
+     * type.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +65,7 @@ public class ImageLabActivity extends AppCompatActivity {
 
         mAppManager = Reference.getAppManager();
         mAppManager.onActivityStart(this);
+        mAppManager.rebindGpsService();
 
         // Create new post (for this image)
         mUserObject = mAppManager.getDataManager().getApp().getLastUser();
@@ -118,6 +129,9 @@ public class ImageLabActivity extends AppCompatActivity {
 
     /* Methods for fragments to control UI */
 
+    /**
+     * Allows child Fragments to clear the parent padding.
+     */
     public void clearPadding() {
         View containerView = findViewById(R.id.image_lab_container);
         mPadding = new int[] {
@@ -129,6 +143,9 @@ public class ImageLabActivity extends AppCompatActivity {
         containerView.setPadding(0, 0, 0, 0);
     }
 
+    /**
+     * Allows child Fragments to restore the parent padding.
+     */
     public void restorePadding() {
         View containerView = findViewById(R.id.image_lab_container);
         containerView.setPadding(mPadding[0], mPadding[1], mPadding[2], mPadding[3]);

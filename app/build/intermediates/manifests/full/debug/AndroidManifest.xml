@@ -123,6 +123,11 @@
         <activity
             android:name="edu.wsu.lar.airpact_fire.ui.activity.SettingsTestActivity"
             android:label="@string/title_activity_settings_test" />
+
+        <service
+            android:name="edu.wsu.lar.airpact_fire.app.service.GpsService"
+            android:exported="false" />
+
         <!-- Include the AdActivity and InAppPurchaseActivity configChanges and themes. -->
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
