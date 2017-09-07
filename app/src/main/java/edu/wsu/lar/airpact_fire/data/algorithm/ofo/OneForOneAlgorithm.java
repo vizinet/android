@@ -8,7 +8,13 @@ import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.server.contract.ServerContract;
 import edu.wsu.lar.airpact_fire.ui.fragment.image_lab.ofo.OneForOneAlphaFragment;
 
-/** @see Algorithm */
+/**
+ * Definition and specification for the one-for-one algorithm.
+ *
+ * <p>The procedure for this algorithm is to take two separate photos,
+ * each of which is at a varying distance away from a central Point of
+ * Interest (e.g. mountain).</p>
+ */
 public class OneForOneAlgorithm implements Algorithm {
 
     @Override

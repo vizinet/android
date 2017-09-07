@@ -5,9 +5,7 @@
 package edu.wsu.lar.airpact_fire.server.manager;
 
 import android.app.Activity;
-import android.app.IntentService;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,12 +18,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import edu.wsu.lar.airpact_fire.app.Reference;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.server.callback.EmptyServerCallback;
 import edu.wsu.lar.airpact_fire.server.callback.ServerCallback;
 
+/**
+ * Server management making actual connections to the web
+ * server via HTTP.
+ */
 public class HTTPServerManager implements ServerManager {
 
     private DebugManager mDebugManager;
@@ -62,10 +64,10 @@ public class HTTPServerManager implements ServerManager {
     }
 
     @Override
-    public void onSubmit(Context context, PostObject postObject, ServerCallback callback) {
+    public void onSubmit(Context context, PostInterfaceObject postInterfaceObject, ServerCallback callback) {
 
         // Do some pre-authentication to get secret key (using dummy callback)
-        UserObject userObject = postObject.getUser();
+        UserInterfaceObject userInterfaceObject = postInterfaceObject.getUser();
         ArrayList<Object> authenticationObjects;
         String secretKey = "";
         boolean isUser;
@@ -74,7 +76,7 @@ public class HTTPServerManager implements ServerManager {
         try {
             // Wait for authentication to occur
             authenticationObjects = authenticationManager.execute(
-                    userObject.getUsername(), userObject.getPassword()).get();
+                    userInterfaceObject.getUsername(), userInterfaceObject.getPassword()).get();
             isUser = (Boolean) authenticationObjects.get(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -85,8 +87,8 @@ public class HTTPServerManager implements ServerManager {
         }
         if (!isUser) { return; }
         secretKey = (String) authenticationObjects.get(1);
-        postObject.setSecretKey(secretKey);
-        JSONObject jsonObject = postObject.toJSON();
+        postInterfaceObject.setSecretKey(secretKey);
+        JSONObject jsonObject = postInterfaceObject.toJSON();
 
         // Attempt submission
         SubmissionManager submissionManager = new SubmissionManager(mActivity, callback);

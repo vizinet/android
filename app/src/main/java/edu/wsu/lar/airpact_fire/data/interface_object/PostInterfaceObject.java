@@ -2,7 +2,7 @@
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
-package edu.wsu.lar.airpact_fire.data.object;
+package edu.wsu.lar.airpact_fire.data.interface_object;
 
 import android.graphics.Bitmap;
 import org.json.simple.JSONObject;
@@ -12,16 +12,10 @@ import edu.wsu.lar.airpact_fire.app.Reference;
 
 /**
  * Image post interface for UI to use and change.
- *
- * <p>Changes made to implementors of this interface will be reflected
- * in the database.</p>
- *
- * @author  Luke Weber
- * @since   0.9
  */
-public interface PostObject {
+public interface PostInterfaceObject extends InterfaceObject {
 
-    UserObject getUser();
+    UserInterfaceObject getUser();
 
     Date getDate();
     void setDate(Date value);
@@ -44,8 +38,8 @@ public interface PostObject {
     int getMode();
     void setMode(int value);
 
-    ImageObject createImageObject();
-    List<ImageObject> getImageObjects();
+    ImageInterfaceObject createImageObject();
+    List<ImageInterfaceObject> getImageObjects();
     Bitmap getThumbnail();
     Bitmap getThumbnail(int width);
 

@@ -11,8 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.ui.target.UiTarget;
 
-// TODO: Initially place targets in pattern
-
+/**
+ * Manager/engine of image targets in the interface.
+ *
+ * <p>This target manager is reminiscent of the observer
+ * pattern, where each target move causes the corresponding
+ * {@link UiTarget} to update its internal values.</p>
+ */
 public class UiTargetManager {
 
     // Standard 100-pixel target diameter

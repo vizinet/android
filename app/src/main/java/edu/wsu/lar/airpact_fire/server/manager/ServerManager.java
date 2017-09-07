@@ -5,28 +5,27 @@
 package edu.wsu.lar.airpact_fire.server.manager;
 
 import android.content.Context;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.server.callback.ServerCallback;
 
 /**
- * Communication interface between app and some authenticating and submission-accepting entity
+ * Communication interface between app and some authenticating and
+ * submission-accepting entity.
  *
- * <p>This manager should never touch a bit of user interface or database code</p>
+ * <p>This manager should never touch a bit of user interface or
+ * database code.</p>
  *
- * @author  Luke Weber
- * @since   0.9
+ * @see edu.wsu.lar.airpact_fire.app.manager.AppManager
  */
 public interface ServerManager {
 
     /**
      * Async method for initializing authentication of user credentials with server
      *
-     * @author  Luke Weber
      * @param   username    server alias of user
      * @param   password    password for given username
      * @param   callback    interface of callback functions
      * @see     ServerCallback
-     * @since   0.9
      */
     void onAuthenticate(Context context, String username, String password, ServerCallback callback);
 
@@ -36,5 +35,7 @@ public interface ServerManager {
     void onActivityEnd(Object... args);
     void onLogin(Object... args);
     void onLogout(Object... args);
-    void onSubmit(Context context, PostObject postObject, ServerCallback serverCallback);
+    void onSubmit(Context context,
+                  PostInterfaceObject postInterfaceObject,
+                  ServerCallback serverCallback);
 }

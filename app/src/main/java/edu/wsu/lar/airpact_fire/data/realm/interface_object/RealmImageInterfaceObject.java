@@ -2,7 +2,7 @@
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
-package edu.wsu.lar.airpact_fire.data.realm.object;
+package edu.wsu.lar.airpact_fire.data.realm.interface_object;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,28 +16,28 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.ImageObject;
-import edu.wsu.lar.airpact_fire.data.object.TargetObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.TargetInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Coordinate;
 import edu.wsu.lar.airpact_fire.data.realm.model.Image;
 import edu.wsu.lar.airpact_fire.data.realm.model.Target;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
-import edu.wsu.lar.airpact_fire.ui.target.UiTarget;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-/** @see ImageObject */
-public class RealmImageObject implements ImageObject {
+/**
+ * Realm implementation of the {@link ImageInterfaceObject}.
+ */
+public class RealmImageInterfaceObject implements ImageInterfaceObject {
 
     private Realm mRealm;
     private Image mImage;
     private DataManager mDataManager;
     private DebugManager mDebugManager;
 
-    public RealmImageObject(Realm realm, Image image, DataManager dataManager,
-                            DebugManager debugManager) {
+    public RealmImageInterfaceObject(Realm realm, Image image, DataManager dataManager,
+                                     DebugManager debugManager) {
         mRealm = realm;
         mImage = image;
         mDataManager = dataManager;
@@ -114,22 +114,22 @@ public class RealmImageObject implements ImageObject {
     }
 
     @Override
-    public TargetObject createTargetObject() {
+    public TargetInterfaceObject createTargetObject() {
         mRealm.beginTransaction();
         Target targetModel = mRealm.createObject(Target.class, mDataManager.generateTargetId());
         targetModel.postId = mImage.postId;
         targetModel.imageId = mImage.imageId;
         mRealm.commitTransaction();
-        return new RealmTargetObject(mRealm, targetModel, mDataManager, mDebugManager);
+        return new RealmTargetInterfaceObject(mRealm, targetModel, mDataManager, mDebugManager);
     }
 
     @Override
-    public List<TargetObject> getTargetObjects() {
+    public List<TargetInterfaceObject> getTargetObjects() {
         RealmResults<Target> targetResults = mRealm.where(Target.class)
                 .equalTo("imageId", mImage.imageId).findAllSorted("targetId");
-        List targetList = new ArrayList<TargetObject>();
+        List targetList = new ArrayList<TargetInterfaceObject>();
         for (Target target : targetResults) {
-            targetList.add(new RealmTargetObject(mRealm, target, mDataManager, mDebugManager));
+            targetList.add(new RealmTargetInterfaceObject(mRealm, target, mDataManager, mDebugManager));
         }
         return targetList;
     }
@@ -143,7 +143,7 @@ public class RealmImageObject implements ImageObject {
         RealmResults<Target> targetResults = mRealm.where(Target.class)
                 .equalTo("imageId", mImage.imageId).findAll();
         for (Target target : targetResults) {
-            (new RealmTargetObject(mRealm, target, mDataManager, mDebugManager)).delete();
+            (new RealmTargetInterfaceObject(mRealm, target, mDataManager, mDebugManager)).delete();
         }
 
         // Delete image

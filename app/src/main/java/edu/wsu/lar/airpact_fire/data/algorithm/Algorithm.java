@@ -14,9 +14,6 @@ import edu.wsu.lar.airpact_fire.server.contract.ServerContract;
  * collect them. This is the reason each {@link Algorithm} is mapped to a
  * fragment, which initiates a set of steps.
  * </p>
- *
- * @author Luke Weber
- * @since 0.9
  */
 public interface Algorithm {
 

@@ -10,6 +10,10 @@ import android.widget.Toast;
 import edu.wsu.lar.airpact_fire.ui.activity.SignInActivity;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Implementors of this class will handle the pre- and post-authentication
+ * steps.
+ */
 public class AuthenticationServerCallback implements ServerCallback {
 
     private Activity mActivity;

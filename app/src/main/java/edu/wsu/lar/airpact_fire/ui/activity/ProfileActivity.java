@@ -16,22 +16,22 @@ import android.widget.TextView;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import lar.wsu.edu.airpact_fire.R;
 
 /**
  * Activity for user to view their profile stats and visit
  * their online profile.
  *
- * @see UserObject
+ * @see UserInterfaceObject
  */
 public class ProfileActivity extends AppCompatActivity {
 
     private static final String sActionBarTitle = "Profile";
 
     private AppManager mAppManager;
-    private UserObject mUserObject;
+    private UserInterfaceObject mUserInterfaceObject;
 
     private ActionBar mActionBar;
     private TextView mUsernameTextView;
@@ -54,7 +54,7 @@ public class ProfileActivity extends AppCompatActivity {
         mAppManager = Reference.getAppManager();
         mAppManager.onActivityStart(this);
 
-        mUserObject = mAppManager.getDataManager().getApp().getLastUser();
+        mUserInterfaceObject = mAppManager.getDataManager().getApp().getLastUser();
 
         mUsernameTextView = (TextView) findViewById(R.id.username_text_view);
         mFirstLoginDateTextView = (TextView) findViewById(R.id.first_login_date_text_view);
@@ -63,15 +63,15 @@ public class ProfileActivity extends AppCompatActivity {
                 findViewById(R.id.number_submitted_posts_text_view);
         mWebButton = (Button) findViewById(R.id.web_button);
 
-        mUsernameTextView.setText(mUserObject.getUsername());
-        mFirstLoginDateTextView.setText(mUserObject.getFirstLoginDate().toString());
-        int sessionCount = (mUserObject.getSessions() == null)
+        mUsernameTextView.setText(mUserInterfaceObject.getUsername());
+        mFirstLoginDateTextView.setText(mUserInterfaceObject.getFirstLoginDate().toString());
+        int sessionCount = (mUserInterfaceObject.getSessions() == null)
                 ? 0
-                : mUserObject.getSessions().size();
+                : mUserInterfaceObject.getSessions().size();
         mNumberLoginsTextView.setText("" + sessionCount);
         int submittedPostCount = 0;
-        for (PostObject postObject : mUserObject.getPosts()) {
-            if (DataManager.getPostMode(postObject.getMode()) == DataManager.PostMode.SUBMITTED) {
+        for (PostInterfaceObject postInterfaceObject : mUserInterfaceObject.getPosts()) {
+            if (DataManager.getPostMode(postInterfaceObject.getMode()) == DataManager.PostMode.SUBMITTED) {
                 submittedPostCount++;
             }
         }
@@ -80,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
         mWebButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse(Reference.SERVER_PROFILE_BASE_URL + mUserObject.getUsername());
+                Uri uri = Uri.parse(Reference.SERVER_PROFILE_BASE_URL + mUserInterfaceObject.getUsername());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
             }

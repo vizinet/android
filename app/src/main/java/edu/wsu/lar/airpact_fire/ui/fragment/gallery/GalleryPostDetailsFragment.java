@@ -16,18 +16,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.server.callback.SubmissionServerCallback;
 import edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Page for showing a single post's complete details.
+ */
 public class GalleryPostDetailsFragment extends Fragment {
 
     private static final String sActionBarTitle = "Post Details";
 
     private AppManager mAppManager;
-    private PostObject mPostObject;
+    private PostInterfaceObject mPostInterfaceObject;
 
     private ImageView mPostImageView;
     private ImageView mSubmittedImageView;
@@ -77,7 +80,7 @@ public class GalleryPostDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SubmissionServerCallback submissionServerCallback =
-                        new SubmissionServerCallback(getActivity(), mPostObject) {
+                        new SubmissionServerCallback(getActivity(), mPostInterfaceObject) {
                             @Override
                             public Object onFinish(Object... args) {
                                 super.onFinish(args);
@@ -85,7 +88,7 @@ public class GalleryPostDetailsFragment extends Fragment {
                                 return null;
                             }
                         };
-                mAppManager.getServerManager().onSubmit(getActivity(), mPostObject,
+                mAppManager.getServerManager().onSubmit(getActivity(), mPostInterfaceObject,
                         submissionServerCallback);
             }
         });
@@ -94,17 +97,19 @@ public class GalleryPostDetailsFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(
-                        Reference.SERVER_IMAGE_BASE_URL + mPostObject.getServerId()));
+                        Reference.SERVER_IMAGE_BASE_URL + mPostInterfaceObject.getServerId()));
                 startActivity(intent);
             }
         });
         mMapsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                double[] gps = mPostObject.getImageObjects().get(0).getGps();
+                double[] gps = mPostInterfaceObject.getImageObjects().get(0).getGps();
                 Intent intent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse(String.format("geo:%s,%s?q=%s,%s(%s+%s)",
-                                gps[0], gps[1], gps[0], gps[1], mPostObject.getLocation(), "")));
+                                gps[0], gps[1],
+                                gps[0], gps[1],
+                                mPostInterfaceObject.getLocation(), "")));
                 startActivity(intent);
             }
         });
@@ -112,16 +117,16 @@ public class GalleryPostDetailsFragment extends Fragment {
         return view;
     }
 
-    public void setArguments(PostObject postObject) {
-        mPostObject = postObject;
+    public void setArguments(PostInterfaceObject postInterfaceObject) {
+        mPostInterfaceObject = postInterfaceObject;
     }
 
     private void populateDetails() {
 
         // Get post mode & algorithm (two distinguishing features)
-        DataManager.PostMode postMode = DataManager.getPostMode(mPostObject.getMode());
+        DataManager.PostMode postMode = DataManager.getPostMode(mPostInterfaceObject.getMode());
         DataManager.PostAlgorithm postAlgorithm =
-                DataManager.getAlgorithm(mPostObject.getAlgorithm());
+                DataManager.getAlgorithm(mPostInterfaceObject.getAlgorithm());
 
         // Display differently for queued images
         if (postMode == DataManager.PostMode.QUEUED) {
@@ -143,14 +148,14 @@ public class GalleryPostDetailsFragment extends Fragment {
         }
 
         // Populate views with post details
-        mPostImageView.setImageBitmap(mPostObject.getThumbnail());
-        mLocationTextView.setText(mPostObject.getLocation());
+        mPostImageView.setImageBitmap(mPostInterfaceObject.getThumbnail());
+        mLocationTextView.setText(mPostInterfaceObject.getLocation());
         mEstimatedVisualRangeTextView.setText(
-                String.format("%s (estimated)", mPostObject.getEstimatedVisualRange()));
+                String.format("%s (estimated)", mPostInterfaceObject.getEstimatedVisualRange()));
         mComputedVisualRangeTextView.setText(
-                String.format("%s (computed)", mPostObject.getComputedVisualRange()));
+                String.format("%s (computed)", mPostInterfaceObject.getComputedVisualRange()));
         mAlgorithmTypeTextView.setText(postAlgorithm.getInstance().getAbbreviation());
-        mDescriptionTextView.setText(mPostObject.getDescription());
-        mDatetimeTextView.setText(mPostObject.getDate().toString());
+        mDescriptionTextView.setText(mPostInterfaceObject.getDescription());
+        mDatetimeTextView.setText(mPostInterfaceObject.getDate().toString());
     }
 }

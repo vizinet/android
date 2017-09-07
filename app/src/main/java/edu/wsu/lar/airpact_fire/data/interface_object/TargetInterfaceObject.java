@@ -2,9 +2,13 @@
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
-package edu.wsu.lar.airpact_fire.data.object;
+package edu.wsu.lar.airpact_fire.data.interface_object;
 
-public interface TargetObject {
+/**
+ * UI object representing a target placed upon an image (which in
+ * turn is represented by an {@link ImageInterfaceObject}.
+ */
+public interface TargetInterfaceObject extends InterfaceObject {
 
     float getDistance();
     void setDistance(float value);

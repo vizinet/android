@@ -16,8 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.fragment.gallery.GalleryPostDetailsFragment;
 import edu.wsu.lar.airpact_fire.ui.fragment.gallery.MainGalleryFragment;
 import lar.wsu.edu.airpact_fire.R;
@@ -29,7 +29,7 @@ import lar.wsu.edu.airpact_fire.R;
 public class GalleryActivity extends AppCompatActivity {
 
     private AppManager mAppManager;
-    private UserObject mUserObject;
+    private UserInterfaceObject mUserInterfaceObject;
 
     private ActionBar mActionBar;
 
@@ -53,7 +53,7 @@ public class GalleryActivity extends AppCompatActivity {
         mAppManager = Reference.getAppManager();
         mAppManager.onActivityStart(this);
 
-        mUserObject = mAppManager.getDataManager().getApp().getLastUser();
+        mUserInterfaceObject = mAppManager.getDataManager().getApp().getLastUser();
 
         if (findViewById(R.id.gallery_container) != null) {
 
@@ -64,9 +64,10 @@ public class GalleryActivity extends AppCompatActivity {
             Integer postId = getIntent().getIntExtra("TARGETED_POST_DETAILS", -1);
             if (postId > 0) {
                 // Specific post details requested from outside activity
-                PostObject postObject = mUserObject.getPost(postId);
+                PostInterfaceObject postInterfaceObject = mUserInterfaceObject.getPost(postId);
                 Fragment postDetailsFragment = new GalleryPostDetailsFragment();
-                ((GalleryPostDetailsFragment) postDetailsFragment).setArguments(postObject);
+                ((GalleryPostDetailsFragment) postDetailsFragment)
+                        .setArguments(postInterfaceObject);
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.gallery_container, postDetailsFragment).commit();
             } else {
@@ -105,7 +106,6 @@ public class GalleryActivity extends AppCompatActivity {
 
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
 
@@ -137,7 +137,7 @@ public class GalleryActivity extends AppCompatActivity {
         return mAppManager;
     }
 
-    public UserObject getUserObject() {
-        return mUserObject;
+    public UserInterfaceObject getUserObject() {
+        return mUserInterfaceObject;
     }
 }

@@ -4,19 +4,13 @@
 
 package edu.wsu.lar.airpact_fire.ui.fragment.image_lab.ofo;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -28,11 +22,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import java.util.Date;
-import edu.wsu.lar.airpact_fire.app.Reference;
-import edu.wsu.lar.airpact_fire.app.manager.AppManager;
-import edu.wsu.lar.airpact_fire.data.object.ImageObject;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.TargetObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.TargetInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import edu.wsu.lar.airpact_fire.ui.fragment.image_lab.VisualRangeFragment;
 import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
@@ -40,6 +32,15 @@ import lar.wsu.edu.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * Page resulting from the first second capture in a series
+ * of two captures, but this time the user must be closer
+ * to the same Point of Interest as in {@link OneForOneAlphaFragment}.
+ *
+ * <p>Same input process as in {@link OneForOneAlphaFragment}.</p>
+ *
+ * @see edu.wsu.lar.airpact_fire.data.algorithm.ofo.OneForOneAlgorithm
+ */
 public class OneForOneBetaFragment extends Fragment {
 
     private static final String sActionBarTitle = "Target Selection 2/2";
@@ -48,9 +49,9 @@ public class OneForOneBetaFragment extends Fragment {
     private static final int sTargetCount = 1;
     private static final int sFragmentId = 1;
 
-    private PostObject mPostObject;
-    private ImageObject mImageObject;
-    private TargetObject mTargetObject;
+    private PostInterfaceObject mPostInterfaceObject;
+    private ImageInterfaceObject mImageInterfaceObject;
+    private TargetInterfaceObject mTargetInterfaceObject;
 
     private UiTargetManager mUiTargetManager;
     private int mSelectedTargetId;
@@ -71,10 +72,10 @@ public class OneForOneBetaFragment extends Fragment {
         ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
         // Get fields from activity
-        mPostObject = ((ImageLabActivity) getActivity()).getPostObject();
+        mPostInterfaceObject = ((ImageLabActivity) getActivity()).getPostObject();
         mUiTargetManager = ((ImageLabActivity) getActivity()).getUITargetManager();
-        mImageObject = mPostObject.createImageObject();
-        mTargetObject = mImageObject.createTargetObject();
+        mImageInterfaceObject = mPostInterfaceObject.createImageObject();
+        mTargetInterfaceObject = mImageInterfaceObject.createTargetObject();
 
         // Get views
         View view = inflater.inflate(R.layout.fragment_one_for_one_beta, container, false);
@@ -125,8 +126,8 @@ public class OneForOneBetaFragment extends Fragment {
                 float[] targetCoordinates = mUiTargetManager
                         .getTargetImagePosition(mSelectedTargetId);
 
-                mTargetObject.setDistance(targetDistance);
-                mTargetObject.setCoordinates(targetCoordinates);
+                mTargetInterfaceObject.setDistance(targetDistance);
+                mTargetInterfaceObject.setCoordinates(targetCoordinates);
                 mUiTargetManager.hideAll();
 
                 // Proceed to enter visual range
@@ -146,7 +147,7 @@ public class OneForOneBetaFragment extends Fragment {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
 
-            Uri imageUri = mImageObject.createImage();
+            Uri imageUri = mImageInterfaceObject.createImage();
 
             // Make sure we get file back, and enforce PORTRAIT camera mode
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
@@ -170,7 +171,7 @@ public class OneForOneBetaFragment extends Fragment {
         if (requestCode == sRequestImageCapture && resultCode == RESULT_OK) {
 
             // Get bitmap
-            Bitmap bitmap = mImageObject.getBitmap();
+            Bitmap bitmap = mImageInterfaceObject.getBitmap();
             if (bitmap == null) {
                 // Abort mission
                 //handleImageFailure();
@@ -186,11 +187,12 @@ public class OneForOneBetaFragment extends Fragment {
                     (screenWidth / (float) bitmap.getWidth()));
             int imageWidth = screenWidth;
             bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, true);
-            mImageObject.setImage(bitmap);
+            mImageInterfaceObject.setImage(bitmap);
 
             // Set date the moment the image has been captured
-            mPostObject.setDate(new Date());
-            mImageObject.setGps(((ImageLabActivity) getActivity()).getAppManager().getGps());
+            mPostInterfaceObject.setDate(new Date());
+            mImageInterfaceObject.setGps(((ImageLabActivity) getActivity())
+                    .getAppManager().getGps());
             mMainImageView.setImageBitmap(bitmap);
             mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
 

@@ -8,18 +8,22 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.widget.Toast;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Server callback for handling pre- and post-submission functions
+ * for posts.
+ */
 public class SubmissionServerCallback implements ServerCallback {
 
     private Activity mActivity;
-    private PostObject mPostObject;
+    private PostInterfaceObject mPostInterfaceObject;
     private ProgressDialog mProgress;
 
-    public SubmissionServerCallback(Activity activity, PostObject postObject) {
+    public SubmissionServerCallback(Activity activity, PostInterfaceObject postInterfaceObject) {
         mActivity = activity;
-        mPostObject = postObject;
+        mPostInterfaceObject = postInterfaceObject;
     }
 
     @Override
@@ -43,12 +47,12 @@ public class SubmissionServerCallback implements ServerCallback {
         int serverImageId = (int) args[2];
 
         if (didSubmit) {
-            mPostObject.setMode(DataManager.PostMode.SUBMITTED.getId());
-            mPostObject.setComputedVisualRange((float) serverOutput);
-            mPostObject.setServerId("" + serverImageId);
+            mPostInterfaceObject.setMode(DataManager.PostMode.SUBMITTED.getId());
+            mPostInterfaceObject.setComputedVisualRange((float) serverOutput);
+            mPostInterfaceObject.setServerId("" + serverImageId);
             Toast.makeText(mActivity, R.string.submission_success, Toast.LENGTH_LONG).show();
         } else {
-            mPostObject.setMode(DataManager.PostMode.QUEUED.getId());
+            mPostInterfaceObject.setMode(DataManager.PostMode.QUEUED.getId());
             Toast.makeText(mActivity, R.string.submission_failed, Toast.LENGTH_SHORT).show();
         }
 

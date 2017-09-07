@@ -2,21 +2,15 @@
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
-package edu.wsu.lar.airpact_fire.data.object;
+package edu.wsu.lar.airpact_fire.data.interface_object;
 
 import java.util.Date;
 import java.util.List;
 
 /**
- * User object interface for UI to deal with.
- *
- * <p>Changes made to implementors of this interface will be reflected
- * in the database.</p>
- *
- * @author  Luke Weber
- * @since   0.9
+ * User object interface for UI to handle and edit.
  */
-public interface UserObject {
+public interface UserInterfaceObject extends InterfaceObject {
 
     // Readonly: user credentials
     String getUsername();
@@ -28,13 +22,13 @@ public interface UserObject {
     boolean getHasDraftPost();
     void setHasDraftPost(boolean value);
 
-    List<SessionObject> getSessions();
+    List<SessionInterfaceObject> getSessions();
 
-    List<PostObject> getPosts();
-    List<PostObject> getPosts(int start, int end);
-    PostObject getPost(int id);
-    PostObject getLastPost();
-    PostObject createPost();
+    List<PostInterfaceObject> getPosts();
+    List<PostInterfaceObject> getPosts(int start, int end);
+    PostInterfaceObject getPost(int id);
+    PostInterfaceObject getLastPost();
+    PostInterfaceObject createPost();
 
     int getDistanceMetric();
     void setDistanceMetric(int value);

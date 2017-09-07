@@ -17,12 +17,18 @@ import java.util.ArrayList;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
+import edu.wsu.lar.airpact_fire.data.interface_object.SessionInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.SessionObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Starting page in {@link ImageLabActivity} for user to select
+ * the algorithm they would like to use to complete this post.
+ *
+ * @see Algorithm
+ */
 public class AlgorithmSelectFragment extends Fragment {
 
     private static final String sActionBarTitle = "Select Algorithm";
@@ -77,17 +83,19 @@ public class AlgorithmSelectFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                UserObject userObject = mAppManager.getDataManager().getApp().getLastUser();
-                SessionObject sessionObject = mAppManager.getDataManager().getApp()
-                        .getLastSession();
+                UserInterfaceObject userInterfaceObject = mAppManager.getDataManager()
+                        .getApp().getLastUser();
+                SessionInterfaceObject sessionInterfaceObject = mAppManager.getDataManager()
+                        .getApp().getLastSession();
 
                 // Update database with selections
                 // NOTE: Modulus because radio button ID's are not reallocated once this fragment
                 // is repopulated
                 int radioButtonId = ((mAlgorithmRadioGroup.getCheckedRadioButtonId() - 1)
                         % mAlgorithmRadioGroup.getChildCount()) + 1;
-                userObject.setRememberAlgorithmChoice(mRememberAlgorithmCheckBox.isChecked());
-                //sessionObject.setSelectedAlgorithm(radioButtonId);
+                userInterfaceObject.setRememberAlgorithmChoice(mRememberAlgorithmCheckBox
+                        .isChecked());
+                //sessionInterfaceObject.setSelectedAlgorithm(radioButtonId);
 
                 // Grab algorithm of choice & notify parent activity
                 Algorithm selectedAlgorithm = mAlgorithms.get(radioButtonId - 1);

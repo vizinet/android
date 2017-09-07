@@ -5,11 +5,10 @@
 package edu.wsu.lar.airpact_fire.data.manager;
 
 import android.app.Activity;
-
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.algorithm.ofo.OneForOneAlgorithm;
 import edu.wsu.lar.airpact_fire.data.algorithm.tio.TwoInOneAlgorithm;
-import edu.wsu.lar.airpact_fire.data.object.AppObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.AppInterfaceObject;
 
 /**
  * This abstract class consists of variables and methods for handling this app's
@@ -21,12 +20,11 @@ import edu.wsu.lar.airpact_fire.data.object.AppObject;
  * Any implementer of this class must be initialized for its methods to be called.
  * </p>
  *
- * <p>Any DataManager deals with the lending of database objects (e.g. AppObject)
+ * <p>Any DataManager deals with the lending of database objects (e.g. AppInterfaceObject)
  * to the UI, as well as conforming to standard (and custom) activity lifecycle
  * methods, such as onLogin, onAppFirstStart, and onActivityEnd.</p>
  *
- * @author  Luke Weber
- * @since   0.9
+ * @see edu.wsu.lar.airpact_fire.app.manager.AppManager
  */
 public abstract class DataManager {
 
@@ -34,7 +32,6 @@ public abstract class DataManager {
      * Enum of post modes internal to app, designating how we treat particular posts.
      *
      * <p>We refer to these metrics on a 1-based index.</p>
-     *
      */
     public enum PostMode {
 
@@ -105,23 +102,15 @@ public abstract class DataManager {
     }
 
     /** @return app object, key to all of database access for UI. */
-    public abstract AppObject getApp();
+    public abstract AppInterfaceObject getApp();
     public abstract Activity getActivity();
     public abstract int generateSessionId();
     public abstract int generatePostId();
     public abstract int generateImageId();
     public abstract int generateTargetId();
 
-    // Activity lifecycle methods
-    /** TODO: Adapt the below doc
-     * Finds the maximum value of a field.
-     *
-     * @param fieldName the field to look for a maximum on. Only number fields are supported.
-     * @return if no objects exist or they all have {@code null} as the value for the given field, {@code null} will be
-     * returned. Otherwise the maximum value is returned. When determining the maximum value, objects with {@code null}
-     * values are ignored.
-     * @throws java.lang.IllegalArgumentException if the field is not a number type.
-     */
+    /* Activity lifecycle methods */
+
     public abstract void onAppFirstRun(Object... args);
     public abstract void onAppStart(Object... args);
     public abstract void onAppEnd(Object... args);

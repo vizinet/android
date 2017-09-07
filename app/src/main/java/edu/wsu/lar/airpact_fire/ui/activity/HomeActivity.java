@@ -32,9 +32,9 @@ import java.util.List;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.app.service.GpsService;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import lar.wsu.edu.airpact_fire.R;
 
 /**
@@ -54,14 +54,14 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private AppManager mAppManager;
     private DataManager mDataManager;
-    private UserObject mUserObject;
+    private UserInterfaceObject mUserInterfaceObject;
 
     private ActionBar mActionBar;
     private GoogleMap mGoogleMap;
     private Button mCaptureButton;
     private Button mGalleryButton;
 
-    private HashMap<Marker, PostObject> mMarkerMap = new HashMap<>();
+    private HashMap<Marker, PostInterfaceObject> mMarkerMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mAppManager = Reference.getAppManager();
         mAppManager.onActivityStart(this);
         mDataManager = mAppManager.getDataManager();
-        mUserObject = mDataManager.getApp().getLastUser();
+        mUserInterfaceObject = mDataManager.getApp().getLastUser();
 
         // Listen for when GPS is available
         mAppManager.subscribeGpsAvailable(new AppManager.GpsAvailableCallback() {
@@ -94,7 +94,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 GradientDrawable.Orientation.TOP_BOTTOM,
                 new int[]{ Color.WHITE, Color.TRANSPARENT });
         mActionBar.setBackgroundDrawable(gd);
-        mActionBar.setTitle(mUserObject.getUsername());
+        mActionBar.setTitle(mUserInterfaceObject.getUsername());
 
         // Map fragment loading
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
@@ -186,31 +186,31 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mGoogleMap = map;
 
         // Add post locations to map
-        List<PostObject> postObjects = mUserObject.getPosts();
-        for (PostObject postObject : postObjects) {
+        List<PostInterfaceObject> postInterfaceObjects = mUserInterfaceObject.getPosts();
+        for (PostInterfaceObject postInterfaceObject : postInterfaceObjects) {
 
-            DataManager.PostMode postMode = DataManager.getPostMode(postObject.getMode());
+            DataManager.PostMode postMode = DataManager.getPostMode(postInterfaceObject.getMode());
             if (postMode == DataManager.PostMode.DRAFTED) {
                 // Catch those stray incomplete posts and delete them
-                postObject.delete();
+                postInterfaceObject.delete();
                 continue;
             }
 
-            String postSnippet = postObject.getDate().toString();
-            double[] postGps = postObject.getImageObjects().get(0).getGps();
+            String postSnippet = postInterfaceObject.getDate().toString();
+            double[] postGps = postInterfaceObject.getImageObjects().get(0).getGps();
 
             // Display queued and submitted posts differently
             String postTitle;
             float postMarkerColor;
             if (postMode == DataManager.PostMode.SUBMITTED) {
-                postTitle = postObject.getLocation() + " [submitted]";
+                postTitle = postInterfaceObject.getLocation() + " [submitted]";
                 postMarkerColor = BitmapDescriptorFactory.HUE_RED;
             } else if (postMode == DataManager.PostMode.QUEUED) {
-                postTitle = postObject.getLocation() + " [queued]";
+                postTitle = postInterfaceObject.getLocation() + " [queued]";
                 postMarkerColor = BitmapDescriptorFactory.HUE_YELLOW;
             } else {
                 // ERROR: some other kind of post we don't support
-                postObject.delete();
+                postInterfaceObject.delete();
                 continue;
             }
 
@@ -220,7 +220,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .title(postTitle)
                     .snippet(postSnippet)
                     .icon(BitmapDescriptorFactory.defaultMarker(postMarkerColor)));
-            mMarkerMap.put(marker, postObject);
+            mMarkerMap.put(marker, postInterfaceObject);
         }
 
         // Map display details and preferences
@@ -238,9 +238,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onInfoWindowClick(Marker marker) {
 
         // Open up the post details in gallery
-        PostObject postObject = mMarkerMap.get(marker);
+        PostInterfaceObject postInterfaceObject = mMarkerMap.get(marker);
         Intent intent = new Intent(getBaseContext(), GalleryActivity.class);
-        intent.putExtra("TARGETED_POST_DETAILS", postObject.getId());
+        intent.putExtra("TARGETED_POST_DETAILS", postInterfaceObject.getId());
         startActivity(intent);
     }
 
@@ -258,7 +258,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         @Override
         public View getInfoContents(Marker marker) {
 
-            PostObject postObject = mMarkerMap.get(marker);
+            PostInterfaceObject postInterfaceObject = mMarkerMap.get(marker);
             View infoWindowView = getLayoutInflater().inflate(R.layout.layout_map_info_window, null);
 
             ImageView postImageView = (ImageView)
@@ -272,14 +272,14 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             TextView postDateTextView = (TextView)
                     infoWindowView.findViewById(R.id.post_date_text_view);
 
-            postImageView.setImageBitmap(postObject.getThumbnail(250));
+            postImageView.setImageBitmap(postInterfaceObject.getThumbnail(250));
             postLocationTextView.setText(String.format("%s",
-                    postObject.getLocation().toUpperCase()));
+                    postInterfaceObject.getLocation().toUpperCase()));
             postStatusTextView.setText(String.format("[%s]",
-                    DataManager.getPostMode(postObject.getMode()).getName()).toLowerCase());
+                    DataManager.getPostMode(postInterfaceObject.getMode()).getName()).toLowerCase());
             postVisualRangeTextView.setText(String.format("VR: %s km",
-                    Math.round(postObject.getComputedVisualRange())));
-            postDateTextView.setText(postObject.getDate().toString());
+                    Math.round(postInterfaceObject.getComputedVisualRange())));
+            postDateTextView.setText(postInterfaceObject.getDate().toString());
 
             return infoWindowView;
         }

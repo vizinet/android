@@ -2,12 +2,12 @@
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
-package edu.wsu.lar.airpact_fire.data.realm.object;
+package edu.wsu.lar.airpact_fire.data.realm.interface_object;
 
+import edu.wsu.lar.airpact_fire.data.interface_object.SessionInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.AppObject;
-import edu.wsu.lar.airpact_fire.data.object.SessionObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.AppInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.App;
 import edu.wsu.lar.airpact_fire.data.realm.model.Session;
 import edu.wsu.lar.airpact_fire.data.realm.model.User;
@@ -16,14 +16,16 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-/** @see AppObject */
-public class RealmAppObject implements AppObject {
+/**
+ * Realm implementation of the {@link AppInterfaceObject}.
+ */
+public class RealmAppInterfaceObject implements AppInterfaceObject {
 
     private Realm mRealm;
     private DataManager mDataManager;
     private DebugManager mDebugManager;
 
-    public RealmAppObject(Realm realm, DataManager dataManager, DebugManager debugManager) {
+    public RealmAppInterfaceObject(Realm realm, DataManager dataManager, DebugManager debugManager) {
         mRealm = realm;
         mDataManager = dataManager;
         mDebugManager = debugManager;
@@ -44,15 +46,15 @@ public class RealmAppObject implements AppObject {
     }
 
     @Override
-    public UserObject getLastUser() {
-        SessionObject lastSession = getLastSession();
+    public UserInterfaceObject getLastUser() {
+        SessionInterfaceObject lastSession = getLastSession();
         if (lastSession == null) { return null; }
-        return new RealmUserObject(mRealm, lastSession.getUser().getUsername(),
+        return new RealmUserInterfaceObject(mRealm, lastSession.getUser().getUsername(),
                 mDataManager, mDebugManager);
     }
 
     @Override
-    public UserObject getUser(String username, String password) {
+    public UserInterfaceObject getUser(String username, String password) {
 
         // Ensure username and password match-up in DB
         User matchUser = mRealm.where(User.class)
@@ -61,11 +63,11 @@ public class RealmAppObject implements AppObject {
                 .findFirst();
         return (matchUser == null)
                 ? null
-                : new RealmUserObject(mRealm, matchUser, mDataManager, mDebugManager);
+                : new RealmUserInterfaceObject(mRealm, matchUser, mDataManager, mDebugManager);
     }
 
     @Override
-    public SessionObject getLastSession() {
+    public SessionInterfaceObject getLastSession() {
 
         // Get sessions ordered by date
         RealmResults<Session> orderedSessions = mRealm.where(Session.class).findAllSorted(
@@ -74,11 +76,11 @@ public class RealmAppObject implements AppObject {
 
         // Get user of most recent session
         Session lastSession = orderedSessions.first();
-        return new RealmSessionObject(mRealm, lastSession, mDataManager, mDebugManager);
+        return new RealmSessionInterfaceObject(mRealm, lastSession, mDataManager, mDebugManager);
     }
 
     @Override
-    public SessionObject getSession() {
+    public SessionInterfaceObject getSession() {
         return null;
     }
 

@@ -8,7 +8,11 @@ import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.server.contract.ServerContract;
 import edu.wsu.lar.airpact_fire.ui.fragment.image_lab.tio.TwoInOneFragment;
 
-/** @see Algorithm */
+/**
+ * Implementation of the two-in-one algorithm, a procedure defined
+ * as taking a single image of a Point of Interest and estimating
+ * the distance and Visual Range in that single view.
+ */
 public class TwoInOneAlgorithm implements Algorithm {
 
     @Override

@@ -10,6 +10,9 @@ import io.realm.annotations.PrimaryKey;
 
 import static edu.wsu.lar.airpact_fire.app.Reference.*;
 
+/**
+ * Realm portrayal of a user in the app.
+ */
 public class User extends RealmObject {
 
     @PrimaryKey
@@ -17,8 +20,7 @@ public class User extends RealmObject {
     public String password;
     public RealmList<Session> sessions;     // App usage sessions by this user
     public RealmList<Post> posts;           // Queued and submitted posts
-    /** @see DISTANCE_METRICS */
-    public int distanceMetric;
+    public int distanceMetric;              /** @see DISTANCE_METRICS */
     public boolean rememberAlgorithmChoice;
 
     @Override

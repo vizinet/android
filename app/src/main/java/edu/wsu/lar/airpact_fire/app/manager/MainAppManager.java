@@ -16,8 +16,8 @@ import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import edu.wsu.lar.airpact_fire.app.service.GpsService;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.data.realm.manager.RealmDataManager;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.server.callback.ServerCallback;
@@ -27,6 +27,9 @@ import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * First implementation of the {@link AppManager} interface.
+ */
 public class MainAppManager extends AppManager {
 
     private static final boolean sIsDebugging = true;
@@ -96,6 +99,7 @@ public class MainAppManager extends AppManager {
 
     @Override
     public void rebindGpsService() {
+
         if (isServiceRunning(GpsService.class)) {
             Intent serviceIntent = new Intent(mActivity, GpsService.class);
             mActivity.bindService(serviceIntent, new ServiceConnection() {
@@ -122,6 +126,8 @@ public class MainAppManager extends AppManager {
     @Override
     public void endGpsService() {
         // Stop GPS end GPS service
+        Intent serviceIntent = new Intent(mActivity, GpsService.class);
+        mActivity.stopService(serviceIntent);
     }
 
     @Override
@@ -229,9 +235,9 @@ public class MainAppManager extends AppManager {
     }
 
     @Override
-    public void onSubmit(PostObject postObject, ServerCallback serverCallback) {
+    public void onSubmit(PostInterfaceObject postInterfaceObject, ServerCallback serverCallback) {
         // Attempt submission to server, update database with results
-        mServerManager.onSubmit(mActivity.getApplicationContext(), postObject, serverCallback);
+        mServerManager.onSubmit(mActivity.getApplicationContext(), postInterfaceObject, serverCallback);
     }
 
     /**
@@ -243,6 +249,7 @@ public class MainAppManager extends AppManager {
      * @param activity
      */
     private void verifyStoragePermissions(Activity activity) {
+
         // Check if we have write permission
         int permission = ActivityCompat.checkSelfPermission(activity,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -259,6 +266,7 @@ public class MainAppManager extends AppManager {
     }
 
     private boolean isServiceRunning(Class<?> serviceClass) {
+
         ActivityManager manager = (ActivityManager)
                 mActivity.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service :

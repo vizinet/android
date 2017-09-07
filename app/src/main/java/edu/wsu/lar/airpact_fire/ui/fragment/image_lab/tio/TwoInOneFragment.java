@@ -4,21 +4,14 @@
 
 package edu.wsu.lar.airpact_fire.ui.fragment.image_lab.tio;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -33,11 +26,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import edu.wsu.lar.airpact_fire.app.Reference;
-import edu.wsu.lar.airpact_fire.app.manager.AppManager;
-import edu.wsu.lar.airpact_fire.data.object.ImageObject;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.TargetObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.TargetInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import edu.wsu.lar.airpact_fire.ui.fragment.image_lab.VisualRangeFragment;
 import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
@@ -45,6 +36,13 @@ import lar.wsu.edu.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
 
+/**
+ * Single page for image capture and placement of two targets on
+ * two Points of Interest, along with the inputting of their
+ * corresponding distance away from the user.
+ *
+ * @see edu.wsu.lar.airpact_fire.data.algorithm.tio.TwoInOneAlgorithm
+ */
 public class TwoInOneFragment extends Fragment {
 
     private static final String sActionBarTitle = "Target Selections";
@@ -53,10 +51,10 @@ public class TwoInOneFragment extends Fragment {
     private static final int sTargetCount = 2;
     private static final int sFragmentId = 3;
 
-    private PostObject mPostObject;
-    private ImageObject mImageObject;
-    private TargetObject mTargetObjectOne;
-    private TargetObject mTargetObjectTwo;
+    private PostInterfaceObject mPostInterfaceObject;
+    private ImageInterfaceObject mImageInterfaceObject;
+    private TargetInterfaceObject mTargetInterfaceObjectOne;
+    private TargetInterfaceObject mTargetInterfaceObjectTwo;
 
     private UiTargetManager mUiTargetManager;
     private List<ImageView> mTargetColorImageViews;
@@ -86,11 +84,11 @@ public class TwoInOneFragment extends Fragment {
         ((ImageLabActivity) getActivity()).clearPadding();
 
         // Get fields from activity
-        mPostObject = ((ImageLabActivity) getActivity()).getPostObject();
+        mPostInterfaceObject = ((ImageLabActivity) getActivity()).getPostObject();
         mUiTargetManager = ((ImageLabActivity) getActivity()).getUITargetManager();
-        mImageObject = mPostObject.createImageObject();
-        mTargetObjectOne = mImageObject.createTargetObject();
-        mTargetObjectTwo = mImageObject.createTargetObject();
+        mImageInterfaceObject = mPostInterfaceObject.createImageObject();
+        mTargetInterfaceObjectOne = mImageInterfaceObject.createTargetObject();
+        mTargetInterfaceObjectTwo = mImageInterfaceObject.createTargetObject();
 
         // Get standard views
         View view = inflater.inflate(R.layout.fragment_two_in_one, container, false);
@@ -183,10 +181,10 @@ public class TwoInOneFragment extends Fragment {
                 float[] targetTwoCoordinates = mUiTargetManager
                         .getTargetImagePosition(1);
 
-                mTargetObjectOne.setDistance(targetOneDistance);
-                mTargetObjectOne.setCoordinates(targetOneCoordinates);
-                mTargetObjectTwo.setDistance(targetTwoDistance);
-                mTargetObjectTwo.setCoordinates(targetTwoCoordinates);
+                mTargetInterfaceObjectOne.setDistance(targetOneDistance);
+                mTargetInterfaceObjectOne.setCoordinates(targetOneCoordinates);
+                mTargetInterfaceObjectTwo.setDistance(targetTwoDistance);
+                mTargetInterfaceObjectTwo.setCoordinates(targetTwoCoordinates);
 
                 mUiTargetManager.hideAll();
 
@@ -206,7 +204,7 @@ public class TwoInOneFragment extends Fragment {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
 
-            Uri imageUri = mImageObject.createImage();
+            Uri imageUri = mImageInterfaceObject.createImage();
 
             // Make sure we get file back, and enforce PORTRAIT camera mode
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
@@ -230,7 +228,7 @@ public class TwoInOneFragment extends Fragment {
         if (requestCode == sRequestImageCapture && resultCode == RESULT_OK) {
 
             // Get bitmap
-            Bitmap bitmap = mImageObject.getBitmap();
+            Bitmap bitmap = mImageInterfaceObject.getBitmap();
             if (bitmap == null) {
                 // Abort mission
                 //handleImageFailure();
@@ -246,10 +244,11 @@ public class TwoInOneFragment extends Fragment {
                     (screenWidth / (float) bitmap.getWidth()));
             int imageWidth = screenWidth;
             bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, true);
-            mImageObject.setImage(bitmap);
+            mImageInterfaceObject.setImage(bitmap);
 
-            mPostObject.setDate(new Date());
-            mImageObject.setGps(((ImageLabActivity) getActivity()).getAppManager().getGps());
+            mPostInterfaceObject.setDate(new Date());
+            mImageInterfaceObject.setGps(((ImageLabActivity) getActivity())
+                    .getAppManager().getGps());
             mMainImageView.setImageBitmap(bitmap);
             mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
 

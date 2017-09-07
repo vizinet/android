@@ -8,10 +8,7 @@ import edu.wsu.lar.airpact_fire.app.manager.MainAppManager;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 
 /**
- * Single point of reference regarding constants for whole app.
- *
- * @author  Luke Weber
- * @since   0.9
+ * Single point of reference regarding constant values for whole app.
  */
 public final class Reference {
 
@@ -42,7 +39,6 @@ public final class Reference {
      * Array of distance metrics agreed upon by server and app.
      *
      * <p>We refer to these metrics on a 1-based index.</p>
-     *
      */
     public static final String[] DISTANCE_METRICS = {
             "kilometers",               // 1

@@ -1,6 +1,5 @@
 package edu.wsu.lar.airpact_fire.ui.activity;
 
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -19,10 +18,8 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
-
-import edu.wsu.lar.airpact_fire.data.realm.object.AppCompatPreferenceActivity;
+import edu.wsu.lar.airpact_fire.AppCompatPreferenceActivity;
 import lar.wsu.edu.airpact_fire.R;
-
 import java.util.List;
 
 /**
@@ -41,7 +38,8 @@ public class SettingsTestActivity extends AppCompatPreferenceActivity {
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
      */
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
+    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener
+            = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();

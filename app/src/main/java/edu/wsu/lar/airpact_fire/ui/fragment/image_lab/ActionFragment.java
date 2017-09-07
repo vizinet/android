@@ -4,8 +4,6 @@
 
 package edu.wsu.lar.airpact_fire.ui.fragment.image_lab;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,20 +12,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
 import edu.wsu.lar.airpact_fire.server.callback.SubmissionServerCallback;
-import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Fragment for taking action on a completed post.
+ *
+ * <p>User can submit, queue, or delete a post from this
+ * page.</p>
+ */
 public class ActionFragment extends Fragment {
 
     private static final String sActionBarTitle = "Post Action";
 
     private AppManager mAppManager;
-    private PostObject mPostObject;
+    private PostInterfaceObject mPostInterfaceObject;
 
     private Button mDiscardButton;
     private Button mQueueButton;
@@ -43,7 +46,7 @@ public class ActionFragment extends Fragment {
         ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
         mAppManager = ((ImageLabActivity) getActivity()).getAppManager();
-        mPostObject = ((ImageLabActivity) getActivity()).getPostObject();
+        mPostInterfaceObject = ((ImageLabActivity) getActivity()).getPostObject();
 
         View view = inflater.inflate(R.layout.fragment_action, container, false);
         mDiscardButton = (Button) view.findViewById(R.id.discard_button);
@@ -53,7 +56,7 @@ public class ActionFragment extends Fragment {
         mDiscardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPostObject.delete();
+                mPostInterfaceObject.delete();
                 goHome();
             }
         });
@@ -61,7 +64,7 @@ public class ActionFragment extends Fragment {
         mQueueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPostObject.setMode(DataManager.PostMode.QUEUED.getId());
+                mPostInterfaceObject.setMode(DataManager.PostMode.QUEUED.getId());
                 goHome();
             }
         });
@@ -71,7 +74,7 @@ public class ActionFragment extends Fragment {
             public void onClick(View view) {
 
                 SubmissionServerCallback submissionServerCallback = new SubmissionServerCallback(
-                        getActivity(), mPostObject) {
+                        getActivity(), mPostInterfaceObject) {
                     @Override
                     public Object onFinish(Object... args) {
                         super.onFinish(args);
@@ -81,7 +84,7 @@ public class ActionFragment extends Fragment {
                 };
 
                 mAppManager.getServerManager().onSubmit(
-                        getActivity(), mPostObject, submissionServerCallback);
+                        getActivity(), mPostInterfaceObject, submissionServerCallback);
             }
         });
 

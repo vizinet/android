@@ -1,3 +1,7 @@
+// Copyright © 2017,
+// Laboratory for Atmospheric Research at Washington State University,
+// All rights reserved.
+
 package edu.wsu.lar.airpact_fire.app.service;
 
 import android.os.Binder;
@@ -37,11 +41,14 @@ public class GpsService extends Service {
 
     // Handler that receives messages from the thread
     private final class ServiceHandler extends Handler {
+
         public ServiceHandler(Looper looper) {
             super(looper);
         }
+
         @Override
         public void handleMessage(Message msg) {
+
             // Normally we would do some work here, like download a file.
             // For our sample, we just sleep for 5 seconds.
             try {
@@ -69,6 +76,7 @@ public class GpsService extends Service {
 
     @Override
     public void onCreate() {
+
         // Start up the thread running the service.  Note that we create a
         // separate thread because the service normally runs in the process's
         // main thread, which we don't want to block.  We also make it
@@ -82,13 +90,6 @@ public class GpsService extends Service {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 Location newLocation = locationResult.getLastLocation();
-                /*
-                if (mLocation == null || mLocation.distanceTo(newLocation) > 3) {
-                    // Only update on first location and when location changes by 3 meters
-                    mLocation = newLocation;
-                    notifyLocationChanged();
-                }
-                */
                 mLocation = newLocation;
                 notifyLocationChanged();
             };
@@ -104,6 +105,7 @@ public class GpsService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show();
 
         // For each start request, send a message to start a job and deliver the

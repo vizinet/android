@@ -12,16 +12,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import edu.wsu.lar.airpact_fire.data.object.ImageObject;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Fragment for user to enter the visual range of the first
+ * (and possibly the only) picture they captured for this
+ * particular {@link edu.wsu.lar.airpact_fire.data.algorithm.Algorithm}.
+ */
 public class VisualRangeFragment extends Fragment {
 
     private static final String sActionBarTitle = "Visual Range";
 
-    private PostObject mPostObject;
+    private PostInterfaceObject mPostInterfaceObject;
 
     private ImageView mMainImageView;
     private EditText mVisualRangeDistanceEditText;
@@ -36,7 +41,7 @@ public class VisualRangeFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
-        mPostObject = ((ImageLabActivity) getActivity()).getPostObject();
+        mPostInterfaceObject = ((ImageLabActivity) getActivity()).getPostObject();
 
         View view = inflater.inflate(R.layout.fragment_visual_range, container, false);
         mMainImageView = (ImageView) view.findViewById(R.id.main_image_view);
@@ -44,8 +49,8 @@ public class VisualRangeFragment extends Fragment {
                 R.id.visual_range_distance_edit_text);
         mProceedButton = (Button) view.findViewById(R.id.proceed_button);
 
-        ImageObject imageObject = mPostObject.getImageObjects().get(0);
-        mMainImageView.setImageBitmap(imageObject.getBitmap());
+        ImageInterfaceObject imageInterfaceObject = mPostInterfaceObject.getImageObjects().get(0);
+        mMainImageView.setImageBitmap(imageInterfaceObject.getBitmap());
 
         mProceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +58,7 @@ public class VisualRangeFragment extends Fragment {
 
                 float estimatedVisualRange = Float.parseFloat(
                         mVisualRangeDistanceEditText.getText().toString());
-                mPostObject.setEstimatedVisualRange(estimatedVisualRange);
+                mPostInterfaceObject.setEstimatedVisualRange(estimatedVisualRange);
 
                 ((ImageLabActivity) getActivity()).restorePadding();
 

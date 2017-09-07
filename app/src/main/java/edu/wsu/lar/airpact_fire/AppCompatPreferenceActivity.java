@@ -1,4 +1,4 @@
-package edu.wsu.lar.airpact_fire.data.realm.object;
+package edu.wsu.lar.airpact_fire;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

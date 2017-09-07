@@ -4,7 +4,12 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-// Simple class to control debugging output
+/**
+ * Simple class to control debugging output through the log
+ * and through toast messages in the UI.
+ *
+ * @see edu.wsu.lar.airpact_fire.app.manager.AppManager
+ */
 public class DebugManager {
 
     private static String sDebugTag = "DebugManager";

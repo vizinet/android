@@ -2,36 +2,36 @@
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
-package edu.wsu.lar.airpact_fire.data.realm.object;
+package edu.wsu.lar.airpact_fire.data.realm.interface_object;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
 import org.json.simple.JSONObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
+import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.ImageObject;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Image;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-/** @see PostObject */
-public class RealmPostObject implements PostObject {
+/**
+ * Realm implementation of the {@link PostInterfaceObject}.
+ */
+public class RealmPostInterfaceObject implements PostInterfaceObject {
 
     private Realm mRealm;
     private Post mPost;
     private DataManager mDataManager;
     private DebugManager mDebugManager;
 
-    public RealmPostObject(Realm realm, Post post, DataManager dataManager,
-                           DebugManager debugManager) {
+    public RealmPostInterfaceObject(Realm realm, Post post, DataManager dataManager,
+                                    DebugManager debugManager) {
         mRealm = realm;
         mPost = post;
         mDataManager = dataManager;
@@ -39,8 +39,8 @@ public class RealmPostObject implements PostObject {
     }
 
     @Override
-    public UserObject getUser() {
-        return new RealmUserObject(mRealm, mPost.user, mDataManager, mDebugManager);
+    public UserInterfaceObject getUser() {
+        return new RealmUserInterfaceObject(mRealm, mPost.user, mDataManager, mDebugManager);
     }
 
     @Override
@@ -116,24 +116,24 @@ public class RealmPostObject implements PostObject {
     }
 
     @Override
-    public ImageObject createImageObject() {
+    public ImageInterfaceObject createImageObject() {
         mRealm.beginTransaction();
         Image imageModel = mRealm.createObject(Image.class, mDataManager.generateImageId());
         imageModel.postId = mPost.postId;
         mRealm.commitTransaction();
-        return new RealmImageObject(mRealm, imageModel, mDataManager, mDebugManager);
+        return new RealmImageInterfaceObject(mRealm, imageModel, mDataManager, mDebugManager);
     }
 
     @Override
-    public List<ImageObject> getImageObjects() {
+    public List<ImageInterfaceObject> getImageObjects() {
         RealmResults realmResults = mRealm.where(Image.class)
                 .equalTo("postId", mPost.postId)
                 .findAllSorted("imageId");
-        List imageObjects = new ArrayList<ImageObject>();
+        List imageObjects = new ArrayList<ImageInterfaceObject>();
         for (Object image : realmResults) {
-            ImageObject imageObject =
-                    new RealmImageObject(mRealm, (Image) image, mDataManager, mDebugManager);
-            imageObjects.add(imageObject);
+            ImageInterfaceObject imageInterfaceObject =
+                    new RealmImageInterfaceObject(mRealm, (Image) image, mDataManager, mDebugManager);
+            imageObjects.add(imageInterfaceObject);
         }
         return imageObjects;
     }
@@ -218,7 +218,7 @@ public class RealmPostObject implements PostObject {
         RealmResults<Image> imageResults = mRealm.where(Image.class)
                 .equalTo("postId", mPost.postId).findAll();
         for (Image image : imageResults) {
-            (new RealmImageObject(mRealm, image, mDataManager, mDebugManager)).delete();
+            (new RealmImageInterfaceObject(mRealm, image, mDataManager, mDebugManager)).delete();
         }
 
         // Delete post object

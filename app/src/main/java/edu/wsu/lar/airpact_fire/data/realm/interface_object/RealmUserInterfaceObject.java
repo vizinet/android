@@ -1,13 +1,13 @@
-package edu.wsu.lar.airpact_fire.data.realm.object;
+package edu.wsu.lar.airpact_fire.data.realm.interface_object;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.SessionInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.SessionObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
 import edu.wsu.lar.airpact_fire.data.realm.model.Session;
 import edu.wsu.lar.airpact_fire.data.realm.model.User;
@@ -16,22 +16,24 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-/** @see UserObject */
-public class RealmUserObject implements UserObject {
+/**
+ * Realm implementation of the {@link UserInterfaceObject}.
+ */
+public class RealmUserInterfaceObject implements UserInterfaceObject {
 
     private Realm mRealm;
     private User mUser;
     private DataManager mDataManager;
     private DebugManager mDebugManager;
 
-    public RealmUserObject(Realm realm, String username, DataManager dataManager,
-                           DebugManager debugManager) {
+    public RealmUserInterfaceObject(Realm realm, String username, DataManager dataManager,
+                                    DebugManager debugManager) {
         this(realm, realm.where(User.class).equalTo("username", username).findFirst(),
                 dataManager, debugManager);
     }
 
-    public RealmUserObject(Realm realm, User user, DataManager dataManager,
-                           DebugManager debugManager) {
+    public RealmUserInterfaceObject(Realm realm, User user, DataManager dataManager,
+                                    DebugManager debugManager) {
         mRealm = realm;
         mUser = user;
         mDataManager = dataManager;
@@ -72,50 +74,50 @@ public class RealmUserObject implements UserObject {
     }
 
     @Override
-    public List<SessionObject> getSessions() {
+    public List<SessionInterfaceObject> getSessions() {
         RealmResults results = mRealm.where(Session.class).equalTo("user.username", mUser.username)
                 .findAllSorted("sessionId", Sort.ASCENDING);
         if (results == null || results.size() == 0) { return null; }
-        List<SessionObject> sessions = new ArrayList<>();
+        List<SessionInterfaceObject> sessions = new ArrayList<>();
         for (Object post : results) {
-           sessions.add(new RealmSessionObject(mRealm, (Session) post, mDataManager, mDebugManager));
+           sessions.add(new RealmSessionInterfaceObject(mRealm, (Session) post, mDataManager, mDebugManager));
         }
         return sessions;
     }
 
 
     @Override
-    public List<PostObject> getPosts() {
+    public List<PostInterfaceObject> getPosts() {
         RealmResults results = mRealm.where(Post.class).equalTo("user.username", mUser.username)
                 .findAllSorted("postId");
         if (results == null || results.size() == 0) { return null; }
-        List<PostObject> posts = new ArrayList<>();
+        List<PostInterfaceObject> posts = new ArrayList<>();
         for (Object post : results) {
-           posts.add(new RealmPostObject(mRealm, (Post) post, mDataManager, mDebugManager));
+           posts.add(new RealmPostInterfaceObject(mRealm, (Post) post, mDataManager, mDebugManager));
         }
         return posts;
     }
 
     @Override
-    public List<PostObject> getPosts(int start, int end) {
+    public List<PostInterfaceObject> getPosts(int start, int end) {
         return null;
     }
 
     @Override
-    public PostObject getPost(int id) {
+    public PostInterfaceObject getPost(int id) {
         Post post = mRealm.where(Post.class).equalTo("postId", id).findFirst();
-        return new RealmPostObject(mRealm, post, mDataManager, mDebugManager);
+        return new RealmPostInterfaceObject(mRealm, post, mDataManager, mDebugManager);
     }
 
     @Override
-    public PostObject getLastPost() {
+    public PostInterfaceObject getLastPost() {
         Post post = mRealm.where(Post.class).equalTo("user.username", mUser.username)
                 .findAllSorted("date").first();
-        return new RealmPostObject(mRealm, post, mDataManager, mDebugManager);
+        return new RealmPostInterfaceObject(mRealm, post, mDataManager, mDebugManager);
     }
 
     @Override
-    public PostObject createPost() {
+    public PostInterfaceObject createPost() {
         mRealm.beginTransaction();
         Post postModel = mRealm.createObject(Post.class, mDataManager.generatePostId());
         postModel.user = mUser;
@@ -124,7 +126,7 @@ public class RealmUserObject implements UserObject {
         mRealm.copyToRealmOrUpdate(mUser);
         mRealm.commitTransaction();
 
-        return new RealmPostObject(mRealm, postModel, mDataManager, mDebugManager);
+        return new RealmPostInterfaceObject(mRealm, postModel, mDataManager, mDebugManager);
     }
 
     @Override
