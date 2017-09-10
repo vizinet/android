@@ -118,9 +118,6 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.fragment.home.MapsFragment"
-            android:label="@string/title_activity_maps" />
-        <activity
             android:name="edu.wsu.lar.airpact_fire.ui.activity.SettingsTestActivity"
             android:label="@string/title_activity_settings_test" />
 

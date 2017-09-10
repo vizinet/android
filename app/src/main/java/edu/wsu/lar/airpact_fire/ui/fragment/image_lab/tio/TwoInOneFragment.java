@@ -108,7 +108,7 @@ public class TwoInOneFragment extends Fragment {
                 R.id.target_one_metric_abbreviation);
         mTargetTwoMetricAbbreviationTextView = (TextView) view.findViewById(
                 R.id.target_two_metric_abbreviation);
-        //mRetakeButton = (Button) view.findViewById(R.id.retake_button);
+        mRetakeButton = (Button) view.findViewById(R.id.retake_button);
         mProceedButton = (Button) view.findViewById(R.id.proceed_button);
 
         // Store target color references in list
@@ -164,6 +164,14 @@ public class TwoInOneFragment extends Fragment {
                 mTargetOneDistanceLinearLayout.setBackgroundColor(Color.TRANSPARENT);
                 mSelectedTargetId = 1;
                 return false;
+            }
+        });
+
+        // Retaking a picture
+        mRetakeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takePicture();
             }
         });
 

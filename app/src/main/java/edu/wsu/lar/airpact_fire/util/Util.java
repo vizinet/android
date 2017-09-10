@@ -32,6 +32,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import org.w3c.dom.Node;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -491,5 +494,11 @@ public class Util {
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
+    }
+
+    public static double distanceBetween(LatLng startPosition, LatLng endPosition) {
+        return Math.sqrt(
+                Math.pow((startPosition.latitude - endPosition.latitude), 2) +
+                        Math.pow((startPosition.longitude - endPosition.longitude), 2));
     }
 }

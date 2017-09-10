@@ -47,10 +47,12 @@ public class AuthenticationServerCallback implements ServerCallback {
         mProgress.dismiss();
 
         if (isUser) {
-            Toast.makeText(mActivity, R.string.authentication_success, Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, R.string.authentication_success,
+                    Toast.LENGTH_LONG).show();
             ((SignInActivity) mActivity).login(username, password);
         } else {
-            Toast.makeText(mActivity, R.string.authentication_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, R.string.authentication_failed,
+                    Toast.LENGTH_SHORT).show();
         }
 
         return null;

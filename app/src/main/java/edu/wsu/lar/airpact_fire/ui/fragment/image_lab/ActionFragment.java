@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
@@ -22,8 +23,7 @@ import lar.wsu.edu.airpact_fire.R;
 /**
  * Fragment for taking action on a completed post.
  *
- * <p>User can submit, queue, or delete a post from this
- * page.</p>
+ * <p>User can submit, queue, or delete a post from this page.</p>
  */
 public class ActionFragment extends Fragment {
 
@@ -65,6 +65,8 @@ public class ActionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mPostInterfaceObject.setMode(DataManager.PostMode.QUEUED.getId());
+                Toast.makeText(getActivity(), "Post has been queued. You can view it in the " +
+                        "gallery.", Toast.LENGTH_SHORT).show();
                 goHome();
             }
         });
@@ -78,6 +80,15 @@ public class ActionFragment extends Fragment {
                     @Override
                     public Object onFinish(Object... args) {
                         super.onFinish(args);
+
+                        // Grab data params from post submission
+                        boolean didSubmit = (boolean) args[0];
+                        double serverOutput = (double) args[1];
+                        int serverImageId = (int) args[2];
+
+                        if (didSubmit)
+
+                        // Go home & return
                         goHome();
                         return null;
                     }

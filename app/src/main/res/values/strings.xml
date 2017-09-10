@@ -16,8 +16,7 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
-    </string>
+        completions."</string>
     <string name="authentication_success">Authentication successful.\nWelcome!</string>
     <string name="authentication_failed">Invalid username or password.\nPlease try again.</string>
     <string name="login_success">Login successful! Welcome.</string>
@@ -25,6 +24,13 @@
     <string name="submission_success">Submission successful!</string>
     <string name="submission_failed">Submission failed - please wait a bit and try again.</string>
     <string name="post_queued">Post queued - check the gallery for more information.</string>
+
+    <!-- Image Lab -->
+    <string name="no_algorithm_selected_notification">Please select an algorithm before
+    proceeding to take a picture.</string>
+
+    <!-- Gallery -->
+    <string name="no_posts">No posts here. Go capture some images for us!</string>
 
     <!-- Add picture details -->
     <string name="location_hint"><i>e.g. Mount Baker, Yakima River, etc.</i></string>

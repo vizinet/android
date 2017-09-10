@@ -15,6 +15,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
+import android.widget.Toast;
+
 import edu.wsu.lar.airpact_fire.app.service.GpsService;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
@@ -47,6 +49,8 @@ public class MainAppManager extends AppManager {
     private GpsService mGpsService;
     private GpsAvailableCallback mGpsAvailableCallback;
 
+    private boolean mIsGpsAvailable;
+
     @Override
     public boolean isDebugging() {
         return sIsDebugging;
@@ -75,6 +79,9 @@ public class MainAppManager extends AppManager {
     @Override
     public void startGpsService() {
 
+        // Do not proceed without subscribers
+        if (mGpsAvailableCallback == null) return;
+
         // Start and bind GPS service
         Intent serviceIntent = new Intent(mActivity, GpsService.class);
         mActivity.startService(serviceIntent);
@@ -85,13 +92,13 @@ public class MainAppManager extends AppManager {
                 // We've bound to LocalService, cast the IBinder and get LocalService instance
                 GpsService.LocalBinder binder = (GpsService.LocalBinder) service;
                 mGpsService = binder.getService();
-                getDebugManager().printLog("Service is bound!");
+                Toast.makeText(mActivity, "Listening for GPS...", Toast.LENGTH_LONG);
                 notifyGpsAvailable();
             }
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
-                getDebugManager().printLog("Service is UNbound!");
+                Toast.makeText(mActivity, "Stopped listening for GPS.", Toast.LENGTH_LONG);
                 mGpsService = null;
             }
         }, Context.BIND_IMPORTANT);
@@ -125,18 +132,25 @@ public class MainAppManager extends AppManager {
 
     @Override
     public void endGpsService() {
-        // Stop GPS end GPS service
+        // End GPS service
         Intent serviceIntent = new Intent(mActivity, GpsService.class);
         mActivity.stopService(serviceIntent);
     }
 
+    /**
+     * Spawn GPS services the moment somebody subscribes.
+     *
+     * @param callback
+     */
     @Override
     public void subscribeGpsAvailable(GpsAvailableCallback callback) {
         mGpsAvailableCallback = callback;
+        startGpsService();
     }
 
     @Override
     public void notifyGpsAvailable() {
+        // Check in 1 second intervals for subscribers
         mGpsAvailableCallback.change();
     }
 
@@ -220,12 +234,14 @@ public class MainAppManager extends AppManager {
     public void onLogin(Object... args) {
         mDataManager.onLogin(args);
         mServerManager.onLogin(args);
+        startGpsService();
     }
 
     @Override
     public void onLogout(Object... args) {
         mDataManager.onLogout();
         mServerManager.onLogout();
+        endGpsService();
     }
 
     @Override

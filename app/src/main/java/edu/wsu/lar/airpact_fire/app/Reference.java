@@ -30,9 +30,6 @@ public final class Reference {
     public static final double KEYPAD_OCCUPATION_RATIO = 0.15;
 
     // Defaults (always the first element in array)
-    public static final int DEFAULT_ALGORITHM = 1;
-    public static final int DEFAULT_DISTANCE_METRIC = 1;
-    public static final int DEFAULT_POST_MODE = 1;
     public static final double[] DEFAULT_GPS_LOCATION = { 46.73267, -117.163454 }; // Pullman, WA
 
     /**

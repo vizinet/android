@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
@@ -83,10 +85,16 @@ public class AlgorithmSelectFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                if (!mAlgorithmRadioGroup.isSelected()) {
+                    // Don't continue unless an algorithm has been selected
+                    Toast.makeText(getActivity(),
+                            R.string.no_algorithm_selected_notification,
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 UserInterfaceObject userInterfaceObject = mAppManager.getDataManager()
                         .getApp().getLastUser();
-                SessionInterfaceObject sessionInterfaceObject = mAppManager.getDataManager()
-                        .getApp().getLastSession();
 
                 // Update database with selections
                 // NOTE: Modulus because radio button ID's are not reallocated once this fragment
@@ -95,7 +103,6 @@ public class AlgorithmSelectFragment extends Fragment {
                         % mAlgorithmRadioGroup.getChildCount()) + 1;
                 userInterfaceObject.setRememberAlgorithmChoice(mRememberAlgorithmCheckBox
                         .isChecked());
-                //sessionInterfaceObject.setSelectedAlgorithm(radioButtonId);
 
                 // Grab algorithm of choice & notify parent activity
                 Algorithm selectedAlgorithm = mAlgorithms.get(radioButtonId - 1);

@@ -3,7 +3,6 @@ package edu.wsu.lar.airpact_fire.data.realm.interface_object;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.SessionInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
@@ -90,8 +89,11 @@ public class RealmUserInterfaceObject implements UserInterfaceObject {
     public List<PostInterfaceObject> getPosts() {
         RealmResults results = mRealm.where(Post.class).equalTo("user.username", mUser.username)
                 .findAllSorted("postId");
-        if (results == null || results.size() == 0) { return null; }
         List<PostInterfaceObject> posts = new ArrayList<>();
+        if (results == null || results.size() == 0) {
+            // Return empty array
+            return posts;
+        }
         for (Object post : results) {
            posts.add(new RealmPostInterfaceObject(mRealm, (Post) post, mDataManager, mDebugManager));
         }
@@ -118,11 +120,12 @@ public class RealmUserInterfaceObject implements UserInterfaceObject {
 
     @Override
     public PostInterfaceObject createPost() {
+
         mRealm.beginTransaction();
         Post postModel = mRealm.createObject(Post.class, mDataManager.generatePostId());
         postModel.user = mUser;
-        postModel.mode = Reference.DEFAULT_POST_MODE;
-        postModel.algorithm = Reference.DEFAULT_ALGORITHM;
+        postModel.mode = DataManager.DEFAULT_POST_MODE;
+        postModel.algorithm = DataManager.DEFAULT_ALGORITHM;
         mRealm.copyToRealmOrUpdate(mUser);
         mRealm.commitTransaction();
 

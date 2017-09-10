@@ -201,7 +201,6 @@ public class HTTPServerManager implements ServerManager {
     // Takes Post object, converts this into JSON, and submits it
     private class SubmissionManager extends AsyncTask<Object, Void, ArrayList<Object>> {
 
-        private Activity mActivity;
         private ServerCallback mCallback;
 
         public SubmissionManager(Activity activity, ServerCallback callback) {

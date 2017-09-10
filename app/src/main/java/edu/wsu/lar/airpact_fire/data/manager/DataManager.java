@@ -57,6 +57,10 @@ public abstract class DataManager {
         return PostMode.values()[postModeId - 1];
     }
 
+    public static final int DEFAULT_POST_MODE = 1;
+    public static final int DEFAULT_ALGORITHM = 1;
+    public static final int DEFAULT_DISTANCE_METRIC = 1;
+
     /**
      * Array of algorithms agreed upon by server and app.
      *

@@ -35,6 +35,7 @@ import edu.wsu.lar.airpact_fire.app.service.GpsService;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
+import edu.wsu.lar.airpact_fire.util.Util;
 import lar.wsu.edu.airpact_fire.R;
 
 /**
@@ -44,13 +45,16 @@ import lar.wsu.edu.airpact_fire.R;
  *
  * <p>Each color-coated post marker represents a post and it's state
  * (e.g. submitted or queued) and each post can be previewed through
- * an `InfoWindow` once clicked.</p>
+ * an {@link com.google.android.gms.maps.GoogleMap.InfoWindowAdapter}
+ * once clicked.</p>
  *
  * @see     OnMapReadyCallback
  * @see     com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener
  */
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleMap.OnInfoWindowClickListener {
+
+    private static final int sCameraUpdateDistance = 3;
 
     private AppManager mAppManager;
     private DataManager mDataManager;
@@ -82,10 +86,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        // Start background GPS service
-        mAppManager.startGpsService();
-
-        // Set action menu_alpha
+        // Set action menu
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         mActionBar = getSupportActionBar();
@@ -143,6 +144,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(userDataIntent);
                 return true;
 
+            /*
             case R.id.action_tutorial:
                 // TODO: Open tutorial PDF
                 return true;
@@ -151,6 +153,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Intent settingsIntent = new Intent(HomeActivity.this, SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
+            */
 
             case R.id.action_sign_out:
                 logout();
@@ -164,7 +167,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        mAppManager.endGpsService();
         logout();
     }
 
@@ -173,7 +175,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         // User logged out, stop remembering them
         mAppManager.getDataManager().getApp().setRememberUser(false);
 
-        // TODO: End session (possibly in LoginActivity, checking if a session is running and ending it)
+        // Logout and end usage session
+        mAppManager.onLogout();
 
         // Go to sign-in page
         Toast.makeText(getApplicationContext(), "Signed out.", Toast.LENGTH_SHORT).show();
@@ -285,13 +288,25 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    /**
+     * Update the camera if the user moves enough.
+     */
     private void listenGpsUpdates() {
-        // Position the map's camera near current location as they move
+
         mAppManager.subscribeGpsLocationChanges(new GpsService.GpsLocationChangedCallback() {
             @Override
             public void change(double[] gps) {
+
                 if (mGoogleMap == null) return;
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(gps[0], gps[1])));
+
+                LatLng currentCameraPosition = mGoogleMap.getCameraPosition().target;
+                LatLng newCameraPosition = new LatLng(gps[0], gps[1]);
+
+                // Only move camera if there is an acceptable distance moved by user
+                if (Util.distanceBetween(currentCameraPosition, newCameraPosition) >=
+                        sCameraUpdateDistance) {
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(newCameraPosition));
+                }
             }
         });
     }

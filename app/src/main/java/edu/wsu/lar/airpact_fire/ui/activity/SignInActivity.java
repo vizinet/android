@@ -143,7 +143,7 @@ public class SignInActivity extends AppCompatActivity {
                     // New guy - needs authentication
                     mAppManager.getDebugManager().printLog("Realm user does not exist");
                     mAppManager.onAuthenticate(username, password,
-                            new AuthenticationServerCallback(getParent()));
+                            new AuthenticationServerCallback(SignInActivity.this));
                 }
             }
         });

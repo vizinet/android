@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -77,7 +79,18 @@ public class MainGalleryFragment extends Fragment {
 
     private void populatePosts() {
 
-        if (mPostInterfaceObjects == null) { return; }
+        if (mPostInterfaceObjects.size() == 0) {
+            TextView textView = new TextView(getActivity());
+            textView.setLayoutParams(new TableRow.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+            ));
+            textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            textView.setPadding(0, 10, 0, 0);
+            textView.setText(R.string.no_posts);
+            mPostTableLayout.addView(textView);
+            return;
+        }
 
         int submissionCount = 0;
         int queueCount = 0;

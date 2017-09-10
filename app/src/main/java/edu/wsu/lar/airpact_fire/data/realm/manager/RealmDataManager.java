@@ -112,7 +112,7 @@ public class RealmDataManager extends DataManager {
             mRealm.beginTransaction();
             userModel = mRealm.createObject(User.class, username); // Primary key
             userModel.password = password;
-            userModel.distanceMetric = Reference.DEFAULT_DISTANCE_METRIC;
+            userModel.distanceMetric = DataManager.DEFAULT_DISTANCE_METRIC;
             mRealm.commitTransaction();
             mDebugManager.printLog("User created!");
         }
@@ -139,6 +139,7 @@ public class RealmDataManager extends DataManager {
 
     // End current session
     private void endSession() {
+
         mRealm.beginTransaction();
         Session session = (Session) getApp().getLastSession().getRaw();
         session.endDate = new Date(Reference.DATE_FORMAT);
