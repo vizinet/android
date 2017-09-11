@@ -10,6 +10,10 @@ import android.widget.Toast;
 import edu.wsu.lar.airpact_fire.ui.activity.SignInActivity;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Implementors of this class will handle the pre- and post-authentication
+ * steps.
+ */
 public class AuthenticationServerCallback implements ServerCallback {
 
     private Activity mActivity;
@@ -43,10 +47,12 @@ public class AuthenticationServerCallback implements ServerCallback {
         mProgress.dismiss();
 
         if (isUser) {
-            Toast.makeText(mActivity, R.string.authentication_success, Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, R.string.authentication_success,
+                    Toast.LENGTH_LONG).show();
             ((SignInActivity) mActivity).login(username, password);
         } else {
-            Toast.makeText(mActivity, R.string.authentication_failed, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mActivity, R.string.authentication_failed,
+                    Toast.LENGTH_SHORT).show();
         }
 
         return null;

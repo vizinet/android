@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,24 +17,29 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Fragment for displaying all posts by user from most recent to
+ * oldest.
+ */
 public class MainGalleryFragment extends Fragment {
 
     private static final String sActionBarTitle = "Gallery";
     private static final int sColumnCount = 2;
 
-    private UserObject mUserObject;
-    private List<PostObject> mPostObjects;
+    private UserInterfaceObject mUserInterfaceObject;
+    private List<PostInterfaceObject> mPostInterfaceObjects;
 
     private TextView mPostCountTextView;
     private TextView mSubmissionCountTextView;
@@ -49,8 +55,8 @@ public class MainGalleryFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         ((GalleryActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
-        mUserObject = ((GalleryActivity) getActivity()).getUserObject();
-        mPostObjects = mUserObject.getPosts();
+        mUserInterfaceObject = ((GalleryActivity) getActivity()).getUserObject();
+        mPostInterfaceObjects = mUserInterfaceObject.getPosts();
 
         View view = inflater.inflate(R.layout.fragment_main_gallery, container, false);
         mPostCountTextView = (TextView) view.findViewById(R.id.post_count_text_view);
@@ -73,7 +79,18 @@ public class MainGalleryFragment extends Fragment {
 
     private void populatePosts() {
 
-        if (mPostObjects == null) { return; }
+        if (mPostInterfaceObjects.size() == 0) {
+            TextView textView = new TextView(getActivity());
+            textView.setLayoutParams(new TableRow.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT
+            ));
+            textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            textView.setPadding(0, 10, 0, 0);
+            textView.setText(R.string.no_posts);
+            mPostTableLayout.addView(textView);
+            return;
+        }
 
         int submissionCount = 0;
         int queueCount = 0;
@@ -88,11 +105,11 @@ public class MainGalleryFragment extends Fragment {
         ));
         mPostTableLayout.addView(tableRow);
 
-        for (final PostObject postObject : mPostObjects) {
+        for (final PostInterfaceObject postInterfaceObject : mPostInterfaceObjects) {
 
-            if (postObject.getMode() == 1) continue; // Skip drafts
-            else if (postObject.getMode() == 2) queueCount++;
-            else if (postObject.getMode() == 3) submissionCount++;
+            if (postInterfaceObject.getMode() == 1) continue; // Skip drafts
+            else if (postInterfaceObject.getMode() == 2) queueCount++;
+            else if (postInterfaceObject.getMode() == 3) submissionCount++;
             postCount++;
 
             // Add row if full
@@ -106,7 +123,7 @@ public class MainGalleryFragment extends Fragment {
             }
 
             // Compress post bitmap
-            Bitmap postDisplayBitmap = postObject.getThumbnail();
+            Bitmap postDisplayBitmap = postInterfaceObject.getThumbnail();
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             postDisplayBitmap.compress(Bitmap.CompressFormat.JPEG, 10, out);
             postDisplayBitmap = BitmapFactory.decodeStream(
@@ -159,7 +176,8 @@ public class MainGalleryFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Fragment postDetailsFragment = new GalleryPostDetailsFragment();
-                    ((GalleryPostDetailsFragment) postDetailsFragment).setArguments(postObject);
+                    ((GalleryPostDetailsFragment) postDetailsFragment)
+                            .setArguments(postInterfaceObject);
                     getFragmentManager().beginTransaction()
                             .replace(R.id.gallery_container, postDetailsFragment)
                             .addToBackStack(null)

@@ -5,10 +5,14 @@
 package edu.wsu.lar.airpact_fire.data.realm.model;
 
 import java.util.Date;
-import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+/**
+ * Realm object describing all data associated with a post:
+ * images, user creating the post, algorithm used in the
+ * post, date of post, etc.
+ */
 public class Post extends RealmObject {
 
     @PrimaryKey

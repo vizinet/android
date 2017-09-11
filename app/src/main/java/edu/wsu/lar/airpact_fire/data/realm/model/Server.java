@@ -5,9 +5,11 @@
 package edu.wsu.lar.airpact_fire.data.realm.model;
 
 import java.util.Date;
-
 import io.realm.RealmObject;
 
+/**
+ * Realm object representing all data about the server we know.
+ */
 public class Server extends RealmObject {
 
     // TODO: Move a lot of the server data in here

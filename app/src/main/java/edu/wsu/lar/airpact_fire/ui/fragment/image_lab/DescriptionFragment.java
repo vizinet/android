@@ -11,15 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Near-final page for user to enter description and string-based,
+ * custom location for this post.
+ */
 public class DescriptionFragment extends Fragment {
 
     private static final String sActionBarTitle = "Description";
 
-    private PostObject mPostObject;
+    private PostInterfaceObject mPostInterfaceObject;
 
     private EditText mLocationEditText;
     private EditText mDescriptionEditText;
@@ -34,7 +38,7 @@ public class DescriptionFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
-        mPostObject = ((ImageLabActivity) getActivity()).getPostObject();
+        mPostInterfaceObject = ((ImageLabActivity) getActivity()).getPostObject();
 
         View view = inflater.inflate(R.layout.fragment_description, container, false);
         mLocationEditText = (EditText) view.findViewById(R.id.location_edit_text);
@@ -45,8 +49,8 @@ public class DescriptionFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                mPostObject.setLocation(mLocationEditText.getText().toString());
-                mPostObject.setDescription(mDescriptionEditText.getText().toString());
+                mPostInterfaceObject.setLocation(mLocationEditText.getText().toString());
+                mPostInterfaceObject.setDescription(mDescriptionEditText.getText().toString());
 
                 Fragment nextFragment = new ActionFragment();
                 getFragmentManager().beginTransaction()

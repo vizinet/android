@@ -7,6 +7,10 @@ package edu.wsu.lar.airpact_fire.data.realm.model;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+/**
+ * Definition of a target upon an {@link Image} in
+ * the Realm database.
+ */
 public class Target extends RealmObject {
 
     @PrimaryKey

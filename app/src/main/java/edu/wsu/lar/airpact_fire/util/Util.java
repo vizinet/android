@@ -33,8 +33,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Node;
+import com.google.android.gms.maps.model.LatLng;
 
+import org.w3c.dom.Node;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -53,15 +54,17 @@ import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
 import lar.wsu.edu.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.ui.activity.SignInActivity;
 
-// TODO: Create classes for each category of functions and put under tools/
+// TODO: Create classes for each category of functions and put under "tools/"?
 
-// Class for basic utilities used throughout app
+/**
+ * Class for basic utilities used throughout app.
+ */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class Util {
 
     // Image fields
     private static final String TRANSACTION_IMAGE_FILENAME = "transaction_image";
-    private static final int IMAGE_COMPRESSION_QUALITY = 0; // 100;
+    private static final int IMAGE_COMPRESSION_QUALITY = 0;
 
     // Check if internet is available
     private static boolean isNetworkAvailable(Activity activity) {
@@ -88,7 +91,9 @@ public class Util {
             */
             return true;
         } catch (Exception e) {
-            Toast.makeText(activity.getApplicationContext(), "Cannot connect to server.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity.getApplicationContext(),
+                    "Cannot connect to server.",
+                    Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -124,9 +129,12 @@ public class Util {
         }
 
         if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+            // Single color bitmap will be created of 1x1 pixel
+            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
         } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                    drawable.getIntrinsicHeight(),
+                    Bitmap.Config.ARGB_8888);
         }
 
         Canvas canvas = new Canvas(bitmap);
@@ -150,7 +158,8 @@ public class Util {
         // Create an image file name -- timestamped
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
 
         // Create image file
         File image = new File(storageDir, imageFileName + ".jpg");
@@ -251,10 +260,12 @@ public class Util {
     public static void storeTransactionImage(Context context, Bitmap bitmap) {
         try {
             FileOutputStream fos =
-                    context.getApplicationContext().openFileOutput(TRANSACTION_IMAGE_FILENAME, Context.MODE_PRIVATE);
+                    context.getApplicationContext().openFileOutput(TRANSACTION_IMAGE_FILENAME,
+                            Context.MODE_PRIVATE);
 
             String bitmapString = bitmapToString(bitmap);
-            Log.println(Log.DEBUG, "DEBUG", "SET: Old bitmap string length is " + bitmapString.length());
+            Log.println(Log.DEBUG, "DEBUG", "SET: Old bitmap string length is "
+                    + bitmapString.length());
 
             // Reduce bitmap quality
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -265,7 +276,8 @@ public class Util {
             bitmapString = bitmapToString(bitmap);
             fos.write(bitmapString.getBytes());
 
-            Log.println(Log.DEBUG, "DEBUG", "SET: New bitmap string length is " + bitmapString.length());
+            Log.println(Log.DEBUG, "DEBUG", "SET: New bitmap string length is "
+                    + bitmapString.length());
 
             // Cleanup
             fos.flush();
@@ -303,7 +315,8 @@ public class Util {
             }
             fis.close();
 
-            Log.println(Log.DEBUG, "DEBUG", "GET: Bitmap string length is " + builder.toString().length());
+            Log.println(Log.DEBUG, "DEBUG", "GET: Bitmap string length is "
+                    + builder.toString().length());
 
             Bitmap bitmap = stringToBitMap(builder.toString());
 
@@ -463,7 +476,8 @@ public class Util {
 
     // Make given color transparent to given degree
     public static int turnColorTransparent(int color, float transparency) {
-        return Color.argb(Math.round(Color.alpha(color) * transparency), Color.red(color), Color.green(color), Color.blue(color));
+        return Color.argb(Math.round(Color.alpha(color) * transparency), Color.red(color),
+                Color.green(color), Color.blue(color));
     }
 
     // Remove child nodes for DOM node
@@ -482,4 +496,9 @@ public class Util {
         }
     }
 
+    public static double distanceBetween(LatLng startPosition, LatLng endPosition) {
+        return Math.sqrt(
+                Math.pow((startPosition.latitude - endPosition.latitude), 2) +
+                        Math.pow((startPosition.longitude - endPosition.longitude), 2));
+    }
 }

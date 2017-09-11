@@ -9,7 +9,12 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-// Stores start and end times of usages session, including the last entered preferences
+/**
+ * Realm depiction of a usage session by a given {@link User}.
+ *
+ * <p>Stores start and end times of usages session, including
+ * the last entered preferences.</p>
+ */
 public class Session extends RealmObject {
 
     @PrimaryKey

@@ -11,17 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
-import edu.wsu.lar.airpact_fire.data.algorithm.ofo.OneForOneAlgorithm;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import lar.wsu.edu.airpact_fire.R;
 
 /**
- * Starting activity for the {@link OneForOneAlgorithm}
- * which gives the description of what the user must do for this algorithm before proceeding.
- *
- * @since 0.9
+ * Starting activity for the {@link Algorithm} which gives the
+ * description of what the user must do for this algorithm
+ * before proceeding to further action.
  */
 public class AlgorithmStartFragment extends Fragment {
 

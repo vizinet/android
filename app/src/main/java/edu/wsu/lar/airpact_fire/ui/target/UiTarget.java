@@ -7,7 +7,6 @@ package edu.wsu.lar.airpact_fire.ui.target;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.ContentFrameLayout;
@@ -19,6 +18,15 @@ import android.widget.TextView;
 import edu.wsu.lar.airpact_fire.util.Util;
 import lar.wsu.edu.airpact_fire.R;
 
+/**
+ * Defines an object which represents the logical state of a Point of
+ * Interest target in the interface.
+ *
+ * <p>All targets are controlled by the
+ * {@link edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager},
+ * which in turn is controlled by a {@link android.support.v4.app.Fragment}
+ * in the {@link edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity}.</p>
+ */
 public class UiTarget {
 
     private final int mId;

@@ -1,1 +1,0 @@
-# Android AIRPACT-Fire (v0.9)

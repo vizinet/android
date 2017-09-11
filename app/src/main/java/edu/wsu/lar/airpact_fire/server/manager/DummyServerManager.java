@@ -1,9 +1,14 @@
 package edu.wsu.lar.airpact_fire.server.manager;
 
 import android.content.Context;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.server.callback.ServerCallback;
 
+/**
+ * Dummy server management class for testing & debugging.
+ *
+ * @see edu.wsu.lar.airpact_fire.app.manager.AppManager
+ */
 public class DummyServerManager implements ServerManager {
 
     private static boolean sBlindAuthentication = true;
@@ -39,7 +44,7 @@ public class DummyServerManager implements ServerManager {
     }
 
     @Override
-    public void onSubmit(Context context, PostObject postObject, ServerCallback serverCallback) {
+    public void onSubmit(Context context, PostInterfaceObject postInterfaceObject, ServerCallback serverCallback) {
 
     }
 

@@ -6,30 +6,30 @@ package edu.wsu.lar.airpact_fire.data.realm.manager;
 
 import android.app.Activity;
 import android.content.Context;
-
 import java.util.Date;
-
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.AppObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.AppInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.realm.model.App;
 import edu.wsu.lar.airpact_fire.data.realm.model.Image;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
 import edu.wsu.lar.airpact_fire.data.realm.model.Session;
 import edu.wsu.lar.airpact_fire.data.realm.model.Target;
 import edu.wsu.lar.airpact_fire.data.realm.model.User;
-import edu.wsu.lar.airpact_fire.data.realm.object.RealmAppObject;
-import edu.wsu.lar.airpact_fire.data.realm.object.RealmUserObject;
+import edu.wsu.lar.airpact_fire.data.realm.interface_object.RealmAppInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.realm.interface_object.RealmUserInterfaceObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.util.Util;
-import io.realm.ObjectChangeSet;
 import io.realm.Realm;
-import io.realm.RealmObjectChangeListener;
 import io.realm.RealmResults;
-import io.realm.Sort;
 
-/** @see DataManager */
+/**
+ * Realm implementation of the {@link DataManager}.
+ *
+ * <p>Uses {@link io.realm.RealmModel} objects under the hood
+ * to store data.</p>
+ */
 public class RealmDataManager extends DataManager {
 
     private Realm mRealm;
@@ -102,7 +102,7 @@ public class RealmDataManager extends DataManager {
     /* Utilities */
 
     // Get user or create one if nonexistent
-    private UserObject createOrReturnUser(String username, String password) {
+    private UserInterfaceObject createOrReturnUser(String username, String password) {
 
         mDebugManager.printLog("Create user if none");
         User userModel = getUser(username);
@@ -112,12 +112,12 @@ public class RealmDataManager extends DataManager {
             mRealm.beginTransaction();
             userModel = mRealm.createObject(User.class, username); // Primary key
             userModel.password = password;
-            userModel.distanceMetric = Reference.DEFAULT_DISTANCE_METRIC;
+            userModel.distanceMetric = DataManager.DEFAULT_DISTANCE_METRIC;
             mRealm.commitTransaction();
             mDebugManager.printLog("User created!");
         }
 
-        return new RealmUserObject(mRealm, userModel, this, mDebugManager);
+        return new RealmUserInterfaceObject(mRealm, userModel, this, mDebugManager);
     }
 
     // Start new session with given user
@@ -139,6 +139,7 @@ public class RealmDataManager extends DataManager {
 
     // End current session
     private void endSession() {
+
         mRealm.beginTransaction();
         Session session = (Session) getApp().getLastSession().getRaw();
         session.endDate = new Date(Reference.DATE_FORMAT);
@@ -156,8 +157,8 @@ public class RealmDataManager extends DataManager {
     }
 
     @Override
-    public AppObject getApp() {
-        return new RealmAppObject(mRealm, this, mDebugManager);
+    public AppInterfaceObject getApp() {
+        return new RealmAppInterfaceObject(mRealm, this, mDebugManager);
     }
 
     @Override

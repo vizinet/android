@@ -8,10 +8,7 @@ import edu.wsu.lar.airpact_fire.app.manager.MainAppManager;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 
 /**
- * Single point of reference regarding constants for whole app.
- *
- * @author  Luke Weber
- * @since   0.9
+ * Single point of reference regarding constant values for whole app.
  */
 public final class Reference {
 
@@ -33,16 +30,12 @@ public final class Reference {
     public static final double KEYPAD_OCCUPATION_RATIO = 0.15;
 
     // Defaults (always the first element in array)
-    public static final int DEFAULT_ALGORITHM = 1;
-    public static final int DEFAULT_DISTANCE_METRIC = 1;
-    public static final int DEFAULT_POST_MODE = 1;
     public static final double[] DEFAULT_GPS_LOCATION = { 46.73267, -117.163454 }; // Pullman, WA
 
     /**
      * Array of distance metrics agreed upon by server and app.
      *
      * <p>We refer to these metrics on a 1-based index.</p>
-     *
      */
     public static final String[] DISTANCE_METRICS = {
             "kilometers",               // 1

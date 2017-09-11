@@ -28,8 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
-import edu.wsu.lar.airpact_fire.data.object.AppObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.AppInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.server.callback.AuthenticationServerCallback;
 import lar.wsu.edu.airpact_fire.R;
@@ -77,8 +77,9 @@ public class SignInActivity extends AppCompatActivity {
 
         // Sign last user in if that box was previously checked
         if (mAppManager.getDataManager().getApp().getRememberUser()) {
-            UserObject userObject = mAppManager.getDataManager().getApp().getLastUser();
-            login(userObject.getUsername(), userObject.getPassword());
+            UserInterfaceObject userInterfaceObject = mAppManager.getDataManager()
+                    .getApp().getLastUser();
+            login(userInterfaceObject.getUsername(), userInterfaceObject.getPassword());
         }
 
         // Attach objects to UI
@@ -142,7 +143,7 @@ public class SignInActivity extends AppCompatActivity {
                     // New guy - needs authentication
                     mAppManager.getDebugManager().printLog("Realm user does not exist");
                     mAppManager.onAuthenticate(username, password,
-                            new AuthenticationServerCallback(getParent()));
+                            new AuthenticationServerCallback(SignInActivity.this));
                 }
             }
         });
@@ -192,9 +193,9 @@ public class SignInActivity extends AppCompatActivity {
         mRegisterLink.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Update login fields
-        AppObject appObject = mAppManager.getDataManager().getApp();
-        UserObject lastUser = appObject.getLastUser();
-        if (lastUser != null && appObject.getRememberUser()) {
+        AppInterfaceObject appInterfaceObject = mAppManager.getDataManager().getApp();
+        UserInterfaceObject lastUser = appInterfaceObject.getLastUser();
+        if (lastUser != null && appInterfaceObject.getRememberUser()) {
             mUsernameView.setText(lastUser.getUsername());
         }
     }

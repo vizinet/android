@@ -6,10 +6,12 @@ package edu.wsu.lar.airpact_fire.data.realm.model;
 
 import io.realm.RealmObject;
 
-// Stores global app info and preferences
+/**
+ * Stores global app info and preferences.
+ */
 public class App extends RealmObject {
 
-    public User lastUser;            // TODO: Trigger-update
+    public User lastUser;
     public boolean rememberUser; // Default: false
 
     @Override

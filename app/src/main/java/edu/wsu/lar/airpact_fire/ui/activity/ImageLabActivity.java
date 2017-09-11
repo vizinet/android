@@ -17,14 +17,15 @@ import android.view.View;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
-import edu.wsu.lar.airpact_fire.data.object.PostObject;
-import edu.wsu.lar.airpact_fire.data.object.UserObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.fragment.image_lab.AlgorithmSelectFragment;
 import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
 import lar.wsu.edu.airpact_fire.R;
 
 /**
- * Activity to manage the collection of data for each known algorithm.
+ * Activity to manage the collection of data for each described
+ * {@link Algorithm}.
  *
  * @see Algorithm
  * @see UiTargetManager
@@ -32,8 +33,8 @@ import lar.wsu.edu.airpact_fire.R;
 public class ImageLabActivity extends AppCompatActivity {
 
     private AppManager mAppManager;
-    private UserObject mUserObject;
-    private PostObject mPostObject;
+    private UserInterfaceObject mUserInterfaceObject;
+    private PostInterfaceObject mPostInterfaceObject;
     private Algorithm mAlgorithm;
     private UiTargetManager mUiTargetManager;
 
@@ -68,8 +69,8 @@ public class ImageLabActivity extends AppCompatActivity {
         mAppManager.rebindGpsService();
 
         // Create new post (for this image)
-        mUserObject = mAppManager.getDataManager().getApp().getLastUser();
-        mPostObject = mUserObject.createPost();
+        mUserInterfaceObject = mAppManager.getDataManager().getApp().getLastUser();
+        mPostInterfaceObject = mUserInterfaceObject.createPost();
 
         // Target manager creation
         mUiTargetManager = new UiTargetManager(this);
@@ -110,7 +111,7 @@ public class ImageLabActivity extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case android.R.id.home:
-                mPostObject.delete();
+                mPostInterfaceObject.delete();
                 mAppManager.goHome();
                 return true;
 
@@ -161,12 +162,12 @@ public class ImageLabActivity extends AppCompatActivity {
         return mAppManager;
     }
 
-    public UserObject getUserObject() {
-        return mUserObject;
+    public UserInterfaceObject getUserObject() {
+        return mUserInterfaceObject;
     }
 
-    public PostObject getPostObject() {
-        return mPostObject;
+    public PostInterfaceObject getPostObject() {
+        return mPostInterfaceObject;
     }
 
     public Algorithm getAlgorithm() {
@@ -175,7 +176,7 @@ public class ImageLabActivity extends AppCompatActivity {
 
     public void setAlgorithm(Algorithm algorithm) {
         mAlgorithm = algorithm;
-        mPostObject.setAlgorithm(mAlgorithm.getId());
+        mPostInterfaceObject.setAlgorithm(mAlgorithm.getId());
     }
 
     public UiTargetManager getUITargetManager() {
