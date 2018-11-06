@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Starting activity for the {@link Algorithm} which gives the

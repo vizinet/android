@@ -4,7 +4,6 @@
 
 package edu.wsu.lar.airpact_fire.data.realm.model;
 
-import java.util.Date;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -21,7 +20,8 @@ public class Session extends RealmObject {
     public int sessionId;
     public User user;
     public int mode;
-    public Date startDate, endDate;
+    public String startDate;
+    public String endDate;
     public int selectedAlgorithm;
     public RealmList<Target> targets;
     public String location;

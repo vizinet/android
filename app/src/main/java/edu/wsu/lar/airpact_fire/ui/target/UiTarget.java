@@ -10,13 +10,14 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.ContentFrameLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.wsu.lar.airpact_fire.util.Util;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Defines an object which represents the logical state of a Point of
@@ -66,6 +67,8 @@ public class UiTarget {
 
     public void setPosition(int x, int y) {
 
+        // TODO: Account for corner cases (literally) - it will go out of bounds
+
         // Keep target in bounds: check bottom, up, right, and left bounds (respectively)
         if ((y + mRadius) >= (mContainerImageView.getY() + mContainerImageView.getHeight())) {
             mTargetTextView.setX(x - mRadius);
@@ -113,16 +116,28 @@ public class UiTarget {
 
     public int getColor() {
 
+        // TODO: see if we can defer this conversion and not do it every fucking time we place an image
+        // (also look at the redundancy in getZoomOffset())
         Bitmap image = Util.drawableToBitmap(mContainerImageView.getDrawable());
         int offset = getZoomOffset();
+        int[] position = getPosition();
+
+        // Logging
+        Log.d("getColor", String.format("target x, y: (%d, %d)",
+                position[0], position[1]));
+        Log.d("getColor", String.format("bitmap width, height: (%d, %d)",
+                image.getWidth(), image.getHeight()));
+        Log.d("setPosition", String.format("imageview width, height: (%d, %d)",
+                mContainerImageView.getWidth(), mContainerImageView.getHeight()));
 
         // Get pixel color at real position
-        int[] position = getPosition();
-        int pixel = image.getPixel(
-                position[0],
-                position[1] + offset
-        );
-        return pixel;
+        try {
+            image.setPixel(position[0], position[1], Color.argb(1, 255, 255, 255));
+            int pixel = image.getPixel(position[0], position[1] + offset);
+            return pixel;
+        } catch (Exception ex) {
+            return -1;
+        }
     }
 
     public void show() {

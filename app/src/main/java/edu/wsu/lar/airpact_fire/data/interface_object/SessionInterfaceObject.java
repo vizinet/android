@@ -4,8 +4,6 @@
 
 package edu.wsu.lar.airpact_fire.data.interface_object;
 
-import java.util.Date;
-
 /**
  * User usage session object interface for UI to handle.
  */
@@ -13,9 +11,9 @@ public interface SessionInterfaceObject extends InterfaceObject {
 
     UserInterfaceObject getUser();
 
-    Date getStartDate();
-    Date getEndDate();
-    void setEndDate(Date value);
+    String getStartDate();
+    String getEndDate();
+    void setEndDate(String value);
 
     Object getRaw();
 }

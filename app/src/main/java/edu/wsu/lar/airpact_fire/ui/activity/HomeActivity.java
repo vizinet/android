@@ -4,6 +4,7 @@
 
 package edu.wsu.lar.airpact_fire.ui.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -36,7 +37,7 @@ import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.util.Util;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Main activity of app, home to Google Map full of post markers and
@@ -239,7 +240,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-
         // Open up the post details in gallery
         PostInterfaceObject postInterfaceObject = mMarkerMap.get(marker);
         Intent intent = new Intent(getBaseContext(), GalleryActivity.class);

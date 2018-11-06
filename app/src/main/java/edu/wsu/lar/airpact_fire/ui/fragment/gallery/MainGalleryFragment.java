@@ -27,7 +27,7 @@ import java.util.List;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Fragment for displaying all posts by user from most recent to

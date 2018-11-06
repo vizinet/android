@@ -36,8 +36,7 @@ public class UiTargetManager {
     }
 
     /**
-     * Set context for target manager as current fragment for containing
-     * these targets.
+     * Set context for target manager as current fragment for containing these targets.
      *
      * @param fragmentId integer uniquely identifying a fragment
      * @param imageView {@link ImageView} upon which targets are placed

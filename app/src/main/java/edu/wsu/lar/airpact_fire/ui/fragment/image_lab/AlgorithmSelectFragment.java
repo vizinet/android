@@ -23,7 +23,7 @@ import edu.wsu.lar.airpact_fire.data.interface_object.SessionInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Starting page in {@link ImageLabActivity} for user to select
@@ -85,7 +85,7 @@ public class AlgorithmSelectFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (!mAlgorithmRadioGroup.isSelected()) {
+                if (mAlgorithmRadioGroup.getCheckedRadioButtonId() == -1) {
                     // Don't continue unless an algorithm has been selected
                     Toast.makeText(getActivity(),
                             R.string.no_algorithm_selected_notification,

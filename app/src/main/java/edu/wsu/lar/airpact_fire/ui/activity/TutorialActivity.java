@@ -2,7 +2,7 @@ package edu.wsu.lar.airpact_fire.ui.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Activity for showing the user how to use the app.

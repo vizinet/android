@@ -11,9 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.util.Util;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Near-final page for user to enter description and string-based,
@@ -49,8 +52,17 @@ public class DescriptionFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                mPostInterfaceObject.setLocation(mLocationEditText.getText().toString());
-                mPostInterfaceObject.setDescription(mDescriptionEditText.getText().toString());
+                String location = mLocationEditText.getText().toString();
+                String description = mDescriptionEditText.getText().toString(); // optional
+
+                if (Util.isNullOrEmpty(location)) {
+                    Toast.makeText(getContext(), "Please enter a location.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                mPostInterfaceObject.setLocation(location);
+                mPostInterfaceObject.setDescription(description);
 
                 Fragment nextFragment = new ActionFragment();
                 getFragmentManager().beginTransaction()

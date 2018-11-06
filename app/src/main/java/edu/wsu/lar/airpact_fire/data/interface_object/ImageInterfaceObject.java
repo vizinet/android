@@ -5,7 +5,8 @@
 package edu.wsu.lar.airpact_fire.data.interface_object;
 
 import android.graphics.Bitmap;
-import android.net.Uri;
+
+import java.io.File;
 import java.util.List;
 
 /**
@@ -20,7 +21,10 @@ public interface ImageInterfaceObject extends InterfaceObject {
     List<TargetInterfaceObject> getTargetObjects();
 
     Bitmap getBitmap();
-    Uri createImage();
+    File createImageFile();
+
+    File createImageFile(File storageDir);
+
     void setImage(Bitmap value);
 
     void delete();

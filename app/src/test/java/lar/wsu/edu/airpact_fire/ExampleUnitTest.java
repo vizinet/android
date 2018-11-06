@@ -1,4 +1,4 @@
-package lar.wsu.edu.airpact_fire;
+package edu.wsu.lar.airpact_fire;
 
 import org.junit.Test;
 

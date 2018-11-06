@@ -2,7 +2,7 @@ package edu.wsu.lar.airpact_fire.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.util.Util;
 
 public class SettingsActivity extends AppCompatActivity {

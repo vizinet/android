@@ -9,7 +9,7 @@ import android.app.ProgressDialog;
 import android.widget.Toast;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Server callback for handling pre- and post-submission functions

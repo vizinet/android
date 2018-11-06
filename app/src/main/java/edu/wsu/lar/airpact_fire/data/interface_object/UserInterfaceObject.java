@@ -33,7 +33,7 @@ public interface UserInterfaceObject extends InterfaceObject {
     int getDistanceMetric();
     void setDistanceMetric(int value);
 
-    Date getFirstLoginDate();
+    String getFirstLoginDate();
     void getFirstLoginDate(Date value);
 
     Object getRaw();

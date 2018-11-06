@@ -20,7 +20,7 @@ import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.server.callback.SubmissionServerCallback;
 import edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Page for showing a single post's complete details.

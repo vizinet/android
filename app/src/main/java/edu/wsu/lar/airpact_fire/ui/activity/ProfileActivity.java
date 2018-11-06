@@ -18,7 +18,7 @@ import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Activity for user to view their profile stats and visit
@@ -64,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
         mWebButton = (Button) findViewById(R.id.web_button);
 
         mUsernameTextView.setText(mUserInterfaceObject.getUsername());
-        mFirstLoginDateTextView.setText(mUserInterfaceObject.getFirstLoginDate().toString());
+        mFirstLoginDateTextView.setText(mUserInterfaceObject.getFirstLoginDate());
         int sessionCount = (mUserInterfaceObject.getSessions() == null)
                 ? 0
                 : mUserInterfaceObject.getSessions().size();

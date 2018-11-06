@@ -8,7 +8,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.widget.Toast;
 import edu.wsu.lar.airpact_fire.ui.activity.SignInActivity;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Implementors of this class will handle the pre- and post-authentication

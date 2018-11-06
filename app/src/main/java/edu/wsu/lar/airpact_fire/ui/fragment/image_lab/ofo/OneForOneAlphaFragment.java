@@ -10,8 +10,11 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,15 +24,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import java.io.File;
 import java.util.Date;
 import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.TargetInterfaceObject;
+import edu.wsu.lar.airpact_fire.image.manager.ImageManager;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.util.Util;
+import edu.wsu.lar.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
+import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.adjustAndDisplayBitmap;
+import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.capture;
+import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.rotate;
 
 // TODO: When user retakes image, scrap this imageObject and make a new one!
 
@@ -46,7 +57,6 @@ public class OneForOneAlphaFragment extends Fragment {
 
     private static final String sActionBarTitle = "Target Selection 1/2";
     private static final int sRequestImageCapture = 1;
-    private static final int sRequestTakePhoto = 1;
     private static final int sTargetCount = 1;
     private static final int sFragmentId = 0;
 
@@ -61,6 +71,8 @@ public class OneForOneAlphaFragment extends Fragment {
     private ImageView mMainImageView;
     private ImageView mTargetColorImageView;
     private LinearLayout mControlLinearLayout;
+    private Button mRetakeButton;
+    private Button mFlipButton;
     private Button mProceedButton;
 
     public OneForOneAlphaFragment() { }
@@ -86,10 +98,12 @@ public class OneForOneAlphaFragment extends Fragment {
         mMainImageView = (ImageView) view.findViewById(R.id.main_image_view);
         mTargetColorImageView = (ImageView) view.findViewById(R.id.target_color_image_view);
         mControlLinearLayout = (LinearLayout) view.findViewById(R.id.control_linear_layout);
-        mProceedButton = (Button) view.findViewById(R.id.proceed_button);
+        mRetakeButton = view.findViewById(R.id.retake_button);
+        mFlipButton = view.findViewById(R.id.flip_button);
+        mProceedButton = view.findViewById(R.id.proceed_button);
 
         // Take pic
-        takePicture();
+        capture(this, mImageInterfaceObject);
 
         // Target movement
         mMainImageView.setOnTouchListener(new View.OnTouchListener() {
@@ -117,9 +131,32 @@ public class OneForOneAlphaFragment extends Fragment {
             }
         });
 
+        // Retaking a picture
+        mRetakeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                capture(OneForOneAlphaFragment.this, mImageInterfaceObject);
+            }
+        });
+
+        // Flip image 90 degrees
+        mFlipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotate(getActivity(), mImageInterfaceObject, mMainImageView);
+            }
+        });
+
         mProceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // Check for no distances entered
+                if (Util.isNullOrEmpty(mTargetDistanceEditText.getText().toString())) {
+                    Toast.makeText(getContext(), "Please enter distance.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 float targetDistance = Float.parseFloat(
                         mTargetDistanceEditText.getText().toString());
@@ -140,63 +177,21 @@ public class OneForOneAlphaFragment extends Fragment {
         return view;
     }
 
-    private void takePicture() {
-
-        // Ensure that there's a camera activity to handle the intent
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-
-            Uri imageUri = mImageInterfaceObject.createImage();
-
-            // Make sure we get file back, and enforce PORTRAIT camera mode
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            takePictureIntent.putExtra(
-                    MediaStore.EXTRA_SCREEN_ORIENTATION,
-                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            );
-
-            startActivityForResult(takePictureIntent, sRequestTakePhoto);
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Call garbage collection
-        // TODO: See if we can remove this
-        Runtime.getRuntime().gc();
-
-        if (requestCode == sRequestImageCapture && resultCode == RESULT_OK) {
-
-            // Get bitmap
-            Bitmap bitmap = mImageInterfaceObject.getBitmap();
-            if (bitmap == null) {
-                // Abort mission
-                //handleImageFailure();
-                return;
-            }
-
-            // Resize bitmap for display (to screen proportions)
-            Display display = getActivity().getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            int screenWidth = size.x;
-            int imageHeight = (int) (bitmap.getHeight() *
-                    (screenWidth / (float) bitmap.getWidth()));
-            int imageWidth = screenWidth;
-            bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, true);
-            mImageInterfaceObject.setImage(bitmap);
-
+        if (((requestCode == sRequestImageCapture) && (resultCode == RESULT_OK)) &&
+                (null != adjustAndDisplayBitmap(getActivity(),
+                        mImageInterfaceObject, mMainImageView)))  {
             mPostInterfaceObject.setDate(new Date());
             mImageInterfaceObject.setGps(((ImageLabActivity) getActivity())
-                    .getAppManager().getGps());
-            mMainImageView.setImageBitmap(bitmap);
+                .getAppManager().getGps());
             mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
-
         } else {
-            // If no image taken, go home
-            //Util.goHome(this);
+            // If no image taken or error, go home
+            Util.goHome(getActivity());
         }
     }
 }

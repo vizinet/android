@@ -13,7 +13,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
@@ -183,10 +185,6 @@ public class MainAppManager extends AppManager {
             mDebugManager.printLog("Not app's first run");
         }
 
-        // Ensure we can store images
-        verifyStoragePermissions(mActivity);
-        verifyGpsPermissions(mActivity);
-
         mDataManager.onAppStart();
         mServerManager.onAppStart();
     }
@@ -254,31 +252,6 @@ public class MainAppManager extends AppManager {
     public void onSubmit(PostInterfaceObject postInterfaceObject, ServerCallback serverCallback) {
         // Attempt submission to server, update database with results
         mServerManager.onSubmit(mActivity.getApplicationContext(), postInterfaceObject, serverCallback);
-    }
-
-    /**
-     * Checks if the app has permission to write to device storage.
-     *
-     * <p>If the app does not has permission then the user will be
-     * prompted to grant permissions.</p>
-     *
-     * @param activity
-     */
-    private void verifyStoragePermissions(Activity activity) {
-
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(activity, sPermissionsStorage, sRequestExternalStorage);
-        }
-        mDebugManager.printLog("Verified storage permissions");
-    }
-
-    private void verifyGpsPermissions(Activity activity) {
-        ActivityCompat.requestPermissions(activity,
-                new String[]{ Manifest.permission.ACCESS_FINE_LOCATION }, 200);
     }
 
     private boolean isServiceRunning(Class<?> serviceClass) {

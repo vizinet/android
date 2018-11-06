@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.util.Util;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Fragment for user to enter the visual range of the first
@@ -56,8 +59,13 @@ public class VisualRangeFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                float estimatedVisualRange = Float.parseFloat(
-                        mVisualRangeDistanceEditText.getText().toString());
+                String estimatedVisualRangeRaw = mVisualRangeDistanceEditText.getText().toString();
+                if (Util.isNullOrEmpty(estimatedVisualRangeRaw)) {
+                    Toast.makeText(getContext(), "Please enter a value.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                float estimatedVisualRange = Float.parseFloat(estimatedVisualRangeRaw);
                 mPostInterfaceObject.setEstimatedVisualRange(estimatedVisualRange);
 
                 ((ImageLabActivity) getActivity()).restorePadding();

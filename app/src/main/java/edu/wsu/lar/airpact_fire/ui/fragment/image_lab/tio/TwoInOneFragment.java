@@ -4,15 +4,21 @@
 
 package edu.wsu.lar.airpact_fire.ui.fragment.image_lab.tio;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,21 +26,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.TargetInterfaceObject;
+import edu.wsu.lar.airpact_fire.image.manager.ImageManager;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
 import edu.wsu.lar.airpact_fire.ui.fragment.image_lab.VisualRangeFragment;
 import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.util.Util;
+import edu.wsu.lar.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
+import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.adjustAndDisplayBitmap;
+import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.capture;
+import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.rotate;
 
 /**
  * Single page for image capture and placement of two targets on
@@ -47,7 +64,6 @@ public class TwoInOneFragment extends Fragment {
 
     private static final String sActionBarTitle = "Target Selections";
     private static final int sRequestImageCapture = 1;
-    private static final int sRequestTakePhoto = 1;
     private static final int sTargetCount = 2;
     private static final int sFragmentId = 3;
 
@@ -61,6 +77,8 @@ public class TwoInOneFragment extends Fragment {
     private int mSelectedTargetId;
 
     private ImageView mMainImageView;
+    private FrameLayout mImageAreaLayout;
+    private FrameLayout mProgressBarLayout;
     private LinearLayout mControlLinearLayout;
     private LinearLayout mTargetOneDistanceLinearLayout;
     private LinearLayout mTargetTwoDistanceLinearLayout;
@@ -71,9 +89,12 @@ public class TwoInOneFragment extends Fragment {
     private TextView mTargetOneMetricAbbreviationTextView;
     private TextView mTargetTwoMetricAbbreviationTextView;
     private Button mRetakeButton;
+    private Button mFlipButton;
     private Button mProceedButton;
+    private ProgressBar mFlipProgressBar;
 
-    public TwoInOneFragment() { }
+    public TwoInOneFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,6 +114,8 @@ public class TwoInOneFragment extends Fragment {
         // Get standard views
         View view = inflater.inflate(R.layout.fragment_two_in_one, container, false);
         mMainImageView = (ImageView) view.findViewById(R.id.main_image_view);
+        mImageAreaLayout = view.findViewById(R.id.image_area_layout);
+        mProgressBarLayout = view.findViewById(R.id.progress_bar_layout);
         mTargetOneDistanceLinearLayout = (LinearLayout) view.findViewById(
                 R.id.target_one_distance_linear_layout);
         mTargetTwoDistanceLinearLayout = (LinearLayout) view.findViewById(
@@ -109,7 +132,9 @@ public class TwoInOneFragment extends Fragment {
         mTargetTwoMetricAbbreviationTextView = (TextView) view.findViewById(
                 R.id.target_two_metric_abbreviation);
         mRetakeButton = (Button) view.findViewById(R.id.retake_button);
+        mFlipButton = (Button) view.findViewById(R.id.flip_button);
         mProceedButton = (Button) view.findViewById(R.id.proceed_button);
+        mFlipProgressBar = view.findViewById(R.id.flip_progress_bar);
 
         // Store target color references in list
         mTargetColorImageViews = new ArrayList<ImageView>();
@@ -121,7 +146,7 @@ public class TwoInOneFragment extends Fragment {
         mTargetOneDistanceLinearLayout.setBackgroundColor(Color.parseColor("#EEEEEEEE"));
 
         // Get image from user
-        takePicture();
+        capture(this, mImageInterfaceObject);
 
         // Target movement
         mMainImageView.setOnTouchListener(new View.OnTouchListener() {
@@ -167,11 +192,21 @@ public class TwoInOneFragment extends Fragment {
             }
         });
 
+        // TODO: All these controls should be centralized in a manager, not amongst fragments
+
         // Retaking a picture
         mRetakeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                takePicture();
+                capture(TwoInOneFragment.this, mImageInterfaceObject);
+            }
+        });
+
+        // Flip image 90 degrees
+        mFlipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotate(getActivity(), mImageInterfaceObject, mMainImageView);
             }
         });
 
@@ -179,6 +214,14 @@ public class TwoInOneFragment extends Fragment {
         mProceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // Check for no distances entered
+                if (Util.isNullOrEmpty(mTargetOneDistanceEditText.getText().toString())
+                        || Util.isNullOrEmpty(mTargetTwoDistanceEditText.getText().toString())) {
+                    Toast.makeText(getContext(), "Please enter both distances.",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 float targetOneDistance = Float.parseFloat(
                         mTargetOneDistanceEditText.getText().toString());
@@ -206,63 +249,46 @@ public class TwoInOneFragment extends Fragment {
         return view;
     }
 
-    private void takePicture() {
+    /**
+     * @param enabled
+     */
+    private void setInputsEnabled(boolean enabled) {
 
-        // Ensure that there's a camera activity to handle the intent
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+        // Image
+        mMainImageView.setEnabled(enabled);
 
-            Uri imageUri = mImageInterfaceObject.createImage();
+        // Inputs
+        mTargetOneDistanceEditText.setEnabled(enabled);
+        mTargetTwoDistanceEditText.setEnabled(enabled);
 
-            // Make sure we get file back, and enforce PORTRAIT camera mode
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            takePictureIntent.putExtra(
-                    MediaStore.EXTRA_SCREEN_ORIENTATION,
-                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-            );
-
-            startActivityForResult(takePictureIntent, sRequestTakePhoto);
-        }
+        // Buttons
+        mRetakeButton.setEnabled(enabled);
+        mFlipButton.setEnabled(enabled);
+        mProceedButton.setEnabled(enabled);
     }
 
+    /**
+     *
+     */
+    // TODO: Complete this in ImageManager
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Call garbage collection
-        // TODO: See if we can remove this
-        Runtime.getRuntime().gc();
-
-        if (requestCode == sRequestImageCapture && resultCode == RESULT_OK) {
-
-            // Get bitmap
-            Bitmap bitmap = mImageInterfaceObject.getBitmap();
-            if (bitmap == null) {
-                // Abort mission
-                //handleImageFailure();
-                return;
-            }
-
-            // Resize bitmap for display (to screen proportions)
-            Display display = getActivity().getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            int screenWidth = size.x;
-            int imageHeight = (int) (bitmap.getHeight() *
-                    (screenWidth / (float) bitmap.getWidth()));
-            int imageWidth = screenWidth;
-            bitmap = Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, true);
-            mImageInterfaceObject.setImage(bitmap);
-
+        if ((requestCode == sRequestImageCapture && resultCode == RESULT_OK) &&
+                null != adjustAndDisplayBitmap(getActivity(),
+                        mImageInterfaceObject, mMainImageView)) {
             mPostInterfaceObject.setDate(new Date());
             mImageInterfaceObject.setGps(((ImageLabActivity) getActivity())
                     .getAppManager().getGps());
-            mMainImageView.setImageBitmap(bitmap);
             mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
-
         } else {
-            // If no image taken, go home
-            //Util.goHome(this);
+            // If no image taken or error, go home
+            Toast.makeText(getContext(),
+                    "Camera failed to take picture. Please try again later.",
+                    Toast.LENGTH_LONG);
+            Util.goHome(getActivity());
         }
     }
 }

@@ -88,7 +88,7 @@ public class RealmUserInterfaceObject implements UserInterfaceObject {
     @Override
     public List<PostInterfaceObject> getPosts() {
         RealmResults results = mRealm.where(Post.class).equalTo("user.username", mUser.username)
-                .findAllSorted("postId");
+                .findAllSorted("postId", Sort.DESCENDING);
         List<PostInterfaceObject> posts = new ArrayList<>();
         if (results == null || results.size() == 0) {
             // Return empty array
@@ -145,7 +145,7 @@ public class RealmUserInterfaceObject implements UserInterfaceObject {
     }
 
     @Override
-    public Date getFirstLoginDate() {
+    public String getFirstLoginDate() {
         return getSessions().get(0).getStartDate();
     }
 

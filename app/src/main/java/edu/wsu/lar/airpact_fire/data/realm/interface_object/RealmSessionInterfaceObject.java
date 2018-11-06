@@ -4,7 +4,6 @@
 
 package edu.wsu.lar.airpact_fire.data.realm.interface_object;
 
-import java.util.Date;
 import edu.wsu.lar.airpact_fire.data.interface_object.SessionInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
@@ -36,17 +35,17 @@ public class RealmSessionInterfaceObject implements SessionInterfaceObject {
     }
 
     @Override
-    public Date getStartDate() {
+    public String getStartDate() {
         return mSession.startDate;
     }
 
     @Override
-    public Date getEndDate() {
+    public String getEndDate() {
         return mSession.endDate;
     }
 
     @Override
-    public void setEndDate(Date value) {
+    public void setEndDate(String value) {
         mRealm.beginTransaction();
         mSession.endDate = value;
         mRealm.commitTransaction();

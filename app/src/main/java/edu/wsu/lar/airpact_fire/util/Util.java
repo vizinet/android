@@ -51,7 +51,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.ui.activity.SignInActivity;
 
 // TODO: Create classes for each category of functions and put under "tools/"?
@@ -65,6 +65,13 @@ public class Util {
     // Image fields
     private static final String TRANSACTION_IMAGE_FILENAME = "transaction_image";
     private static final int IMAGE_COMPRESSION_QUALITY = 0;
+
+    public static boolean isNullOrEmpty(String text) {
+        if (text == null || text.trim().length() > 0) {
+            return false;
+        }
+        return true;
+    }
 
     // Check if internet is available
     private static boolean isNetworkAvailable(Activity activity) {
@@ -456,10 +463,8 @@ public class Util {
     }
 
     public static Date getCurrentDate() {
-        Log.e("Wowza", "getCurrentDate");
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
-        Log.e("Wowza", "date = " + date);
         return date;
     }
 

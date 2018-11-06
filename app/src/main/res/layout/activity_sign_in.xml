@@ -18,7 +18,7 @@
         android:weightSum="1"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true"
-        tools:context="lar.wsu.edu.airpact_fire.edu.wsu.edu.airpact_fire.activity.SignInActivity">
+        tools:context="edu.wsu.lar.airpact_fire.edu.wsu.edu.airpact_fire.activity.SignInActivity">
 
         <LinearLayout
             android:id="@+id/logo_title"

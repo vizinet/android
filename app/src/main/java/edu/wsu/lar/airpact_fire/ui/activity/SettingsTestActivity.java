@@ -19,7 +19,7 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import edu.wsu.lar.airpact_fire.AppCompatPreferenceActivity;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 import java.util.List;
 
 /**

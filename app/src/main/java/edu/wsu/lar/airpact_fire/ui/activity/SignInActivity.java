@@ -4,11 +4,15 @@
 
 package edu.wsu.lar.airpact_fire.ui.activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spanned;
@@ -32,7 +36,8 @@ import edu.wsu.lar.airpact_fire.data.interface_object.AppInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.server.callback.AuthenticationServerCallback;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.util.Util;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Activity for users to sign-in and proceed to app or sign-up for
@@ -50,6 +55,16 @@ import lar.wsu.edu.airpact_fire.R;
 public class SignInActivity extends AppCompatActivity {
 
     private AppManager mAppManager;
+
+    private String mUsername;
+    private String mPassword;
+    private static final int sAllPermissionsCode = 5;
+    private static final String[] sRequestedPermissions = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
 
     // UI references
     private RelativeLayout mPage;
@@ -79,18 +94,20 @@ public class SignInActivity extends AppCompatActivity {
         if (mAppManager.getDataManager().getApp().getRememberUser()) {
             UserInterfaceObject userInterfaceObject = mAppManager.getDataManager()
                     .getApp().getLastUser();
-            login(userInterfaceObject.getUsername(), userInterfaceObject.getPassword());
+            mUsername = userInterfaceObject.getUsername();
+            mPassword = userInterfaceObject.getPassword();
+            login();
         }
 
         // Attach objects to UI
-        mPage = (RelativeLayout) findViewById(R.id.page);
-        mAppBanner = (ImageView) findViewById(R.id.sign_in_banner);
-        mUsernameView = (EditText) findViewById(R.id.username);
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mSignInButton = (Button) findViewById(R.id.sign_in_button);
-        mRememberMeCheckBox = (CheckBox) findViewById(R.id.remember_password_checkbox);
-        mRegisterLink = (TextView) findViewById(R.id.register_text);
-        mHelpImageButton = (ImageButton) findViewById(R.id.help_image_button);
+        mPage = findViewById(R.id.page);
+        mAppBanner = findViewById(R.id.sign_in_banner);
+        mUsernameView = findViewById(R.id.username);
+        mPasswordView = findViewById(R.id.password);
+        mSignInButton = findViewById(R.id.sign_in_button);
+        mRememberMeCheckBox = findViewById(R.id.remember_password_checkbox);
+        mRegisterLink = findViewById(R.id.register_text);
+        mHelpImageButton = findViewById(R.id.help_image_button);
 
         // Set up the login form
         populateLoginFields();
@@ -128,21 +145,28 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // Store credentials
-                String username = mUsernameView.getText().toString();
-                String password = mPasswordView.getText().toString();
+                mUsername = mUsernameView.getText().toString();
+                mPassword = mPasswordView.getText().toString();
+
+                // Validate credentials
+                if (Util.isNullOrEmpty(mUsername) || Util.isNullOrEmpty(mPassword)) {
+                    Toast.makeText(SignInActivity.this,
+                            "Please enter valid credentials", Toast.LENGTH_LONG).show();
+                }
 
                 // Check if user exists
-                if (mAppManager.getDataManager().getApp().getUser(username, password) != null) {
+                if (mAppManager.getDataManager().getApp().getUser(mUsername, mPassword) != null) {
 
                     // Pre-authenticated user - continue
                     mAppManager.getDebugManager().printLog("Realm user already in DB");
-                    login(username, password);
+                    login();
 
                 } else {
 
+                    // TODO: The AuthenticationServerCallback doesn't even need to pass the username/password back (already being set above)
                     // New guy - needs authentication
                     mAppManager.getDebugManager().printLog("Realm user does not exist");
-                    mAppManager.onAuthenticate(username, password,
+                    mAppManager.onAuthenticate(mUsername, mPassword,
                             new AuthenticationServerCallback(SignInActivity.this));
                 }
             }
@@ -204,10 +228,10 @@ public class SignInActivity extends AppCompatActivity {
      * Open {@link HomeActivity} and begin a new
      * {@link edu.wsu.lar.airpact_fire.data.realm.model.Session}.
      */
-    public void login(String username, String password) {
+    public void proceed() {
 
         // Let DB know we're logging in with this user
-        mAppManager.onLogin(username, password);
+        mAppManager.onLogin(mUsername, mPassword);
 
         if (mRememberMeCheckBox != null) {
             // Regular login: remember legit user upon request
@@ -223,5 +247,49 @@ public class SignInActivity extends AppCompatActivity {
         // Open home screen
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+
+    }
+
+    /**
+     * TODO: Remove
+     * @param username
+     * @param password
+     */
+    public void login(String username, String password) {
+        mUsername = username;
+        mPassword = password;
+        login();
+    }
+
+    /**
+     * Request permissions before opening app functionality to user.
+     */
+    public void login() {
+        Activity activity = SignInActivity.this;
+        ActivityCompat.requestPermissions(activity, sRequestedPermissions, sAllPermissionsCode);
+    }
+
+    /**
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[],
+                                           int[] grantResults) {
+        if (requestCode != sAllPermissionsCode
+                || grantResults.length != sRequestedPermissions.length) {
+            return;
+        }
+        for (int result : grantResults) {
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(SignInActivity.this, "Permission Denied!",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        Toast.makeText(SignInActivity.this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+        proceed();
     }
 }

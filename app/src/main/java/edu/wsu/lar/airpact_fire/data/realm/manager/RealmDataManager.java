@@ -6,6 +6,9 @@ package edu.wsu.lar.airpact_fire.data.realm.manager;
 
 import android.app.Activity;
 import android.content.Context;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
@@ -129,7 +132,7 @@ public class RealmDataManager extends DataManager {
         mRealm.beginTransaction();
         User userModel = getUser(username);
         Session session = mRealm.createObject(Session.class, generateSessionId());
-        session.startDate = Util.getCurrentDate();
+        session.startDate = new SimpleDateFormat(Reference.DATE_FORMAT).format(Util.getCurrentDate());
         session.user = userModel;
         userModel.sessions.add(session);
         mRealm.commitTransaction();
@@ -142,7 +145,7 @@ public class RealmDataManager extends DataManager {
 
         mRealm.beginTransaction();
         Session session = (Session) getApp().getLastSession().getRaw();
-        session.endDate = new Date(Reference.DATE_FORMAT);
+        session.endDate = new SimpleDateFormat(Reference.DATE_FORMAT).format(Util.getCurrentDate());
         mRealm.commitTransaction();
 
         mDebugManager.printLog("Ended the session");

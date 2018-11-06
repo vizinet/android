@@ -20,7 +20,7 @@ import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.fragment.gallery.GalleryPostDetailsFragment;
 import edu.wsu.lar.airpact_fire.ui.fragment.gallery.MainGalleryFragment;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Place for users to view posts that they've made throughout time,

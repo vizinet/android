@@ -18,7 +18,7 @@ import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.server.callback.SubmissionServerCallback;
 import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Fragment for taking action on a completed post.
@@ -65,8 +65,9 @@ public class ActionFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mPostInterfaceObject.setMode(DataManager.PostMode.QUEUED.getId());
-                Toast.makeText(getActivity(), "Post has been queued. You can view it in the " +
-                        "gallery.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),
+                        "Post has been queued. You can view it in the gallery.",
+                        Toast.LENGTH_SHORT).show();
                 goHome();
             }
         });
@@ -86,6 +87,7 @@ public class ActionFragment extends Fragment {
                         double serverOutput = (double) args[1];
                         int serverImageId = (int) args[2];
 
+                        // TODO: What the actual fuck?
                         if (didSubmit)
 
                         // Go home & return

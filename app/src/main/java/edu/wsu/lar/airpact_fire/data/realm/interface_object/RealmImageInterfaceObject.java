@@ -6,7 +6,6 @@ package edu.wsu.lar.airpact_fire.data.realm.interface_object;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Environment;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -49,7 +48,7 @@ public class RealmImageInterfaceObject implements ImageInterfaceObject {
         String fileLocation = mImage.imageLocation;
         Bitmap bitmap = null;
         try {
-            bitmap = BitmapFactory.decodeFile(fileLocation.substring(7));
+            bitmap = BitmapFactory.decodeFile(fileLocation);
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
         }
@@ -57,34 +56,53 @@ public class RealmImageInterfaceObject implements ImageInterfaceObject {
     }
 
     @Override
-    public Uri createImage() {
+    public File createImageFile() {
+        return null;
+    }
 
-        // Create an image file in public "Pictures/" directory to be populated by
-        // picture capturing activity
+    @Override
+    public File createImageFile(File storageDir) {
+
+        // TODO: Possibly move file creation to a Util method
+
+        // Create an image file in public "Pictures/" directory to be populated by picture capturing
+        // activity
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_.jpg";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = new File(storageDir, imageFileName);
-        Uri imageUri = Uri.fromFile(image);
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        /*File storageDir = null; Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);*/
+
+        // Attempt to create file
+        File image = null;
+        try {
+            image = File.createTempFile(imageFileName, ".jpg", storageDir);
+            //image.getParentFile().mkdirs();
+            //image.createNewFile();
+        } catch (IOException e) {
+            mDebugManager.printLog(String.format("Unable to create image file '%s'. Exception: %s",
+                    imageFileName, e.toString()));
+            return null;
+        }
 
         // Save image location
         mRealm.beginTransaction();
-        mImage.imageLocation = imageUri.toString();
+        mImage.imageLocation = image.getAbsolutePath();
         mRealm.commitTransaction();
 
-        return imageUri;
+        return image;
     }
 
     // TODO: Possibly remove, possibly use to store image file to private dir
     @Override
     public void setImage(Bitmap value) {
-        String fileLocation = mImage.imageLocation;
-        File file = new File(fileLocation.substring(7));
+
+        File file = new File(mImage.imageLocation);
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         // JPEG compression; time-consuming
-        value.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+        //value.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+        // No compression
+        value.compress(Bitmap.CompressFormat.PNG, 100, bos);
 
         byte[] bitmapData = bos.toByteArray();
         try {

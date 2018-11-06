@@ -21,7 +21,7 @@ import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.fragment.image_lab.AlgorithmSelectFragment;
 import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
-import lar.wsu.edu.airpact_fire.R;
+import edu.wsu.lar.airpact_fire.R;
 
 /**
  * Activity to manage the collection of data for each described
@@ -32,6 +32,8 @@ import lar.wsu.edu.airpact_fire.R;
  */
 public class ImageLabActivity extends AppCompatActivity {
 
+    // region Private variables
+
     private AppManager mAppManager;
     private UserInterfaceObject mUserInterfaceObject;
     private PostInterfaceObject mPostInterfaceObject;
@@ -41,6 +43,8 @@ public class ImageLabActivity extends AppCompatActivity {
     private ActionBar mActionBar;
 
     private int[] mPadding;
+
+    // endregion
 
     /**
      * Create a post and open Fragment for user to select algorithm
@@ -126,6 +130,11 @@ public class ImageLabActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mUiTargetManager.hideAll();
     }
 
     /* Methods for fragments to control UI */
