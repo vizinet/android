@@ -15,8 +15,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+
+import javax.net.ssl.HttpsURLConnection;
+
 import edu.wsu.lar.airpact_fire.app.Reference;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
@@ -133,7 +137,7 @@ public class HTTPServerManager implements ServerManager {
 
                 // Establish HTTP connection
                 URL authenticationUrl = new URL(Reference.SERVER_AUTHENTICATION_URL);
-                HttpURLConnection authConn = (HttpURLConnection) authenticationUrl.openConnection();
+                HttpsURLConnection authConn = (HttpsURLConnection) authenticationUrl.openConnection();
 
                 // Set connection properties
                 authConn.setReadTimeout(10000);
@@ -228,7 +232,7 @@ public class HTTPServerManager implements ServerManager {
                 JSONObject jsonObject = (JSONObject) args[0];
 
                 URL postUrl = new URL(Reference.SERVER_UPLOAD_URL);
-                HttpURLConnection postConnection = (HttpURLConnection) postUrl.openConnection();
+                HttpsURLConnection postConnection = (HttpsURLConnection) postUrl.openConnection();
 
                 // Add secret key and convert to JSON
                 String postMessage = jsonObject.toString();

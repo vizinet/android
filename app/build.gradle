@@ -10,8 +10,8 @@ android {
         applicationId "edu.wsu.lar.airpact_fire"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 1
-        versionName "Alpha" // App version
+        versionCode 3
+        versionName "Beta" // App version
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }

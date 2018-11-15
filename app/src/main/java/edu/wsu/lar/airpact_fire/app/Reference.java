@@ -15,7 +15,7 @@ public final class Reference {
     // TODO: How about we define these as Android Values and Enums?
 
     // AIRPACT-Fire URL fields
-    public static final String SERVER_BASE_URL = "http://airpactfire.eecs.wsu.edu";
+    public static final String SERVER_BASE_URL = "https://airpactfire.eecs.wsu.edu";
     public static final String SERVER_UPLOAD_URL = SERVER_BASE_URL + "/file_upload/upload";
     public static final String SERVER_AUTHENTICATION_URL = SERVER_BASE_URL + "/user/appauth";
     public static final String SERVER_REGISTER_URL = SERVER_BASE_URL + "/user/register";
