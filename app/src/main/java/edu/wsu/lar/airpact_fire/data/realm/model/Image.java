@@ -12,10 +12,10 @@ import io.realm.annotations.PrimaryKey;
  * some {@link Post}.
  */
 public class Image extends RealmObject {
-
     @PrimaryKey
     public int imageId;
     public int postId;
-    public String imageLocation;
+    public String rawImageLocation;
+    public String compressedImageLocation;
     public Coordinate gpsCoordinate;
 }

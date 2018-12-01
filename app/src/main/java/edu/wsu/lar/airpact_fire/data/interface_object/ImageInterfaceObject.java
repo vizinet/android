@@ -21,10 +21,24 @@ public interface ImageInterfaceObject extends InterfaceObject {
     List<TargetInterfaceObject> getTargetObjects();
 
     Bitmap getBitmap();
+    Bitmap getThumbnail();
     File createImageFile();
 
+    void wipeRawImage();
+
+    /**
+     * Create image file for "raw" and "thumbnail" image for camera Activity to populate with
+     * pixels.
+     * @param storageDir directory under which images are created
+     * @return "Raw" image file
+     */
     File createImageFile(File storageDir);
 
+    /**
+     * Allows Activity to edit actual image pixel values. Must update both "raw" and "thumbnail"
+     * representations of image.
+     * @param value new image pixels
+     */
     void setImage(Bitmap value);
 
     void delete();

@@ -1,24 +1,24 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/schemeRed</item>
-        <item name="colorPrimaryDark">@color/schemeGray</item>
-        <item name="colorAccent">@color/schemeWhite</item>
+    <!--&lt;!&ndash; Base application theme. &ndash;&gt;-->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+        <!--<item name="colorPrimary">@color/schemeRed</item>-->
+        <!--<item name="colorPrimaryDark">@color/schemeGray</item>-->
+        <!--<item name="colorAccent">@color/schemeWhite</item>-->
 
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:actionBarStyle">@style/AppTheme.ActionBar</item>
-        <item name="android:windowContentOverlay">@null</item>
-    </style>
+        <!--<item name="android:windowActionBarOverlay">true</item>-->
+        <!--<item name="android:actionBarStyle">@style/AIRPACTTheme.ActionBar</item>-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+    <!--</style>-->
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+    <!--<style name="AppTheme.NoActionBar">-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+    <!--</style>-->
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!--<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />-->
+    <!--<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
 
     <!-- AddPictureDetailsActivity spinner -->
     <style name="SpinnerTextViewItem" parent="@android:style/Widget.TextView">
@@ -34,5 +34,28 @@
         <!-- Support library compatibility -->
         <item name="background">@drawable/action_bar_background</item>
     </style>
+
+    <style name="MyToolbarTextAppearance">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textColor">@android:color/holo_green_light</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:shadowColor">?colorAccent</item>
+    </style>
+
+    <style name="MyToolbarTextAppearanceTitle">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="MyToolbarTextAppearanceSubtitle">
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <!--<style name="MyToolbar">-->
+        <!--<item name="theme">@style/ThemeOverlay.AppCompat.Dark</item>-->
+        <!--<item name="android:background">@color/bootstrapDark</item>-->
+        <!--<item name="android:elevation" tools:targetApi="lollipop">4dp</item>-->
+    <!--</style>-->
 
 </resources>

@@ -50,6 +50,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
 import edu.wsu.lar.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.ui.activity.SignInActivity;
@@ -66,11 +68,50 @@ public class Util {
     private static final String TRANSACTION_IMAGE_FILENAME = "transaction_image";
     private static final int IMAGE_COMPRESSION_QUALITY = 0;
 
+    /**
+     * Check if string is null or empty.
+     * @param text string to check
+     * @return true if null or empty, false otherwise
+     */
     public static boolean isNullOrEmpty(String text) {
         if (text == null || text.trim().length() > 0) {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Create unpopulated image file in public "Pictures/" directory.
+     * @param storageDir directory to store pictures within
+     * @param debugManager debug manager from calling activity
+     * @return new image file
+     */
+    public static File createPublicImageFile(File storageDir, DebugManager debugManager) {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+
+        // Attempt to create file
+        File image = null;
+        try {
+            image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        } catch (IOException e) {
+            debugManager.printLog(String.format("Unable to create image file '%s'. Exception: %s",
+                    imageFileName, e.toString()));
+            return null;
+        }
+        return image;
+    }
+
+    /**
+     * Delete file from device's local memory.
+     * @param fileUri
+     */
+    public static void deleteLocalFile(String fileUri) {
+        File file = new File(fileUri);
+        file.delete();
+        boolean exists = file.exists();
+        Log.d("DEBUG", String.format("Attempted to delete file. Success: {0}", !exists));
     }
 
     // Check if internet is available

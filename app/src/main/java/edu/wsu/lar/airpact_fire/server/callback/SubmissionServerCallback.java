@@ -31,9 +31,8 @@ public class SubmissionServerCallback implements ServerCallback {
 
         // Show progress display
         mProgress = new ProgressDialog(mActivity);
-        mProgress.setTitle("Submitting Image...");
-        mProgress.setMessage("Please wait while your image is being " +
-                "sent");
+        mProgress.setTitle("Submitting Image");
+        mProgress.setMessage("Please wait while your image is being sent...");
         mProgress.show();
 
         return null;
@@ -50,6 +49,7 @@ public class SubmissionServerCallback implements ServerCallback {
             mPostInterfaceObject.setMode(DataManager.PostMode.SUBMITTED.getId());
             mPostInterfaceObject.setComputedVisualRange((float) serverOutput);
             mPostInterfaceObject.setServerId("" + serverImageId);
+            mPostInterfaceObject.wipeRawImages();
             Toast.makeText(mActivity, R.string.submission_success, Toast.LENGTH_LONG).show();
         } else {
             mPostInterfaceObject.setMode(DataManager.PostMode.QUEUED.getId());

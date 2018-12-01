@@ -99,6 +99,7 @@ public class UiTargetManager {
 
     public void hideAll() {
         List<UiTarget> targets = mUITargetFragmentMap.get(mCurrentFragmentId);
+        if (targets == null) return;
         for (UiTarget target : targets) {
             target.hide();
         }

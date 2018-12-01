@@ -6,14 +6,11 @@ package edu.wsu.lar.airpact_fire.data.realm.interface_object;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
@@ -22,6 +19,7 @@ import edu.wsu.lar.airpact_fire.data.realm.model.Coordinate;
 import edu.wsu.lar.airpact_fire.data.realm.model.Image;
 import edu.wsu.lar.airpact_fire.data.realm.model.Target;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
+import edu.wsu.lar.airpact_fire.util.Util;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -45,7 +43,19 @@ public class RealmImageInterfaceObject implements ImageInterfaceObject {
 
     @Override
     public Bitmap getBitmap() {
-        String fileLocation = mImage.imageLocation;
+        String fileLocation = mImage.rawImageLocation;
+        Bitmap bitmap = null;
+        try {
+            bitmap = BitmapFactory.decodeFile(fileLocation);
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+        }
+        return bitmap;
+    }
+
+    @Override
+    public Bitmap getThumbnail() {
+        String fileLocation = mImage.compressedImageLocation;
         Bitmap bitmap = null;
         try {
             bitmap = BitmapFactory.decodeFile(fileLocation);
@@ -61,53 +71,49 @@ public class RealmImageInterfaceObject implements ImageInterfaceObject {
     }
 
     @Override
+    public void wipeRawImage() {
+        Util.deleteLocalFile(mImage.rawImageLocation);
+    }
+
+    @Override
     public File createImageFile(File storageDir) {
 
-        // TODO: Possibly move file creation to a Util method
-
-        // Create an image file in public "Pictures/" directory to be populated by picture capturing
-        // activity
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        /*File storageDir = null; Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);*/
-
-        // Attempt to create file
-        File image = null;
-        try {
-            image = File.createTempFile(imageFileName, ".jpg", storageDir);
-            //image.getParentFile().mkdirs();
-            //image.createNewFile();
-        } catch (IOException e) {
-            mDebugManager.printLog(String.format("Unable to create image file '%s'. Exception: %s",
-                    imageFileName, e.toString()));
-            return null;
-        }
+        File rawImage = Util.createPublicImageFile(storageDir, mDebugManager);
+        File compressedImage = Util.createPublicImageFile(storageDir, mDebugManager);
 
         // Save image location
         mRealm.beginTransaction();
-        mImage.imageLocation = image.getAbsolutePath();
+        mImage.rawImageLocation = rawImage.getAbsolutePath();
+        mImage.compressedImageLocation = compressedImage.getAbsolutePath();
         mRealm.commitTransaction();
 
-        return image;
+        return rawImage;
     }
 
-    // TODO: Possibly remove, possibly use to store image file to private dir
     @Override
     public void setImage(Bitmap value) {
 
-        File file = new File(mImage.imageLocation);
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        // TODO: Write both the compressed version and raw version, in addition to
+        // removing the raw version upon submission and ensuring nobody but ServerManager
+        // reads from the raw version.
 
-        // JPEG compression; time-consuming
-        //value.compress(Bitmap.CompressFormat.JPEG, 50, bos);
-        // No compression
-        value.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        File rawFile = new File(mImage.rawImageLocation);
+        File compressedFile = new File(mImage.compressedImageLocation);
 
-        byte[] bitmapData = bos.toByteArray();
+        ByteArrayOutputStream rawBos = new ByteArrayOutputStream();
+        ByteArrayOutputStream compressedBos = new ByteArrayOutputStream();
+
+        // Compress one version, preserve on the other
+        value.compress(Bitmap.CompressFormat.PNG, 100, rawBos);
+        value.compress(Bitmap.CompressFormat.JPEG, 50, compressedBos);
+
+        byte[] rawBitmapData = rawBos.toByteArray();
+        byte[] compressedBitmapData = rawBos.toByteArray();
         try {
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bitmapData);
+            FileOutputStream rawFos = new FileOutputStream(rawFile);
+            FileOutputStream compressedFos = new FileOutputStream(compressedFile);
+            rawFos.write(rawBitmapData);
+            compressedFos.write(compressedBitmapData);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {

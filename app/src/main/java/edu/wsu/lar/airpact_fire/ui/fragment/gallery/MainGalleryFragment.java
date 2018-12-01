@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -152,7 +151,8 @@ public class MainGalleryFragment extends Fragment {
                         case MotionEvent.ACTION_DOWN: {
                             // Set overlay
                             ImageView view = (ImageView) v;
-                            view.getDrawable().setColorFilter(0x33000000, PorterDuff.Mode.SRC_ATOP);
+                            view.getDrawable().setColorFilter(0x33000000,
+                                    PorterDuff.Mode.SRC_ATOP);
                             view.invalidate();
                             break;
                         }

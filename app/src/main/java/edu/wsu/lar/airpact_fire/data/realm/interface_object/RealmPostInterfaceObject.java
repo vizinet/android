@@ -139,20 +139,25 @@ public class RealmPostInterfaceObject implements PostInterfaceObject {
     }
 
     @Override
+    public void wipeRawImages() {
+        for (ImageInterfaceObject imageInterfaceObject : getImageObjects()) {
+            imageInterfaceObject.wipeRawImage();
+        }
+    }
+
+    @Override
     public Bitmap getThumbnail() {
-        if (getAlgorithm() == 1) return getImageObjects().get(0).getBitmap();
-        else if (getAlgorithm() == 2) return getImageObjects().get(1).getBitmap();
+        if (getAlgorithm() == 1) return getImageObjects().get(0).getThumbnail();
+        else if (getAlgorithm() == 2) return getImageObjects().get(1).getThumbnail();
         else return null;
     }
 
     @Override
     public Bitmap getThumbnail(int width) {
 
-        // TODO: Compression
-
         Bitmap bitmap;
-        if (getAlgorithm() == 1) bitmap = getImageObjects().get(0).getBitmap();
-        else if (getAlgorithm() == 2) bitmap = getImageObjects().get(1).getBitmap();
+        if (getAlgorithm() == 1) bitmap = getImageObjects().get(0).getThumbnail();
+        else if (getAlgorithm() == 2) bitmap = getImageObjects().get(1).getThumbnail();
         else return null;
 
         bitmap = Bitmap.createScaledBitmap(bitmap, width,

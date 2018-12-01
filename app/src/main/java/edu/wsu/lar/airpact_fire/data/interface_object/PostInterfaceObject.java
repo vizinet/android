@@ -43,6 +43,11 @@ public interface PostInterfaceObject extends InterfaceObject {
     Bitmap getThumbnail();
     Bitmap getThumbnail(int width);
 
+    /**
+     * Remove raw image from memory to save space on client device.
+     */
+    void wipeRawImages();
+
     float getEstimatedVisualRange();
     void setEstimatedVisualRange(float value);
 

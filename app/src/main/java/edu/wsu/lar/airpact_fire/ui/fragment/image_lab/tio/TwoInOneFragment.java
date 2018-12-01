@@ -250,27 +250,11 @@ public class TwoInOneFragment extends Fragment {
     }
 
     /**
-     * @param enabled
-     */
-    private void setInputsEnabled(boolean enabled) {
-
-        // Image
-        mMainImageView.setEnabled(enabled);
-
-        // Inputs
-        mTargetOneDistanceEditText.setEnabled(enabled);
-        mTargetTwoDistanceEditText.setEnabled(enabled);
-
-        // Buttons
-        mRetakeButton.setEnabled(enabled);
-        mFlipButton.setEnabled(enabled);
-        mProceedButton.setEnabled(enabled);
-    }
-
-    /**
      *
+     * @param requestCode
+     * @param resultCode
+     * @param data
      */
-    // TODO: Complete this in ImageManager
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -287,7 +271,7 @@ public class TwoInOneFragment extends Fragment {
             // If no image taken or error, go home
             Toast.makeText(getContext(),
                     "Camera failed to take picture. Please try again later.",
-                    Toast.LENGTH_LONG);
+                    Toast.LENGTH_LONG).show();
             Util.goHome(getActivity());
         }
     }

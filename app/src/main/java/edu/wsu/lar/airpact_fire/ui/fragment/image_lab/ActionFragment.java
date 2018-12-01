@@ -88,10 +88,10 @@ public class ActionFragment extends Fragment {
                         int serverImageId = (int) args[2];
 
                         // TODO: What the actual fuck?
-                        if (didSubmit)
+                        if (didSubmit) {
+                            goHome();
+                        }
 
-                        // Go home & return
-                        goHome();
                         return null;
                     }
                 };

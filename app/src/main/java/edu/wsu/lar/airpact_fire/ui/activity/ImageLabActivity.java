@@ -55,9 +55,8 @@ public class ImageLabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_lab);
 
-        // Set action menu_alpha
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        // Set action bar
+        setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         GradientDrawable gd = new GradientDrawable(
@@ -135,6 +134,7 @@ public class ImageLabActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         mUiTargetManager.hideAll();
+        super.onBackPressed();
     }
 
     /* Methods for fragments to control UI */

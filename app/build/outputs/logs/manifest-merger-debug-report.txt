@@ -7,12 +7,12 @@ INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\m
 MERGED from [io.realm:realm-android-library:3.1.4] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\realm-android-library-3.1.4.aar\7b166bfadbbc017d31764198f486a81a\AndroidManifest.xml:2:1-11:12
 MERGED from [com.android.support:multidex:1.0.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\0dbe5c3499d6bd123bf578456efae79e\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:design:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\3b35d4c1ef9717f136b00c343aa4a21c\AndroidManifest.xml:17:1-31:12
-MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\35297c2beffb451ef0a6f66e8cf7dfc9\AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.android.gms:play-services:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-11.0.1.aar\6bc71f596aa36e683406ac1add2c28f0\AndroidManifest.xml:2:1-6:12
 MERGED from [com.google.android.gms:play-services-cast-framework:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-cast-framework-11.0.1.aar\6c46c96f1a74c95d4d16d3852abe0d7e\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-cast:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-cast-11.0.1.aar\a7e0ba2df131aa2bcf0de8028efc3192\AndroidManifest.xml:16:1-19:12
 MERGED from [com.android.support:mediarouter-v7:25.2.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\mediarouter-v7-25.2.0.aar\fa3ac60bd76bb96c4b40629f9b7f7873\AndroidManifest.xml:17:1-24:12
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\ac3fdfcb3bfc35028b3f33a4c6c73cb2\AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\35297c2beffb451ef0a6f66e8cf7dfc9\AndroidManifest.xml:2:1-11:12
 MERGED from [com.android.support:animated-vector-drawable:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.1.0.aar\7b946f094366e87bc2cd83175f5f1ccb\AndroidManifest.xml:17:1-28:12
 MERGED from [com.android.support:support-vector-drawable:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.1.0.aar\eae30d0417424a4136ca3b625fe3b834\AndroidManifest.xml:17:1-28:12
 MERGED from [com.android.support:transition:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\transition-26.1.0.aar\3583ef3b9fc0ffe6588046daac89cbb5\AndroidManifest.xml:17:1-28:12
@@ -168,8 +168,6 @@ application
 ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:18:5-121:19
 MERGED from [com.android.support:design:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\3b35d4c1ef9717f136b00c343aa4a21c\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:design:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\3b35d4c1ef9717f136b00c343aa4a21c\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\35297c2beffb451ef0a6f66e8cf7dfc9\AndroidManifest.xml:9:5-20
-MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\35297c2beffb451ef0a6f66e8cf7dfc9\AndroidManifest.xml:9:5-20
 MERGED from [com.google.android.gms:play-services:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-11.0.1.aar\6bc71f596aa36e683406ac1add2c28f0\AndroidManifest.xml:5:5-20
 MERGED from [com.google.android.gms:play-services:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-11.0.1.aar\6bc71f596aa36e683406ac1add2c28f0\AndroidManifest.xml:5:5-20
 MERGED from [com.google.android.gms:play-services-cast-framework:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-cast-framework-11.0.1.aar\6c46c96f1a74c95d4d16d3852abe0d7e\AndroidManifest.xml:4:5-8:19
@@ -180,6 +178,8 @@ MERGED from [com.android.support:mediarouter-v7:25.2.0] C:\Users\lukedottec\.gra
 MERGED from [com.android.support:mediarouter-v7:25.2.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\mediarouter-v7-25.2.0.aar\fa3ac60bd76bb96c4b40629f9b7f7873\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\ac3fdfcb3bfc35028b3f33a4c6c73cb2\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\ac3fdfcb3bfc35028b3f33a4c6c73cb2\AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\35297c2beffb451ef0a6f66e8cf7dfc9\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\35297c2beffb451ef0a6f66e8cf7dfc9\AndroidManifest.xml:9:5-20
 MERGED from [com.android.support:animated-vector-drawable:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.1.0.aar\7b946f094366e87bc2cd83175f5f1ccb\AndroidManifest.xml:22:5-26:19
 MERGED from [com.android.support:animated-vector-drawable:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.1.0.aar\7b946f094366e87bc2cd83175f5f1ccb\AndroidManifest.xml:22:5-26:19
 MERGED from [com.android.support:support-vector-drawable:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.1.0.aar\eae30d0417424a4136ca3b625fe3b834\AndroidManifest.xml:22:5-26:19
@@ -418,8 +418,6 @@ MERGED from [com.android.support:multidex:1.0.3] C:\Users\lukedottec\.gradle\cac
 MERGED from [com.android.support:multidex:1.0.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\0dbe5c3499d6bd123bf578456efae79e\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:design:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\3b35d4c1ef9717f136b00c343aa4a21c\AndroidManifest.xml:21:5-23:62
 MERGED from [com.android.support:design:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\3b35d4c1ef9717f136b00c343aa4a21c\AndroidManifest.xml:21:5-23:62
-MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\35297c2beffb451ef0a6f66e8cf7dfc9\AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\35297c2beffb451ef0a6f66e8cf7dfc9\AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.android.gms:play-services:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-11.0.1.aar\6bc71f596aa36e683406ac1add2c28f0\AndroidManifest.xml:4:5-43
 MERGED from [com.google.android.gms:play-services:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-11.0.1.aar\6bc71f596aa36e683406ac1add2c28f0\AndroidManifest.xml:4:5-43
 MERGED from [com.google.android.gms:play-services-cast-framework:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-cast-framework-11.0.1.aar\6c46c96f1a74c95d4d16d3852abe0d7e\AndroidManifest.xml:3:5-43
@@ -430,6 +428,8 @@ MERGED from [com.android.support:mediarouter-v7:25.2.0] C:\Users\lukedottec\.gra
 MERGED from [com.android.support:mediarouter-v7:25.2.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\mediarouter-v7-25.2.0.aar\fa3ac60bd76bb96c4b40629f9b7f7873\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\ac3fdfcb3bfc35028b3f33a4c6c73cb2\AndroidManifest.xml:21:5-23:78
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\ac3fdfcb3bfc35028b3f33a4c6c73cb2\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\35297c2beffb451ef0a6f66e8cf7dfc9\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\35297c2beffb451ef0a6f66e8cf7dfc9\AndroidManifest.xml:5:5-7:41
 MERGED from [com.android.support:animated-vector-drawable:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.1.0.aar\7b946f094366e87bc2cd83175f5f1ccb\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:animated-vector-drawable:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.1.0.aar\7b946f094366e87bc2cd83175f5f1ccb\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-vector-drawable:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.1.0.aar\eae30d0417424a4136ca3b625fe3b834\AndroidManifest.xml:20:5-44

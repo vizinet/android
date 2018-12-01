@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Bootstrap -->
+    <color name="bootstrapDark">#343a40</color>
+    <color name="bootstrapWhite">#ffffff</color>
+
     <!--Reds-->
     <color name="schemeRed">#981e32</color> <!-- previously #660000 -->
     <color name="schemeRedHighlight">#c60c30</color>

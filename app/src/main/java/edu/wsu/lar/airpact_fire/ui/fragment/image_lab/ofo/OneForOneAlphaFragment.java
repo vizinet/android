@@ -191,6 +191,9 @@ public class OneForOneAlphaFragment extends Fragment {
             mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
         } else {
             // If no image taken or error, go home
+            Toast.makeText(getContext(),
+                    "Camera failed to take picture. Please try again later.",
+                    Toast.LENGTH_LONG).show();
             Util.goHome(getActivity());
         }
     }
