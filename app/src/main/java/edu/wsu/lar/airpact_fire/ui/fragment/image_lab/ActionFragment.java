@@ -87,11 +87,7 @@ public class ActionFragment extends Fragment {
                         double serverOutput = (double) args[1];
                         int serverImageId = (int) args[2];
 
-                        // TODO: What the actual fuck?
-                        if (didSubmit) {
-                            goHome();
-                        }
-
+                        goHome();
                         return null;
                     }
                 };

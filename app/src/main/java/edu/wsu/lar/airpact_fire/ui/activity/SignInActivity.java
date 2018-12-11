@@ -63,7 +63,8 @@ public class SignInActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.CAMERA
     };
 
     // UI references
@@ -289,7 +290,8 @@ public class SignInActivity extends AppCompatActivity {
                 return;
             }
         }
-        Toast.makeText(SignInActivity.this, "Permission Granted!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SignInActivity.this, "Permission Granted!",
+                Toast.LENGTH_SHORT).show();
         proceed();
     }
 }

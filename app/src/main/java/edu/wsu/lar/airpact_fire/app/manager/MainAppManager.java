@@ -12,11 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.IBinder;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
 
 import edu.wsu.lar.airpact_fire.app.service.GpsService;
@@ -52,6 +48,7 @@ public class MainAppManager extends AppManager {
     private GpsAvailableCallback mGpsAvailableCallback;
 
     private boolean mIsGpsAvailable;
+    private boolean mIsActivityVisible = true;
 
     @Override
     public boolean isDebugging() {
@@ -83,6 +80,9 @@ public class MainAppManager extends AppManager {
 
         // Do not proceed without subscribers
         if (mGpsAvailableCallback == null) return;
+
+        // Cannot start a service while app is in background
+        if (mIsActivityVisible == false) return;
 
         // Start and bind GPS service
         Intent serviceIntent = new Intent(mActivity, GpsService.class);
@@ -162,6 +162,11 @@ public class MainAppManager extends AppManager {
     }
 
     @Override
+    public boolean isActivityVisible() {
+        return mIsActivityVisible;
+    }
+
+    @Override
     public void goHome() {
         Intent intent = new Intent(mActivity.getApplicationContext(), HomeActivity.class);
         mActivity.startActivity(intent);
@@ -220,6 +225,17 @@ public class MainAppManager extends AppManager {
                 mDebugManager.printToast(context, "[Global exception caught]");
             }
         });
+    }
+
+    @Override
+    public void onActivityPause(Object... args) {
+        mIsActivityVisible = false;
+    }
+
+    @Override
+    public void onActivityResume(Object... args) {
+        mIsActivityVisible = true;
+        // TODO: Need to start or restart GPS service once app is brought into focus
     }
 
     @Override

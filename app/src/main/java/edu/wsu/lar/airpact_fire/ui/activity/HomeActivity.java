@@ -101,8 +101,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mCaptureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//              TODO:  Intent captureIntent = new Intent(HomeActivity.this,
+//                        ImageLabActivity.class);
                 Intent captureIntent = new Intent(HomeActivity.this,
-                        ImageLabActivity.class);
+                        CameraActivity.class);
                 startActivity(captureIntent);
             }
         });
@@ -114,6 +116,19 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(galleryIntent);
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // TODO: Put these all throughout app
+        mAppManager.onActivityPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAppManager.onActivityResume();
     }
 
     @Override

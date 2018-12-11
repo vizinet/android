@@ -41,11 +41,17 @@ public abstract class AppManager {
     public abstract void subscribeGpsLocationChanges(
             GpsService.GpsLocationChangedCallback callback);
 
+    /* misc. */
+
+    public abstract boolean isActivityVisible();
+
     /* Activity lifecycle methods */
 
     public abstract void onAppStart(Object... args);
     public abstract void onAppEnd(Object... args);
     public abstract void onActivityStart(Object... args);
+    public abstract void onActivityPause(Object... args);
+    public abstract void onActivityResume(Object... args);
     public abstract void onActivityEnd(Object... args);
     public abstract void onLogin(Object... args);
     public abstract void onLogout(Object... args);
