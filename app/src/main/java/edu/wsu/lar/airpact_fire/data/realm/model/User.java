@@ -8,8 +8,6 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-import static edu.wsu.lar.airpact_fire.app.Reference.*;
-
 /**
  * Realm portrayal of a user in the app.
  */

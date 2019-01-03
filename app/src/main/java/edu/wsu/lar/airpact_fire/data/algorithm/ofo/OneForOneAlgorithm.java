@@ -41,7 +41,7 @@ public class OneForOneAlgorithm implements Algorithm {
     public String getProcedure() {
         return "Stand still. What we will do is take two pictures at different distances of the " +
                 "same Point of Interest (e.g., mountain, hills, tree). You will be asked to " +
-                "capture and describe one image at a time.";
+                "captureImage and describe one image at a time.";
     }
 
     @Override

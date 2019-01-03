@@ -14,13 +14,13 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Toast;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.Constant;
 
 /**
  * Service for accurately listening for GPS and allowing activities to request
@@ -149,7 +149,7 @@ public class GpsService extends Service {
     }
 
     public double[] getGps() {
-        if (mLocation == null) return Reference.DEFAULT_GPS_LOCATION;
+        if (mLocation == null) return Constant.DEFAULT_GPS_LOCATION;
         return new double[] { mLocation.getLatitude(), mLocation.getLongitude() };
     }
 }

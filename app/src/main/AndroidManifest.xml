@@ -47,12 +47,9 @@
                 android:value="edu.wsu.lar.airpact_fire.ui.activity.SignInActivity" />
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.CameraActivity"
+            android:name="edu.wsu.lar.airpact_fire.ui.activity.CaptureActivity"
             android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
             android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
         </activity>
         <activity
             android:name="edu.wsu.lar.airpact_fire.ui.activity.ProfileActivity"

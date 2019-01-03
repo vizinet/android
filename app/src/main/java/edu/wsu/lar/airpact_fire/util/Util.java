@@ -64,6 +64,15 @@ import edu.wsu.lar.airpact_fire.ui.activity.SignInActivity;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class Util {
 
+    public static class Tuple<X, Y> {
+        public final X x;
+        public final Y y;
+        public Tuple(X x, Y y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     // Image fields
     private static final String TRANSACTION_IMAGE_FILENAME = "transaction_image";
     private static final int IMAGE_COMPRESSION_QUALITY = 0;

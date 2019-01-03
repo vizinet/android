@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 import java.util.List;
-import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.Constant;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.app.service.GpsService;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
@@ -71,7 +71,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mAppManager = Reference.getAppManager();
+        mAppManager = Constant.getAppManager();
         mAppManager.onActivityStart(this);
         mDataManager = mAppManager.getDataManager();
         mUserInterfaceObject = mDataManager.getApp().getLastUser();
@@ -101,10 +101,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mCaptureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//              TODO:  Intent captureIntent = new Intent(HomeActivity.this,
-//                        ImageLabActivity.class);
                 Intent captureIntent = new Intent(HomeActivity.this,
-                        CameraActivity.class);
+                        ImageLabActivity.class);
                 startActivity(captureIntent);
             }
         });

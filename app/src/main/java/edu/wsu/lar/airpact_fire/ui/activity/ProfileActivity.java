@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.Constant;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
@@ -51,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setTitle(sActionBarTitle);
 
-        mAppManager = Reference.getAppManager();
+        mAppManager = Constant.getAppManager();
         mAppManager.onActivityStart(this);
 
         mUserInterfaceObject = mAppManager.getDataManager().getApp().getLastUser();
@@ -80,7 +80,7 @@ public class ProfileActivity extends AppCompatActivity {
         mWebButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri uri = Uri.parse(Reference.SERVER_PROFILE_BASE_URL + mUserInterfaceObject.getUsername());
+                Uri uri = Uri.parse(Constant.SERVER_PROFILE_BASE_URL + mUserInterfaceObject.getUsername());
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
             }

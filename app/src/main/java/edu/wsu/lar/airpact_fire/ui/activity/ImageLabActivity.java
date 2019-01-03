@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.Constant;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
@@ -67,7 +67,7 @@ public class ImageLabActivity extends AppCompatActivity {
                 });
         mActionBar.setBackgroundDrawable(gd);
 
-        mAppManager = Reference.getAppManager();
+        mAppManager = Constant.getAppManager();
         mAppManager.onActivityStart(this);
         mAppManager.rebindGpsService();
 

@@ -5,14 +5,8 @@
 package edu.wsu.lar.airpact_fire.ui.fragment.image_lab.ofo;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,11 +30,11 @@ import edu.wsu.lar.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
 import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.adjustAndDisplayBitmap;
-import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.capture;
+import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.captureImage;
 import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.rotate;
 
 /**
- * Page resulting from the first second capture in a series
+ * Page resulting from the first second captureImage in a series
  * of two captures, but this time the user must be closer
  * to the same Point of Interest as in {@link OneForOneAlphaFragment}.
  *
@@ -96,7 +90,7 @@ public class OneForOneBetaFragment extends Fragment {
         mProceedButton = view.findViewById(R.id.proceed_button);
 
         // Take pic
-        capture(OneForOneBetaFragment.this, mImageInterfaceObject);
+        captureImage(OneForOneBetaFragment.this, mImageInterfaceObject);
 
         // Target movement
         mMainImageView.setOnTouchListener(new View.OnTouchListener() {
@@ -131,7 +125,7 @@ public class OneForOneBetaFragment extends Fragment {
         mRetakeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                capture(OneForOneBetaFragment.this, mImageInterfaceObject);
+                captureImage(OneForOneBetaFragment.this, mImageInterfaceObject);
             }
         });
 
@@ -188,9 +182,9 @@ public class OneForOneBetaFragment extends Fragment {
 
         // TODO: Enforce a strict time-limit between these two image captures so things are up to date
 
-        if (((requestCode == sRequestImageCapture) && (resultCode == RESULT_OK)) &&
-                (null != adjustAndDisplayBitmap(getActivity(),
-                        mImageInterfaceObject, mMainImageView)))  {
+        if ((requestCode == ImageManager.REQUEST_IMAGE_CAPTURE_CODE && resultCode == RESULT_OK) &&
+                null != adjustAndDisplayBitmap(getActivity(),
+                        mImageInterfaceObject, mMainImageView)) {
             mPostInterfaceObject.setDate(new Date());
             mImageInterfaceObject.setGps(((ImageLabActivity) getActivity())
                 .getAppManager().getGps());

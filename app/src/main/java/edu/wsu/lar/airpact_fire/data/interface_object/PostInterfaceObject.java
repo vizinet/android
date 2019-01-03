@@ -8,7 +8,7 @@ import android.graphics.Bitmap;
 import org.json.simple.JSONObject;
 import java.util.Date;
 import java.util.List;
-import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.Constant;
 
 /**
  * Image post interface for UI to use and change.
@@ -23,18 +23,18 @@ public interface PostInterfaceObject extends InterfaceObject {
     String getServerId();
     void setServerId(String value);
 
-    /** @see Reference.DistanceMetric */
+    /** @see Constant.DistanceMetric */
     int getMetric();
     void setMetric(int value);
 
-    /** @see Reference.Algorithm */
+    /** @see Constant.Algorithm */
     int getAlgorithm();
     void setAlgorithm(int value);
 
     String getSecretKey();
     void setSecretKey(String value);
 
-    /** @see Reference.PostMode */
+    /** @see Constant.PostMode */
     int getMode();
     void setMode(int value);
 

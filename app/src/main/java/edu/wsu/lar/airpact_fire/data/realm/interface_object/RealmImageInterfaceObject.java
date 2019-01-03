@@ -91,6 +91,11 @@ public class RealmImageInterfaceObject implements ImageInterfaceObject {
     }
 
     @Override
+    public File getImageFile() {
+        return new File(mImage.rawImageLocation);
+    }
+
+    @Override
     public void setImage(Bitmap value) {
 
         // TODO: Write both the compressed version and raw version, in addition to

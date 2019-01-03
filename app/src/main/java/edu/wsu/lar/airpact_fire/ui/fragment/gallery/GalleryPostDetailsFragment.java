@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.Constant;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
@@ -97,7 +97,7 @@ public class GalleryPostDetailsFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(
-                        Reference.SERVER_IMAGE_BASE_URL + mPostInterfaceObject.getServerId()));
+                        Constant.SERVER_IMAGE_BASE_URL + mPostInterfaceObject.getServerId()));
                 startActivity(intent);
             }
         });

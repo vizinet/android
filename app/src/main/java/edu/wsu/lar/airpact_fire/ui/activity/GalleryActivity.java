@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.Constant;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
@@ -50,7 +50,7 @@ public class GalleryActivity extends AppCompatActivity {
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
-        mAppManager = Reference.getAppManager();
+        mAppManager = Constant.getAppManager();
         mAppManager.onActivityStart(this);
 
         mUserInterfaceObject = mAppManager.getDataManager().getApp().getLastUser();

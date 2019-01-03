@@ -34,6 +34,8 @@ public interface ImageInterfaceObject extends InterfaceObject {
      */
     File createImageFile(File storageDir);
 
+    File getImageFile();
+
     /**
      * Allows Activity to edit actual image pixel values. Must update both "raw" and "thumbnail"
      * representations of image.

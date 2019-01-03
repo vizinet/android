@@ -53,7 +53,7 @@ public class VisualRangeFragment extends Fragment {
         mProceedButton = (Button) view.findViewById(R.id.proceed_button);
 
         ImageInterfaceObject imageInterfaceObject = mPostInterfaceObject.getImageObjects().get(0);
-        mMainImageView.setImageBitmap(imageInterfaceObject.getBitmap());
+        mMainImageView.setImageBitmap(imageInterfaceObject.getThumbnail());
 
         mProceedButton.setOnClickListener(new View.OnClickListener() {
             @Override

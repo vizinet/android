@@ -32,7 +32,7 @@ public class TwoInOneAlgorithm implements Algorithm {
 
     @Override
     public String getDescription() {
-        return "One image capture with two targets placed.";
+        return "One image captureImage with two targets placed.";
     }
 
     @Override

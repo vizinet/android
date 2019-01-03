@@ -5,17 +5,8 @@
 package edu.wsu.lar.airpact_fire.ui.fragment.image_lab.ofo;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.Date;
 import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
@@ -39,16 +29,16 @@ import edu.wsu.lar.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
 import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.adjustAndDisplayBitmap;
-import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.capture;
+import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.captureImage;
 import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.rotate;
 
 // TODO: When user retakes image, scrap this imageObject and make a new one!
 
 /**
- * Page resulting from the first image capture in a series
+ * Page resulting from the first image captureImage in a series
  * of two captures.
  *
- * <p>Here a user will capture an image of a Point of Interest,
+ * <p>Here a user will captureImage an image of a Point of Interest,
  * place a target on that object, and enter the distance to it.</p>
  *
  * @see edu.wsu.lar.airpact_fire.data.algorithm.ofo.OneForOneAlgorithm
@@ -103,7 +93,7 @@ public class OneForOneAlphaFragment extends Fragment {
         mProceedButton = view.findViewById(R.id.proceed_button);
 
         // Take pic
-        capture(this, mImageInterfaceObject);
+        captureImage(this, mImageInterfaceObject);
 
         // Target movement
         mMainImageView.setOnTouchListener(new View.OnTouchListener() {
@@ -135,7 +125,7 @@ public class OneForOneAlphaFragment extends Fragment {
         mRetakeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                capture(OneForOneAlphaFragment.this, mImageInterfaceObject);
+                captureImage(OneForOneAlphaFragment.this, mImageInterfaceObject);
             }
         });
 
@@ -182,9 +172,9 @@ public class OneForOneAlphaFragment extends Fragment {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (((requestCode == sRequestImageCapture) && (resultCode == RESULT_OK)) &&
-                (null != adjustAndDisplayBitmap(getActivity(),
-                        mImageInterfaceObject, mMainImageView)))  {
+        if ((requestCode == ImageManager.REQUEST_IMAGE_CAPTURE_CODE && resultCode == RESULT_OK) &&
+                null != adjustAndDisplayBitmap(getActivity(),
+                        mImageInterfaceObject, mMainImageView)) {
             mPostInterfaceObject.setDate(new Date());
             mImageInterfaceObject.setGps(((ImageLabActivity) getActivity())
                 .getAppManager().getGps());

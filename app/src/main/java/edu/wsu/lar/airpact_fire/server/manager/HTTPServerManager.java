@@ -13,15 +13,13 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.Constant;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
@@ -29,8 +27,7 @@ import edu.wsu.lar.airpact_fire.server.callback.EmptyServerCallback;
 import edu.wsu.lar.airpact_fire.server.callback.ServerCallback;
 
 /**
- * Server management making actual connections to the web
- * server via HTTP.
+ * Server management making actual connections to the web server via HTTP.
  */
 public class HTTPServerManager implements ServerManager {
 
@@ -136,7 +133,7 @@ public class HTTPServerManager implements ServerManager {
                 String sendMessage = authenticationSendJSON.toJSONString();
 
                 // Establish HTTP connection
-                URL authenticationUrl = new URL(Reference.SERVER_AUTHENTICATION_URL);
+                URL authenticationUrl = new URL(Constant.SERVER_AUTHENTICATION_URL);
                 HttpsURLConnection authConn = (HttpsURLConnection) authenticationUrl.openConnection();
 
                 // Set connection properties
@@ -202,7 +199,9 @@ public class HTTPServerManager implements ServerManager {
         }
     }
 
-    // Takes Post object, converts this into JSON, and submits it
+    /**
+     * Takes Post object, converts this into JSON, and submits it.
+     */
     private class SubmissionManager extends AsyncTask<Object, Void, ArrayList<Object>> {
 
         private ServerCallback mCallback;
@@ -231,14 +230,12 @@ public class HTTPServerManager implements ServerManager {
                 // Get post to submit
                 JSONObject jsonObject = (JSONObject) args[0];
 
-                URL postUrl = new URL(Reference.SERVER_UPLOAD_URL);
+                URL postUrl = new URL(Constant.SERVER_UPLOAD_URL);
                 HttpsURLConnection postConnection = (HttpsURLConnection) postUrl.openConnection();
 
                 // Add secret key and convert to JSON
                 String postMessage = jsonObject.toString();
                 byte[] postBytes = postMessage.getBytes("UTF-8");
-
-                mDebugManager.printLog("postBytes.length = " + postBytes.length);
 
                 // Connection properties
                 postConnection.setReadTimeout(30000);
@@ -252,6 +249,12 @@ public class HTTPServerManager implements ServerManager {
                 postConnection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
                 postConnection.setRequestProperty("X-Requested-With", "XMLHttpRequest");
 
+                mDebugManager.printLog(String.format(
+                        "Attempting to send %d bytes from post to %s",
+                        postBytes.length,
+                        postUrl.toString()
+                ));
+
                 // Connect
                 postConnection.connect();
 
@@ -259,10 +262,13 @@ public class HTTPServerManager implements ServerManager {
                 OutputStream postOutputStream = new BufferedOutputStream(
                         postConnection.getOutputStream());
                 postOutputStream.write(postBytes);
-                postOutputStream.close(); // TODO: See if it works
+                postOutputStream.close();
 
-                //int status = postConnection.getResponseCode();
-                //mDebugManager.printLog("Response code = " + status);
+                int responseCode = postConnection.getResponseCode();
+                mDebugManager.printLog(String.format(
+                        "Post submission to server resulted response code = %d",
+                        responseCode
+                ));
 
                 // Read if post succeeded or failed
                 InputStream postStatusInputStream;
@@ -284,7 +290,9 @@ public class HTTPServerManager implements ServerManager {
                 // Parse response
                 JSONObject postReceiveJSON = (JSONObject) new JSONParser()
                         .parse(serverPostResponse);
-                mDebugManager.printLog("postReceiveJSON = " + postReceiveJSON);
+                mDebugManager.printLog(String.format("JSON response from server = %s",
+                        postReceiveJSON.toString()
+                ));
 
                 // Did post succeed?
                 String postStatus = postReceiveJSON.get("status").toString();
@@ -297,7 +305,9 @@ public class HTTPServerManager implements ServerManager {
                 serverImageId = Integer.parseInt(postReceiveJSON.get("imageID").toString());
 
             } catch (Exception e) {
-                e.printStackTrace();
+                mDebugManager.printLog(String.format(
+                        "Post submission to server failed with exception = %s",
+                        e.toString()));
             }
 
             resultArrayList.add(didSubmit);

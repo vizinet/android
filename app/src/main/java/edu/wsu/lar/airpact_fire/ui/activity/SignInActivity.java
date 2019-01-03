@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import edu.wsu.lar.airpact_fire.app.Reference;
+import edu.wsu.lar.airpact_fire.app.Constant;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.AppInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
@@ -48,7 +48,7 @@ import edu.wsu.lar.airpact_fire.R;
  * in the app. Once successfully authenticated, that specific user will
  * be permitted to use the app offline.</p>
  *
- * @see     Reference
+ * @see     Constant
  * @see     AppManager
  * @see     DataManager
  */
@@ -87,7 +87,7 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         // Setup our application manager
-        mAppManager = Reference.getAppManager();
+        mAppManager = Constant.getAppManager();
         mAppManager.onActivityStart(this);
         mAppManager.onAppStart(this);
 
@@ -125,7 +125,7 @@ public class SignInActivity extends AppCompatActivity {
                         // rect.bottom is the position above soft keypad or device button
                         // If keypad is shown, the rect.bottom is smaller than before
                         int keypadHeight = screenHeight - rect.bottom;
-                        if (keypadHeight > (screenHeight * Reference.KEYPAD_OCCUPATION_RATIO)) {
+                        if (keypadHeight > (screenHeight * Constant.KEYPAD_OCCUPATION_RATIO)) {
                             // Keyboard is opened
                             mAppBanner.setVisibility(View.GONE);
                             mRegisterLink.setVisibility(View.GONE);
@@ -177,7 +177,7 @@ public class SignInActivity extends AppCompatActivity {
         mHelpImageButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse(Reference.SERVER_INFORMATION_URL);
+                Uri uri = Uri.parse(Constant.SERVER_INFORMATION_URL);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
             }
@@ -213,7 +213,7 @@ public class SignInActivity extends AppCompatActivity {
         // Setup registration link
         Spanned registerText = Html.fromHtml(String.format(
             "<a href = '%s'>Sign Up for AIRPACT-Fire</a>",
-            Reference.SERVER_REGISTER_URL));
+            Constant.SERVER_REGISTER_URL));
         mRegisterLink.setText(registerText);
         mRegisterLink.setMovementMethod(LinkMovementMethod.getInstance());
 
