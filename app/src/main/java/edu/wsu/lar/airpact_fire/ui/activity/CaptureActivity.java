@@ -40,6 +40,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -61,6 +63,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import edu.wsu.lar.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.ui.view.AutoFitTextureView;
@@ -166,6 +169,8 @@ public class CaptureActivity extends AppCompatActivity
     private TextView mTemperatureTextView;
     private TextView mHumidityTextView;
     private TextView mLightTextView;
+    private TextView mMagneticFieldTextView;
+    private TextView mRotationVectorTextView;
 
     /**
      * A {@link CameraCaptureSession } for camera preview.
@@ -355,6 +360,8 @@ public class CaptureActivity extends AppCompatActivity
     private Sensor mAmbientTemperature;
     private Sensor mLight;
     private Sensor mRelativeHumidity;
+    private Sensor mMagneticField;
+    private Sensor mRotationVector;
 
     private HashMap<Sensor, Util.Tuple<String, TextView>> mSensorLookup;
 
@@ -437,6 +444,8 @@ public class CaptureActivity extends AppCompatActivity
         mTemperatureTextView = findViewById(R.id.temperature_text_view);
         mHumidityTextView = findViewById(R.id.humidity_text_view);
         mLightTextView = findViewById(R.id.light_text_view);
+        mMagneticFieldTextView = findViewById(R.id.magnetic_field_text_view);
+        mRotationVectorTextView = findViewById(R.id.rotation_vector_text_view);
 
         // Attach sensors.
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -444,11 +453,15 @@ public class CaptureActivity extends AppCompatActivity
         mAmbientTemperature = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         mLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         mRelativeHumidity = mSensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
+        mMagneticField = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        mRotationVector = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         mSensorLookup = new HashMap<>();
         mSensorLookup.put(mPressure, new Util.Tuple("mbar", mPressureTextView));
         mSensorLookup.put(mAmbientTemperature, new Util.Tuple("C", mTemperatureTextView));
         mSensorLookup.put(mRelativeHumidity, new Util.Tuple("%", mHumidityTextView));
         mSensorLookup.put(mLight, new Util.Tuple("lx", mLightTextView));
+        mSensorLookup.put(mMagneticField, new Util.Tuple("\u00B5T", mMagneticFieldTextView));
+        mSensorLookup.put(mRotationVector, new Util.Tuple("", mRotationVectorTextView));
 
         // Grab data from intent which started this activity.
         Bundle extras = getIntent().getExtras();
@@ -462,6 +475,8 @@ public class CaptureActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
+
+        // Listen for sensor updates.
         mSensorManager.registerListener(this, mPressure, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mAmbientTemperature,
                 SensorManager.SENSOR_DELAY_NORMAL);
@@ -469,6 +484,11 @@ public class CaptureActivity extends AppCompatActivity
                 SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mLight,
                 SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mMagneticField,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, mRotationVector,
+                SensorManager.SENSOR_DELAY_NORMAL);
+
         startBackgroundThread();
 
         // When the screen is turned off and turned back on, the SurfaceTexture is already
@@ -917,10 +937,39 @@ public class CaptureActivity extends AppCompatActivity
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        float value = sensorEvent.values[0];
+        /*
+        String value = null;
+        String unit = null;
+        TextView textView = null;
+        if (sensorEvent.sensor == mPressure) {
+            value = Float.toString(sensorEvent.values[0]);
+        } else if (sensorEvent.sensor == mRelativeHumidity) {
+            value = Float.toString(sensorEvent.values[0]);
+        } else if (sensorEvent.sensor == mAmbientTemperature) {
+            value = Float.toString(sensorEvent.values[0]);
+        } else if (sensorEvent.sensor == mMagneticField) {
+            value = Float.toString(sensorEvent.values[0]);
+        } else if (sensorEvent.sensor == mLight) {
+            value = Float.toString(sensorEvent.values[0]);
+        } else {
+            return;
+        }
+        textView.setText(String.format("%s: %s %s", sensorEvent.sensor.getName(), value, unit));
+        */
+
+        // Buildup sensor values into cohesive string.
+        StringBuilder stringBuilder = new StringBuilder();
+        String delimeter = ", ";
+        int i = 0;
+        for (; i < sensorEvent.values.length - 1; i++) {
+            stringBuilder.append(sensorEvent.values[i]).append(delimeter);
+        }
+        stringBuilder.append(sensorEvent.values[i]);
+        String value = stringBuilder.toString();
+        // Apply sensor value to respective text view.
         Util.Tuple<String, TextView> lookup = mSensorLookup.get(sensorEvent.sensor);
-        lookup.y.setText(String.format("%s: %.2f %s",
-                sensorEvent.sensor.getName(), value, lookup.x));
+        lookup.y.setText(Html.fromHtml(String.format("<b>%s</b>: %s %s",
+                sensorEvent.sensor.getName(), value, lookup.x)));
     }
 
     @Override
