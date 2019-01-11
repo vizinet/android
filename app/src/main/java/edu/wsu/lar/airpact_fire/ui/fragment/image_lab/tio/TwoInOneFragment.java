@@ -123,16 +123,16 @@ public class TwoInOneFragment extends Fragment {
         mProceedButton = (Button) view.findViewById(R.id.proceed_button);
         mFlipProgressBar = view.findViewById(R.id.flip_progress_bar);
 
-        // Store target color references in list
+        // Store target color references in list.
         mTargetColorImageViews = new ArrayList<ImageView>();
         mTargetColorImageViews.add((ImageView) view.findViewById(R.id.target_one_color_image_view));
         mTargetColorImageViews.add((ImageView) view.findViewById(R.id.target_two_color_image_view));
 
-        // Set selected target
+        // Set selected target.
         mSelectedTargetId = 0;
         mTargetOneDistanceLinearLayout.setBackgroundColor(Color.parseColor("#EEEEEEEE"));
 
-        // Get image from user
+        // Get image from user.
         captureImage(this, mImageInterfaceObject);
 
         // Target movement
@@ -170,7 +170,27 @@ public class TwoInOneFragment extends Fragment {
                 return false;
             }
         });
+        mTargetOneDistanceEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                mTargetOneDistanceLinearLayout.setBackgroundColor(
+                        Color.parseColor("#EEEEEEEE"));
+                mTargetTwoDistanceLinearLayout.setBackgroundColor(Color.TRANSPARENT);
+                mSelectedTargetId = 0;
+                return false;
+            }
+        });
         mTargetTwoDistanceLinearLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                mTargetTwoDistanceLinearLayout.setBackgroundColor(
+                        Color.parseColor("#EEEEEEEE"));
+                mTargetOneDistanceLinearLayout.setBackgroundColor(Color.TRANSPARENT);
+                mSelectedTargetId = 1;
+                return false;
+            }
+        });
+        mTargetTwoDistanceEditText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 mTargetTwoDistanceLinearLayout.setBackgroundColor(
@@ -198,6 +218,7 @@ public class TwoInOneFragment extends Fragment {
                 rotate(getActivity(), mImageInterfaceObject, mMainImageView);
             }
         });
+        mFlipButton.setVisibility(View.GONE);
 
         // Moving forward
         mProceedButton.setOnClickListener(new View.OnClickListener() {

@@ -48,6 +48,7 @@ import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -476,18 +477,31 @@ public class CaptureActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        // Listen for sensor updates.
-        mSensorManager.registerListener(this, mPressure, SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mAmbientTemperature,
-                SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mRelativeHumidity,
-                SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mLight,
-                SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mMagneticField,
-                SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, mRotationVector,
-                SensorManager.SENSOR_DELAY_NORMAL);
+        // Listen for sensor updates; remove `View` if sensor doesn't exist or isn't enabled.
+        if (!mSensorManager.registerListener(this, mPressure,
+                SensorManager.SENSOR_DELAY_NORMAL)) {
+            Util.removeView(mPressureTextView);
+        }
+        if (!mSensorManager.registerListener(this, mAmbientTemperature,
+                SensorManager.SENSOR_DELAY_NORMAL)) {
+            Util.removeView(mTemperatureTextView);
+        }
+        if (!mSensorManager.registerListener(this, mRelativeHumidity,
+                SensorManager.SENSOR_DELAY_NORMAL)) {
+            Util.removeView(mHumidityTextView);
+        }
+        if (!mSensorManager.registerListener(this, mLight,
+                SensorManager.SENSOR_DELAY_NORMAL)) {
+            Util.removeView(mLightTextView);
+        }
+        if (!mSensorManager.registerListener(this, mMagneticField,
+                SensorManager.SENSOR_DELAY_NORMAL)) {
+            Util.removeView(mMagneticFieldTextView);
+        }
+        if (!mSensorManager.registerListener(this, mRotationVector,
+                SensorManager.SENSOR_DELAY_NORMAL)) {
+            Util.removeView(mRotationVectorTextView);
+        }
 
         startBackgroundThread();
 

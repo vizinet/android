@@ -11,15 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="bottom|center_horizontal"
+        android:gravity="center"
         android:text="Pick your data collection method"
         android:textAlignment="center"
-        android:textSize="15sp" />
+        android:textSize="18dp" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="5">
+        android:layout_weight="6">
 
         <RadioGroup
             android:id="@+id/algorithm_radio"

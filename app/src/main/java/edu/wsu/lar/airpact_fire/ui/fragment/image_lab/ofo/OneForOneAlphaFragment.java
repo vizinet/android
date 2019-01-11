@@ -136,6 +136,7 @@ public class OneForOneAlphaFragment extends Fragment {
                 rotate(getActivity(), mImageInterfaceObject, mMainImageView);
             }
         });
+        mFlipButton.setVisibility(View.GONE);
 
         mProceedButton.setOnClickListener(new View.OnClickListener() {
             @Override

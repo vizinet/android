@@ -6,6 +6,8 @@ package edu.wsu.lar.airpact_fire.ui.fragment.image_lab;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +53,7 @@ public class AlgorithmSelectFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
-        // Grab app manager from parent activity
+        // Grab app manager from parent activity.
         mAppManager = ((ImageLabActivity) getActivity()).getAppManager();
         mAlgorithms = new ArrayList<>();
 
@@ -62,20 +64,20 @@ public class AlgorithmSelectFragment extends Fragment {
                 R.id.remember_algorithm_check_box);
         mContinueButton = (Button) view.findViewById(R.id.continue_button);
 
-        // Dynamically add choices for algorithms
+        // Dynamically add choices for algorithms.
         DataManager.PostAlgorithm[] postAlgorithms = DataManager.PostAlgorithm.values();
         for (DataManager.PostAlgorithm postAlgorithm : postAlgorithms) {
             Algorithm algorithm = postAlgorithm.getInstance();
             RadioButton radioButton = new RadioButton(getActivity());
             radioButton.setPadding(20, 0, 0, 0);
-            radioButton.setTextSize(20);
+            radioButton.setTextSize(30);
             radioButton.setLayoutParams(new RadioGroup.LayoutParams(
                     RadioGroup.LayoutParams.MATCH_PARENT,
                     RadioGroup.LayoutParams.MATCH_PARENT));
-            String radioButtonText = String.format("[%s] %s",
-                    algorithm.getAbbreviation(),
-                    algorithm.getName());
-            radioButton.setText(radioButtonText);
+            Spanned radioButtonSpan = Html.fromHtml(String.format("<b>[%s]</b> %s",
+                    algorithm.getAbbreviation().toUpperCase(),
+                    algorithm.getName().toUpperCase()));
+            radioButton.setText(radioButtonSpan);
             mAlgorithmRadioGroup.addView(radioButton);
             mAlgorithms.add(algorithm);
         }
@@ -86,7 +88,7 @@ public class AlgorithmSelectFragment extends Fragment {
             public void onClick(View view) {
 
                 if (mAlgorithmRadioGroup.getCheckedRadioButtonId() == -1) {
-                    // Don't continue unless an algorithm has been selected
+                    // Don't continue unless an algorithm has been selected.
                     Toast.makeText(getActivity(),
                             R.string.no_algorithm_selected_notification,
                             Toast.LENGTH_SHORT).show();
@@ -96,7 +98,7 @@ public class AlgorithmSelectFragment extends Fragment {
                 UserInterfaceObject userInterfaceObject = mAppManager.getDataManager()
                         .getApp().getLastUser();
 
-                // Update database with selections
+                // Update database with selections.
                 // NOTE: Modulus because radio button ID's are not reallocated once this fragment
                 // is repopulated
                 int radioButtonId = ((mAlgorithmRadioGroup.getCheckedRadioButtonId() - 1)

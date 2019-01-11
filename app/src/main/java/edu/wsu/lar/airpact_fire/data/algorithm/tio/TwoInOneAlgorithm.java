@@ -4,6 +4,7 @@
 
 package edu.wsu.lar.airpact_fire.data.algorithm.tio;
 
+import edu.wsu.lar.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.server.contract.ServerContract;
 import edu.wsu.lar.airpact_fire.ui.fragment.image_lab.tio.TwoInOneFragment;
@@ -32,14 +33,19 @@ public class TwoInOneAlgorithm implements Algorithm {
 
     @Override
     public String getDescription() {
-        return "One image captureImage with two targets placed.";
+        return "One image captured with two targets placed from the user.";
     }
 
     @Override
     public String getProcedure() {
-        return "Keep your place as you take a picture of a Point of Interest. From there, place " +
-                "one target on the Point of Interest, and the other on the sky or clouds in the " +
-                "background.";
+        return "Keep your place as you take a picture of a Point of Interest (e.g., a mountain). " +
+                "From there, place one target on the Point of Interest, and the other on the sky " +
+                "or clouds in the background.";
+    }
+
+    @Override
+    public int getThumbnailResource() {
+        return R.drawable.tio_thumbnail;
     }
 
     @Override

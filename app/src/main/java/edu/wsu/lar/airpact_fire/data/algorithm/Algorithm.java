@@ -32,6 +32,9 @@ public interface Algorithm {
     /** @return standard usage procedure for laymen to understand. */
     String getProcedure();
 
+    /** @return thumbnail resource identifier for visualization of algorithm. */
+    int getThumbnailResource();
+
     /** @return fragment with predefined collection behavior for this algorithm. */
     Object getStartFragment();
 

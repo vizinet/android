@@ -4,6 +4,7 @@
 
 package edu.wsu.lar.airpact_fire.data.algorithm.ofo;
 
+import edu.wsu.lar.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.server.contract.ServerContract;
 import edu.wsu.lar.airpact_fire.ui.fragment.image_lab.ofo.OneForOneAlphaFragment;
@@ -34,14 +35,18 @@ public class OneForOneAlgorithm implements Algorithm {
 
     @Override
     public String getDescription() {
-        return "Two image captures, one target_background placed on each.";
+        return "Two image captures, one target placed on each.";
     }
 
     @Override
     public String getProcedure() {
-        return "Stand still. What we will do is take two pictures at different distances of the " +
-                "same Point of Interest (e.g., mountain, hills, tree). You will be asked to " +
-                "captureImage and describe one image at a time.";
+        return "Stand still. Take two pictures at different distances of the " +
+                "same Point of Interest (e.g., mountain, hills, tree).";
+    }
+
+    @Override
+    public int getThumbnailResource() {
+        return R.drawable.ofo_thumbnail;
     }
 
     @Override

@@ -6,10 +6,13 @@ package edu.wsu.lar.airpact_fire.ui.fragment.image_lab;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
@@ -29,6 +32,7 @@ public class AlgorithmStartFragment extends Fragment {
     private TextView mAlgorithmTitleTextView;
     private TextView mAlgorithmDescriptionTextView;
     private TextView mAlgorithmProcedureTextView;
+    private ImageView mAlgorithmThumbnailImageView;
     private Button mProceedButton;
 
     public AlgorithmStartFragment() { }
@@ -38,29 +42,31 @@ public class AlgorithmStartFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-       ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
+        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
-        // Get algorithm from activity
+        // Get algorithm from activity.
         mAlgorithm = ((ImageLabActivity) getActivity()).getAlgorithm();
 
-        // Get views
-        View view = inflater.inflate(R.layout.fragment_algorithm_start, container, false);
+        // Get views.
+        View view = inflater.inflate(R.layout.fragment_algorithm_start, container,
+                false);
         mAlgorithmTitleTextView = (TextView) view.findViewById(R.id.algorithm_title_text_view);
         mAlgorithmDescriptionTextView = (TextView) view.findViewById(
                 R.id.algorithm_description_text_view);
         mAlgorithmProcedureTextView = (TextView) view.findViewById(
                 R.id.algorithm_procedure_text_view);
+        mAlgorithmThumbnailImageView = view.findViewById(R.id.algorithm_thumbnail_image_view);
         mProceedButton = (Button) view.findViewById(R.id.proceed_button);
 
-        // Present algorithm details
-        mAlgorithmTitleTextView.setText(String.format(
-                "[%s] %s",
-                mAlgorithm.getAbbreviation(),
-                mAlgorithm.getName()));
+        // Present algorithm details.
+        mAlgorithmTitleTextView.setText(Html.fromHtml(String.format("<b>[%s]</b> %s",
+                mAlgorithm.getAbbreviation().toUpperCase(),
+                mAlgorithm.getName().toUpperCase())));
         mAlgorithmDescriptionTextView.setText(mAlgorithm.getDescription());
         mAlgorithmProcedureTextView.setText(mAlgorithm.getProcedure());
+        mAlgorithmThumbnailImageView.setImageResource(mAlgorithm.getThumbnailResource());
 
-        // Listen to proceed for algorithm implementation
+        // Listen to proceed for algorithm implementation.
         mProceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

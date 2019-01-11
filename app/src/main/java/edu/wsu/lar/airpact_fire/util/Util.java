@@ -79,6 +79,14 @@ public class Util {
     private static final int IMAGE_COMPRESSION_QUALITY = 0;
 
     /**
+     * Remove a view from the ViewGroup, and thus the activity.
+     * @param view the view to remove
+     */
+    public static void removeView(View view) {
+        ((ViewGroup) view.getParent()).removeView(view);
+    }
+
+    /**
      * Check if string is null or empty.
      * @param text string to check
      * @return true if null or empty, false otherwise
