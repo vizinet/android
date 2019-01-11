@@ -40,7 +40,7 @@ public class TwoInOneAlgorithm implements Algorithm {
     public String getProcedure() {
         return "Keep your place as you take a picture of a Point of Interest (e.g., a mountain). " +
                 "From there, place one target on the Point of Interest, and the other on the sky " +
-                "or clouds in the background.";
+                "or clouds in the background. Estimate your distance from each point.";
     }
 
     @Override

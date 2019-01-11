@@ -132,7 +132,7 @@ public class UiTarget {
 
         // Get pixel color at real position
         try {
-            image.setPixel(position[0], position[1], Color.argb(1, 255, 255, 255));
+//            image.setPixel(position[0], position[1], Color.argb(1, 255, 255, 255));
             int pixel = image.getPixel(position[0], position[1] + offset);
             return pixel;
         } catch (Exception ex) {

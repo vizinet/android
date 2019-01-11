@@ -40,8 +40,9 @@ public class OneForOneAlgorithm implements Algorithm {
 
     @Override
     public String getProcedure() {
-        return "Stand still. Take two pictures at different distances of the " +
-                "same Point of Interest (e.g., mountain, hills, tree).";
+        return "Keep a steady hand. Take two pictures at different distances of the " +
+                "same Point of Interest (e.g., mountain, hills, tree). You'll be asked to" +
+                "estimate your distance from the Point of Interest for each capture.";
     }
 
     @Override

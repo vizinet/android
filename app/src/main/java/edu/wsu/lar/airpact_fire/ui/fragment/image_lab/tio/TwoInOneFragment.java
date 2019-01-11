@@ -50,7 +50,6 @@ import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.rotate;
 public class TwoInOneFragment extends Fragment {
 
     private static final String sActionBarTitle = "Target Selections";
-//    private static final int sRequestImageCapture = 1;
     private static final int sTargetCount = 2;
     private static final int sFragmentId = 3;
 
@@ -91,14 +90,14 @@ public class TwoInOneFragment extends Fragment {
         ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
         ((ImageLabActivity) getActivity()).clearPadding();
 
-        // Get fields from activity
+        // Get fields from activity.
         mPostInterfaceObject = ((ImageLabActivity) getActivity()).getPostObject();
         mUiTargetManager = ((ImageLabActivity) getActivity()).getUITargetManager();
         mImageInterfaceObject = mPostInterfaceObject.createImageObject();
         mTargetInterfaceObjectOne = mImageInterfaceObject.createTargetObject();
         mTargetInterfaceObjectTwo = mImageInterfaceObject.createTargetObject();
 
-        // Get standard views
+        // Get standard views.
         View view = inflater.inflate(R.layout.fragment_two_in_one, container, false);
         mMainImageView = (ImageView) view.findViewById(R.id.main_image_view);
         mImageAreaLayout = view.findViewById(R.id.image_area_layout);
@@ -140,14 +139,14 @@ public class TwoInOneFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                // Handle displays
+                // Handle displays.
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     mControlLinearLayout.setVisibility(View.VISIBLE);
                 } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     mControlLinearLayout.setVisibility(View.GONE);
                 }
 
-                // Get touch coordinates
+                // Get touch coordinates.
                 int x = (int) event.getX();
                 int y = (int) event.getY();
 
@@ -203,7 +202,7 @@ public class TwoInOneFragment extends Fragment {
 
         // TODO: All these controls should be centralized in a manager, not amongst fragments
 
-        // Retaking a picture
+        // Retake a picture.
         mRetakeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,7 +210,7 @@ public class TwoInOneFragment extends Fragment {
             }
         });
 
-        // Flip image 90 degrees
+        // Flip image 90 degrees.
         mFlipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -279,7 +278,7 @@ public class TwoInOneFragment extends Fragment {
                     .getAppManager().getGps());
             mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
         } else {
-            // If no image taken or error, go home
+            // If no image taken or error, go home.
             Toast.makeText(getContext(),
                     "Camera failed to take picture. Please try again later.",
                     Toast.LENGTH_LONG).show();
