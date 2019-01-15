@@ -1,11 +1,13 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-128:12
-INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-128:12
-INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-128:12
-INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-128:12
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-129:12
+INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-129:12
+INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-129:12
+INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-129:12
 MERGED from [io.realm:realm-android-library:3.1.4] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\realm-android-library-3.1.4.aar\7b166bfadbbc017d31764198f486a81a\AndroidManifest.xml:2:1-11:12
 MERGED from [com.android.support:multidex:1.0.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\0dbe5c3499d6bd123bf578456efae79e\AndroidManifest.xml:17:1-22:12
+MERGED from [ch.acra:acra-mail:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-mail-5.1.3.aar\ea29a16219fd0873e88562252ff75aac\AndroidManifest.xml:17:1-25:12
+MERGED from [ch.acra:acra-toast:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-toast-5.1.3.aar\942ca102119d598582f2d17dcfc6661d\AndroidManifest.xml:17:1-25:12
 MERGED from [com.android.support:design:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\3b35d4c1ef9717f136b00c343aa4a21c\AndroidManifest.xml:17:1-31:12
 MERGED from [com.google.android.gms:play-services:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-11.0.1.aar\6bc71f596aa36e683406ac1add2c28f0\AndroidManifest.xml:2:1-6:12
 MERGED from [com.google.android.gms:play-services-cast-framework:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-cast-framework-11.0.1.aar\6c46c96f1a74c95d4d16d3852abe0d7e\AndroidManifest.xml:2:1-9:12
@@ -67,28 +69,29 @@ MERGED from [com.google.android.gms:play-services-tasks:11.0.1] C:\Users\lukedot
 MERGED from [com.google.android.gms:play-services-basement:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.0.1.aar\86b4b15a301f1207b6891bc0181efaf4\AndroidManifest.xml:16:1-23:12
 MERGED from [com.android.support:support-v4:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-v4-26.1.0.aar\56174bc7a3d5ffc6d74810616f209bbe\AndroidManifest.xml:17:1-31:12
 MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\relinker-1.2.2.aar\8dcc6408012f58c7de3a4b36d0ead9d8\AndroidManifest.xml:2:1-9:12
+MERGED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:17:1-44:12
 MERGED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-26.1.0.aar\a6bf6070c43dbd3b4da719a93ad18440\AndroidManifest.xml:17:1-28:12
 MERGED from [com.android.support:support-fragment:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-fragment-26.1.0.aar\98dab5b9681b24a4366450a7711f4068\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:support-core-ui:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.1.0.aar\b84ff31ddc0221dd0991de23c0df9056\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:palette-v7:25.2.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\palette-v7-25.2.0.aar\d2527d9497d17ea86758f0cca0540dd0\AndroidManifest.xml:17:1-25:12
 MERGED from [com.android.support:support-core-utils:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.1.0.aar\8f6bdc48625c17cd12070e6f91307406\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:support-media-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.1.0.aar\7e600a09a9a981b5a5ce14ceb755c57c\AndroidManifest.xml:17:1-31:12
-MERGED from [com.android.support:support-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\adef00d06f880e4245069a7bbe2f37de\AndroidManifest.xml:17:1-31:12
-MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\9ca6b9e59c48efa7c3ed00413065cffb\AndroidManifest.xml:17:1-30:12
-INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-128:12
-INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-128:12
-INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-128:12
+MERGED from [com.android.support:support-compat:27.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-compat-27.0.2.aar\dafdd5ec4b2cbe968a09fe6e311e3de1\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.0.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\runtime-1.0.3.aar\99fd5b3a36317176a9a421d0270d9b71\AndroidManifest.xml:17:1-24:12
+INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-129:12
+INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-129:12
+INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-129:12
 	package
 		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:3:5-39
 		INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-128:12
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-129:12
 		INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-128:12
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:1-129:12
 		INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:2:11-69
@@ -173,7 +176,7 @@ ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main
 	android:name
 		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:16:19-67
 application
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:18:5-126:19
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:18:5-127:19
 MERGED from [com.android.support:design:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\3b35d4c1ef9717f136b00c343aa4a21c\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:design:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\3b35d4c1ef9717f136b00c343aa4a21c\AndroidManifest.xml:25:5-29:19
 MERGED from [com.google.android.gms:play-services:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-11.0.1.aar\6bc71f596aa36e683406ac1add2c28f0\AndroidManifest.xml:5:5-20
@@ -274,6 +277,8 @@ MERGED from [com.google.android.gms:play-services-basement:11.0.1] C:\Users\luke
 MERGED from [com.google.android.gms:play-services-basement:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.0.1.aar\86b4b15a301f1207b6891bc0181efaf4\AndroidManifest.xml:19:5-21:19
 MERGED from [com.android.support:support-v4:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-v4-26.1.0.aar\56174bc7a3d5ffc6d74810616f209bbe\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:support-v4:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-v4-26.1.0.aar\56174bc7a3d5ffc6d74810616f209bbe\AndroidManifest.xml:25:5-29:19
+MERGED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:29:5-42:19
+MERGED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:29:5-42:19
 MERGED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-26.1.0.aar\a6bf6070c43dbd3b4da719a93ad18440\AndroidManifest.xml:22:5-26:19
 MERGED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-26.1.0.aar\a6bf6070c43dbd3b4da719a93ad18440\AndroidManifest.xml:22:5-26:19
 MERGED from [com.android.support:support-fragment:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-fragment-26.1.0.aar\98dab5b9681b24a4366450a7711f4068\AndroidManifest.xml:25:5-29:19
@@ -286,144 +291,142 @@ MERGED from [com.android.support:support-core-utils:26.1.0] C:\Users\lukedottec\
 MERGED from [com.android.support:support-core-utils:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.1.0.aar\8f6bdc48625c17cd12070e6f91307406\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:support-media-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.1.0.aar\7e600a09a9a981b5a5ce14ceb755c57c\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:support-media-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.1.0.aar\7e600a09a9a981b5a5ce14ceb755c57c\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\adef00d06f880e4245069a7bbe2f37de\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\adef00d06f880e4245069a7bbe2f37de\AndroidManifest.xml:25:5-29:19
-MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\9ca6b9e59c48efa7c3ed00413065cffb\AndroidManifest.xml:24:5-28:19
-MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\9ca6b9e59c48efa7c3ed00413065cffb\AndroidManifest.xml:24:5-28:19
 	android:supportsRtl
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:22:9-35
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:23:9-35
 	android:label
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:21:9-41
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:22:9-41
 	android:icon
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:20:9-38
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:21:9-38
 	android:allowBackup
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:19:9-35
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:20:9-35
 	android:theme
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:23:9-65
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:24:9-65
+	android:name
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:19:9-47
 activity#edu.wsu.lar.airpact_fire.ui.activity.SplashScreenActivity
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:24:9-94
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:25:9-94
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:24:19-91
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:25:19-91
 activity#edu.wsu.lar.airpact_fire.ui.activity.SignInActivity
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:25:9-40:20
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:26:9-41:20
 	android:screenOrientation
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:29:13-49
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:30:13-49
 	android:parentActivityName
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:28:13-99
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:29:13-99
 	android:label
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:27:13-45
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:28:13-45
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:26:13-79
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:27:13-79
 meta-data#android.support.PARENT_ACTIVITY
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:30:13-32:93
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:31:13-33:93
 	android:value
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:32:17-90
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:33:17-90
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:31:17-63
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:32:17-63
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.DEFAULT+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:34:13-39:29
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:35:13-40:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:35:17-69
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:36:17-69
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:35:25-66
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:36:25-66
 category#android.intent.category.DEFAULT
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:37:17-76
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:38:17-76
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:37:27-73
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:38:27-73
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:38:17-77
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:39:17-77
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:38:27-74
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:39:27-74
 activity#edu.wsu.lar.airpact_fire.ui.activity.HomeActivity
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:41:9-48:20
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:42:9-49:20
 	android:screenOrientation
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:44:13-49
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:45:13-49
 	android:parentActivityName
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:43:13-93
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:44:13-93
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:42:13-77
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:43:13-77
 activity#edu.wsu.lar.airpact_fire.ui.activity.CaptureActivity
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:49:9-53:20
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:50:9-54:20
 	android:screenOrientation
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:52:13-49
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:53:13-49
 	android:parentActivityName
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:51:13-91
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:52:13-91
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:50:13-80
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:51:13-80
 activity#edu.wsu.lar.airpact_fire.ui.activity.ProfileActivity
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:54:9-61:20
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:55:9-62:20
 	android:screenOrientation
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:57:13-49
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:58:13-49
 	android:parentActivityName
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:56:13-91
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:57:13-91
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:55:13-80
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:56:13-80
 activity#edu.wsu.lar.airpact_fire.ui.activity.SettingsActivity
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:62:9-69:20
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:63:9-70:20
 	android:screenOrientation
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:65:13-49
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:66:13-49
 	android:parentActivityName
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:64:13-91
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:65:13-91
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:63:13-81
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:64:13-81
 activity#edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:70:9-77:20
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:71:9-78:20
 	android:label
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:72:13-61
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:73:13-61
 	android:theme
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:73:13-69
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:74:13-69
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:71:13-81
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:72:13-81
 activity#edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:78:9-85:20
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:79:9-86:20
 	android:label
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:80:13-59
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:81:13-59
 	android:theme
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:81:13-69
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:82:13-69
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:79:13-80
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:80:13-80
 meta-data#com.google.android.gms.version
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:91:9-93:69
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:92:9-94:69
 MERGED from [com.google.android.gms:play-services-basement:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.0.1.aar\86b4b15a301f1207b6891bc0181efaf4\AndroidManifest.xml:20:9-121
 MERGED from [com.google.android.gms:play-services-basement:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-basement-11.0.1.aar\86b4b15a301f1207b6891bc0181efaf4\AndroidManifest.xml:20:9-121
 	android:value
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:93:13-66
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:94:13-66
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:92:13-58
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:93:13-58
 meta-data#com.google.android.geo.API_KEY
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:103:9-105:55
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:104:9-106:55
 	android:value
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:105:13-52
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:106:13-52
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:104:13-58
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:105:13-58
 activity#edu.wsu.lar.airpact_fire.ui.activity.SettingsTestActivity
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:107:9-109:77
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:108:9-110:77
 	android:label
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:109:13-65
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:110:13-65
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:108:13-85
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:109:13-85
 service#edu.wsu.lar.airpact_fire.app.service.GpsService
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:111:9-114:15
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:112:9-115:15
 	android:exported
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:113:13-37
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:114:13-37
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:112:13-75
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:113:13-75
 provider#android.support.v4.content.FileProvider
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:116:9-124:20
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:117:9-125:20
 	android:grantUriPermissions
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:120:13-47
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:121:13-47
 	android:authorities
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:118:13-67
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:119:13-67
 	android:exported
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:119:13-37
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:120:13-37
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:117:13-67
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:118:13-67
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:121:13-123:64
+ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:122:13-124:64
 	android:resource
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:123:17-51
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:124:17-51
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:122:17-67
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:123:17-67
 uses-sdk
 INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml
@@ -432,6 +435,10 @@ MERGED from [io.realm:realm-android-library:3.1.4] C:\Users\lukedottec\.gradle\c
 MERGED from [io.realm:realm-android-library:3.1.4] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\realm-android-library-3.1.4.aar\7b166bfadbbc017d31764198f486a81a\AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:multidex:1.0.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\0dbe5c3499d6bd123bf578456efae79e\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:multidex:1.0.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\multidex-1.0.3.aar\0dbe5c3499d6bd123bf578456efae79e\AndroidManifest.xml:20:5-43
+MERGED from [ch.acra:acra-mail:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-mail-5.1.3.aar\ea29a16219fd0873e88562252ff75aac\AndroidManifest.xml:21:5-23:41
+MERGED from [ch.acra:acra-mail:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-mail-5.1.3.aar\ea29a16219fd0873e88562252ff75aac\AndroidManifest.xml:21:5-23:41
+MERGED from [ch.acra:acra-toast:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-toast-5.1.3.aar\942ca102119d598582f2d17dcfc6661d\AndroidManifest.xml:21:5-23:41
+MERGED from [ch.acra:acra-toast:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-toast-5.1.3.aar\942ca102119d598582f2d17dcfc6661d\AndroidManifest.xml:21:5-23:41
 MERGED from [com.android.support:design:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\3b35d4c1ef9717f136b00c343aa4a21c\AndroidManifest.xml:21:5-23:62
 MERGED from [com.android.support:design:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\3b35d4c1ef9717f136b00c343aa4a21c\AndroidManifest.xml:21:5-23:62
 MERGED from [com.google.android.gms:play-services:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-11.0.1.aar\6bc71f596aa36e683406ac1add2c28f0\AndroidManifest.xml:4:5-43
@@ -554,6 +561,8 @@ MERGED from [com.android.support:support-v4:26.1.0] C:\Users\lukedottec\.gradle\
 MERGED from [com.android.support:support-v4:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-v4-26.1.0.aar\56174bc7a3d5ffc6d74810616f209bbe\AndroidManifest.xml:21:5-23:54
 MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\relinker-1.2.2.aar\8dcc6408012f58c7de3a4b36d0ead9d8\AndroidManifest.xml:7:5-43
 MERGED from [com.getkeepsafe.relinker:relinker:1.2.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\relinker-1.2.2.aar\8dcc6408012f58c7de3a4b36d0ead9d8\AndroidManifest.xml:7:5-43
+MERGED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:21:5-23:41
+MERGED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:21:5-23:41
 MERGED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-26.1.0.aar\a6bf6070c43dbd3b4da719a93ad18440\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:recyclerview-v7:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-26.1.0.aar\a6bf6070c43dbd3b4da719a93ad18440\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-fragment:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-fragment-26.1.0.aar\98dab5b9681b24a4366450a7711f4068\AndroidManifest.xml:21:5-23:60
@@ -566,10 +575,10 @@ MERGED from [com.android.support:support-core-utils:26.1.0] C:\Users\lukedottec\
 MERGED from [com.android.support:support-core-utils:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.1.0.aar\8f6bdc48625c17cd12070e6f91307406\AndroidManifest.xml:21:5-23:61
 MERGED from [com.android.support:support-media-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.1.0.aar\7e600a09a9a981b5a5ce14ceb755c57c\AndroidManifest.xml:21:5-23:63
 MERGED from [com.android.support:support-media-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.1.0.aar\7e600a09a9a981b5a5ce14ceb755c57c\AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\adef00d06f880e4245069a7bbe2f37de\AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\adef00d06f880e4245069a7bbe2f37de\AndroidManifest.xml:21:5-23:58
-MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\9ca6b9e59c48efa7c3ed00413065cffb\AndroidManifest.xml:20:5-22:41
-MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\9ca6b9e59c48efa7c3ed00413065cffb\AndroidManifest.xml:20:5-22:41
+MERGED from [com.android.support:support-compat:27.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-compat-27.0.2.aar\dafdd5ec4b2cbe968a09fe6e311e3de1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.0.2] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-compat-27.0.2.aar\dafdd5ec4b2cbe968a09fe6e311e3de1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.0.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\runtime-1.0.3.aar\99fd5b3a36317176a9a421d0270d9b71\AndroidManifest.xml:20:5-22:41
+MERGED from [android.arch.lifecycle:runtime:1.0.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\runtime-1.0.3.aar\99fd5b3a36317176a9a421d0270d9b71\AndroidManifest.xml:20:5-22:41
 INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml
 	tools:overrideLibrary
@@ -604,8 +613,6 @@ MERGED from [com.android.support:support-core-utils:26.1.0] C:\Users\lukedottec\
 MERGED from [com.android.support:support-core-utils:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.1.0.aar\8f6bdc48625c17cd12070e6f91307406\AndroidManifest.xml:26:9-28:38
 MERGED from [com.android.support:support-media-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.1.0.aar\7e600a09a9a981b5a5ce14ceb755c57c\AndroidManifest.xml:26:9-28:38
 MERGED from [com.android.support:support-media-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.1.0.aar\7e600a09a9a981b5a5ce14ceb755c57c\AndroidManifest.xml:26:9-28:38
-MERGED from [com.android.support:support-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\adef00d06f880e4245069a7bbe2f37de\AndroidManifest.xml:26:9-28:38
-MERGED from [com.android.support:support-compat:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\adef00d06f880e4245069a7bbe2f37de\AndroidManifest.xml:26:9-28:38
 	android:value
 		ADDED from [com.android.support:design:26.1.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\3b35d4c1ef9717f136b00c343aa4a21c\AndroidManifest.xml:28:13-35
 	android:name
@@ -640,6 +647,10 @@ MERGED from [com.google.firebase:firebase-analytics-impl:11.0.1] C:\Users\lukedo
 MERGED from [com.google.firebase:firebase-analytics-impl:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\firebase-analytics-impl-11.0.1.aar\b314572bba1c7149755f04f1f3fb9abf\AndroidManifest.xml:22:5-67
 MERGED from [com.google.firebase:firebase-iid:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\firebase-iid-11.0.1.aar\e2f128933cca0f0442f8a093c2c4d2b7\AndroidManifest.xml:21:5-67
 MERGED from [com.google.firebase:firebase-iid:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\firebase-iid-11.0.1.aar\e2f128933cca0f0442f8a093c2c4d2b7\AndroidManifest.xml:21:5-67
+MERGED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:25:5-27:38
+MERGED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:25:5-27:38
+	android:maxSdkVersion
+		ADDED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:27:9-35
 	android:name
 		ADDED from [com.google.android.gms:play-services-analytics:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-analytics-11.0.1.aar\93c5901cdbca93072a98e8fbc964eb9b\AndroidManifest.xml:24:22-65
 activity#com.google.android.gms.appinvite.PreviewActivity
@@ -862,9 +873,25 @@ ADDED from [com.google.android.gms:play-services-base:11.0.1] C:\Users\lukedotte
 		ADDED from [com.google.android.gms:play-services-base:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-base-11.0.1.aar\d0b6212cbf6b7142fd4fcb9a86eeeb98\AndroidManifest.xml:19:86-145
 	android:name
 		ADDED from [com.google.android.gms:play-services-base:11.0.1] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\play-services-base-11.0.1.aar\d0b6212cbf6b7142fd4fcb9a86eeeb98\AndroidManifest.xml:19:19-85
-meta-data#android.arch.lifecycle.VERSION
-ADDED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\9ca6b9e59c48efa7c3ed00413065cffb\AndroidManifest.xml:25:9-27:47
-	android:value
-		ADDED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\9ca6b9e59c48efa7c3ed00413065cffb\AndroidManifest.xml:27:13-44
+service#org.acra.sender.SenderService
+ADDED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:30:9-34:39
+	android:process
+		ADDED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:34:13-36
+	android:exported
+		ADDED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:32:13-37
+	android:permission
+		ADDED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:33:13-69
 	android:name
-		ADDED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\9ca6b9e59c48efa7c3ed00413065cffb\AndroidManifest.xml:26:13-58
+		ADDED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:31:13-57
+provider#org.acra.attachment.AcraContentProvider
+ADDED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:36:9-41:39
+	android:process
+		ADDED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:41:13-36
+	android:grantUriPermissions
+		ADDED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:40:13-47
+	android:authorities
+		ADDED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:38:13-56
+	android:exported
+		ADDED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:39:13-37
+	android:name
+		ADDED from [ch.acra:acra-core:5.1.3] C:\Users\lukedottec\.gradle\caches\transforms-1\files-1.1\acra-core-5.1.3.aar\197c0551e885f682ed25481586676912\AndroidManifest.xml:37:13-67

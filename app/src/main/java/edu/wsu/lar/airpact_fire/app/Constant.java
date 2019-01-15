@@ -13,6 +13,9 @@ import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 public final class Constant {
 
     // TODO: How about we define these as Android Values and Enums?
+    // TODO: See if best practice to move these to res?
+
+    public static final String DEVELOPER_EMAIL = "lukedottec@gmail.com";
 
     // AIRPACT-Fire URL fields
     public static final String SERVER_BASE_URL = "https://airpactfire.eecs.wsu.edu";
