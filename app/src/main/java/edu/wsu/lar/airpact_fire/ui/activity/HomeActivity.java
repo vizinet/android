@@ -71,10 +71,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        /// TODO: Remove the crash test below.
-        float f = Float.parseFloat("obviouslynotafloat");
-        ///
-
         mAppManager = Constant.getAppManager();
         mAppManager.onActivityStart(this);
         mDataManager = mAppManager.getDataManager();

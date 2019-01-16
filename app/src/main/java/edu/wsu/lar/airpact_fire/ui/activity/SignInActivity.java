@@ -91,7 +91,7 @@ public class SignInActivity extends AppCompatActivity {
         mAppManager.onActivityStart(this);
         mAppManager.onAppStart(this);
 
-        // Sign last user in if that box was previously checked
+        // Sign last user in if that box was previously checked.
         if (mAppManager.getDataManager().getApp().getRememberUser()) {
             UserInterfaceObject userInterfaceObject = mAppManager.getDataManager()
                     .getApp().getLastUser();
@@ -100,7 +100,7 @@ public class SignInActivity extends AppCompatActivity {
             login();
         }
 
-        // Attach objects to UI
+        // Attach objects to UI.
         mPage = findViewById(R.id.page);
         mAppBanner = findViewById(R.id.sign_in_banner);
         mUsernameView = findViewById(R.id.username);
@@ -110,10 +110,10 @@ public class SignInActivity extends AppCompatActivity {
         mRegisterLink = findViewById(R.id.register_text);
         mHelpImageButton = findViewById(R.id.help_image_button);
 
-        // Set up the login form
+        // Set up the login form.
         populateLoginFields();
 
-        // Readjust page when keyboard shows/hides
+        // Readjust page when keyboard shows/hides.
         mPage.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener(){
                     public void onGlobalLayout(){
@@ -231,11 +231,11 @@ public class SignInActivity extends AppCompatActivity {
      */
     public void proceed() {
 
-        // Let DB know we're logging in with this user
+        // Let DB know we're logging in with this user.
         mAppManager.onLogin(mUsername, mPassword);
 
         if (mRememberMeCheckBox != null) {
-            // Regular login: remember legit user upon request
+            // Regular login: remember legit user upon request.
             mAppManager.getDataManager().getApp().setRememberUser(mRememberMeCheckBox.isChecked());
             Toast.makeText(getApplicationContext(), R.string.login_success,
                     Toast.LENGTH_LONG).show();
@@ -248,7 +248,6 @@ public class SignInActivity extends AppCompatActivity {
         // Open home screen
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
-
     }
 
     /**

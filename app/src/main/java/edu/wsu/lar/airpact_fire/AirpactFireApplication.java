@@ -12,17 +12,24 @@ import android.widget.Toast;
 
 import org.acra.*;
 import org.acra.annotation.*;
-import org.acra.config.CoreConfigurationBuilder;
 import org.acra.data.StringFormat;
+import org.acra.sender.HttpSender;
 
 import edu.wsu.lar.airpact_fire.app.Constant;
+
+import static org.acra.ReportField.*;
 
 // TODO: Integrate this into our app manager.
 // TODO: We may want to use HTTP in the future and have our backend distribute the message to devs.
 
-@AcraMailSender(mailTo = Constant.DEVELOPER_EMAIL)
+
+// TODO: Implement the notification system.
+
+@AcraHttpSender(uri = Constant.SERVER_CRASH_REPORT_URL, httpMethod = HttpSender.Method.POST)
 @AcraToast(resText = R.string.acra_email_notifcation, length = Toast.LENGTH_LONG)
-@AcraCore(buildConfigClass = BuildConfig.class)
+@AcraCore(reportContent = { CUSTOM_DATA, APP_VERSION_CODE, ANDROID_VERSION, BUILD, BRAND,
+        PHONE_MODEL, STACK_TRACE, USER_APP_START_DATE, USER_CRASH_DATE },
+        buildConfigClass = BuildConfig.class, reportFormat = StringFormat.JSON)
 public class AirpactFireApplication extends Application {
 
     @Override
@@ -34,11 +41,8 @@ public class AirpactFireApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-
         // The following line triggers the initialization of ACRA.
-        CoreConfigurationBuilder builder = new CoreConfigurationBuilder(this);
-        builder.setBuildConfigClass(BuildConfig.class).setReportFormat(StringFormat.JSON);
-        ACRA.init(this, builder);
+        ACRA.init(this);
     }
 
     @Override

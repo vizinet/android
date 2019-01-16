@@ -15,6 +15,8 @@ import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import org.acra.ACRA;
+
 import edu.wsu.lar.airpact_fire.app.service.GpsService;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
@@ -249,6 +251,8 @@ public class MainAppManager extends AppManager {
         mDataManager.onLogin(args);
         mServerManager.onLogin(args);
         startGpsService();
+        // Make error reporter know last logged in user.
+        ACRA.getErrorReporter().putCustomData("username", (String)args[0]);
     }
 
     @Override

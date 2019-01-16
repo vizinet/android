@@ -15,8 +15,6 @@ public final class Constant {
     // TODO: How about we define these as Android Values and Enums?
     // TODO: See if best practice to move these to res?
 
-    public static final String DEVELOPER_EMAIL = "lukedottec@gmail.com";
-
     // AIRPACT-Fire URL fields
     public static final String SERVER_BASE_URL = "https://airpactfire.eecs.wsu.edu";
     public static final String SERVER_UPLOAD_URL = SERVER_BASE_URL + "/file_upload/upload";
@@ -25,6 +23,7 @@ public final class Constant {
     public static final String SERVER_INFORMATION_URL = SERVER_BASE_URL + "/";
     public static final String SERVER_IMAGE_BASE_URL = SERVER_BASE_URL + "/picture/view/";
     public static final String SERVER_PROFILE_BASE_URL = SERVER_BASE_URL + "/user/profile/";
+    public static final String SERVER_CRASH_REPORT_URL = SERVER_BASE_URL + "/report/send/";
 
     // AIRPACT-Fire agreed date-time format between server and app
     public static final String DATE_FORMAT = "EEE MMM dd HH:mm:ss z yyyy";
