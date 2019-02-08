@@ -41,14 +41,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,12 +62,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import edu.wsu.lar.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.ui.view.AutoFitTextureView;
 import edu.wsu.lar.airpact_fire.util.Util;
 
+/**
+ * Capture an image from the user and write to the provided `mFile` location. Once user captures
+ * the image, return to the original event indicating success.
+ *
+ * NOTE: The actual capturing and saving of the image to a JPEG occurs in less than a second.
+ */
 public class CaptureActivity extends AppCompatActivity
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback,
         SensorEventListener {
@@ -374,12 +377,7 @@ public class CaptureActivity extends AppCompatActivity
     private void showToast(final String text) {
         final Activity activity = CaptureActivity.this;
         if (activity != null) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(activity, text, Toast.LENGTH_LONG).show();
-                }
-            });
+            activity.runOnUiThread(() -> Toast.makeText(activity, text, Toast.LENGTH_LONG).show());
         }
     }
 
@@ -439,7 +437,7 @@ public class CaptureActivity extends AppCompatActivity
         setContentView(R.layout.activity_capture);
 
         // Attach views.
-        findViewById(R.id.picture).setOnClickListener(this);
+        findViewById(R.id.capture_button).setOnClickListener(this);
         mTextureView = findViewById(R.id.texture);
         mPressureTextView = findViewById(R.id.pressure_text_view);
         mTemperatureTextView = findViewById(R.id.temperature_text_view);
@@ -467,10 +465,7 @@ public class CaptureActivity extends AppCompatActivity
         // Grab data from intent which started this activity.
         Bundle extras = getIntent().getExtras();
         String imageUri = extras.getString(MediaStore.EXTRA_OUTPUT);
-        int screenOrientation = extras.getInt(MediaStore.EXTRA_SCREEN_ORIENTATION); // TODO
-
         mFile = new File(imageUri);
-//        mFile = new File(CaptureActivity.this.getExternalFilesDir(null), "pic.jpg");
     }
 
     @Override
@@ -633,10 +628,6 @@ public class CaptureActivity extends AppCompatActivity
             e.printStackTrace();
         } catch (NullPointerException e) {
             e.printStackTrace();
-            // Currently an NPE is thrown when the Camera2API is used but not supported on the
-            // device this code runs.
-//            ErrorDialog.newInstance("MAYDAY! MAYDAY!")
-//                    .show(getFragmentManager(), FRAGMENT_DIALOG);
         }
     }
 
@@ -873,16 +864,12 @@ public class CaptureActivity extends AppCompatActivity
 
             CameraCaptureSession.CaptureCallback CaptureCallback
                     = new CameraCaptureSession.CaptureCallback() {
-
                 @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
-                    showToast("Saved: " + mFile);
-                    Log.d(TAG, mFile.toString());
-                    unlockFocus();
-
                     // Close activity, return to that which called it.
+                    unlockFocus();
                     setResult(RESULT_OK);
                     finish();
                 }
@@ -916,7 +903,7 @@ public class CaptureActivity extends AppCompatActivity
      */
     private void unlockFocus() {
         try {
-            // Reset the auto-focus trigger
+            // Reset the auto-focus trigger.
             mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                     CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
             setAutoFlash(mPreviewRequestBuilder);
@@ -934,8 +921,8 @@ public class CaptureActivity extends AppCompatActivity
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.picture: {
-                findViewById(R.id.picture).setEnabled(false);
+            case R.id.capture_button: {
+                findViewById(R.id.capture_button).setEnabled(false);
                 takePicture();
                 break;
             }
@@ -973,10 +960,10 @@ public class CaptureActivity extends AppCompatActivity
 
         // Buildup sensor values into cohesive string.
         StringBuilder stringBuilder = new StringBuilder();
-        String delimeter = ", ";
+        String delimiter = ", ";
         int i = 0;
         for (; i < sensorEvent.values.length - 1; i++) {
-            stringBuilder.append(sensorEvent.values[i]).append(delimeter);
+            stringBuilder.append(sensorEvent.values[i]).append(delimiter);
         }
         stringBuilder.append(sensorEvent.values[i]);
         String value = stringBuilder.toString();

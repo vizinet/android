@@ -43,7 +43,7 @@ public class ActionFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
+//        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
         mAppManager = ((ImageLabActivity) getActivity()).getAppManager();
         mPostInterfaceObject = ((ImageLabActivity) getActivity()).getPostObject();
@@ -82,7 +82,7 @@ public class ActionFragment extends Fragment {
                     public Object onFinish(Object... args) {
                         super.onFinish(args);
 
-                        // Grab data params from post submission
+                        // Grab data params from post submission.
                         boolean didSubmit = (boolean) args[0];
                         double serverOutput = (double) args[1];
                         int serverImageId = (int) args[2];

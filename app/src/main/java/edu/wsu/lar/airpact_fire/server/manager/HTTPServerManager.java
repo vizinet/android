@@ -65,9 +65,10 @@ public class HTTPServerManager implements ServerManager {
     }
 
     @Override
-    public void onSubmit(Context context, PostInterfaceObject postInterfaceObject, ServerCallback callback) {
-
-        // Do some pre-authentication to get secret key (using dummy callback)
+    public void onSubmit(Context context, PostInterfaceObject postInterfaceObject,
+                         ServerCallback callback) {
+        // Do some pre-authentication to get secret key (using dummy callback). If an internet
+        // connection does not exists, then we will quickly stop submission.
         UserInterfaceObject userInterfaceObject = postInterfaceObject.getUser();
         ArrayList<Object> authenticationObjects;
         String secretKey = "";
@@ -75,7 +76,7 @@ public class HTTPServerManager implements ServerManager {
         AuthenticationManager authenticationManager = new AuthenticationManager(mActivity,
                 new EmptyServerCallback());
         try {
-            // Wait for authentication to occur
+            // Wait for authentication to occur.
             authenticationObjects = authenticationManager.execute(
                     userInterfaceObject.getUsername(), userInterfaceObject.getPassword()).get();
             isUser = (Boolean) authenticationObjects.get(0);

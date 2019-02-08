@@ -1,5 +1,7 @@
 package edu.wsu.lar.airpact_fire.data.realm.interface_object;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -130,6 +132,11 @@ public class RealmUserInterfaceObject implements UserInterfaceObject {
         mRealm.commitTransaction();
 
         return new RealmPostInterfaceObject(mRealm, postModel, mDataManager, mDebugManager);
+    }
+
+    @Override
+    public LatLng getRecentLatLng() {
+        return new LatLng(mUser.lastLatitude, mUser.lastLongitude);
     }
 
     @Override

@@ -51,7 +51,7 @@ public class AlgorithmSelectFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
+//        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
         // Grab app manager from parent activity.
         mAppManager = ((ImageLabActivity) getActivity()).getAppManager();

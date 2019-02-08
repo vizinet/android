@@ -29,7 +29,7 @@ public class AuthenticationServerCallback implements ServerCallback {
         // Show loading display
         // NOTE: Found that using context rather than activity causes some annoyances
         mProgress = new ProgressDialog(mActivity);
-        mProgress.setTitle("Signing In...");
+        mProgress.setTitle("Authenticating...");
         mProgress.setMessage("Please wait while we authenticate");
         mProgress.show();
 
@@ -43,17 +43,8 @@ public class AuthenticationServerCallback implements ServerCallback {
         String username = (String) args[1];
         String password = (String) args[2];
 
-        // Dismiss loading dialog
+        // Dismiss loading dialog.
         mProgress.dismiss();
-
-        if (isUser) {
-            Toast.makeText(mActivity, R.string.authentication_success,
-                    Toast.LENGTH_LONG).show();
-            ((SignInActivity) mActivity).login(username, password);
-        } else {
-            Toast.makeText(mActivity, R.string.authentication_failed,
-                    Toast.LENGTH_SHORT).show();
-        }
 
         return null;
     }

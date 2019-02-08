@@ -20,6 +20,8 @@ public class User extends RealmObject {
     public RealmList<Post> posts;           // Queued and submitted posts
     public int distanceMetric;              /** @see DISTANCE_METRICS */
     public boolean rememberAlgorithmChoice;
+    public double lastLatitude;
+    public double lastLongitude;
 
     @Override
     public String toString() {

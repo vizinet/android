@@ -6,6 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:minWidth="200dp"
+        android:elevation="10dp"
+        android:minHeight="200dp" />
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
@@ -18,6 +28,7 @@
         android:id="@+id/image_lab_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:elevation="1dp"
         android:padding="@dimen/activity_vertical_margin"
         tools:context="edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity" />
 

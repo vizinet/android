@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">AIRPACT-Fire</string>
-    <string name="app_motto">Visual Range Air-Quality Analytics</string>
+    <string name="app_name">Fire Vision</string>
+    <string name="app_motto">Distributed Computer Vision Lab</string>
 
     <!-- ACRA Email Notification -->
     <string name="acra_email_notifcation">The app has crashed. Sorry about that. A report has been
@@ -39,12 +39,15 @@
     <!-- Add picture details -->
     <string name="location_hint"><i>e.g. Mount Baker, Yakima River, etc.</i></string>
     <string name="visual_range_hint"><i>e.g. 3.1415926</i></string>
-    <string name="description_hint"><i>e.g. Morning fog seems to be coming through. Nothing out of the ordinary; same scene as yesterday, I think.</i></string>
+    <string name="description_hint"><i>e.g. Morning fog seems to be coming through. Nothing out of
+        the ordinary; same scene as yesterday, I think.</i></string>
 
     <string name="title_activity_image_lab">ImageLabActivity</string>
     <string name="title_activity_gallery">GalleryActivity</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_settings_test">Settings</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="title_activity_splash">@string/app_name</string>
 
     <!-- Strings related to Settings -->
 
@@ -117,5 +120,9 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

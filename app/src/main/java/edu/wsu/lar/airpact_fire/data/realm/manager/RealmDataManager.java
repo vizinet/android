@@ -1,4 +1,4 @@
-// Copyright © 2017,
+// Copyright © 2019,
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
@@ -13,6 +13,7 @@ import edu.wsu.lar.airpact_fire.app.Constant;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.AppInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
+import edu.wsu.lar.airpact_fire.data.realm.FireRealmMigration;
 import edu.wsu.lar.airpact_fire.data.realm.model.App;
 import edu.wsu.lar.airpact_fire.data.realm.model.Image;
 import edu.wsu.lar.airpact_fire.data.realm.model.Post;
@@ -23,7 +24,9 @@ import edu.wsu.lar.airpact_fire.data.realm.interface_object.RealmAppInterfaceObj
 import edu.wsu.lar.airpact_fire.data.realm.interface_object.RealmUserInterfaceObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.util.Util;
+
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 /**
@@ -34,9 +37,13 @@ import io.realm.RealmResults;
  */
 public class RealmDataManager extends DataManager {
 
+    // NOTE: Increment the version every time the Realm schema is updated.
+    public static final int SCHEMA_VERSION = 1;
+
     private Realm mRealm;
     private DebugManager mDebugManager;
     private Activity mActivity;
+    private boolean mIsInit = false;
 
     public RealmDataManager(DebugManager debugManager, Activity activity) {
         mDebugManager = debugManager;
@@ -47,28 +54,18 @@ public class RealmDataManager extends DataManager {
 
     @Override
     public void onAppFirstRun(Object... args) {
-
-        // Create app model with default fields at app's conception
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                App app = mRealm.createObject(App.class);
-                app.lastUser = null;
-                app.rememberUser = false;
-            }
+        // Create app model with default fields at app's conception.
+        mRealm = getRealmInstance((Context) args[0]);
+        mRealm.executeTransaction(realm -> {
+            App app = mRealm.createObject(App.class);
+            app.lastUser = null;
+            app.rememberUser = false;
         });
     }
 
     @Override
     public void onActivityStart(Object... args) {
-
-        final Context context = (Context) args[0];
-
-        // Initialize Realm for this activity
-        Realm.init(context);
-
-        // Get a Realm instance for this thread
-        mRealm = Realm.getDefaultInstance();
+        mRealm = getRealmInstance((Context) args[0]);
     }
 
     @Override
@@ -93,15 +90,43 @@ public class RealmDataManager extends DataManager {
 
     @Override
     public void onAppStart(Object... args) {
-        mDebugManager.printLog("App started!");
+
+        initRealm((Context) args[0]);
+
+        RealmConfiguration config = new RealmConfiguration.Builder()
+            .schemaVersion(SCHEMA_VERSION)          // Must be bumped when the schema changes.
+            .migration(new FireRealmMigration())    // Migration to run
+            .build();
+        Realm.setDefaultConfiguration(config);
+        mDebugManager.printLog(String.format(
+                "Realm database successfully migrated to schema version = %d.", SCHEMA_VERSION));
     }
 
     @Override
     public void onAppEnd(Object... args) {
-
     }
 
     /* Utilities */
+
+    /**
+      * Initialize Realm for this activity.
+      */
+    private void initRealm(Context context) {
+        if (!mIsInit) {
+            Realm.init(context);
+            mIsInit = true;
+        }
+    }
+
+    /**
+     * Get new/existing `Realm` instance for this thread.
+     *
+     * @return `Realm` instance.
+     */
+    private Realm getRealmInstance(Context context) {
+        initRealm(context);
+        return (mRealm != null) ? mRealm : Realm.getDefaultInstance();
+    }
 
     // Get user or create one if nonexistent
     private UserInterfaceObject createOrReturnUser(String username, String password) {

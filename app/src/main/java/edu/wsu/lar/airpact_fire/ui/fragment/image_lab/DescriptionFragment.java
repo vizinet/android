@@ -39,7 +39,7 @@ public class DescriptionFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
+//        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
         mPostInterfaceObject = ((ImageLabActivity) getActivity()).getPostObject();
 

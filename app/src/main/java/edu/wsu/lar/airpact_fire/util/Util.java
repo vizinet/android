@@ -25,6 +25,7 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -77,6 +78,34 @@ public class Util {
     // Image fields
     private static final String TRANSACTION_IMAGE_FILENAME = "transaction_image";
     private static final int IMAGE_COMPRESSION_QUALITY = 0;
+
+//    public static void drawRoundedBitmap() {
+//        BitmapShader shader;
+//        shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+//
+//        Paint paint = new Paint();
+//        paint.setAntiAlias(true);
+//        paint.setShader(shader);
+//
+//        RectF rect = new RectF(0.0f, 0.0f, width, height);
+//
+//        // rect contains the bounds of the shape
+//        // radius is the radius in pixels of the rounded corners
+//        // paint contains the shader that will texture the shape
+//        canvas.drawRoundRect(rect, radius, radius, paint);
+//    }
+
+    /**
+     * Convert Density-independent Pixel (DP) quantity to literal screen pixel quantity.
+     *
+     * @param activity current activity
+     * @param dp number of dp
+     * @return number of pixels
+     */
+    public static int dpToPx(Activity activity, int dp) {
+        DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
 
     /**
      * Remove a view from the ViewGroup, and thus the activity.

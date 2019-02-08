@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Date;
 import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
@@ -28,9 +30,8 @@ import edu.wsu.lar.airpact_fire.util.Util;
 import edu.wsu.lar.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
-import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.adjustAndDisplayBitmap;
+import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.processAndDisplayBitmap;
 import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.captureImage;
-import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.rotate;
 
 // TODO: When user retakes image, scrap this imageObject and make a new one!
 
@@ -129,15 +130,6 @@ public class OneForOneAlphaFragment extends Fragment {
             }
         });
 
-        // Flip image 90 degrees
-        mFlipButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rotate(getActivity(), mImageInterfaceObject, mMainImageView);
-            }
-        });
-        mFlipButton.setVisibility(View.GONE);
-
         mProceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,11 +166,12 @@ public class OneForOneAlphaFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if ((requestCode == ImageManager.REQUEST_IMAGE_CAPTURE_CODE && resultCode == RESULT_OK) &&
-                null != adjustAndDisplayBitmap(getActivity(),
-                        mImageInterfaceObject, mMainImageView)) {
+                null != processAndDisplayBitmap(null, null)) {
             mPostInterfaceObject.setDate(new Date());
-            mImageInterfaceObject.setGps(((ImageLabActivity) getActivity())
-                .getAppManager().getGps());
+            LatLng recentLatLng = ((ImageLabActivity) getActivity())
+                    .getUserObject().getRecentLatLng();
+            mImageInterfaceObject.setGps(new double[] {recentLatLng.latitude,
+                    recentLatLng.longitude});
             mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
         } else {
             // If no image taken or error, go home

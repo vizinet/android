@@ -1,4 +1,4 @@
-// Copyright © 2017,
+// Copyright © 2019,
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
@@ -9,11 +9,12 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
+
 import edu.wsu.lar.airpact_fire.app.Constant;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
@@ -24,15 +25,12 @@ import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
 import edu.wsu.lar.airpact_fire.R;
 
 /**
- * Activity to manage the collection of data for each described
- * {@link Algorithm}.
+ * Activity to manage the collection of data for each described {@link Algorithm}.
  *
  * @see Algorithm
  * @see UiTargetManager
  */
 public class ImageLabActivity extends AppCompatActivity {
-
-    // region Private variables
 
     private AppManager mAppManager;
     private UserInterfaceObject mUserInterfaceObject;
@@ -40,63 +38,61 @@ public class ImageLabActivity extends AppCompatActivity {
     private Algorithm mAlgorithm;
     private UiTargetManager mUiTargetManager;
 
+    private ProgressBar mProgressBar;
     private ActionBar mActionBar;
 
     private int[] mPadding;
 
-    // endregion
-
     /**
-     * Create a post and open Fragment for user to select algorithm
-     * type.
+     * Create a post and open Fragment for user to select algorithm type.
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_lab);
 
-        // Set action bar
-        setSupportActionBar((Toolbar) findViewById(R.id.my_toolbar));
-        mActionBar = getSupportActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-        GradientDrawable gd = new GradientDrawable(
-                GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[] {
-                        Color.WHITE,
-                        Color.TRANSPARENT
-                });
-        mActionBar.setBackgroundDrawable(gd);
+        // Set action bar.
+//        setSupportActionBar(findViewById(R.id.my_toolbar));
+//        mActionBar = getSupportActionBar();
+//        mActionBar.setDisplayHomeAsUpEnabled(true);
+//        GradientDrawable gd = new GradientDrawable(
+//                GradientDrawable.Orientation.TOP_BOTTOM,
+//                new int[] { Color.WHITE, Color.TRANSPARENT });
+//        mActionBar.setBackgroundDrawable(gd);
+
+        mProgressBar = findViewById(R.id.progress_bar);
+        setProgressBarVisible(false);
 
         mAppManager = Constant.getAppManager();
         mAppManager.onActivityStart(this);
         mAppManager.rebindGpsService();
 
-        // Create new post (for this image)
+        // Create new post (for this image).
         mUserInterfaceObject = mAppManager.getDataManager().getApp().getLastUser();
         mPostInterfaceObject = mUserInterfaceObject.createPost();
 
-        // Target manager creation
+        // Target manager creation.
         mUiTargetManager = new UiTargetManager(this);
 
         // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
+        // the fragment_container FrameLayout.
         if (findViewById(R.id.image_lab_container) != null) {
 
             // However, if we're being restored from a previous state,
             // then we don't need to do anything and should return or else
-            // we could end up with overlapping fragments
+            // we could end up with overlapping fragments.
             if (savedInstanceState != null) {
                 return;
             }
 
-            // Create a new Fragment to be placed in the activity layout
+            // Create a new Fragment to be placed in the activity layout.
             AlgorithmSelectFragment firstFragment = new AlgorithmSelectFragment();
 
             // In case this activity was started with special instructions from an
-            // Intent, pass the Intent's extras to the fragment as arguments
+            // Intent, pass the Intent's extras to the fragment as arguments.
             firstFragment.setArguments(getIntent().getExtras());
 
-            // Add the fragment to the 'fragment_container' FrameLayout
+            // Add the fragment to the 'fragment_container' FrameLayout.
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.image_lab_container, firstFragment).commit();
         }
@@ -119,7 +115,7 @@ public class ImageLabActivity extends AppCompatActivity {
                 return true;
 
             case R.id.action_help:
-                // TODO: Open help fragment
+                // TODO: Open help fragment.
                 return true;
 
             case R.id.action_home:
@@ -144,7 +140,7 @@ public class ImageLabActivity extends AppCompatActivity {
      */
     public void clearPadding() {
         View containerView = findViewById(R.id.image_lab_container);
-        mPadding = new int[] {
+        mPadding = new int[]{
                 containerView.getPaddingLeft(),
                 containerView.getPaddingTop(),
                 containerView.getPaddingRight(),
@@ -162,10 +158,10 @@ public class ImageLabActivity extends AppCompatActivity {
     }
 
     public void setActionBarTitle(String title) {
-       mActionBar.setTitle(title);
+        mActionBar.setTitle(title);
     }
 
-    /* Methods for fragments to access activity fields */
+    /* Methods for fragments to access activity fields. */
 
     public AppManager getAppManager() {
         return mAppManager;
@@ -190,5 +186,10 @@ public class ImageLabActivity extends AppCompatActivity {
 
     public UiTargetManager getUITargetManager() {
         return mUiTargetManager;
+    }
+
+    public void setProgressBarVisible(boolean visible) {
+        int visibility = visible ? View.VISIBLE : View.INVISIBLE;
+        mProgressBar.setVisibility(visibility);
     }
 }

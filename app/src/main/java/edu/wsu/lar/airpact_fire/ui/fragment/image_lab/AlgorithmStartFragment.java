@@ -42,7 +42,7 @@ public class AlgorithmStartFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
+//        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
         // Get algorithm from activity.
         mAlgorithm = ((ImageLabActivity) getActivity()).getAlgorithm();

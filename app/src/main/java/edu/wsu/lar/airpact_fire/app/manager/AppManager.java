@@ -47,7 +47,7 @@ public abstract class AppManager {
 
     /* Activity lifecycle methods */
 
-    public abstract void onAppStart(Object... args);
+    public abstract void onApplicationStart(Object... args);
     public abstract void onAppEnd(Object... args);
     public abstract void onActivityStart(Object... args);
     public abstract void onActivityPause(Object... args);

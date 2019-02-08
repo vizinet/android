@@ -10,7 +10,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
@@ -20,16 +22,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name="edu.wsu.lar.airpact_fire.ui.activity.SplashScreenActivity" />
         <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.SignInActivity"
-            android:label="@string/app_name"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.SplashScreenActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.ui.activity.SplashScreenActivity" />
-
+            android:name=".ui.activity.SplashActivity"
+            android:label="@string/title_activity_splash"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,36 +34,49 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.SignInActivity"
+            android:name=".ui.activity.WelcomeActivity"
+            android:label="@string/title_activity_welcome"
+            android:theme="@style/NoActionBar" />
+        <activity android:name=".ui.activity.SplashScreenActivity" />
+        <activity
+            android:name=".ui.activity.SignInActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".ui.activity.SplashScreenActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.SplashScreenActivity" />
+        </activity>
+        <activity
+            android:name=".ui.activity.HomeActivity"
+            android:parentActivityName=".ui.activity.SignInActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wsu.lar.airpact_fire.ui.activity.SignInActivity" />
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.CaptureActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:name=".ui.activity.CaptureActivity"
+            android:parentActivityName=".ui.activity.HomeActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.ProfileActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
-        </activity>
-        <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.SettingsActivity"
-            android:parentActivityName="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity"
+            android:name=".ui.activity.ProfileActivity"
+            android:parentActivityName=".ui.activity.HomeActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity"
+            android:name=".ui.activity.SettingsActivity"
+            android:parentActivityName=".ui.activity.HomeActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".ui.activity.ImageLabActivity"
             android:label="@string/title_activity_image_lab"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
@@ -75,14 +84,13 @@
                 android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
         </activity>
         <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.GalleryActivity"
+            android:name=".ui.activity.GalleryActivity"
             android:label="@string/title_activity_gallery"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wsu.lar.airpact_fire.ui.activity.HomeActivity" />
         </activity>
-
         <!--
          ATTENTION: This was auto-generated to add Google Play services to your project for
          App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -90,7 +98,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -104,13 +111,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="edu.wsu.lar.airpact_fire.ui.activity.SettingsTestActivity"
-            android:label="@string/title_activity_settings_test"></activity>
+            android:name=".ui.activity.SettingsTestActivity"
+            android:label="@string/title_activity_settings_test" />
 
         <service
-            android:name="edu.wsu.lar.airpact_fire.app.service.GpsService"
-            android:exported="false"
-            />
+            android:name=".app.service.GpsService"
+            android:exported="false" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -119,9 +125,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

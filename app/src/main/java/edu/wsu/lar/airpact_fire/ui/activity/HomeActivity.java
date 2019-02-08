@@ -1,4 +1,4 @@
-// Copyright © 2017,
+// Copyright © 2019,
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -76,26 +78,21 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mDataManager = mAppManager.getDataManager();
         mUserInterfaceObject = mDataManager.getApp().getLastUser();
 
-        // Listen for when GPS is available
-        mAppManager.subscribeGpsAvailable(new AppManager.GpsAvailableCallback() {
-            @Override
-            public void change() {
-                listenGpsUpdates();
-            }
-        });
+        // Listen for when GPS is available.
+        mAppManager.subscribeGpsAvailable(() -> listenGpsUpdates());
 
-        // Set action bar
+        // Set action bar.
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setTitle(mUserInterfaceObject.getUsername());
 
-        // Map fragment loading
+        // Map fragment loading.
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        // ...
+        // Buttons
         mCaptureButton = findViewById(R.id.capture_button);
         mGalleryButton = findViewById(R.id.gallery_button);
         mCaptureButton.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +111,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(galleryIntent);
             }
         });
+
+        // TODO: Some peppy welcome message.
+//        Snackbar.make(view, "Happy data collecting!", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show();
     }
 
     @Override
@@ -198,6 +199,20 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         mGoogleMap = map;
 
+        // Set map display details and preferences.
+        mGoogleMap.setMinZoomPreference(7.0f);
+        mGoogleMap.setMaxZoomPreference(14.0f);
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mGoogleMap.setMyLocationEnabled(true);
+        LatLng coordinates = new LatLng(Constant.DEFAULT_GPS_LOCATION[0],
+                Constant.DEFAULT_GPS_LOCATION[1]);
+        CameraUpdate point = CameraUpdateFactory.newLatLng(coordinates);
+        mGoogleMap.moveCamera(point);
+
+        // Info window
+        mGoogleMap.setOnInfoWindowClickListener(this);
+        mGoogleMap.setInfoWindowAdapter(new PostInfoWindowAdapter());
+
         // Add post locations to map
         List<PostInterfaceObject> postInterfaceObjects = mUserInterfaceObject.getPosts();
         for (PostInterfaceObject postInterfaceObject : postInterfaceObjects) {
@@ -235,16 +250,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .icon(BitmapDescriptorFactory.defaultMarker(postMarkerColor)));
             mMarkerMap.put(marker, postInterfaceObject);
         }
-
-        // Map display details and preferences
-        mGoogleMap.setMinZoomPreference(7.0f);
-        mGoogleMap.setMaxZoomPreference(14.0f);
-        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        mGoogleMap.setMyLocationEnabled(true);
-
-        // Info window
-        mGoogleMap.setOnInfoWindowClickListener(this);
-        mGoogleMap.setInfoWindowAdapter(new PostInfoWindowAdapter());
     }
 
     @Override
@@ -302,20 +307,18 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     private void listenGpsUpdates() {
 
-        mAppManager.subscribeGpsLocationChanges(new GpsService.GpsLocationChangedCallback() {
-            @Override
-            public void change(double[] gps) {
+        mAppManager.subscribeGpsLocationChanges(gps -> {
 
-                if (mGoogleMap == null) return;
+            if (mGoogleMap == null) return;
 
-                LatLng currentCameraPosition = mGoogleMap.getCameraPosition().target;
-                LatLng newCameraPosition = new LatLng(gps[0], gps[1]);
+            LatLng currentCameraPosition = mGoogleMap.getCameraPosition().target;
+            LatLng newCameraPosition = new LatLng(gps[0], gps[1]);
 
-                // Only move camera if there is an acceptable distance moved by user
-                if (Util.distanceBetween(currentCameraPosition, newCameraPosition) >=
-                        sCameraUpdateDistance) {
-                    mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(newCameraPosition));
-                }
+            // Only move camera if there is an acceptable distance moved by user
+            if (Util.distanceBetween(currentCameraPosition, newCameraPosition) >=
+                    sCameraUpdateDistance) {
+                CameraUpdate point = CameraUpdateFactory.newLatLng(newCameraPosition);
+                mGoogleMap.animateCamera(point);
             }
         });
     }

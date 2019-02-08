@@ -4,7 +4,6 @@
 
 package edu.wsu.lar.airpact_fire.app.manager;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
@@ -35,11 +34,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class MainAppManager extends AppManager {
 
     private static final boolean sIsDebugging = true;
-    private static final int sRequestExternalStorage = 1;
-    private static final String[] sPermissionsStorage = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
 
     private DataManager mDataManager;
     private ServerManager mServerManager;
@@ -49,8 +43,25 @@ public class MainAppManager extends AppManager {
     private GpsService mGpsService;
     private GpsAvailableCallback mGpsAvailableCallback;
 
-    private boolean mIsGpsAvailable;
     private boolean mIsActivityVisible = true;
+
+    private class GpsServiceConnection implements ServiceConnection {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            GpsService.LocalBinder binder = (GpsService.LocalBinder) service;
+            mGpsService = binder.getService();
+            mDebugManager.printLog("GPS service connected.");
+            Toast.makeText(mActivity, "GPS service connected.", Toast.LENGTH_LONG);
+            notifyGpsAvailable();
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mDebugManager.printLog("GPS service disconnected.");
+            Toast.makeText(mActivity, "GPS service disconnected.", Toast.LENGTH_LONG);
+            mGpsService = null;
+        }
+    }
 
     @Override
     public boolean isDebugging() {
@@ -74,6 +85,10 @@ public class MainAppManager extends AppManager {
 
     @Override
     public double[] getGps() {
+        if (mGpsService == null) {
+            // TODO
+            return null;
+        }
         return mGpsService.getGps();
     }
 
@@ -89,23 +104,7 @@ public class MainAppManager extends AppManager {
         // Start and bind GPS service
         Intent serviceIntent = new Intent(mActivity, GpsService.class);
         mActivity.startService(serviceIntent);
-        mActivity.bindService(serviceIntent, new ServiceConnection() {
-
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                // We've bound to LocalService, cast the IBinder and get LocalService instance
-                GpsService.LocalBinder binder = (GpsService.LocalBinder) service;
-                mGpsService = binder.getService();
-                Toast.makeText(mActivity, "Listening for GPS...", Toast.LENGTH_LONG);
-                notifyGpsAvailable();
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                Toast.makeText(mActivity, "Stopped listening for GPS.", Toast.LENGTH_LONG);
-                mGpsService = null;
-            }
-        }, Context.BIND_IMPORTANT);
+        mActivity.bindService(serviceIntent, new GpsServiceConnection(), Context.BIND_IMPORTANT);
     }
 
     @Override
@@ -113,22 +112,8 @@ public class MainAppManager extends AppManager {
 
         if (isServiceRunning(GpsService.class)) {
             Intent serviceIntent = new Intent(mActivity, GpsService.class);
-            mActivity.bindService(serviceIntent, new ServiceConnection() {
-
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                // We've bound to LocalService, cast the IBinder and get LocalService instance
-                GpsService.LocalBinder binder = (GpsService.LocalBinder) service;
-                mGpsService = binder.getService();
-                getDebugManager().printLog("Service is re-bound!");
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                getDebugManager().printLog("Service is UNbound!");
-                mGpsService = null;
-            }
-        }, Context.BIND_IMPORTANT);
+            mActivity.bindService(serviceIntent, new GpsServiceConnection(),
+                    Context.BIND_IMPORTANT);
         } else {
             startGpsService();
         }
@@ -136,7 +121,7 @@ public class MainAppManager extends AppManager {
 
     @Override
     public void endGpsService() {
-        // End GPS service
+        // End GPS service.
         Intent serviceIntent = new Intent(mActivity, GpsService.class);
         mActivity.stopService(serviceIntent);
     }
@@ -154,7 +139,8 @@ public class MainAppManager extends AppManager {
 
     @Override
     public void notifyGpsAvailable() {
-        // Check in 1 second intervals for subscribers
+        if (mGpsAvailableCallback == null) return;
+        // Check in 1 second intervals for subscribers.
         mGpsAvailableCallback.change();
     }
 
@@ -175,25 +161,26 @@ public class MainAppManager extends AppManager {
     }
 
     @Override
-    public void onAppStart(Object... args) {
+    public void onApplicationStart(Object... args) {
 
-        // Do app's first-run stuff
         Context context = (Context) args[0];
 
-        // Check first-run
+        setupManagers();
+
+        // Check first-run.
         SharedPreferences mPreferences = context.getSharedPreferences(
                 context.getPackageName(),
                 MODE_PRIVATE);
         if (mPreferences.getBoolean("firstrun", true)) {
             mDebugManager.printLog("App's first run");
-            mDataManager.onAppFirstRun();
+            mDataManager.onAppFirstRun(context);
             mPreferences.edit().putBoolean("firstrun", false).commit();
         } else {
             mDebugManager.printLog("Not app's first run");
         }
 
-        mDataManager.onAppStart();
-        mServerManager.onAppStart();
+        mDataManager.onAppStart(context);
+        mServerManager.onAppStart(context);
     }
 
     @Override
@@ -208,10 +195,7 @@ public class MainAppManager extends AppManager {
         mActivity = (Activity) args[0];
         final Context context = mActivity.getApplicationContext();
 
-        // Construct managers
-        mDebugManager = new DebugManager(isDebugging());
-        mDataManager = new RealmDataManager(mDebugManager, mActivity);
-        mServerManager = new HTTPServerManager(mDebugManager, mActivity);
+        setupManagers();
 
         mDebugManager.printLog("Started activity = " + context.toString());
 
@@ -272,6 +256,21 @@ public class MainAppManager extends AppManager {
     public void onSubmit(PostInterfaceObject postInterfaceObject, ServerCallback serverCallback) {
         // Attempt submission to server, update database with results
         mServerManager.onSubmit(mActivity.getApplicationContext(), postInterfaceObject, serverCallback);
+    }
+
+    /**
+     * Construct managers; could have already been started by `onApplicationStart`.
+     */
+    private void setupManagers() {
+        mDebugManager = mDebugManager == null
+                ? new DebugManager(isDebugging())
+                : mDebugManager;
+        mDataManager = mDataManager == null
+                ? new RealmDataManager(mDebugManager, mActivity)
+                : mDataManager;
+        mServerManager = mServerManager == null
+                ? new HTTPServerManager(mDebugManager, mActivity)
+                : mServerManager;
     }
 
     private boolean isServiceRunning(Class<?> serviceClass) {

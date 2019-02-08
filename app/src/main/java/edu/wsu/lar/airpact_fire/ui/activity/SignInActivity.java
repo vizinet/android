@@ -1,26 +1,20 @@
-// Copyright © 2017,
+// Copyright © 2019,
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
 package edu.wsu.lar.airpact_fire.ui.activity;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import edu.wsu.lar.airpact_fire.app.Constant;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.AppInterfaceObject;
@@ -58,16 +53,8 @@ public class SignInActivity extends AppCompatActivity {
 
     private String mUsername;
     private String mPassword;
-    private static final int sAllPermissionsCode = 5;
-    private static final String[] sRequestedPermissions = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.CAMERA
-    };
 
-    // UI references
+    // UI References
     private RelativeLayout mPage;
     private ImageView mAppBanner;
     private EditText mPasswordView, mUsernameView;
@@ -86,10 +73,10 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        // Setup our application manager
+        // Setup our application manager.
         mAppManager = Constant.getAppManager();
+        mAppManager.onApplicationStart(this);
         mAppManager.onActivityStart(this);
-        mAppManager.onAppStart(this);
 
         // Sign last user in if that box was previously checked.
         if (mAppManager.getDataManager().getApp().getRememberUser()) {
@@ -97,7 +84,7 @@ public class SignInActivity extends AppCompatActivity {
                     .getApp().getLastUser();
             mUsername = userInterfaceObject.getUsername();
             mPassword = userInterfaceObject.getPassword();
-            login();
+            proceed(false);
         }
 
         // Attach objects to UI.
@@ -114,73 +101,77 @@ public class SignInActivity extends AppCompatActivity {
         populateLoginFields();
 
         // Readjust page when keyboard shows/hides.
-        mPage.getViewTreeObserver().addOnGlobalLayoutListener(
-                new ViewTreeObserver.OnGlobalLayoutListener(){
-                    public void onGlobalLayout(){
+        mPage.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
 
-                        Rect rect = new Rect();
-                        mPage.getWindowVisibleDisplayFrame(rect);
-                        int screenHeight = mPage.getRootView().getHeight();
+                    Rect rect = new Rect();
+                    mPage.getWindowVisibleDisplayFrame(rect);
+                    int screenHeight = mPage.getRootView().getHeight();
 
-                        // rect.bottom is the position above soft keypad or device button
-                        // If keypad is shown, the rect.bottom is smaller than before
-                        int keypadHeight = screenHeight - rect.bottom;
-                        if (keypadHeight > (screenHeight * Constant.KEYPAD_OCCUPATION_RATIO)) {
-                            // Keyboard is opened
-                            mAppBanner.setVisibility(View.GONE);
-                            mRegisterLink.setVisibility(View.GONE);
-                            mHelpImageButton.setVisibility(View.GONE);
-                        }
-                        else {
-                            // Keyboard is closed
-                            mAppBanner.setVisibility(View.VISIBLE);
-                            mRegisterLink.setVisibility(View.VISIBLE);
-                            mHelpImageButton.setVisibility(View.VISIBLE);
-                        }
+                    // rect.bottom is the position above soft keypad or device button
+                    // If keypad is shown, the rect.bottom is smaller than before
+                    int keypadHeight = screenHeight - rect.bottom;
+                    if (keypadHeight > (screenHeight * Constant.KEYPAD_OCCUPATION_RATIO)) {
+                        // Keyboard is opened
+                        mAppBanner.setVisibility(View.GONE);
+                        mRegisterLink.setVisibility(View.GONE);
+                        mHelpImageButton.setVisibility(View.GONE);
                     }
-        });
+                    else {
+                        // Keyboard is closed
+                        mAppBanner.setVisibility(View.VISIBLE);
+                        mRegisterLink.setVisibility(View.VISIBLE);
+                        mHelpImageButton.setVisibility(View.VISIBLE);
+                    }
+                });
 
         // Checks credentials before proceeding to home
-        mSignInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mSignInButton.setOnClickListener(v -> {
+            // Store credentials
+            mUsername = mUsernameView.getText().toString();
+            mPassword = mPasswordView.getText().toString();
 
-                // Store credentials
-                mUsername = mUsernameView.getText().toString();
-                mPassword = mPasswordView.getText().toString();
+            // Validate credentials
+            if (Util.isNullOrEmpty(mUsername) || Util.isNullOrEmpty(mPassword)) {
+                Toast.makeText(SignInActivity.this,
+                        "Please enter valid credentials", Toast.LENGTH_LONG).show();
+            }
 
-                // Validate credentials
-                if (Util.isNullOrEmpty(mUsername) || Util.isNullOrEmpty(mPassword)) {
-                    Toast.makeText(SignInActivity.this,
-                            "Please enter valid credentials", Toast.LENGTH_LONG).show();
-                }
+            // Check if user exists
+            if (mAppManager.getDataManager().getApp().getUser(mUsername, mPassword) != null) {
+                // Pre-authenticated user - continue
+                mAppManager.getDebugManager().printLog("Realm user already in DB");
+                proceed(false);
+            } else {
+                // TODO: The AuthenticationServerCallback doesn't even need to pass the username/password back (already being set above)
+                // New guy - needs authentication
+                mAppManager.getDebugManager().printLog("Realm user does not exist");
+                mAppManager.onAuthenticate(mUsername, mPassword,
+                        new AuthenticationServerCallback(SignInActivity.this) {
+                            @Override
+                            public Object onFinish(Object... args) {
+                                boolean isUser = (boolean) args[0];
+                                if (isUser) {
+                                    Toast.makeText(SignInActivity.this,
+                                            R.string.authentication_success,
+                                            Toast.LENGTH_LONG).show();
+                                    proceed(true);
+                                } else {
+                                    Toast.makeText(SignInActivity.this,
+                                            R.string.authentication_failed,
+                                            Toast.LENGTH_SHORT).show();
+                                }
 
-                // Check if user exists
-                if (mAppManager.getDataManager().getApp().getUser(mUsername, mPassword) != null) {
-
-                    // Pre-authenticated user - continue
-                    mAppManager.getDebugManager().printLog("Realm user already in DB");
-                    login();
-
-                } else {
-
-                    // TODO: The AuthenticationServerCallback doesn't even need to pass the username/password back (already being set above)
-                    // New guy - needs authentication
-                    mAppManager.getDebugManager().printLog("Realm user does not exist");
-                    mAppManager.onAuthenticate(mUsername, mPassword,
-                            new AuthenticationServerCallback(SignInActivity.this));
-                }
+                                return null;
+                            }
+                        });
             }
         });
 
         // Redirect user to info on website
-        mHelpImageButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse(Constant.SERVER_INFORMATION_URL);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
+        mHelpImageButton.setOnClickListener(v -> {
+            Uri uri = Uri.parse(Constant.SERVER_INFORMATION_URL);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         });
     }
 
@@ -209,7 +200,6 @@ public class SignInActivity extends AppCompatActivity {
      * Setup the page and show last user logged in.
      */
     private void populateLoginFields() {
-
         // Setup registration link
         Spanned registerText = Html.fromHtml(String.format(
             "<a href = '%s'>Sign Up for AIRPACT-Fire</a>",
@@ -229,7 +219,7 @@ public class SignInActivity extends AppCompatActivity {
      * Open {@link HomeActivity} and begin a new
      * {@link edu.wsu.lar.airpact_fire.data.realm.model.Session}.
      */
-    public void proceed() {
+    public void proceed(boolean firstLogin) {
 
         // Let DB know we're logging in with this user.
         mAppManager.onLogin(mUsername, mPassword);
@@ -241,56 +231,18 @@ public class SignInActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         } else {
             // Expedited login
-            Toast.makeText(getApplicationContext(), R.string.expedited_login_success,
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.expedited_login_success, Toast.LENGTH_LONG).show();
         }
 
-        // Open home screen
-        Intent intent = new Intent(this, HomeActivity.class);
+        // Route user to next screen.
+        Class nextClass = null;
+        if (firstLogin) {
+            nextClass = WelcomeActivity.class;
+        } else {
+            nextClass = WelcomeActivity.class;
+            // TODO: nextClass = HomeActivity.class;
+        }
+        Intent intent = new Intent(this, nextClass);
         startActivity(intent);
-    }
-
-    /**
-     * TODO: Remove
-     * @param username
-     * @param password
-     */
-    public void login(String username, String password) {
-        mUsername = username;
-        mPassword = password;
-        login();
-    }
-
-    /**
-     * Request permissions before opening app functionality to user.
-     */
-    public void login() {
-        Activity activity = SignInActivity.this;
-        ActivityCompat.requestPermissions(activity, sRequestedPermissions, sAllPermissionsCode);
-    }
-
-    /**
-     *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[],
-                                           int[] grantResults) {
-        if (requestCode != sAllPermissionsCode
-                || grantResults.length != sRequestedPermissions.length) {
-            return;
-        }
-        for (int result : grantResults) {
-            if (result != PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(SignInActivity.this, "Permission Denied!",
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-        Toast.makeText(SignInActivity.this, "Permission Granted!",
-                Toast.LENGTH_SHORT).show();
-        proceed();
     }
 }

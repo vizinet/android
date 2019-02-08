@@ -4,6 +4,8 @@
 
 package edu.wsu.lar.airpact_fire.data.interface_object;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +31,8 @@ public interface UserInterfaceObject extends InterfaceObject {
     PostInterfaceObject getPost(int id);
     PostInterfaceObject getLastPost();
     PostInterfaceObject createPost();
+
+    LatLng getRecentLatLng();
 
     int getDistanceMetric();
     void setDistanceMetric(int value);
