@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
-import edu.wsu.lar.airpact_fire.data.interface_object.SessionInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.activity.ImageLabActivity;
@@ -59,10 +58,10 @@ public class AlgorithmSelectFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_algorithm_select, container, false);
-        mAlgorithmRadioGroup = (RadioGroup) view.findViewById(R.id.algorithm_radio);
-        mRememberAlgorithmCheckBox = (CheckBox) view.findViewById(
+        mAlgorithmRadioGroup = view.findViewById(R.id.algorithm_radio);
+        mRememberAlgorithmCheckBox = view.findViewById(
                 R.id.remember_algorithm_check_box);
-        mContinueButton = (Button) view.findViewById(R.id.continue_button);
+        mContinueButton = view.findViewById(R.id.continue_button);
 
         // Dynamically add choices for algorithms.
         DataManager.PostAlgorithm[] postAlgorithms = DataManager.PostAlgorithm.values();
@@ -83,39 +82,36 @@ public class AlgorithmSelectFragment extends Fragment {
         }
 
         // Listen for "continue"
-        mContinueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        mContinueButton.setOnClickListener(view1 -> {
 
-                if (mAlgorithmRadioGroup.getCheckedRadioButtonId() == -1) {
-                    // Don't continue unless an algorithm has been selected.
-                    Toast.makeText(getActivity(),
-                            R.string.no_algorithm_selected_notification,
-                            Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                UserInterfaceObject userInterfaceObject = mAppManager.getDataManager()
-                        .getApp().getLastUser();
-
-                // Update database with selections.
-                // NOTE: Modulus because radio button ID's are not reallocated once this fragment
-                // is repopulated
-                int radioButtonId = ((mAlgorithmRadioGroup.getCheckedRadioButtonId() - 1)
-                        % mAlgorithmRadioGroup.getChildCount()) + 1;
-                userInterfaceObject.setRememberAlgorithmChoice(mRememberAlgorithmCheckBox
-                        .isChecked());
-
-                // Grab algorithm of choice & notify parent activity
-                Algorithm selectedAlgorithm = mAlgorithms.get(radioButtonId - 1);
-                ((ImageLabActivity) getActivity()).setAlgorithm(selectedAlgorithm);
-
-                // Give description of algorithm before real action happens
-                Fragment startFragment = new AlgorithmStartFragment();
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.image_lab_container, startFragment).addToBackStack(null)
-                        .commit();
+            if (mAlgorithmRadioGroup.getCheckedRadioButtonId() == -1) {
+                // Don't continue unless an algorithm has been selected.
+                Toast.makeText(getActivity(),
+                        R.string.no_algorithm_selected_notification,
+                        Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            UserInterfaceObject userInterfaceObject = mAppManager.getDataManager()
+                    .getApp().getLastUser();
+
+            // Update database with selections.
+            // NOTE: Modulus because radio button ID's are not reallocated once this fragment
+            // is repopulated
+            int radioButtonId = ((mAlgorithmRadioGroup.getCheckedRadioButtonId() - 1)
+                    % mAlgorithmRadioGroup.getChildCount()) + 1;
+            userInterfaceObject.setRememberAlgorithmChoice(mRememberAlgorithmCheckBox
+                    .isChecked());
+
+            // Grab algorithm of choice & notify parent activity
+            Algorithm selectedAlgorithm = mAlgorithms.get(radioButtonId - 1);
+            ((ImageLabActivity) getActivity()).setAlgorithm(selectedAlgorithm);
+
+            // Give description of algorithm before real action happens
+            Fragment startFragment = new AlgorithmStartFragment();
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.image_lab_container, startFragment).addToBackStack(null)
+                    .commit();
         });
 
         return view;

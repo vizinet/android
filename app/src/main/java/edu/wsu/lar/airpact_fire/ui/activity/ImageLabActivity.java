@@ -20,6 +20,7 @@ import edu.wsu.lar.airpact_fire.app.manager.AppManager;
 import edu.wsu.lar.airpact_fire.data.algorithm.Algorithm;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
+import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.ui.fragment.image_lab.AlgorithmSelectFragment;
 import edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager;
 import edu.wsu.lar.airpact_fire.R;
@@ -33,6 +34,8 @@ import edu.wsu.lar.airpact_fire.R;
 public class ImageLabActivity extends AppCompatActivity {
 
     private AppManager mAppManager;
+    private ServerManager mServerManager;
+
     private UserInterfaceObject mUserInterfaceObject;
     private PostInterfaceObject mPostInterfaceObject;
     private Algorithm mAlgorithm;
@@ -66,6 +69,7 @@ public class ImageLabActivity extends AppCompatActivity {
         mAppManager = Constant.getAppManager();
         mAppManager.onActivityStart(this);
         mAppManager.rebindGpsService();
+        mServerManager = mAppManager.getServerManager();
 
         // Create new post (for this image).
         mUserInterfaceObject = mAppManager.getDataManager().getApp().getLastUser();
@@ -166,6 +170,8 @@ public class ImageLabActivity extends AppCompatActivity {
     public AppManager getAppManager() {
         return mAppManager;
     }
+
+    public ServerManager getServerManager() { return mServerManager; }
 
     public UserInterfaceObject getUserObject() {
         return mUserInterfaceObject;

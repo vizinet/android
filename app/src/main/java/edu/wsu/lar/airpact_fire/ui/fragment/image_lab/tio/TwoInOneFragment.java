@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -43,15 +42,13 @@ import edu.wsu.lar.airpact_fire.util.Util;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * Single page for image captureImage and placement of two targets on
- * two Points of Interest, along with the inputting of their
- * corresponding distance away from the user.
+ * Single page for image captureImage and placement of two targets on two Points of Interest, along
+ * with the inputting of their corresponding distance away from the user.
  *
  * @see edu.wsu.lar.airpact_fire.data.algorithm.tio.TwoInOneAlgorithm
  */
 public class TwoInOneFragment extends Fragment {
 
-    private static final String sActionBarTitle = "Target Selections";
     private static final int sTargetCount = 2;
     private static final int sFragmentId = 3;
 
@@ -65,8 +62,6 @@ public class TwoInOneFragment extends Fragment {
     private int mSelectedTargetId;
 
     private ImageView mMainImageView;
-    private FrameLayout mImageAreaLayout;
-    private FrameLayout mProgressBarLayout;
     private LinearLayout mControlLinearLayout;
     private LinearLayout mTargetOneDistanceLinearLayout;
     private LinearLayout mTargetTwoDistanceLinearLayout;
@@ -81,7 +76,17 @@ public class TwoInOneFragment extends Fragment {
     private Button mProceedButton;
     private ProgressBar mFlipProgressBar;
 
-    public TwoInOneFragment() {
+    public TwoInOneFragment() { }
+
+    /**
+     * Capture new image.
+     *
+     * Hide view and targets before picture has been captured and processed.
+     */
+    private void capture(View view) {
+        view.setVisibility(View.INVISIBLE);
+        mUiTargetManager.hideAll();
+        ImageManager.captureImage(this, mImageInterfaceObject);
     }
 
     @Override
@@ -89,7 +94,6 @@ public class TwoInOneFragment extends Fragment {
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-//        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
         ((ImageLabActivity) getActivity()).clearPadding();
 
         // Get fields from activity.
@@ -102,8 +106,6 @@ public class TwoInOneFragment extends Fragment {
         // Get standard views.
         View view = inflater.inflate(R.layout.fragment_two_in_one, container, false);
         mMainImageView = view.findViewById(R.id.main_image_view);
-        mImageAreaLayout = view.findViewById(R.id.image_area_layout);
-        mProgressBarLayout = view.findViewById(R.id.progress_bar_layout);
         mTargetOneDistanceLinearLayout = view.findViewById(R.id.target_one_distance_linear_layout);
         mTargetTwoDistanceLinearLayout = view.findViewById(R.id.target_two_distance_linear_layout);
         mControlLinearLayout = view.findViewById(R.id.control_linear_layout);
@@ -116,7 +118,6 @@ public class TwoInOneFragment extends Fragment {
         mTargetTwoMetricAbbreviationTextView = view.findViewById(
                 R.id.target_two_metric_abbreviation);
         mRetakeButton = view.findViewById(R.id.retake_button);
-        mFlipButton = view.findViewById(R.id.flip_button);
         mProceedButton = view.findViewById(R.id.proceed_button);
         mFlipProgressBar = view.findViewById(R.id.flip_progress_bar);
 
@@ -129,80 +130,63 @@ public class TwoInOneFragment extends Fragment {
         mSelectedTargetId = 0;
         mTargetOneDistanceLinearLayout.setBackgroundColor(Color.parseColor("#EEEEEEEE"));
 
-        // Get image from user.
-        ImageManager.captureImage(this, mImageInterfaceObject);
+        // Target Movement
+        mMainImageView.setOnTouchListener((v, event) -> {
 
-        // Target movement
-        mMainImageView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                // Handle displays.
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    mControlLinearLayout.setVisibility(View.VISIBLE);
-                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mControlLinearLayout.setVisibility(View.GONE);
-                }
-
-                // Get touch coordinates.
-                int x = (int) event.getX();
-                int y = (int) event.getY();
-
-                mUiTargetManager.setTargetPosition(mSelectedTargetId, x, y);
-                int targetColor = mUiTargetManager.getTargetColor(mSelectedTargetId);
-                mTargetColorImageViews.get(mSelectedTargetId).setBackgroundColor(targetColor);
-
-                return true;
+            // Handle displays.
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                mControlLinearLayout.setVisibility(View.VISIBLE);
+            } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                mControlLinearLayout.setVisibility(View.GONE);
             }
+
+            // Get touch coordinates.
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+
+            mUiTargetManager.setTargetPosition(mSelectedTargetId, x, y);
+            int targetColor = mUiTargetManager.getTargetColor(mSelectedTargetId);
+            mTargetColorImageViews.get(mSelectedTargetId).setBackgroundColor(targetColor);
+
+            return true;
         });
 
-        // Target selection
-        mTargetOneDistanceLinearLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                mTargetOneDistanceLinearLayout.setBackgroundColor(
-                        Color.parseColor("#EEEEEEEE"));
-                mTargetTwoDistanceLinearLayout.setBackgroundColor(Color.TRANSPARENT);
-                mSelectedTargetId = 0;
-                return false;
-            }
+        // Target Selection
+        mTargetOneDistanceLinearLayout.setOnTouchListener((view15, motionEvent) -> {
+            mTargetOneDistanceLinearLayout.setBackgroundColor(
+                    Color.parseColor("#EEEEEEEE"));
+            mTargetTwoDistanceLinearLayout.setBackgroundColor(Color.TRANSPARENT);
+            mSelectedTargetId = 0;
+            return false;
         });
-        mTargetOneDistanceEditText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                mTargetOneDistanceLinearLayout.setBackgroundColor(
-                        Color.parseColor("#EEEEEEEE"));
-                mTargetTwoDistanceLinearLayout.setBackgroundColor(Color.TRANSPARENT);
-                mSelectedTargetId = 0;
-                return false;
-            }
+        mTargetOneDistanceEditText.setOnTouchListener((view14, motionEvent) -> {
+            mTargetOneDistanceLinearLayout.setBackgroundColor(
+                    Color.parseColor("#EEEEEEEE"));
+            mTargetTwoDistanceLinearLayout.setBackgroundColor(Color.TRANSPARENT);
+            mSelectedTargetId = 0;
+            return false;
         });
-        mTargetTwoDistanceLinearLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                mTargetTwoDistanceLinearLayout.setBackgroundColor(
-                        Color.parseColor("#EEEEEEEE"));
-                mTargetOneDistanceLinearLayout.setBackgroundColor(Color.TRANSPARENT);
-                mSelectedTargetId = 1;
-                return false;
-            }
+        mTargetTwoDistanceLinearLayout.setOnTouchListener((view13, motionEvent) -> {
+            mTargetTwoDistanceLinearLayout.setBackgroundColor(
+                    Color.parseColor("#EEEEEEEE"));
+            mTargetOneDistanceLinearLayout.setBackgroundColor(Color.TRANSPARENT);
+            mSelectedTargetId = 1;
+            return false;
         });
-        mTargetTwoDistanceEditText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                mTargetTwoDistanceLinearLayout.setBackgroundColor(
-                        Color.parseColor("#EEEEEEEE"));
-                mTargetOneDistanceLinearLayout.setBackgroundColor(Color.TRANSPARENT);
-                mSelectedTargetId = 1;
-                return false;
-            }
+        mTargetTwoDistanceEditText.setOnTouchListener((view12, motionEvent) -> {
+            mTargetTwoDistanceLinearLayout.setBackgroundColor(
+                    Color.parseColor("#EEEEEEEE"));
+            mTargetOneDistanceLinearLayout.setBackgroundColor(Color.TRANSPARENT);
+            mSelectedTargetId = 1;
+            return false;
         });
 
         // TODO: All these controls should be centralized in a manager, not amongst fragments.
 
         // Retake a picture.
-        mRetakeButton.setOnClickListener(v -> ImageManager.captureImage(
-                TwoInOneFragment.this, mImageInterfaceObject));
+        mRetakeButton.setOnClickListener(v -> {
+            capture(getView());
+        });
 
         // Moving forward
         mProceedButton.setOnClickListener(view1 -> {
@@ -237,8 +221,7 @@ public class TwoInOneFragment extends Fragment {
                     .commit();
         });
 
-        // Hide view before picture is captured.
-        view.setVisibility(View.INVISIBLE);
+        capture(view);
 
         return view;
     }
@@ -266,24 +249,31 @@ public class TwoInOneFragment extends Fragment {
             // TODO: Get all this to work, and then think about the principled approach.
             // -----
 
-            // TODO: Pre-processing of data for background processing.
+            // Pre-processing of data
             Bitmap bitmap = mImageInterfaceObject.getBitmap();
             String imageUri = mImageInterfaceObject.getImageFile().getAbsolutePath();
 
+            assert bitmap != null;
+
             new Thread(() -> {
 
-                // TODO: Processing the data.
-                Bitmap processedBitmap = ImageManager.processAndDisplayBitmap(bitmap, imageUri);
+                // Main processing of the data
+                Bitmap[] processedBitmaps = ImageManager.processBitmap(bitmap, getActivity(),
+                        imageUri);
 
-                // TODO: Post-processing
+                // Post-processing in UI thread
                 handler.post(() -> {
-                    assert processedBitmap != null;
+
+                    // TODO: We need the below validation to occur, and it's not failing this
+                    // assertion in the UI even when we know the bitmap is non-null.
+                    assert processedBitmaps != null;
+
                     ((ImageLabActivity) getActivity()).setProgressBarVisible(false);
                     getView().setVisibility(View.VISIBLE);
-                    mImageInterfaceObject.setImage(processedBitmap);
-                    mMainImageView.setImageBitmap(mImageInterfaceObject.getThumbnail());
+                    mImageInterfaceObject.setImage(processedBitmaps[0], processedBitmaps[1]);
+                    mMainImageView.setImageBitmap(processedBitmaps[1]);
 
-                    // TODO: Set post fields independent of image.
+                    // Set post fields independent of raw image.
                     mPostInterfaceObject.setDate(new Date());
                     LatLng recentLatLng = ((ImageLabActivity) getActivity()).getUserObject()
                             .getRecentLatLng();
@@ -293,21 +283,19 @@ public class TwoInOneFragment extends Fragment {
                 });
             }).start();
 
+        } catch (Exception exception) {
 
-
-
-        } catch (AssertionError error) {
-            // If no image taken or error, go home.
+            // Indicate failure to user.
             Toast.makeText(getContext(),
                     "Camera failed to take picture. Please try again later.",
                     Toast.LENGTH_LONG).show();
 
-            // TODO: Report with ACRA.
+            // Report the issue to backend.
+            exception = new Exception("Camera failed to take a picture.", exception);
+            ((ImageLabActivity) getActivity()).getServerManager().reportException(exception);
 
             Util.goHome(getActivity());
             return;
         }
-
-        Log.d("CameraTimer", "End processing now.");
     }
 }

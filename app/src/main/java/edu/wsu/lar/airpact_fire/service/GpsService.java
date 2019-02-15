@@ -2,7 +2,7 @@
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
-package edu.wsu.lar.airpact_fire.app.service;
+package edu.wsu.lar.airpact_fire.service;
 
 import android.annotation.SuppressLint;
 import android.os.Binder;
@@ -48,7 +48,6 @@ public class GpsService extends Service {
 
     private Realm mRealm;
     public GpsService() {
-        mRealm = Realm.getDefaultInstance();
     }
 
     // Handler that receives messages from the thread
@@ -130,7 +129,15 @@ public class GpsService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
+        super.onRebind(intent);
+
         return mBinder;
+    }
+
+    @Override
+    public void onRebind(Intent intent) {
+        super.onRebind(intent);
+
     }
 
     @Override
@@ -163,6 +170,13 @@ public class GpsService extends Service {
      */
     public void notifyLocationChanged() {
         if (mLocationChangedSubscriber == null) return;
+
+        // TODO: Realm.init();
+        // TODO: Find this.
+        // I think the GPS service is being started by an activity that's being discarded and giving
+        // us errors now. We should have a more reliable way of attaching to the service from the
+        // activity and giving it a reliable realm instance.
+        mRealm = Realm.getDefaultInstance();
 
         // Update last seen GPS for most recent user.
         double[] newGps = getGps();

@@ -1,4 +1,4 @@
-// Copyright © 2017,
+// Copyright © 2019,
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
@@ -6,17 +6,18 @@ package edu.wsu.lar.airpact_fire.ui.target.manager;
 
 import android.app.Activity;
 import android.widget.ImageView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import edu.wsu.lar.airpact_fire.ui.target.UiTarget;
 
 /**
  * Manager/engine of image targets in the interface.
  *
- * <p>This target manager is reminiscent of the observer
- * pattern, where each target move causes the corresponding
- * {@link UiTarget} to update its internal values.</p>
+ * <p>This target manager is reminiscent of the observer pattern, where each target move causes the
+ * corresponding {@link UiTarget} to update its internal values.</p>
  */
 public class UiTargetManager {
 
@@ -71,7 +72,7 @@ public class UiTargetManager {
             mUITargetFragmentMap.put(mCurrentFragmentId, targets);
         }
 
-        // Show current targets
+        // Show current targets.
         showAll();
     }
 

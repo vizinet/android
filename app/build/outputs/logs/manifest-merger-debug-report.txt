@@ -404,12 +404,12 @@ ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main
 		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:115:13-65
 	android:name
 		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:114:13-61
-service#edu.wsu.lar.airpact_fire.app.service.GpsService
+service#edu.wsu.lar.airpact_fire.service.GpsService
 ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:117:9-119:40
 	android:exported
 		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:119:13-37
 	android:name
-		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:118:13-51
+		ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:118:13-47
 provider#android.support.v4.content.FileProvider
 ADDED from C:\Users\lukedottec\Documents\Teams\AIRPACT-Fire\android\app\src\main\AndroidManifest.xml:121:9-129:20
 	android:grantUriPermissions

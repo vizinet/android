@@ -41,7 +41,7 @@ public interface ImageInterfaceObject extends InterfaceObject {
      * representations of image.
      * @param value new image pixels
      */
-    void setImage(Bitmap value);
+    void setImage(Bitmap raw, Bitmap compressed);
 
     void delete();
 

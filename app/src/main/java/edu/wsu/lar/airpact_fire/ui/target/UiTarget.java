@@ -20,8 +20,8 @@ import edu.wsu.lar.airpact_fire.util.Util;
 import edu.wsu.lar.airpact_fire.R;
 
 /**
- * Defines an object which represents the logical state of a Point of
- * Interest target in the interface.
+ * Defines an object which represents the logical state of a Point of Interest target in the
+ * interface.
  *
  * <p>All targets are controlled by the
  * {@link edu.wsu.lar.airpact_fire.ui.target.manager.UiTargetManager},
@@ -36,7 +36,8 @@ public class UiTarget {
     private ImageView mContainerImageView;
     private TextView mTargetTextView;
 
-    public UiTarget(Activity activity, ImageView imageView, int id, int targetRadius, int x, int y) {
+    public UiTarget(Activity activity, ImageView imageView, int id, int targetRadius, int x,
+                    int y) {
 
         mContainerImageView = imageView;
         mId = id;
@@ -59,9 +60,8 @@ public class UiTarget {
         mTargetTextView.setTextColor(Color.parseColor("#000000"));
         mTargetTextView.setTypeface(null, Typeface.BOLD);
 
-        // Add to activity
-        ContentFrameLayout parent = (ContentFrameLayout)
-                activity.findViewById(android.R.id.content);
+        // Add to activity.
+        ContentFrameLayout parent = activity.findViewById(android.R.id.content);
         parent.addView(mTargetTextView);
     }
 
@@ -83,6 +83,8 @@ public class UiTarget {
             mTargetTextView.setY(y - mRadius);
             return;
         }
+
+        Log.d("TargetChecks", x + "," + y);
 
         // Ok: set position
         mTargetTextView.setX(x - mRadius);
@@ -127,7 +129,7 @@ public class UiTarget {
                 position[0], position[1]));
         Log.d("getColor", String.format("bitmap width, height: (%d, %d)",
                 image.getWidth(), image.getHeight()));
-        Log.d("setPosition", String.format("imageview width, height: (%d, %d)",
+        Log.d("getColor", String.format("imageview width, height: (%d, %d)",
                 mContainerImageView.getWidth(), mContainerImageView.getHeight()));
 
         // Get pixel color at real position

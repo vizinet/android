@@ -38,4 +38,6 @@ public interface ServerManager {
     void onSubmit(Context context,
                   PostInterfaceObject postInterfaceObject,
                   ServerCallback serverCallback);
+
+    void reportException(Exception exception);
 }

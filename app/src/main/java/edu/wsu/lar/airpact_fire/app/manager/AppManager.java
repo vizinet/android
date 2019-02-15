@@ -1,6 +1,6 @@
 package edu.wsu.lar.airpact_fire.app.manager;
 
-import edu.wsu.lar.airpact_fire.app.service.GpsService;
+import edu.wsu.lar.airpact_fire.service.GpsService;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;

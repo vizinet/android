@@ -49,6 +49,11 @@ public class DummyServerManager implements ServerManager {
     }
 
     @Override
+    public void reportException(Exception exception) {
+
+    }
+
+    @Override
     public void onAuthenticate(Context context, String username, String password, ServerCallback callback) {
         callback.onFinish(sBlindAuthentication, username, password);
     }

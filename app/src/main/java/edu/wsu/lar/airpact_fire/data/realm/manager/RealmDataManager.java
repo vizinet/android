@@ -6,6 +6,7 @@ package edu.wsu.lar.airpact_fire.data.realm.manager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 
@@ -32,8 +33,7 @@ import io.realm.RealmResults;
 /**
  * Realm implementation of the {@link DataManager}.
  *
- * <p>Uses {@link io.realm.RealmModel} objects under the hood
- * to store data.</p>
+ * <p>Uses {@link io.realm.RealmModel} objects under the hood to store data.</p>
  */
 public class RealmDataManager extends DataManager {
 
@@ -98,6 +98,7 @@ public class RealmDataManager extends DataManager {
             .migration(new FireRealmMigration())    // Migration to run
             .build();
         Realm.setDefaultConfiguration(config);
+        Realm.getDefaultInstance();                 // Force a rebuild
         mDebugManager.printLog(String.format(
                 "Realm database successfully migrated to schema version = %d.", SCHEMA_VERSION));
     }
@@ -115,6 +116,7 @@ public class RealmDataManager extends DataManager {
         if (!mIsInit) {
             Realm.init(context);
             mIsInit = true;
+            Log.d("DataManager", "Realm has been initialized.");
         }
     }
 

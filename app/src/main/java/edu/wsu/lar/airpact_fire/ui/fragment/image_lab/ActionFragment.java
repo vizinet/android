@@ -49,27 +49,21 @@ public class ActionFragment extends Fragment {
         mPostInterfaceObject = ((ImageLabActivity) getActivity()).getPostObject();
 
         View view = inflater.inflate(R.layout.fragment_action, container, false);
-        mDiscardButton = (Button) view.findViewById(R.id.discard_button);
-        mQueueButton = (Button) view.findViewById(R.id.queue_button);
-        mSubmitButton = (Button) view.findViewById(R.id.submit_button);
+        mDiscardButton = view.findViewById(R.id.discard_button);
+        mQueueButton = view.findViewById(R.id.queue_button);
+        mSubmitButton = view.findViewById(R.id.submit_button);
 
-        mDiscardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPostInterfaceObject.delete();
-                goHome();
-            }
+        mDiscardButton.setOnClickListener(view1 -> {
+            mPostInterfaceObject.delete();
+            goHome();
         });
 
-        mQueueButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mPostInterfaceObject.setMode(DataManager.PostMode.QUEUED.getId());
-                Toast.makeText(getActivity(),
-                        "Post has been queued. You can view it in the gallery.",
-                        Toast.LENGTH_SHORT).show();
-                goHome();
-            }
+        mQueueButton.setOnClickListener(view12 -> {
+            mPostInterfaceObject.setMode(DataManager.PostMode.QUEUED.getId());
+            Toast.makeText(getActivity(),
+                    "Post has been queued. You can view it in the gallery.",
+                    Toast.LENGTH_SHORT).show();
+            goHome();
         });
 
         mSubmitButton.setOnClickListener(new View.OnClickListener() {

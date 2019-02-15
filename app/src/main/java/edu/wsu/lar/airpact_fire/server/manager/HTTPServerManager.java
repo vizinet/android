@@ -7,6 +7,8 @@ package edu.wsu.lar.airpact_fire.server.manager;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+
+import org.acra.ACRA;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import java.io.BufferedOutputStream;
@@ -325,5 +327,15 @@ public class HTTPServerManager implements ServerManager {
             int serverImageId = (int) arrayList.get(2);
             mCallback.onFinish(didSubmit, serverOutput, serverImageId);
         }
+    }
+
+    /**
+     * Report the given error to backend using {@link ACRA}.
+     *
+     * @param exception error to report
+     */
+    @Override
+    public void reportException(Exception exception) {
+        ACRA.getErrorReporter().handleException(exception);
     }
 }

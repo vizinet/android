@@ -5,7 +5,9 @@
 package edu.wsu.lar.airpact_fire.ui.fragment.image_lab.ofo;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -31,7 +33,7 @@ import edu.wsu.lar.airpact_fire.util.Util;
 import edu.wsu.lar.airpact_fire.R;
 
 import static android.app.Activity.RESULT_OK;
-import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.processAndDisplayBitmap;
+import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.processBitmap;
 import static edu.wsu.lar.airpact_fire.image.manager.ImageManager.captureImage;
 
 /**
@@ -62,17 +64,27 @@ public class OneForOneBetaFragment extends Fragment {
     private ImageView mTargetColorImageView;
     private LinearLayout mControlLinearLayout;
     private Button mRetakeButton;
-    private Button mFlipButton;
     private Button mProceedButton;
 
     public OneForOneBetaFragment() { }
+
+    /**
+     * Capture new image.
+     *
+     * Hide view and targets before picture has been captured and processed.
+     */
+    private void capture(View view) {
+        view.setVisibility(View.INVISIBLE);
+        mUiTargetManager.hideAll();
+        ImageManager.captureImage(this, mImageInterfaceObject);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
+//        ((ImageLabActivity) getActivity()).setActionBarTitle(sActionBarTitle);
 
         // Get fields from activity
         mPostInterfaceObject = ((ImageLabActivity) getActivity()).getPostObject();
@@ -87,11 +99,10 @@ public class OneForOneBetaFragment extends Fragment {
         mTargetColorImageView = (ImageView) view.findViewById(R.id.target_color_image_view);
         mControlLinearLayout = (LinearLayout) view.findViewById(R.id.control_linear_layout);
         mRetakeButton = view.findViewById(R.id.retake_button);
-        mFlipButton = view.findViewById(R.id.flip_button);
         mProceedButton = view.findViewById(R.id.proceed_button);
 
         // Take pic
-        captureImage(OneForOneBetaFragment.this, mImageInterfaceObject);
+        capture(view);
 
         // Target movement
         mMainImageView.setOnTouchListener(new View.OnTouchListener() {
@@ -126,7 +137,7 @@ public class OneForOneBetaFragment extends Fragment {
         mRetakeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                captureImage(OneForOneBetaFragment.this, mImageInterfaceObject);
+                capture(view);
             }
         });
 
@@ -169,26 +180,62 @@ public class OneForOneBetaFragment extends Fragment {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Call garbage collection
-        // TODO: See if we can remove this
-        Runtime.getRuntime().gc();
+        try {
+            assert requestCode != ImageManager.REQUEST_IMAGE_CAPTURE_CODE;
+            assert resultCode == RESULT_OK;
 
-        // TODO: Enforce a strict time-limit between these two image captures so things are up to date
+            Handler handler = new Handler();
+            ((ImageLabActivity) getActivity()).setProgressBarVisible(true);
 
-        if ((requestCode == ImageManager.REQUEST_IMAGE_CAPTURE_CODE && resultCode == RESULT_OK) &&
-                null != processAndDisplayBitmap(null, null)) {
-            mPostInterfaceObject.setDate(new Date());
-            LatLng recentLatLng = ((ImageLabActivity) getActivity())
-                    .getUserObject().getRecentLatLng();
-            mImageInterfaceObject.setGps(new double[] {recentLatLng.latitude,
-                    recentLatLng.longitude});
-            mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
-        } else {
-            // If no image taken or error, go home
+            // -----
+            // TODO: Get all this to work, and then think about the principled approach.
+            // -----
+
+            // Pre-processing of data
+            Bitmap bitmap = mImageInterfaceObject.getBitmap();
+            String imageUri = mImageInterfaceObject.getImageFile().getAbsolutePath();
+
+            new Thread(() -> {
+
+                // Main processing of the data
+                Bitmap[] processedBitmaps = ImageManager.processBitmap(bitmap, getActivity(),
+                        imageUri);
+
+                // Post-processing in UI thread
+                handler.post(() -> {
+
+                    // TODO: We need the below validation to occur, and it's not failing this
+                    // assertion in the UI even when we know the bitmap is non-null.
+                    assert processedBitmaps != null;
+
+                    ((ImageLabActivity) getActivity()).setProgressBarVisible(false);
+                    getView().setVisibility(View.VISIBLE);
+                    mImageInterfaceObject.setImage(processedBitmaps[0], processedBitmaps[1]);
+                    mMainImageView.setImageBitmap(processedBitmaps[1]);
+
+                    // Set post fields independent of raw image.
+                    mPostInterfaceObject.setDate(new Date());
+                    LatLng recentLatLng = ((ImageLabActivity) getActivity()).getUserObject()
+                            .getRecentLatLng();
+                    mImageInterfaceObject.setGps(new double[] {recentLatLng.latitude,
+                            recentLatLng.longitude});
+                    mUiTargetManager.setContext(sFragmentId, mMainImageView, sTargetCount);
+                });
+            }).start();
+
+        } catch (Exception exception) {
+
+            // Indicate failure to user.
             Toast.makeText(getContext(),
                     "Camera failed to take picture. Please try again later.",
                     Toast.LENGTH_LONG).show();
+
+            // Report the issue to backend.
+            exception = new Exception("Camera failed to take a picture.", exception);
+            ((ImageLabActivity) getActivity()).getServerManager().reportException(exception);
+
             Util.goHome(getActivity());
+            return;
         }
     }
 }

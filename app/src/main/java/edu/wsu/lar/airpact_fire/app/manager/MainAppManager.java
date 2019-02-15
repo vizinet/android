@@ -10,13 +10,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.widget.Toast;
 
 import org.acra.ACRA;
 
-import edu.wsu.lar.airpact_fire.app.service.GpsService;
+import edu.wsu.lar.airpact_fire.service.GpsService;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.realm.manager.RealmDataManager;
@@ -26,7 +25,7 @@ import edu.wsu.lar.airpact_fire.server.manager.HTTPServerManager;
 import edu.wsu.lar.airpact_fire.server.manager.ServerManager;
 import edu.wsu.lar.airpact_fire.ui.activity.HomeActivity;
 
-import static android.content.Context.MODE_PRIVATE;
+// TODO: Transfer a lot of this functionality to `Application` class.
 
 /**
  * First implementation of the {@link AppManager} interface.
@@ -163,24 +162,24 @@ public class MainAppManager extends AppManager {
     @Override
     public void onApplicationStart(Object... args) {
 
-        Context context = (Context) args[0];
-
-        setupManagers();
-
-        // Check first-run.
-        SharedPreferences mPreferences = context.getSharedPreferences(
-                context.getPackageName(),
-                MODE_PRIVATE);
-        if (mPreferences.getBoolean("firstrun", true)) {
-            mDebugManager.printLog("App's first run");
-            mDataManager.onAppFirstRun(context);
-            mPreferences.edit().putBoolean("firstrun", false).commit();
-        } else {
-            mDebugManager.printLog("Not app's first run");
-        }
-
-        mDataManager.onAppStart(context);
-        mServerManager.onAppStart(context);
+//        Context context = (Context) args[0];
+//
+//        setupManagers();
+//
+//        // Check first-run.
+//        SharedPreferences mPreferences = context.getSharedPreferences(
+//                context.getPackageName(),
+//                MODE_PRIVATE);
+//        if (mPreferences.getBoolean("firstrun", true)) {
+//            mDebugManager.printLog("App's first run");
+//            mDataManager.onAppFirstRun(context);
+//            mPreferences.edit().putBoolean("firstrun", false).commit();
+//        } else {
+//            mDebugManager.printLog("Not app's first run");
+//        }
+//
+//        mDataManager.onAppStart(context);
+//        mServerManager.onAppStart(context);
     }
 
     @Override
@@ -202,15 +201,6 @@ public class MainAppManager extends AppManager {
         // Notify that activity has begun
         mDataManager.onActivityStart(context);
         mServerManager.onActivityStart();
-
-        // Catch global exceptions
-        // NOTE: Has never been thrown, to my observation
-        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
-                mDebugManager.printToast(context, "[Global exception caught]");
-            }
-        });
     }
 
     @Override

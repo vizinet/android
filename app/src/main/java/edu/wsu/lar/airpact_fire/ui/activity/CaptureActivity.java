@@ -1,4 +1,4 @@
-// Copyright © 2017,
+// Copyright © 2019,
 // Laboratory for Atmospheric Research at Washington State University,
 // All rights reserved.
 
@@ -72,6 +72,9 @@ import edu.wsu.lar.airpact_fire.util.Util;
  * the image, return to the original event indicating success.
  *
  * NOTE: The actual capturing and saving of the image to a JPEG occurs in less than a second.
+ *
+ * This activity is coupled functionally with
+ * {@link edu.wsu.lar.airpact_fire.image.manager.ImageManager} very tightly.
  */
 public class CaptureActivity extends AppCompatActivity
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback,

@@ -6,12 +6,17 @@ package edu.wsu.lar.airpact_fire.data.realm.interface_object;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.interface_object.TargetInterfaceObject;
@@ -20,8 +25,6 @@ import edu.wsu.lar.airpact_fire.data.realm.model.Image;
 import edu.wsu.lar.airpact_fire.data.realm.model.Target;
 import edu.wsu.lar.airpact_fire.debug.manager.DebugManager;
 import edu.wsu.lar.airpact_fire.util.Util;
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * Realm implementation of the {@link ImageInterfaceObject}.
@@ -43,10 +46,9 @@ public class RealmImageInterfaceObject implements ImageInterfaceObject {
 
     @Override
     public Bitmap getBitmap() {
-        String fileLocation = mImage.rawImageLocation;
         Bitmap bitmap = null;
         try {
-            bitmap = BitmapFactory.decodeFile(fileLocation);
+            bitmap = BitmapFactory.decodeFile(mImage.rawImageLocation);
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
         }
@@ -55,10 +57,9 @@ public class RealmImageInterfaceObject implements ImageInterfaceObject {
 
     @Override
     public Bitmap getThumbnail() {
-        String fileLocation = mImage.compressedImageLocation;
         Bitmap bitmap = null;
         try {
-            bitmap = BitmapFactory.decodeFile(fileLocation);
+            bitmap = BitmapFactory.decodeFile(mImage.compressedImageLocation);
         } catch (OutOfMemoryError e) {
             e.printStackTrace();
         }
@@ -96,11 +97,9 @@ public class RealmImageInterfaceObject implements ImageInterfaceObject {
     }
 
     @Override
-    public void setImage(Bitmap value) {
+    public void setImage(Bitmap raw, Bitmap compressed) {
 
-        // TODO: Write both the compressed version and raw version, in addition to
-        // removing the raw version upon submission and ensuring nobody but ServerManager
-        // reads from the raw version.
+        // TODO: Move the compression to the {@link ImageManager}.
 
         File rawFile = new File(mImage.rawImageLocation);
         File compressedFile = new File(mImage.compressedImageLocation);
@@ -109,18 +108,24 @@ public class RealmImageInterfaceObject implements ImageInterfaceObject {
         ByteArrayOutputStream compressedBos = new ByteArrayOutputStream();
 
         // Compress one version, preserve on the other
-        value.compress(Bitmap.CompressFormat.PNG, 100, rawBos);
-        value.compress(Bitmap.CompressFormat.JPEG, 50, compressedBos);
+        raw.compress(Bitmap.CompressFormat.PNG, 100, rawBos);
+        compressed.compress(Bitmap.CompressFormat.JPEG, 50, compressedBos);
 
         byte[] rawBitmapData = rawBos.toByteArray();
-        byte[] compressedBitmapData = rawBos.toByteArray();
+        byte[] compressedBitmapData = compressedBos.toByteArray();
         try {
             FileOutputStream rawFos = new FileOutputStream(rawFile);
             FileOutputStream compressedFos = new FileOutputStream(compressedFile);
             rawFos.write(rawBitmapData);
             compressedFos.write(compressedBitmapData);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+            //
+            rawFile = new File(mImage.rawImageLocation);
+            compressedFile = new File(mImage.compressedImageLocation);
+            Log.d("FileLengths", String.valueOf(rawFile.length()));
+            Log.d("FileLengths", String.valueOf(compressedFile.length()));
+            //
+
         } catch (Exception e) {
             e.printStackTrace();
         }

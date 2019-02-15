@@ -11,15 +11,11 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.Display;
-import android.widget.ImageView;
 
 import java.io.File;
 
@@ -27,7 +23,10 @@ import edu.wsu.lar.airpact_fire.data.interface_object.ImageInterfaceObject;
 import edu.wsu.lar.airpact_fire.ui.activity.CaptureActivity;
 
 /**
- * Handle image logic in UI.
+ * Responsible for the processing of images in the app.
+ *
+ * This manager, along with {@link CaptureActivity}, handle the obtainment, processing, and
+ * normalization of the images for the AIRPACT-Fire platform (ergo, lots of responsibility here!).
  */
 public class ImageManager {
 
@@ -47,20 +46,12 @@ public class ImageManager {
         File storageDir = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = imageInterfaceObject.createImageFile(storageDir);
         if (image == null) return;
-        Uri imageUri = null;
-        try {
-            imageUri = FileProvider.getUriForFile(activity,
-                    "com.example.android.fileprovider", image);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         // Attach data for activity.
         newTakePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, image.getAbsolutePath());
         newTakePictureIntent.putExtra(
                 MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         );
-
         fragment.startActivityForResult(newTakePictureIntent, REQUEST_IMAGE_CAPTURE_CODE);
     }
 
@@ -104,6 +95,47 @@ public class ImageManager {
     }
 
     /**
+     * Resize bitmap for display to screen proportions.
+     *
+     * @param bitmap original bitmap
+     * @return scaled-down bitmap
+     */
+    private static Bitmap scaleToScreen(Bitmap bitmap, Activity activity) {
+        int[] screenDimensions = getScreenDimensions(activity);
+        double scaleRatio = (screenDimensions[0] / (double)bitmap.getWidth());
+        int imageHeight = (int)(bitmap.getHeight() * scaleRatio);
+        int imageWidth = screenDimensions[0];
+        return Bitmap.createScaledBitmap(bitmap, imageWidth, imageHeight, false);
+    }
+
+    /**
+     * Get screen dimensions.
+     *
+     * @param activity
+     * @return screen dimensions (width, height)
+     */
+    private static int[] getScreenDimensions(Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return new int[] { size.x, size.y };
+    }
+
+    /**
+     * Crop a bitmap to precisely to screen dimension.
+     *
+     * @param bitmap bitmap to crop
+     * @param activity
+     * @return cropped image
+     */
+    private static Bitmap cropToScreen(Bitmap bitmap, Activity activity) {
+        int[] screenDimensions = getScreenDimensions(activity);
+        Log.d("cropToScreen", String.format("screenDim: %d, %d", screenDimensions[0], screenDimensions[1]));
+        Log.d("cropToScreen", String.format("bitDim: %d, %d", bitmap.getWidth(), bitmap.getHeight()));
+        return Bitmap.createBitmap(bitmap, 0, 0, screenDimensions[0], screenDimensions[1]);
+    }
+
+    /**
      * Process provided image (wrapped within {@link ImageInterfaceObject}) by adjusting image
      * rotation.
      *
@@ -113,36 +145,17 @@ public class ImageManager {
      * @param imageInterfaceObject
      * @param mainImageView
      * @param handler handles updates to UI thread
-     * @return Adjusted Bitmap object
+     * @return <adjusted bitmap, scaled bitmap>
      */
-    public static Bitmap processAndDisplayBitmap(Bitmap bitmap, String imageUri) {
+    public static Bitmap[] processBitmap(Bitmap bitmap, Activity activity, String imageUri) {
         try {
-            // Rotate image (if necessary).
             Bitmap rotatedBitmap = correctiveRotation(bitmap, imageUri);
-            return rotatedBitmap;
-
-//            // Resize bitmap for display (to screen proportions).
-//            Display display = activity.getWindowManager().getDefaultDisplay();
-//            Point size = new Point();
-//            display.getSize(size);
-//            int screenWidth = size.x;
-//            int imageHeight = (int)(bitmap.getHeight() * (screenWidth / (float)bitmap.getWidth()));
-//            int imageWidth = screenWidth;
-//            // TODO?
-//
-//            Log.d("CameraTimer", ":: Start processing now. 3.");
-//
-//            // Log
-//            Log.d("onActivityResult", String.format("screen width %d", screenWidth));
-//            Log.d("onActivityResult", String.format("original display width, height: (%d, %d)",
-//                    bitmap.getWidth(), bitmap.getHeight()));
-//            Log.d("onActivityResult",
-//                    String.format("resulting display width, height: (%d, %d)",
-//                    imageWidth, imageHeight));
-
-
-        } catch (Exception e) { }
-
+            Bitmap scaledBitmap = scaleToScreen(rotatedBitmap, activity);
+//            Bitmap croppedBitmap = cropToScreen(scaledBitmap, activity);
+            return new Bitmap[] { rotatedBitmap, scaledBitmap };
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         return null;
     }
 }

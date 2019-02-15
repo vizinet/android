@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 import edu.wsu.lar.airpact_fire.app.Constant;
 import edu.wsu.lar.airpact_fire.app.manager.AppManager;
-import edu.wsu.lar.airpact_fire.app.service.GpsService;
 import edu.wsu.lar.airpact_fire.data.interface_object.PostInterfaceObject;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.UserInterfaceObject;
@@ -95,21 +94,15 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Buttons
         mCaptureButton = findViewById(R.id.capture_button);
         mGalleryButton = findViewById(R.id.gallery_button);
-        mCaptureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent captureIntent = new Intent(HomeActivity.this,
-                        ImageLabActivity.class);
-                startActivity(captureIntent);
-            }
+        mCaptureButton.setOnClickListener(view -> {
+            Intent captureIntent = new Intent(HomeActivity.this,
+                    ImageLabActivity.class);
+            startActivity(captureIntent);
         });
-        mGalleryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent galleryIntent = new Intent(HomeActivity.this,
-                        GalleryActivity.class);
-                startActivity(galleryIntent);
-            }
+        mGalleryButton.setOnClickListener(view -> {
+            Intent galleryIntent = new Intent(HomeActivity.this,
+                    GalleryActivity.class);
+            startActivity(galleryIntent);
         });
 
         // TODO: Some peppy welcome message.
@@ -278,16 +271,11 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             PostInterfaceObject postInterfaceObject = mMarkerMap.get(marker);
             View infoWindowView = getLayoutInflater().inflate(R.layout.layout_map_info_window, null);
 
-            ImageView postImageView = (ImageView)
-                    infoWindowView.findViewById(R.id.post_image_view);
-            TextView postLocationTextView = (TextView)
-                    infoWindowView.findViewById(R.id.post_location_text_view);
-            TextView postStatusTextView = (TextView)
-                    infoWindowView.findViewById(R.id.post_status_text_view);
-            TextView postVisualRangeTextView = (TextView)
-                    infoWindowView.findViewById(R.id.post_visual_range_text_view);
-            TextView postDateTextView = (TextView)
-                    infoWindowView.findViewById(R.id.post_date_text_view);
+            ImageView postImageView = infoWindowView.findViewById(R.id.post_image_view);
+            TextView postLocationTextView = infoWindowView.findViewById(R.id.post_location_text_view);
+            TextView postStatusTextView = infoWindowView.findViewById(R.id.post_status_text_view);
+            TextView postVisualRangeTextView = infoWindowView.findViewById(R.id.post_visual_range_text_view);
+            TextView postDateTextView = infoWindowView.findViewById(R.id.post_date_text_view);
 
             postImageView.setImageBitmap(postInterfaceObject.getThumbnail(250));
             postLocationTextView.setText(String.format("%s",
@@ -314,10 +302,10 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             LatLng currentCameraPosition = mGoogleMap.getCameraPosition().target;
             LatLng newCameraPosition = new LatLng(gps[0], gps[1]);
 
-            // Only move camera if there is an acceptable distance moved by user
+            // Only move camera if there is an acceptable distance moved by user.
             if (Util.distanceBetween(currentCameraPosition, newCameraPosition) >=
                     sCameraUpdateDistance) {
-                CameraUpdate point = CameraUpdateFactory.newLatLng(newCameraPosition);
+                CameraUpdate point = CameraUpdateFactory.newLatLngZoom(newCameraPosition, 11.25f);
                 mGoogleMap.animateCamera(point);
             }
         });

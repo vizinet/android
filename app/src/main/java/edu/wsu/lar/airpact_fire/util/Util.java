@@ -95,6 +95,15 @@ public class Util {
 //        canvas.drawRoundRect(rect, radius, radius, paint);
 //    }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+    public static int sizeOf(Bitmap data) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR1) {
+            return data.getRowBytes() * data.getHeight();
+        } else {
+            return data.getByteCount();
+        }
+    }
+
     /**
      * Convert Density-independent Pixel (DP) quantity to literal screen pixel quantity.
      *

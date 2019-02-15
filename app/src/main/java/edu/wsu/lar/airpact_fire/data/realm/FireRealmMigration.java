@@ -39,4 +39,14 @@ public class FireRealmMigration implements RealmMigration {
             // ...
         }
     }
+
+    @Override
+    public int hashCode() {
+        return 37;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return (o instanceof RealmMigration);
+    }
 }
