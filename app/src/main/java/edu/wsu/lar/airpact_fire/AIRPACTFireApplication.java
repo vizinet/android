@@ -5,10 +5,12 @@
 
 package edu.wsu.lar.airpact_fire;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.widget.Toast;
 
@@ -40,6 +42,14 @@ import static org.acra.ReportField.*;
         buildConfigClass = BuildConfig.class, reportFormat = StringFormat.JSON)
 public class AIRPACTFireApplication extends Application {
 
+    public static final String[] requestedPermissions = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.CAMERA
+    };
+
     private DataManager mDataManager;
     private ServerManager mServerManager;
     private DebugManager mDebugManager;
@@ -49,6 +59,24 @@ public class AIRPACTFireApplication extends Application {
     private AppManager.GpsAvailableCallback mGpsAvailableCallback;
 
     private boolean mIsActivityVisible = true;
+
+    /**
+     * Determine if this is the app's first run.
+     *
+     * We use unaccepted permissions as a proxy for the app's first run.
+     *
+     * @param activity source activity
+     * @return true if first run, else false
+     */
+    public static boolean isFirstRun(Activity activity) {
+        PackageManager pm = activity.getPackageManager();
+        int deniedCount = 0;
+        for (String permission : requestedPermissions)  {
+            int permissionCode = pm.checkPermission(permission, activity.getPackageName());
+            if (permissionCode == PackageManager.PERMISSION_DENIED) deniedCount++;
+        }
+        return deniedCount > 0;
+    }
 
     @Override
     public void onCreate() {

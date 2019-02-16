@@ -181,19 +181,20 @@ public class OneForOneBetaFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         try {
-            assert requestCode != ImageManager.REQUEST_IMAGE_CAPTURE_CODE;
-            assert resultCode == RESULT_OK;
+            if (resultCode == RESULT_OK && requestCode != ImageManager.REQUEST_IMAGE_CAPTURE_CODE) {
+                throw new Exception("Unexpected state for image `onActivityResult`.");
+            }
 
             Handler handler = new Handler();
             ((ImageLabActivity) getActivity()).setProgressBarVisible(true);
 
-            // -----
-            // TODO: Get all this to work, and then think about the principled approach.
-            // -----
-
             // Pre-processing of data
             Bitmap bitmap = mImageInterfaceObject.getBitmap();
             String imageUri = mImageInterfaceObject.getImageFile().getAbsolutePath();
+
+            if (bitmap == null) {
+                throw new Exception("Bitmap from image capture cannot be null.");
+            }
 
             new Thread(() -> {
 
@@ -203,10 +204,6 @@ public class OneForOneBetaFragment extends Fragment {
 
                 // Post-processing in UI thread
                 handler.post(() -> {
-
-                    // TODO: We need the below validation to occur, and it's not failing this
-                    // assertion in the UI even when we know the bitmap is non-null.
-                    assert processedBitmaps != null;
 
                     ((ImageLabActivity) getActivity()).setProgressBarVisible(false);
                     getView().setVisibility(View.VISIBLE);

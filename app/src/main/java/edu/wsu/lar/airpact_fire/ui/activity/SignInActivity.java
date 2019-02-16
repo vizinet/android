@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import edu.wsu.lar.airpact_fire.AIRPACTFireApplication;
 import edu.wsu.lar.airpact_fire.app.Constant;
 import edu.wsu.lar.airpact_fire.data.manager.DataManager;
 import edu.wsu.lar.airpact_fire.data.interface_object.AppInterfaceObject;
@@ -84,7 +85,7 @@ public class SignInActivity extends AppCompatActivity {
                     .getApp().getLastUser();
             mUsername = userInterfaceObject.getUsername();
             mPassword = userInterfaceObject.getPassword();
-            proceed(false);
+            proceed();
         }
 
         // Attach objects to UI.
@@ -140,7 +141,7 @@ public class SignInActivity extends AppCompatActivity {
             if (mAppManager.getDataManager().getApp().getUser(mUsername, mPassword) != null) {
                 // Pre-authenticated user - continue
                 mAppManager.getDebugManager().printLog("Realm user already in DB");
-                proceed(false);
+                proceed();
             } else {
                 // TODO: The AuthenticationServerCallback doesn't even need to pass the username/password back (already being set above)
                 // New guy - needs authentication
@@ -154,7 +155,7 @@ public class SignInActivity extends AppCompatActivity {
                                     Toast.makeText(SignInActivity.this,
                                             R.string.authentication_success,
                                             Toast.LENGTH_LONG).show();
-                                    proceed(true);
+                                    proceed();
                                 } else {
                                     Toast.makeText(SignInActivity.this,
                                             R.string.authentication_failed,
@@ -219,7 +220,7 @@ public class SignInActivity extends AppCompatActivity {
      * Open {@link HomeActivity} and begin a new
      * {@link edu.wsu.lar.airpact_fire.data.realm.model.Session}.
      */
-    public void proceed(boolean firstLogin) {
+    public void proceed() {
 
         // Let DB know we're logging in with this user.
         mAppManager.onLogin(mUsername, mPassword);
@@ -236,11 +237,10 @@ public class SignInActivity extends AppCompatActivity {
 
         // Route user to next screen.
         Class nextClass = null;
-        if (firstLogin) {
+        if (AIRPACTFireApplication.isFirstRun(this)) {
             nextClass = WelcomeActivity.class;
         } else {
-            nextClass = WelcomeActivity.class;
-            // TODO: nextClass = HomeActivity.class;
+            nextClass = HomeActivity.class;
         }
         Intent intent = new Intent(this, nextClass);
         startActivity(intent);

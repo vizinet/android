@@ -336,6 +336,6 @@ public class HTTPServerManager implements ServerManager {
      */
     @Override
     public void reportException(Exception exception) {
-        ACRA.getErrorReporter().handleException(exception);
+        ACRA.getErrorReporter().handleSilentException(exception);
     }
 }

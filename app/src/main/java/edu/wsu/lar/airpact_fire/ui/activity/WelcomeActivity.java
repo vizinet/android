@@ -4,7 +4,6 @@
 
 package edu.wsu.lar.airpact_fire.ui.activity;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +22,8 @@ import edu.wsu.lar.airpact_fire.R;
 import edu.wsu.lar.airpact_fire.ui.fragment.welcome.WelcomeIntroductionFragment;
 import edu.wsu.lar.airpact_fire.ui.fragment.welcome.WelcomePermissionsFragment;
 import edu.wsu.lar.airpact_fire.util.Util;
+
+import static edu.wsu.lar.airpact_fire.AIRPACTFireApplication.requestedPermissions;
 
 public class WelcomeActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, RadioGroup.OnCheckedChangeListener {
 
@@ -43,13 +44,6 @@ public class WelcomeActivity extends AppCompatActivity implements ViewPager.OnPa
     private RadioGroup mPageRadioGroup;
 
     private static final int sAllPermissionsCode = 5;
-    private static final String[] sRequestedPermissions = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.CAMERA
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +121,7 @@ public class WelcomeActivity extends AppCompatActivity implements ViewPager.OnPa
 
         public Fragment[] fragments = new Fragment[] {
                 WelcomeIntroductionFragment.newInstance(),
-                WelcomePermissionsFragment.newInstance(sAllPermissionsCode, sRequestedPermissions),
+                WelcomePermissionsFragment.newInstance(sAllPermissionsCode, requestedPermissions),
         };
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -154,7 +148,7 @@ public class WelcomeActivity extends AppCompatActivity implements ViewPager.OnPa
     public void onRequestPermissionsResult(int requestCode, String permissions[],
                                            int[] grantResults) {
         if (requestCode != sAllPermissionsCode
-                || grantResults.length != sRequestedPermissions.length) {
+                || grantResults.length != requestedPermissions.length) {
             return;
         }
         // Check denied permissions.
@@ -180,7 +174,7 @@ public class WelcomeActivity extends AppCompatActivity implements ViewPager.OnPa
     public int getDeniedPermissions() {
         PackageManager pm = getPackageManager();
         int deniedCount = 0;
-        for (String permission : sRequestedPermissions)  {
+        for (String permission : requestedPermissions)  {
             int permissionCode = pm.checkPermission(permission, getPackageName());
             if (permissionCode == PackageManager.PERMISSION_DENIED) deniedCount++;
         }
