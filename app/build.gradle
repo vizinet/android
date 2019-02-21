@@ -3,21 +3,24 @@ apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 27
-    //buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "edu.wsu.lar.airpact_fire"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 7
+        versionCode 8
         versionName "beta"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
     buildTypes {
+        debug {
+            manifestPlaceholders = [ mapApiKeyValue: "AIzaSyDxehSfBj_cLNYFd4Bc6Vjm1Em2v_76Vow"]
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [ mapApiKeyValue: "AIzaSyCzg5fYyy2ijTkQKcxlLReDPX0SrlD3PVE"]
         }
     }
     compileOptions {

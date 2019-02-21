@@ -53,19 +53,11 @@ public class RealmDataManager extends DataManager {
     /* Activity lifecycle methods */
 
     @Override
-    public void onAppFirstRun(Object... args) {
-        // Create app model with default fields at app's conception.
-        mRealm = getRealmInstance((Context) args[0]);
-        mRealm.executeTransaction(realm -> {
-            App app = mRealm.createObject(App.class);
-            app.lastUser = null;
-            app.rememberUser = false;
-        });
-    }
+    public void onAppFirstRun(Object... args) { }
 
     @Override
     public void onActivityStart(Object... args) {
-        mRealm = getRealmInstance((Context) args[0]);
+        mRealm = getDefaultRealmInstance();
     }
 
     @Override
@@ -91,43 +83,43 @@ public class RealmDataManager extends DataManager {
     @Override
     public void onAppStart(Object... args) {
 
-        initRealm((Context) args[0]);
+        Context context = (Context)args[0];
+        boolean isFirstRun = (boolean)args[1];
 
+        Realm.init(context);
+
+        // Perform schema migration (if needed).
         RealmConfiguration config = new RealmConfiguration.Builder()
-            .schemaVersion(SCHEMA_VERSION)          // Must be bumped when the schema changes.
-            .migration(new FireRealmMigration())    // Migration to run
+            .schemaVersion(SCHEMA_VERSION)
+            .migration(new FireRealmMigration())
             .build();
         Realm.setDefaultConfiguration(config);
-        Realm.getDefaultInstance();                 // Force a rebuild
+        mRealm = getDefaultRealmInstance();   // Force a rebuild
         mDebugManager.printLog(String.format(
                 "Realm database successfully migrated to schema version = %d.", SCHEMA_VERSION));
+
+        if (isFirstRun) {
+            // Create app model with default fields at app's conception.
+            mRealm.executeTransaction(realm -> {
+                App app = mRealm.createObject(App.class);
+                app.lastUser = null;
+                app.rememberUser = false;
+            });
+        }
     }
 
     @Override
-    public void onAppEnd(Object... args) {
-    }
+    public void onAppEnd(Object... args) { }
 
     /* Utilities */
-
-    /**
-      * Initialize Realm for this activity.
-      */
-    private void initRealm(Context context) {
-        if (!mIsInit) {
-            Realm.init(context);
-            mIsInit = true;
-            Log.d("DataManager", "Realm has been initialized.");
-        }
-    }
 
     /**
      * Get new/existing `Realm` instance for this thread.
      *
      * @return `Realm` instance.
      */
-    private Realm getRealmInstance(Context context) {
-        initRealm(context);
-        return (mRealm != null) ? mRealm : Realm.getDefaultInstance();
+    private Realm getDefaultRealmInstance() {
+        return mRealm != null ? mRealm : Realm.getDefaultInstance();
     }
 
     // Get user or create one if nonexistent

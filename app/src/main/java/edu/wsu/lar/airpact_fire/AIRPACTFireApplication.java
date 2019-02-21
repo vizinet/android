@@ -90,16 +90,12 @@ public class AIRPACTFireApplication extends Application {
         SharedPreferences mPreferences = context.getSharedPreferences(
                 context.getPackageName(),
                 MODE_PRIVATE);
-        if (mPreferences.getBoolean("firstrun", true)) {
-            mDebugManager.printLog("App's first run");
-            mDataManager.onAppFirstRun(context);
-            mPreferences.edit().putBoolean("firstrun", false).commit();
-        } else {
-            mDebugManager.printLog("Not app's first run");
-        }
+        boolean isFirstRun = mPreferences.getBoolean("firstrun", true);
 
-        mDataManager.onAppStart(context);
+        mDataManager.onAppStart(context, isFirstRun);
         mServerManager.onAppStart(context);
+
+        mPreferences.edit().putBoolean("firstrun", false).commit();
     }
 
     /**
