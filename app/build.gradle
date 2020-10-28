@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId "edu.wsu.lar.airpact_fire"
+        versionCode 9
+        versionName "gamma"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 8
-        versionName "beta"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }

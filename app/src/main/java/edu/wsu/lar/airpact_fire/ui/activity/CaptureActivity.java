@@ -256,7 +256,32 @@ public class CaptureActivity extends AppCompatActivity
 
         @Override
         public void onImageAvailable(ImageReader reader) {
-            mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
+            // Grab image
+            Image mImage = reader.acquireNextImage();
+            // Write to storage (to the file the caller has indicated).
+            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
+            byte[] bytes = new byte[buffer.remaining()];
+            buffer.get(bytes);
+            FileOutputStream output = null;
+            try {
+                output = new FileOutputStream(mFile);
+                output.write(bytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                mImage.close();
+                if (null != output) {
+                    try {
+                        output.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            // Indicate completion here, because anywhere else creates a race condition.
+            unlockFocus();
+            setResult(RESULT_OK);
+            finish();
         }
 
     };
@@ -871,13 +896,9 @@ public class CaptureActivity extends AppCompatActivity
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
-                    // Close activity, return to that which called it.
                     unlockFocus();
-                    setResult(RESULT_OK);
-                    finish();
                 }
             };
-
             mCaptureSession.stopRepeating();
             mCaptureSession.abortCaptures();
             mCaptureSession.capture(captureBuilder.build(), CaptureCallback, null);
@@ -981,49 +1002,49 @@ public class CaptureActivity extends AppCompatActivity
         Log.d("SensorAccuracy", "Sensor accuracy changed.");
     }
 
-    /**
-     * Saves a JPEG {@link Image} into the specified {@link File}.
-     */
-    private static class ImageSaver implements Runnable {
-
-        /**
-         * The JPEG image
-         */
-        private final Image mImage;
-
-        /**
-         * The file we save the image into.
-         */
-        private final File mFile;
-
-        ImageSaver(Image image, File file) {
-            mImage = image;
-            mFile = file;
-        }
-
-        @Override
-        public void run() {
-            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
-            byte[] bytes = new byte[buffer.remaining()];
-            buffer.get(bytes);
-            FileOutputStream output = null;
-            try {
-                output = new FileOutputStream(mFile);
-                output.write(bytes);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                mImage.close();
-                if (null != output) {
-                    try {
-                        output.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
+//    /**
+//     * Saves a JPEG {@link Image} into the specified {@link File}.
+//     */
+//    private static class ImageSaver implements Runnable {
+//
+//        /**
+//         * The JPEG image
+//         */
+//        private final Image mImage;
+//
+//        /**
+//         * The file we save the image into.
+//         */
+//        private final File mFile;
+//
+//        ImageSaver(Image image, File file) {
+//            mImage = image;
+//            mFile = file;
+//        }
+//
+//        @Override
+//        public void run() {
+//            ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
+//            byte[] bytes = new byte[buffer.remaining()];
+//            buffer.get(bytes);
+//            FileOutputStream output = null;
+//            try {
+//                output = new FileOutputStream(mFile);
+//                output.write(bytes);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } finally {
+//                mImage.close();
+//                if (null != output) {
+//                    try {
+//                        output.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Compares two {@code Size}s based on their areas.
